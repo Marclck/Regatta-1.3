@@ -1,0 +1,1166 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 56;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		1D69FE942CE967AA001C178A /* RegattaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FE932CE967AA001C178A /* RegattaApp.swift */; };
+		1D69FE962CE967AA001C178A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FE952CE967AA001C178A /* ContentView.swift */; };
+		1D69FE982CE967AA001C178A /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FE972CE967AA001C178A /* Item.swift */; };
+		1D69FE9A2CE967AB001C178A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D69FE992CE967AB001C178A /* Assets.xcassets */; };
+		1D69FE9D2CE967AB001C178A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D69FE9C2CE967AB001C178A /* Preview Assets.xcassets */; };
+		1D69FEA72CE967AB001C178A /* RegattaTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FEA62CE967AB001C178A /* RegattaTests.swift */; };
+		1D69FEB12CE967AB001C178A /* RegattaUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FEB02CE967AB001C178A /* RegattaUITests.swift */; };
+		1D69FEB32CE967AB001C178A /* RegattaUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FEB22CE967AB001C178A /* RegattaUITestsLaunchTests.swift */; };
+		1D69FEC62CE967F7001C178A /* RegattaWatchApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FEC52CE967F7001C178A /* RegattaWatchApp.swift */; };
+		1D69FEC82CE967F7001C178A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FEC72CE967F7001C178A /* ContentView.swift */; };
+		1D69FECA2CE967F9001C178A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D69FEC92CE967F9001C178A /* Assets.xcassets */; };
+		1D69FECD2CE967F9001C178A /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D69FECC2CE967F9001C178A /* Preview Assets.xcassets */; };
+		1D69FED72CE967F9001C178A /* RegattaWatch_Watch_AppTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FED62CE967F9001C178A /* RegattaWatch_Watch_AppTests.swift */; };
+		1D69FEE12CE967F9001C178A /* RegattaWatch_Watch_AppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FEE02CE967F9001C178A /* RegattaWatch_Watch_AppUITests.swift */; };
+		1D69FEE32CE967F9001C178A /* RegattaWatch_Watch_AppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FEE22CE967F9001C178A /* RegattaWatch_Watch_AppUITestsLaunchTests.swift */; };
+		1D69FEE62CE967F9001C178A /* RegattaWatch Watch App.app in Embed Watch Content */ = {isa = PBXBuildFile; fileRef = 1D69FEC32CE967F7001C178A /* RegattaWatch Watch App.app */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1D69FEF72CE968B5001C178A /* TimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FEF62CE968B5001C178A /* TimerState.swift */; };
+		1D69FEF92CE968FB001C178A /* ScreenEdgePath.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FEF82CE968FB001C178A /* ScreenEdgePath.swift */; };
+		1D69FEFB2CE96905001C178A /* SeparatorMark.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FEFA2CE96905001C178A /* SeparatorMark.swift */; };
+		1D69FEFD2CE969CE001C178A /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FEFC2CE969CE001C178A /* ProgressBarView.swift */; };
+		1D69FEFF2CE969D9001C178A /* CurrentTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FEFE2CE969D9001C178A /* CurrentTimeView.swift */; };
+		1D69FF012CE969E5001C178A /* TimeDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FF002CE969E5001C178A /* TimeDisplayView.swift */; };
+		1D69FF032CE969EF001C178A /* ButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FF022CE969EF001C178A /* ButtonsView.swift */; };
+		1D69FF052CE96A26001C178A /* ProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FF042CE96A26001C178A /* ProgressBarView.swift */; };
+		1D69FF072CE96A32001C178A /* CurrentTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FF062CE96A32001C178A /* CurrentTimeView.swift */; };
+		1D69FF092CE96A3B001C178A /* TimeDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FF082CE96A3B001C178A /* TimeDisplayView.swift */; };
+		1D69FF0B2CE96A44001C178A /* ButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FF0A2CE96A44001C178A /* ButtonsView.swift */; };
+		1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */; };
+		1DBD85D82CEFE8290028E391 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D72CEFE8290028E391 /* HapticManager.swift */; };
+		1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */; };
+		1DD528452CEBEBE7005FFEA2 /* SeparatorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */; };
+		1DD528492CEBED22005FFEA2 /* TimerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528482CEBED22005FFEA2 /* TimerMode.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		1D69FEA32CE967AB001C178A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D69FE882CE967AA001C178A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D69FE8F2CE967AA001C178A;
+			remoteInfo = Regatta;
+		};
+		1D69FEAD2CE967AB001C178A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D69FE882CE967AA001C178A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D69FE8F2CE967AA001C178A;
+			remoteInfo = Regatta;
+		};
+		1D69FED32CE967F9001C178A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D69FE882CE967AA001C178A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D69FEC22CE967F7001C178A;
+			remoteInfo = "RegattaWatch Watch App";
+		};
+		1D69FEDD2CE967F9001C178A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D69FE882CE967AA001C178A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D69FEC22CE967F7001C178A;
+			remoteInfo = "RegattaWatch Watch App";
+		};
+		1D69FEE42CE967F9001C178A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D69FE882CE967AA001C178A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D69FEC22CE967F7001C178A;
+			remoteInfo = "RegattaWatch Watch App";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		1D63A9952CEE920C00A372DA /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FEEA2CE967F9001C178A /* Embed Watch Content */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "$(CONTENTS_FOLDER_PATH)/Watch";
+			dstSubfolderSpec = 16;
+			files = (
+				1D69FEE62CE967F9001C178A /* RegattaWatch Watch App.app in Embed Watch Content */,
+			);
+			name = "Embed Watch Content";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		1D0B5B492CED2E2000DC4BE5 /* RegattaWatch Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RegattaWatch Watch App.entitlements"; sourceTree = "<group>"; };
+		1D63A9832CEE920B00A372DA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		1D63A9852CEE920B00A372DA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		1D69FE902CE967AA001C178A /* Regatta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Regatta.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D69FE932CE967AA001C178A /* RegattaApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegattaApp.swift; sourceTree = "<group>"; };
+		1D69FE952CE967AA001C178A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1D69FE972CE967AA001C178A /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
+		1D69FE992CE967AB001C178A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1D69FE9C2CE967AB001C178A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1D69FEA22CE967AB001C178A /* RegattaTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RegattaTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D69FEA62CE967AB001C178A /* RegattaTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegattaTests.swift; sourceTree = "<group>"; };
+		1D69FEAC2CE967AB001C178A /* RegattaUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RegattaUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D69FEB02CE967AB001C178A /* RegattaUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegattaUITests.swift; sourceTree = "<group>"; };
+		1D69FEB22CE967AB001C178A /* RegattaUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegattaUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1D69FEC32CE967F7001C178A /* RegattaWatch Watch App.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "RegattaWatch Watch App.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D69FEC52CE967F7001C178A /* RegattaWatchApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegattaWatchApp.swift; sourceTree = "<group>"; };
+		1D69FEC72CE967F7001C178A /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		1D69FEC92CE967F9001C178A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1D69FECC2CE967F9001C178A /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		1D69FED22CE967F9001C178A /* RegattaWatch Watch AppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RegattaWatch Watch AppTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D69FED62CE967F9001C178A /* RegattaWatch_Watch_AppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegattaWatch_Watch_AppTests.swift; sourceTree = "<group>"; };
+		1D69FEDC2CE967F9001C178A /* RegattaWatch Watch AppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "RegattaWatch Watch AppUITests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D69FEE02CE967F9001C178A /* RegattaWatch_Watch_AppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegattaWatch_Watch_AppUITests.swift; sourceTree = "<group>"; };
+		1D69FEE22CE967F9001C178A /* RegattaWatch_Watch_AppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegattaWatch_Watch_AppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		1D69FEF62CE968B5001C178A /* TimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerState.swift; sourceTree = "<group>"; };
+		1D69FEF82CE968FB001C178A /* ScreenEdgePath.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScreenEdgePath.swift; sourceTree = "<group>"; };
+		1D69FEFA2CE96905001C178A /* SeparatorMark.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorMark.swift; sourceTree = "<group>"; };
+		1D69FEFC2CE969CE001C178A /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
+		1D69FEFE2CE969D9001C178A /* CurrentTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTimeView.swift; sourceTree = "<group>"; };
+		1D69FF002CE969E5001C178A /* TimeDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeDisplayView.swift; sourceTree = "<group>"; };
+		1D69FF022CE969EF001C178A /* ButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsView.swift; sourceTree = "<group>"; };
+		1D69FF042CE96A26001C178A /* ProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressBarView.swift; sourceTree = "<group>"; };
+		1D69FF062CE96A32001C178A /* CurrentTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTimeView.swift; sourceTree = "<group>"; };
+		1D69FF082CE96A3B001C178A /* TimeDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeDisplayView.swift; sourceTree = "<group>"; };
+		1D69FF0A2CE96A44001C178A /* ButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsView.swift; sourceTree = "<group>"; };
+		1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastMinuteSeparatorView.swift; sourceTree = "<group>"; };
+		1DBD85D72CEFE8290028E391 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTimerState.swift; sourceTree = "<group>"; };
+		1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorOverlay.swift; sourceTree = "<group>"; };
+		1DD528482CEBED22005FFEA2 /* TimerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerMode.swift; sourceTree = "<group>"; };
+		1DD5284A2CEC0983005FFEA2 /* RegattaWatch-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "RegattaWatch-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		1D69FE8D2CE967AA001C178A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FE9F2CE967AB001C178A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FEA92CE967AB001C178A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FEC02CE967F7001C178A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FECF2CE967F9001C178A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FED92CE967F9001C178A /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		1D63A9822CEE920B00A372DA /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				1D63A9832CEE920B00A372DA /* WidgetKit.framework */,
+				1D63A9852CEE920B00A372DA /* SwiftUI.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		1D69FE872CE967AA001C178A = {
+			isa = PBXGroup;
+			children = (
+				1D69FEF12CE96823001C178A /* Shared */,
+				1D69FE922CE967AA001C178A /* Regatta */,
+				1D69FEA52CE967AB001C178A /* RegattaTests */,
+				1D69FEAF2CE967AB001C178A /* RegattaUITests */,
+				1D69FEC42CE967F7001C178A /* RegattaWatch Watch App */,
+				1D69FED52CE967F9001C178A /* RegattaWatch Watch AppTests */,
+				1D69FEDF2CE967F9001C178A /* RegattaWatch Watch AppUITests */,
+				1D63A9822CEE920B00A372DA /* Frameworks */,
+				1D69FE912CE967AA001C178A /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		1D69FE912CE967AA001C178A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				1D69FE902CE967AA001C178A /* Regatta.app */,
+				1D69FEA22CE967AB001C178A /* RegattaTests.xctest */,
+				1D69FEAC2CE967AB001C178A /* RegattaUITests.xctest */,
+				1D69FEC32CE967F7001C178A /* RegattaWatch Watch App.app */,
+				1D69FED22CE967F9001C178A /* RegattaWatch Watch AppTests.xctest */,
+				1D69FEDC2CE967F9001C178A /* RegattaWatch Watch AppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		1D69FE922CE967AA001C178A /* Regatta */ = {
+			isa = PBXGroup;
+			children = (
+				1D69FE932CE967AA001C178A /* RegattaApp.swift */,
+				1D69FEF42CE96848001C178A /* Views */,
+				1D69FE972CE967AA001C178A /* Item.swift */,
+				1D69FE992CE967AB001C178A /* Assets.xcassets */,
+				1D69FE9B2CE967AB001C178A /* Preview Content */,
+			);
+			path = Regatta;
+			sourceTree = "<group>";
+		};
+		1D69FE9B2CE967AB001C178A /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1D69FE9C2CE967AB001C178A /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1D69FEA52CE967AB001C178A /* RegattaTests */ = {
+			isa = PBXGroup;
+			children = (
+				1D69FEA62CE967AB001C178A /* RegattaTests.swift */,
+			);
+			path = RegattaTests;
+			sourceTree = "<group>";
+		};
+		1D69FEAF2CE967AB001C178A /* RegattaUITests */ = {
+			isa = PBXGroup;
+			children = (
+				1D69FEB02CE967AB001C178A /* RegattaUITests.swift */,
+				1D69FEB22CE967AB001C178A /* RegattaUITestsLaunchTests.swift */,
+			);
+			path = RegattaUITests;
+			sourceTree = "<group>";
+		};
+		1D69FEC42CE967F7001C178A /* RegattaWatch Watch App */ = {
+			isa = PBXGroup;
+			children = (
+				1D0B5B492CED2E2000DC4BE5 /* RegattaWatch Watch App.entitlements */,
+				1DD5284A2CEC0983005FFEA2 /* RegattaWatch-Watch-App-Info.plist */,
+				1DD528412CEBEB96005FFEA2 /* Models */,
+				1D69FEF52CE9686B001C178A /*  Views */,
+				1D69FEC92CE967F9001C178A /* Assets.xcassets */,
+				1D69FECB2CE967F9001C178A /* Preview Content */,
+			);
+			path = "RegattaWatch Watch App";
+			sourceTree = "<group>";
+		};
+		1D69FECB2CE967F9001C178A /* Preview Content */ = {
+			isa = PBXGroup;
+			children = (
+				1D69FECC2CE967F9001C178A /* Preview Assets.xcassets */,
+			);
+			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		1D69FED52CE967F9001C178A /* RegattaWatch Watch AppTests */ = {
+			isa = PBXGroup;
+			children = (
+				1D69FED62CE967F9001C178A /* RegattaWatch_Watch_AppTests.swift */,
+			);
+			path = "RegattaWatch Watch AppTests";
+			sourceTree = "<group>";
+		};
+		1D69FEDF2CE967F9001C178A /* RegattaWatch Watch AppUITests */ = {
+			isa = PBXGroup;
+			children = (
+				1D69FEE02CE967F9001C178A /* RegattaWatch_Watch_AppUITests.swift */,
+				1D69FEE22CE967F9001C178A /* RegattaWatch_Watch_AppUITestsLaunchTests.swift */,
+			);
+			path = "RegattaWatch Watch AppUITests";
+			sourceTree = "<group>";
+		};
+		1D69FEF12CE96823001C178A /* Shared */ = {
+			isa = PBXGroup;
+			children = (
+				1D69FEF22CE96830001C178A /* Models */,
+				1D69FEF32CE96836001C178A /* Views */,
+			);
+			path = Shared;
+			sourceTree = "<group>";
+		};
+		1D69FEF22CE96830001C178A /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1DD528482CEBED22005FFEA2 /* TimerMode.swift */,
+				1D69FEF62CE968B5001C178A /* TimerState.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		1D69FEF32CE96836001C178A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1D69FEF82CE968FB001C178A /* ScreenEdgePath.swift */,
+				1D69FEFA2CE96905001C178A /* SeparatorMark.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1D69FEF42CE96848001C178A /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				1D69FE952CE967AA001C178A /* ContentView.swift */,
+				1D69FEFC2CE969CE001C178A /* ProgressBarView.swift */,
+				1D69FEFE2CE969D9001C178A /* CurrentTimeView.swift */,
+				1D69FF002CE969E5001C178A /* TimeDisplayView.swift */,
+				1D69FF022CE969EF001C178A /* ButtonsView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		1D69FEF52CE9686B001C178A /*  Views */ = {
+			isa = PBXGroup;
+			children = (
+				1D69FEC52CE967F7001C178A /* RegattaWatchApp.swift */,
+				1D69FEC72CE967F7001C178A /* ContentView.swift */,
+				1D69FF042CE96A26001C178A /* ProgressBarView.swift */,
+				1D69FF062CE96A32001C178A /* CurrentTimeView.swift */,
+				1D69FF082CE96A3B001C178A /* TimeDisplayView.swift */,
+				1D69FF0A2CE96A44001C178A /* ButtonsView.swift */,
+				1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */,
+				1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */,
+			);
+			path = " Views";
+			sourceTree = "<group>";
+		};
+		1DD528412CEBEB96005FFEA2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */,
+				1DBD85D72CEFE8290028E391 /* HapticManager.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		1D69FE8F2CE967AA001C178A /* Regatta */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D69FEB62CE967AB001C178A /* Build configuration list for PBXNativeTarget "Regatta" */;
+			buildPhases = (
+				1D69FE8C2CE967AA001C178A /* Sources */,
+				1D69FE8D2CE967AA001C178A /* Frameworks */,
+				1D69FE8E2CE967AA001C178A /* Resources */,
+				1D69FEEA2CE967F9001C178A /* Embed Watch Content */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1D69FEE52CE967F9001C178A /* PBXTargetDependency */,
+			);
+			name = Regatta;
+			productName = Regatta;
+			productReference = 1D69FE902CE967AA001C178A /* Regatta.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1D69FEA12CE967AB001C178A /* RegattaTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D69FEB92CE967AB001C178A /* Build configuration list for PBXNativeTarget "RegattaTests" */;
+			buildPhases = (
+				1D69FE9E2CE967AB001C178A /* Sources */,
+				1D69FE9F2CE967AB001C178A /* Frameworks */,
+				1D69FEA02CE967AB001C178A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1D69FEA42CE967AB001C178A /* PBXTargetDependency */,
+			);
+			name = RegattaTests;
+			productName = RegattaTests;
+			productReference = 1D69FEA22CE967AB001C178A /* RegattaTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		1D69FEAB2CE967AB001C178A /* RegattaUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D69FEBC2CE967AB001C178A /* Build configuration list for PBXNativeTarget "RegattaUITests" */;
+			buildPhases = (
+				1D69FEA82CE967AB001C178A /* Sources */,
+				1D69FEA92CE967AB001C178A /* Frameworks */,
+				1D69FEAA2CE967AB001C178A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1D69FEAE2CE967AB001C178A /* PBXTargetDependency */,
+			);
+			name = RegattaUITests;
+			productName = RegattaUITests;
+			productReference = 1D69FEAC2CE967AB001C178A /* RegattaUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+		1D69FEC22CE967F7001C178A /* RegattaWatch Watch App */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D69FEE72CE967F9001C178A /* Build configuration list for PBXNativeTarget "RegattaWatch Watch App" */;
+			buildPhases = (
+				1D69FEBF2CE967F7001C178A /* Sources */,
+				1D69FEC02CE967F7001C178A /* Frameworks */,
+				1D69FEC12CE967F7001C178A /* Resources */,
+				1D63A9952CEE920C00A372DA /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "RegattaWatch Watch App";
+			productName = "RegattaWatch Watch App";
+			productReference = 1D69FEC32CE967F7001C178A /* RegattaWatch Watch App.app */;
+			productType = "com.apple.product-type.application";
+		};
+		1D69FED12CE967F9001C178A /* RegattaWatch Watch AppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D69FEEB2CE967F9001C178A /* Build configuration list for PBXNativeTarget "RegattaWatch Watch AppTests" */;
+			buildPhases = (
+				1D69FECE2CE967F9001C178A /* Sources */,
+				1D69FECF2CE967F9001C178A /* Frameworks */,
+				1D69FED02CE967F9001C178A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1D69FED42CE967F9001C178A /* PBXTargetDependency */,
+			);
+			name = "RegattaWatch Watch AppTests";
+			productName = "RegattaWatch Watch AppTests";
+			productReference = 1D69FED22CE967F9001C178A /* RegattaWatch Watch AppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		1D69FEDB2CE967F9001C178A /* RegattaWatch Watch AppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D69FEEE2CE967F9001C178A /* Build configuration list for PBXNativeTarget "RegattaWatch Watch AppUITests" */;
+			buildPhases = (
+				1D69FED82CE967F9001C178A /* Sources */,
+				1D69FED92CE967F9001C178A /* Frameworks */,
+				1D69FEDA2CE967F9001C178A /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				1D69FEDE2CE967F9001C178A /* PBXTargetDependency */,
+			);
+			name = "RegattaWatch Watch AppUITests";
+			productName = "RegattaWatch Watch AppUITests";
+			productReference = 1D69FEDC2CE967F9001C178A /* RegattaWatch Watch AppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		1D69FE882CE967AA001C178A /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 1540;
+				LastUpgradeCheck = 1540;
+				TargetAttributes = {
+					1D69FE8F2CE967AA001C178A = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					1D69FEA12CE967AB001C178A = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 1D69FE8F2CE967AA001C178A;
+					};
+					1D69FEAB2CE967AB001C178A = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 1D69FE8F2CE967AA001C178A;
+					};
+					1D69FEC22CE967F7001C178A = {
+						CreatedOnToolsVersion = 15.4;
+					};
+					1D69FED12CE967F9001C178A = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 1D69FEC22CE967F7001C178A;
+					};
+					1D69FEDB2CE967F9001C178A = {
+						CreatedOnToolsVersion = 15.4;
+						TestTargetID = 1D69FEC22CE967F7001C178A;
+					};
+				};
+			};
+			buildConfigurationList = 1D69FE8B2CE967AA001C178A /* Build configuration list for PBXProject "Regatta" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 1D69FE872CE967AA001C178A;
+			productRefGroup = 1D69FE912CE967AA001C178A /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				1D69FE8F2CE967AA001C178A /* Regatta */,
+				1D69FEA12CE967AB001C178A /* RegattaTests */,
+				1D69FEAB2CE967AB001C178A /* RegattaUITests */,
+				1D69FEC22CE967F7001C178A /* RegattaWatch Watch App */,
+				1D69FED12CE967F9001C178A /* RegattaWatch Watch AppTests */,
+				1D69FEDB2CE967F9001C178A /* RegattaWatch Watch AppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		1D69FE8E2CE967AA001C178A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D69FE9D2CE967AB001C178A /* Preview Assets.xcassets in Resources */,
+				1D69FE9A2CE967AB001C178A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FEA02CE967AB001C178A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FEAA2CE967AB001C178A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FEC12CE967F7001C178A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D69FECD2CE967F9001C178A /* Preview Assets.xcassets in Resources */,
+				1D69FECA2CE967F9001C178A /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FED02CE967F9001C178A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FEDA2CE967F9001C178A /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		1D69FE8C2CE967AA001C178A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D69FEF92CE968FB001C178A /* ScreenEdgePath.swift in Sources */,
+				1D69FF012CE969E5001C178A /* TimeDisplayView.swift in Sources */,
+				1D69FF032CE969EF001C178A /* ButtonsView.swift in Sources */,
+				1D69FE962CE967AA001C178A /* ContentView.swift in Sources */,
+				1D69FEF72CE968B5001C178A /* TimerState.swift in Sources */,
+				1D69FE982CE967AA001C178A /* Item.swift in Sources */,
+				1D69FEFB2CE96905001C178A /* SeparatorMark.swift in Sources */,
+				1D69FEFF2CE969D9001C178A /* CurrentTimeView.swift in Sources */,
+				1D69FE942CE967AA001C178A /* RegattaApp.swift in Sources */,
+				1D69FEFD2CE969CE001C178A /* ProgressBarView.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FE9E2CE967AB001C178A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D69FEA72CE967AB001C178A /* RegattaTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FEA82CE967AB001C178A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D69FEB12CE967AB001C178A /* RegattaUITests.swift in Sources */,
+				1D69FEB32CE967AB001C178A /* RegattaUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FEBF2CE967F7001C178A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D69FF0B2CE96A44001C178A /* ButtonsView.swift in Sources */,
+				1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */,
+				1DD528492CEBED22005FFEA2 /* TimerMode.swift in Sources */,
+				1D69FF092CE96A3B001C178A /* TimeDisplayView.swift in Sources */,
+				1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */,
+				1D69FEC82CE967F7001C178A /* ContentView.swift in Sources */,
+				1D69FF072CE96A32001C178A /* CurrentTimeView.swift in Sources */,
+				1D69FF052CE96A26001C178A /* ProgressBarView.swift in Sources */,
+				1DBD85D82CEFE8290028E391 /* HapticManager.swift in Sources */,
+				1DD528452CEBEBE7005FFEA2 /* SeparatorOverlay.swift in Sources */,
+				1D69FEC62CE967F7001C178A /* RegattaWatchApp.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FECE2CE967F9001C178A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D69FED72CE967F9001C178A /* RegattaWatch_Watch_AppTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		1D69FED82CE967F9001C178A /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D69FEE12CE967F9001C178A /* RegattaWatch_Watch_AppUITests.swift in Sources */,
+				1D69FEE32CE967F9001C178A /* RegattaWatch_Watch_AppUITestsLaunchTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		1D69FEA42CE967AB001C178A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D69FE8F2CE967AA001C178A /* Regatta */;
+			targetProxy = 1D69FEA32CE967AB001C178A /* PBXContainerItemProxy */;
+		};
+		1D69FEAE2CE967AB001C178A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D69FE8F2CE967AA001C178A /* Regatta */;
+			targetProxy = 1D69FEAD2CE967AB001C178A /* PBXContainerItemProxy */;
+		};
+		1D69FED42CE967F9001C178A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D69FEC22CE967F7001C178A /* RegattaWatch Watch App */;
+			targetProxy = 1D69FED32CE967F9001C178A /* PBXContainerItemProxy */;
+		};
+		1D69FEDE2CE967F9001C178A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D69FEC22CE967F7001C178A /* RegattaWatch Watch App */;
+			targetProxy = 1D69FEDD2CE967F9001C178A /* PBXContainerItemProxy */;
+		};
+		1D69FEE52CE967F9001C178A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D69FEC22CE967F7001C178A /* RegattaWatch Watch App */;
+			targetProxy = 1D69FEE42CE967F9001C178A /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		1D69FEB42CE967AB001C178A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
+			};
+			name = Debug;
+		};
+		1D69FEB52CE967AB001C178A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
+			};
+			name = Release;
+		};
+		1D69FEB72CE967AB001C178A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Regatta/Preview Content\"";
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = heart.Regatta;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		1D69FEB82CE967AB001C178A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"Regatta/Preview Content\"";
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = heart.Regatta;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		1D69FEBA2CE967AB001C178A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = heart.RegattaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Regatta.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Regatta";
+			};
+			name = Debug;
+		};
+		1D69FEBB2CE967AB001C178A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.5;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = heart.RegattaTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Regatta.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Regatta";
+			};
+			name = Release;
+		};
+		1D69FEBD2CE967AB001C178A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = heart.RegattaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Regatta;
+			};
+			name = Debug;
+		};
+		1D69FEBE2CE967AB001C178A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = heart.RegattaUITests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = Regatta;
+			};
+			name = Release;
+		};
+		1D69FEE82CE967F9001C178A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "RegattaWatch Watch App/RegattaWatch Watch App.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"RegattaWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "RegattaWatch-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = RegattaWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = heart.Regatta;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = heart.Regatta.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Debug;
+		};
+		1D69FEE92CE967F9001C178A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = "RegattaWatch Watch App/RegattaWatch Watch App.entitlements";
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "\"RegattaWatch Watch App/Preview Content\"";
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "RegattaWatch-Watch-App-Info.plist";
+				INFOPLIST_KEY_CFBundleDisplayName = RegattaWatch;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
+				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = heart.Regatta;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = heart.Regatta.watchkitapp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				WATCHOS_DEPLOYMENT_TARGET = 10.0;
+			};
+			name = Release;
+		};
+		1D69FEEC2CE967F9001C178A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "heart.RegattaWatch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RegattaWatch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RegattaWatch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
+			};
+			name = Debug;
+		};
+		1D69FEED2CE967F9001C178A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "heart.RegattaWatch-Watch-AppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/RegattaWatch Watch App.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/RegattaWatch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
+			};
+			name = Release;
+		};
+		1D69FEEF2CE967F9001C178A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "heart.RegattaWatch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "RegattaWatch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
+			};
+			name = Debug;
+		};
+		1D69FEF02CE967F9001C178A /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "heart.RegattaWatch-Watch-AppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+				TEST_TARGET_NAME = "RegattaWatch Watch App";
+				WATCHOS_DEPLOYMENT_TARGET = 10.5;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		1D69FE8B2CE967AA001C178A /* Build configuration list for PBXProject "Regatta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D69FEB42CE967AB001C178A /* Debug */,
+				1D69FEB52CE967AB001C178A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1D69FEB62CE967AB001C178A /* Build configuration list for PBXNativeTarget "Regatta" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D69FEB72CE967AB001C178A /* Debug */,
+				1D69FEB82CE967AB001C178A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1D69FEB92CE967AB001C178A /* Build configuration list for PBXNativeTarget "RegattaTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D69FEBA2CE967AB001C178A /* Debug */,
+				1D69FEBB2CE967AB001C178A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1D69FEBC2CE967AB001C178A /* Build configuration list for PBXNativeTarget "RegattaUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D69FEBD2CE967AB001C178A /* Debug */,
+				1D69FEBE2CE967AB001C178A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1D69FEE72CE967F9001C178A /* Build configuration list for PBXNativeTarget "RegattaWatch Watch App" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D69FEE82CE967F9001C178A /* Debug */,
+				1D69FEE92CE967F9001C178A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1D69FEEB2CE967F9001C178A /* Build configuration list for PBXNativeTarget "RegattaWatch Watch AppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D69FEEC2CE967F9001C178A /* Debug */,
+				1D69FEED2CE967F9001C178A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		1D69FEEE2CE967F9001C178A /* Build configuration list for PBXNativeTarget "RegattaWatch Watch AppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D69FEEF2CE967F9001C178A /* Debug */,
+				1D69FEF02CE967F9001C178A /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 1D69FE882CE967AA001C178A /* Project object */;
+}
