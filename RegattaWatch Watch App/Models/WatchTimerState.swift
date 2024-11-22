@@ -18,6 +18,19 @@ class WatchTimerState: ObservableObject {
     @Published var isConfirmed: Bool = false
     @Published var previousMinutes: Int = 2
     
+    // Add persistent timer manager
+    private let persistentTimer = PersistentTimerManager()
+    
+    init() {
+        // Check for existing timer state
+        if persistentTimer.isTimerRunning {
+            mode = persistentTimer.isInStopwatchMode ? .stopwatch : .countdown
+            isRunning = true
+            currentTime = persistentTimer.getCurrentTime()
+        }
+    }
+    
+    
     // Add these properties to track last haptic times
     private var lastMinuteHaptic: Int = 0
     private var lastSecondHaptic: Int = 0
@@ -70,6 +83,8 @@ class WatchTimerState: ObservableObject {
             if !isConfirmed {
                 currentTime = Double(selectedMinutes * 60)
                 UserDefaults.standard.set(selectedMinutes, forKey: "lastUsedTime")  // Save the time
+                persistentTimer.startCountdown(minutes: selectedMinutes)
+
             }
             WKInterfaceDevice.current().play(.start) //haptic
         }
@@ -79,6 +94,16 @@ class WatchTimerState: ObservableObject {
    
     func updateTimer() {
         guard isRunning else { return }
+        
+        // Update time from persistent timer
+        currentTime = persistentTimer.getCurrentTime()
+        
+        // Update mode if needed
+        if persistentTimer.isInStopwatchMode && mode != .stopwatch {
+            mode = .stopwatch
+            WKInterfaceDevice.current().play(.success)
+        }
+    
         
         if mode == .countdown {
             if currentTime > 0 {
@@ -130,6 +155,7 @@ class WatchTimerState: ObservableObject {
     func pauseTimer() {
         isRunning = false
         WKInterfaceDevice.current().play(.stop)
+        persistentTimer.pauseTimer()
 
     }
     
@@ -162,6 +188,8 @@ class WatchTimerState: ObservableObject {
         isRunning = false
         currentTime = 0
         isConfirmed = false
+        persistentTimer.resetTimer()
+
     }
 }
 

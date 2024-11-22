@@ -36,6 +36,7 @@
 		1D69FF0B2CE96A44001C178A /* ButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FF0A2CE96A44001C178A /* ButtonsView.swift */; };
 		1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */; };
 		1DBD85D82CEFE8290028E391 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D72CEFE8290028E391 /* HapticManager.swift */; };
+		1DBD85E22CF142A50028E391 /* PersistentTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85E12CF142A50028E391 /* PersistentTimerManager.swift */; };
 		1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */; };
 		1DD528452CEBEBE7005FFEA2 /* SeparatorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */; };
 		1DD528492CEBED22005FFEA2 /* TimerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528482CEBED22005FFEA2 /* TimerMode.swift */; };
@@ -141,6 +142,9 @@
 		1D69FF0A2CE96A44001C178A /* ButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsView.swift; sourceTree = "<group>"; };
 		1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastMinuteSeparatorView.swift; sourceTree = "<group>"; };
 		1DBD85D72CEFE8290028E391 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
+		1DBD85DD2CF133510028E391 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		1DBD85DE2CF133720028E391 /* Regatta.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Regatta.entitlements; sourceTree = "<group>"; };
+		1DBD85E12CF142A50028E391 /* PersistentTimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentTimerManager.swift; sourceTree = "<group>"; };
 		1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTimerState.swift; sourceTree = "<group>"; };
 		1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorOverlay.swift; sourceTree = "<group>"; };
 		1DD528482CEBED22005FFEA2 /* TimerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerMode.swift; sourceTree = "<group>"; };
@@ -233,6 +237,8 @@
 		1D69FE922CE967AA001C178A /* Regatta */ = {
 			isa = PBXGroup;
 			children = (
+				1DBD85DE2CF133720028E391 /* Regatta.entitlements */,
+				1DBD85DD2CF133510028E391 /* Info.plist */,
 				1D69FE932CE967AA001C178A /* RegattaApp.swift */,
 				1D69FEF42CE96848001C178A /* Views */,
 				1D69FE972CE967AA001C178A /* Item.swift */,
@@ -364,6 +370,7 @@
 			children = (
 				1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */,
 				1DBD85D72CEFE8290028E391 /* HapticManager.swift */,
+				1DBD85E12CF142A50028E391 /* PersistentTimerManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -625,6 +632,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DBD85E22CF142A50028E391 /* PersistentTimerManager.swift in Sources */,
 				1D69FF0B2CE96A44001C178A /* ButtonsView.swift in Sources */,
 				1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */,
 				1DD528492CEBED22005FFEA2 /* TimerMode.swift in Sources */,
@@ -814,12 +822,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Regatta/Regatta.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Regatta/Preview Content\"";
 				DEVELOPMENT_TEAM = 7J9MA9A92M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Regatta/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -844,12 +854,14 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Regatta/Regatta.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Regatta/Preview Content\"";
 				DEVELOPMENT_TEAM = 7J9MA9A92M;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Regatta/Info.plist;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -959,6 +971,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RegattaWatch-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = RegattaWatch;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Background timer operation requires workout session tracking.\n";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need this permission to keep the timer running in the background";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = heart.Regatta;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -993,6 +1007,8 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RegattaWatch-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = RegattaWatch;
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Background timer operation requires workout session tracking.\n";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need this permission to keep the timer running in the background";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = heart.Regatta;
 				LD_RUNPATH_SEARCH_PATHS = (
