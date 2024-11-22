@@ -17,8 +17,12 @@ struct ContentView: View {
             
             VStack(spacing: 10) {
                 // Title
+
+                Spacer()
+                    .frame(height: 10)
+                
                 Text("Regatta")
-                    .font(.system(size: 24, weight: .bold, design: .monospaced).italic())
+                    .font(.system(size: 36, weight: .bold, design: .monospaced).italic())
                     .foregroundColor(.cyan)
                 
                 Spacer()
@@ -26,26 +30,32 @@ struct ContentView: View {
                 
                 // Description
                 Text("countdown timer")
-                    .font(.system(size: 16, design: .monospaced))
+                    .font(.system(size: 18, design: .monospaced))
                     .foregroundColor(.cyan)
                 
                 Text("&")
-                    .font(.system(size: 16, design: .monospaced))
+                    .font(.system(size: 18, design: .monospaced))
                     .foregroundColor(.cyan)
                 
                 Text("stopwatch")
-                    .font(.system(size: 16, design: .monospaced))
+                    .font(.system(size: 18, design: .monospaced))
                     .foregroundColor(.cyan)
                 
+                Spacer()
+                    .frame(height: 2)
+                
                 Text("made for sailing athletes")
-                    .font(.system(size: 14, design: .monospaced).italic())
+                    .font(.system(size: 16, design: .monospaced).italic())
                     .foregroundColor(.orange)
                     .padding(.bottom, 20)
+                
+                Spacer()
+                    .frame(height: 50)
                 
                 // Support link
                 Link("contact and support",
                      destination: URL(string: "mailto:placeholder@email.com")!)
-                    .font(.system(size: 12))
+                    .font(.system(size: 14))
                     .foregroundColor(.gray)
                     .padding(.bottom, 30)
             }
