@@ -78,7 +78,7 @@ class WatchTimerState: ObservableObject {
             let minutes = Int(currentTime) / 60
             let seconds = Int(currentTime) % 60
             let milliseconds = Int((currentTime.truncatingRemainder(dividingBy: 1)) * 100)
-            return String(format: "%02d:%02d.%02d", minutes, seconds, milliseconds)
+            return String(format: "%02d:%02d", minutes, seconds)
         }
     }
     
@@ -187,6 +187,7 @@ class WatchTimerState: ObservableObject {
     func resumeTimer() {
          isRunning = true
          persistentTimer.resumeTimer()
+        WKInterfaceDevice.current().play(.start) //haptic
      }
     
     // Helper function for last second multiple haptics
