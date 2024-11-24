@@ -46,6 +46,11 @@ class PersistentTimerManager: ObservableObject {
         isTimerRunning = true
         isInStopwatchMode = false
         stopwatchStartTime = nil
+        
+        // Schedule notifications
+         WatchNotificationManager.shared.scheduleTimerNotifications(
+             duration: TimeInterval(minutes * 60)
+         )
     }
     
     func checkBackgroundModeChange() {
@@ -94,6 +99,7 @@ class PersistentTimerManager: ObservableObject {
     
     func pauseTimer() {
         isTimerRunning = false
+        WatchNotificationManager.shared.cancelAllNotifications()
     }
     
     func resumeTimer() {
@@ -111,5 +117,8 @@ class PersistentTimerManager: ObservableObject {
         isTimerRunning = false
         isInStopwatchMode = false
         stopwatchStartTime = nil
+        WatchNotificationManager.shared.cancelAllNotifications()
+
     }
 }
+

@@ -10,6 +10,12 @@ import SwiftUI
 @main
 struct WatchRegattaApp: App {
     
+    init() {
+        // Set up notification handling
+        WatchNotificationManager.shared.setupDelegate()
+    }
+  
+    
     var body: some Scene {
         WindowGroup {
             ContentView()
