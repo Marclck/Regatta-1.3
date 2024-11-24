@@ -22,12 +22,14 @@ struct TimeDisplayView: View {
                 )) {
                     ForEach(1...30, id: \.self) { minute in
                         Text("\(String(format: "%02d:00", minute))")
-                            .font(.system(size: 36, weight: .bold, design: .monospaced))
+                            .font(.system(size: 36, weight: .bold, design: .monospaced)) //36 b4 adjustment
+                            .scaleEffect(x:1, y:1)
                             .foregroundColor(.cyan)
                     }
                 }
                 .pickerStyle(.wheel)
-                .frame(width: 140, height: 75)
+                .frame(width: 140, height: 75) //140 by 75
+                .scaleEffect(x:1, y:1)
                 .padding(.horizontal, 5)
             } else {
                 Text(timerState.formattedTime)

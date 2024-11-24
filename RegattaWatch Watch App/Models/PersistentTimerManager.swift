@@ -48,11 +48,28 @@ class PersistentTimerManager: ObservableObject {
         stopwatchStartTime = nil
     }
     
+    func checkBackgroundModeChange() {
+        if isTimerRunning && !isInStopwatchMode {
+            let currentTime = getCurrentTime()
+            if currentTime <= 0 {
+                let elapsed = abs(currentTime) // How long ago countdown ended
+                let countdownEndTime = Date().addingTimeInterval(-elapsed)
+                
+                isInStopwatchMode = true
+                if stopwatchStartTime == nil {
+                    stopwatchStartTime = countdownEndTime // Set accurate start time
+                }
+            }
+        }
+    }
+    
     func getCurrentTime() -> TimeInterval {
         guard let startTime = startTime, isTimerRunning else { return startAmount }
         
         if isInStopwatchMode {
-            guard let stopwatchStartTime = stopwatchStartTime else { return 0 }
+            guard let stopwatchStartTime = stopwatchStartTime else {
+                return 0
+            }            
             return Date().timeIntervalSince(stopwatchStartTime)
         } else {
             let elapsed = Date().timeIntervalSince(startTime)
@@ -60,10 +77,15 @@ class PersistentTimerManager: ObservableObject {
             
             // Check if countdown finished
             if remaining <= 0 && !isInStopwatchMode {
-                // Transition to stopwatch
+                // Calculate when countdown actually finished
+                let countdownEndTime = startTime.addingTimeInterval(startAmount)
+                
+                // Transition to stopwatch mode
                 isInStopwatchMode = true
-                stopwatchStartTime = Date()
-                return 0
+                stopwatchStartTime = countdownEndTime // Start stopwatch from when countdown ended
+                
+                // Return time elapsed since countdown ended
+                return Date().timeIntervalSince(countdownEndTime)
             }
             
             return remaining
