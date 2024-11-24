@@ -26,6 +26,17 @@ class TimerState: ObservableObject {
             }
         }
     }
+    
+    func startFromShortcut(minutes: Int) {
+        guard minutes >= 1 && minutes <= 30 else { return } //30max
+        selectedMinutes = minutes
+        currentTime = Double(minutes * 60)
+        mode = .countdown
+        isConfirmed = true
+        isRunning = true
+        // Any other necessary state updates
+    }
+    
     func updateMinutes(_ newValue: Int) {
         previousMinutes = selectedMinutes
         selectedMinutes = newValue

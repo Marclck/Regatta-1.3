@@ -41,6 +41,8 @@
 		1DD528452CEBEBE7005FFEA2 /* SeparatorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */; };
 		1DD528492CEBED22005FFEA2 /* TimerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528482CEBED22005FFEA2 /* TimerMode.swift */; };
 		1DE3D0672CF2FCAD00B4056F /* WatchNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3D0662CF2FCAD00B4056F /* WatchNotificationManager.swift */; };
+		1DE3D0692CF3052A00B4056F /* StartCountdownIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3D0682CF3052A00B4056F /* StartCountdownIntent.swift */; };
+		1DE3D06B2CF3108900B4056F /* StartCountdownIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3D0682CF3052A00B4056F /* StartCountdownIntent.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -151,6 +153,7 @@
 		1DD528482CEBED22005FFEA2 /* TimerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerMode.swift; sourceTree = "<group>"; };
 		1DD5284A2CEC0983005FFEA2 /* RegattaWatch-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "RegattaWatch-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		1DE3D0662CF2FCAD00B4056F /* WatchNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchNotificationManager.swift; sourceTree = "<group>"; };
+		1DE3D0682CF3052A00B4056F /* StartCountdownIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartCountdownIntent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -327,6 +330,7 @@
 			children = (
 				1DD528482CEBED22005FFEA2 /* TimerMode.swift */,
 				1D69FEF62CE968B5001C178A /* TimerState.swift */,
+				1DE3D0682CF3052A00B4056F /* StartCountdownIntent.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -609,6 +613,7 @@
 				1D69FE982CE967AA001C178A /* Item.swift in Sources */,
 				1D69FEFB2CE96905001C178A /* SeparatorMark.swift in Sources */,
 				1D69FEFF2CE969D9001C178A /* CurrentTimeView.swift in Sources */,
+				1DE3D06B2CF3108900B4056F /* StartCountdownIntent.swift in Sources */,
 				1D69FE942CE967AA001C178A /* RegattaApp.swift in Sources */,
 				1D69FEFD2CE969CE001C178A /* ProgressBarView.swift in Sources */,
 			);
@@ -635,6 +640,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DE3D0692CF3052A00B4056F /* StartCountdownIntent.swift in Sources */,
 				1DBD85E22CF142A50028E391 /* PersistentTimerManager.swift in Sources */,
 				1D69FF0B2CE96A44001C178A /* ButtonsView.swift in Sources */,
 				1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */,

@@ -11,6 +11,8 @@ struct ContentView: View {
 //    @StateObject private var timerState = WatchTimerState()
 //    @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
     
+    @StateObject private var timerState = TimerState()
+    
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
@@ -61,6 +63,19 @@ struct ContentView: View {
             }
             .multilineTextAlignment(.center)
         }
+        
+        .onAppear {
+            // Add observer for shortcut
+            NotificationCenter.default.addObserver(
+                forName: NSNotification.Name("StartCountdownFromShortcut"),
+                object: nil,
+                queue: .main) { notification in
+                    if let minutes = notification.userInfo?["minutes"] as? Int {
+                        timerState.startFromShortcut(minutes: minutes)
+                    }
+                }
+        }
+        
 //        .onReceive(timer) { _ in
 //            timerState.updateTimer()
 //        }

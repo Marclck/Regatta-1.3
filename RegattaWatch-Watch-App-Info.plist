@@ -2,6 +2,14 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
+	<key>WKApplication</key>
+	<true/>
+	<key>WKAppBundleIdentifier</key>
+	<string>$(WK_APP_BUNDLE_IDENTIFIER)</string>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>StartCountdownIntent</string>
+	</array>
 	<key>UIBackgroundModes</key>
 	<array/>
 	<key>WKBackgroundModes</key>

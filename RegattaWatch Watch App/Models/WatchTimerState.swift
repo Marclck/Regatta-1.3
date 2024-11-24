@@ -22,6 +22,18 @@ class WatchTimerState: ObservableObject {
     private let persistentTimer = PersistentTimerManager()
     
     init() {
+        
+        // Add observer for shortcut notifications
+        NotificationCenter.default.addObserver(
+            forName: Notification.Name("StartCountdownFromShortcut"),
+            object: nil,
+            queue: .main
+        ) { [weak self] notification in
+            if let minutes = notification.userInfo?["minutes"] as? Int {
+                self?.startFromShortcut(minutes: minutes)
+            }
+        }
+        
         // Check for existing timer state
         if persistentTimer.isTimerRunning {
             mode = persistentTimer.isInStopwatchMode ? .stopwatch : .countdown
@@ -69,6 +81,22 @@ class WatchTimerState: ObservableObject {
             return String(format: "%02d:%02d.%02d", minutes, seconds, milliseconds)
         }
     }
+    
+    private func startFromShortcut(minutes: Int) {
+        // Validate minutes
+        guard minutes >= 1 && minutes <= 30 else { return } //max 30
+        
+        // Set up timer state
+        selectedMinutes = minutes
+        mode = .countdown
+        currentTime = Double(minutes * 60)
+        isConfirmed = true
+        isRunning = true
+        
+        // Start persistent timer
+        persistentTimer.startCountdown(minutes: minutes)
+    }
+    
     
     func confirmSelection() {
         isConfirmed = true

@@ -24,7 +24,7 @@ struct TimeDisplayView: View {
                         Text("\(String(format: "%02d:00", minute))")
                             .font(.system(size: 36, weight: .bold, design: .monospaced)) //36 b4 adjustment
                             .scaleEffect(x:1, y:1)
-                            .foregroundColor(.cyan)
+                            .foregroundColor(.white)
                     }
                 }
                 .pickerStyle(.wheel)
@@ -37,7 +37,7 @@ struct TimeDisplayView: View {
                     .padding(.top, 13)
                     .padding(.bottom, 21)
                     .font(.system(size: 36, weight: .bold, design: .monospaced))
-                    .foregroundColor(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : .cyan)
+                    .foregroundColor(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : .white)
             }
         }
     }
