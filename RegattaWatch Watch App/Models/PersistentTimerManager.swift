@@ -14,6 +14,7 @@ class PersistentTimerManager: ObservableObject {
     @AppStorage("isTimerRunning") private var storedIsTimerRunning: Bool = false
     @AppStorage("isInStopwatchMode") private var storedIsInStopwatchMode: Bool = false
     @AppStorage("stopwatchStartTime") private var storedStopwatchStartTime: Double = 0
+    @AppStorage("pauseTime") private var storedPauseTime: Double = 0
     
     var startTime: Date? {
         get { storedStartTime > 0 ? Date(timeIntervalSince1970: storedStartTime) : nil }
@@ -38,6 +39,11 @@ class PersistentTimerManager: ObservableObject {
     var stopwatchStartTime: Date? {
         get { storedStopwatchStartTime > 0 ? Date(timeIntervalSince1970: storedStopwatchStartTime) : nil }
         set { storedStopwatchStartTime = newValue?.timeIntervalSince1970 ?? 0 }
+    }
+    
+    var pauseTime: Date? {
+        get { storedPauseTime > 0 ? Date(timeIntervalSince1970: storedPauseTime) : nil }
+        set { storedPauseTime = newValue?.timeIntervalSince1970 ?? 0 }
     }
     
     func startCountdown(minutes: Int) {
@@ -69,47 +75,54 @@ class PersistentTimerManager: ObservableObject {
     }
     
     func getCurrentTime() -> TimeInterval {
-        guard let startTime = startTime, isTimerRunning else { return startAmount }
-        
-        if isInStopwatchMode {
-            guard let stopwatchStartTime = stopwatchStartTime else {
-                return 0
-            }            
-            return Date().timeIntervalSince(stopwatchStartTime)
-        } else {
-            let elapsed = Date().timeIntervalSince(startTime)
-            let remaining = startAmount - elapsed
-            
-            // Check if countdown finished
-            if remaining <= 0 && !isInStopwatchMode {
-                // Calculate when countdown actually finished
-                let countdownEndTime = startTime.addingTimeInterval(startAmount)
-                
-                // Transition to stopwatch mode
-                isInStopwatchMode = true
-                stopwatchStartTime = countdownEndTime // Start stopwatch from when countdown ended
-                
-                // Return time elapsed since countdown ended
-                return Date().timeIntervalSince(countdownEndTime)
-            }
-            
-            return remaining
-        }
-    }
+        if isTimerRunning {
+              let currentTime = Date().timeIntervalSince(startTime!)
+              
+              if isInStopwatchMode {
+                  return currentTime
+              } else {
+                  let remainingTime = startAmount - currentTime
+                  
+                  // Check if countdown finished
+                  if remainingTime <= 0 {
+                      // Transition to stopwatch mode
+                      isInStopwatchMode = true
+                      pauseTime = nil // Clear the pause time
+                      return 0
+                  }
+                  
+                  return remainingTime
+              }
+          } else {
+              if let pauseTime = pauseTime {
+                  return startAmount - Date().timeIntervalSince(pauseTime)
+              } else {
+                  return startAmount
+              }
+          }
+      }
     
     func pauseTimer() {
         isTimerRunning = false
+        pauseTime = Date()
         WatchNotificationManager.shared.cancelAllNotifications()
     }
     
     func resumeTimer() {
-        // Adjust start time to maintain correct elapsed time
-        if !isInStopwatchMode {
-            let elapsed = startAmount - getCurrentTime()
-            startTime = Date().addingTimeInterval(-elapsed)
-        }
         isTimerRunning = true
+        
+        if let pauseTime = pauseTime {
+            let elapsedTimeSinceLastPause = Date().timeIntervalSince(pauseTime)
+            startTime = startTime?.addingTimeInterval(elapsedTimeSinceLastPause)
+            self.pauseTime = nil
+        }
+        
+        // Reschedule notifications
+        WatchNotificationManager.shared.scheduleTimerNotifications(
+            duration: startAmount - getCurrentTime()
+        )
     }
+
     
     func resetTimer() {
         startTime = nil

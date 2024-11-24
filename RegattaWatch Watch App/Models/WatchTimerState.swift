@@ -108,16 +108,13 @@ class WatchTimerState: ObservableObject {
         if mode == .setup {
             mode = .countdown
             // Don't reset currentTime if already confirmed
-            if !isConfirmed {
-                currentTime = Double(selectedMinutes * 60)
-                UserDefaults.standard.set(selectedMinutes, forKey: "lastUsedTime")  // Save the time
-                persistentTimer.startCountdown(minutes: selectedMinutes)
-
-            }
+            currentTime = Double(selectedMinutes * 60)
+            UserDefaults.standard.set(selectedMinutes, forKey: "lastUsedTime")
+            persistentTimer.startCountdown(minutes: selectedMinutes)
             WKInterfaceDevice.current().play(.start) //haptic
         }
         isRunning = true
-        print("Starting timer with: \(currentTime) seconds") // Debug print
+        persistentTimer.resumeTimer() // Add this to ensure persistent timer starts
     }
    
     func updateTimer() {
@@ -186,6 +183,11 @@ class WatchTimerState: ObservableObject {
         persistentTimer.pauseTimer()
 
     }
+    
+    func resumeTimer() {
+         isRunning = true
+         persistentTimer.resumeTimer()
+     }
     
     // Helper function for last second multiple haptics
     private func playLastSecondHaptic() {

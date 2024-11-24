@@ -54,11 +54,13 @@ struct ButtonsView: View {
             
             // Right Button
             Button(action: {
-                if timerState.isRunning {
-                    timerState.pauseTimer()
-                } else {
-                    timerState.startTimer()
-                }
+                if timerState.mode == .setup {
+                      timerState.startTimer()  // Start new countdown in setup mode
+                  } else if timerState.isRunning {
+                      timerState.pauseTimer()  // Pause in countdown/stopwatch mode
+                  } else {
+                      timerState.resumeTimer() // Resume in countdown/stopwatch mode
+                  }
             }) {
                 Image(systemName: rightButtonIcon)
                     .font(.system(size: 24, weight: .bold))
