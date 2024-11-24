@@ -7,6 +7,12 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D04D32E2CF3DD90006A9B82 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D63A9832CEE920B00A372DA /* WidgetKit.framework */; };
+		1D04D32F2CF3DD90006A9B82 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D63A9852CEE920B00A372DA /* SwiftUI.framework */; };
+		1D04D3322CF3DD90006A9B82 /* RegattaWidgetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D04D3312CF3DD90006A9B82 /* RegattaWidgetExtension.swift */; };
+		1D04D3342CF3DD90006A9B82 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D04D3332CF3DD90006A9B82 /* AppIntent.swift */; };
+		1D04D3362CF3DD91006A9B82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D04D3352CF3DD91006A9B82 /* Assets.xcassets */; };
+		1D04D33A2CF3DD91006A9B82 /* RegattaWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1D04D32D2CF3DD90006A9B82 /* RegattaWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1D69FE942CE967AA001C178A /* RegattaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FE932CE967AA001C178A /* RegattaApp.swift */; };
 		1D69FE962CE967AA001C178A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FE952CE967AA001C178A /* ContentView.swift */; };
 		1D69FE982CE967AA001C178A /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FE972CE967AA001C178A /* Item.swift */; };
@@ -46,6 +52,13 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		1D04D3382CF3DD91006A9B82 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 1D69FE882CE967AA001C178A /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 1D04D32C2CF3DD90006A9B82;
+			remoteInfo = RegattaWidgetExtensionExtension;
+		};
 		1D69FEA32CE967AB001C178A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 1D69FE882CE967AA001C178A /* Project object */;
@@ -90,6 +103,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 13;
 			files = (
+				1D04D33A2CF3DD91006A9B82 /* RegattaWidgetExtensionExtension.appex in Embed Foundation Extensions */,
 			);
 			name = "Embed Foundation Extensions";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -108,6 +122,11 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1D04D32D2CF3DD90006A9B82 /* RegattaWidgetExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RegattaWidgetExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		1D04D3312CF3DD90006A9B82 /* RegattaWidgetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegattaWidgetExtension.swift; sourceTree = "<group>"; };
+		1D04D3332CF3DD90006A9B82 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
+		1D04D3352CF3DD91006A9B82 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		1D04D3372CF3DD91006A9B82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D0B5B492CED2E2000DC4BE5 /* RegattaWatch Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RegattaWatch Watch App.entitlements"; sourceTree = "<group>"; };
 		1D63A9832CEE920B00A372DA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		1D63A9852CEE920B00A372DA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
@@ -157,6 +176,15 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		1D04D32A2CF3DD90006A9B82 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D04D32F2CF3DD90006A9B82 /* SwiftUI.framework in Frameworks */,
+				1D04D32E2CF3DD90006A9B82 /* WidgetKit.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D69FE8D2CE967AA001C178A /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -202,6 +230,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		1D04D3302CF3DD90006A9B82 /* RegattaWidgetExtension */ = {
+			isa = PBXGroup;
+			children = (
+				1D04D3312CF3DD90006A9B82 /* RegattaWidgetExtension.swift */,
+				1D04D3332CF3DD90006A9B82 /* AppIntent.swift */,
+				1D04D3352CF3DD91006A9B82 /* Assets.xcassets */,
+				1D04D3372CF3DD91006A9B82 /* Info.plist */,
+			);
+			path = RegattaWidgetExtension;
+			sourceTree = "<group>";
+		};
 		1D63A9822CEE920B00A372DA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
@@ -214,11 +253,12 @@
 		1D69FE872CE967AA001C178A = {
 			isa = PBXGroup;
 			children = (
-				1D69FEF12CE96823001C178A /* Shared */,
 				1D69FE922CE967AA001C178A /* Regatta */,
+				1D69FEC42CE967F7001C178A /* RegattaWatch Watch App */,
+				1D04D3302CF3DD90006A9B82 /* RegattaWidgetExtension */,
+				1D69FEF12CE96823001C178A /* Shared */,
 				1D69FEA52CE967AB001C178A /* RegattaTests */,
 				1D69FEAF2CE967AB001C178A /* RegattaUITests */,
-				1D69FEC42CE967F7001C178A /* RegattaWatch Watch App */,
 				1D69FED52CE967F9001C178A /* RegattaWatch Watch AppTests */,
 				1D69FEDF2CE967F9001C178A /* RegattaWatch Watch AppUITests */,
 				1D63A9822CEE920B00A372DA /* Frameworks */,
@@ -235,6 +275,7 @@
 				1D69FEC32CE967F7001C178A /* RegattaWatch Watch App.app */,
 				1D69FED22CE967F9001C178A /* RegattaWatch Watch AppTests.xctest */,
 				1D69FEDC2CE967F9001C178A /* RegattaWatch Watch AppUITests.xctest */,
+				1D04D32D2CF3DD90006A9B82 /* RegattaWidgetExtensionExtension.appex */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -385,6 +426,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		1D04D32C2CF3DD90006A9B82 /* RegattaWidgetExtensionExtension */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 1D04D33D2CF3DD91006A9B82 /* Build configuration list for PBXNativeTarget "RegattaWidgetExtensionExtension" */;
+			buildPhases = (
+				1D04D3292CF3DD90006A9B82 /* Sources */,
+				1D04D32A2CF3DD90006A9B82 /* Frameworks */,
+				1D04D32B2CF3DD90006A9B82 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = RegattaWidgetExtensionExtension;
+			productName = RegattaWidgetExtensionExtension;
+			productReference = 1D04D32D2CF3DD90006A9B82 /* RegattaWidgetExtensionExtension.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
 		1D69FE8F2CE967AA001C178A /* Regatta */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 1D69FEB62CE967AB001C178A /* Build configuration list for PBXNativeTarget "Regatta" */;
@@ -452,6 +510,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				1D04D3392CF3DD91006A9B82 /* PBXTargetDependency */,
 			);
 			name = "RegattaWatch Watch App";
 			productName = "RegattaWatch Watch App";
@@ -504,6 +563,9 @@
 				LastSwiftUpdateCheck = 1540;
 				LastUpgradeCheck = 1540;
 				TargetAttributes = {
+					1D04D32C2CF3DD90006A9B82 = {
+						CreatedOnToolsVersion = 15.4;
+					};
 					1D69FE8F2CE967AA001C178A = {
 						CreatedOnToolsVersion = 15.4;
 					};
@@ -547,11 +609,20 @@
 				1D69FEC22CE967F7001C178A /* RegattaWatch Watch App */,
 				1D69FED12CE967F9001C178A /* RegattaWatch Watch AppTests */,
 				1D69FEDB2CE967F9001C178A /* RegattaWatch Watch AppUITests */,
+				1D04D32C2CF3DD90006A9B82 /* RegattaWidgetExtensionExtension */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		1D04D32B2CF3DD90006A9B82 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D04D3362CF3DD91006A9B82 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D69FE8E2CE967AA001C178A /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -601,6 +672,15 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		1D04D3292CF3DD90006A9B82 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				1D04D3322CF3DD90006A9B82 /* RegattaWidgetExtension.swift in Sources */,
+				1D04D3342CF3DD90006A9B82 /* AppIntent.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		1D69FE8C2CE967AA001C178A /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -677,6 +757,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		1D04D3392CF3DD91006A9B82 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 1D04D32C2CF3DD90006A9B82 /* RegattaWidgetExtensionExtension */;
+			targetProxy = 1D04D3382CF3DD91006A9B82 /* PBXContainerItemProxy */;
+		};
 		1D69FEA42CE967AB001C178A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 1D69FE8F2CE967AA001C178A /* Regatta */;
@@ -705,6 +790,66 @@
 /* End PBXTargetDependency section */
 
 /* Begin XCBuildConfiguration section */
+		1D04D33B2CF3DD91006A9B82 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RegattaWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RegattaWidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = heart.Regatta.watchkitapp.RegattaWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Debug;
+		};
+		1D04D33C2CF3DD91006A9B82 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_IDENTITY = "Apple Development";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 7J9MA9A92M;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = RegattaWidgetExtension/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = RegattaWidgetExtension;
+				INFOPLIST_KEY_NSHumanReadableCopyright = "";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+					"@executable_path/../../../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = heart.Regatta.watchkitapp.RegattaWidgetExtension;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = watchos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 4;
+			};
+			name = Release;
+		};
 		1D69FEB42CE967AB001C178A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -969,6 +1114,7 @@
 		1D69FEE82CE967F9001C178A /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "RegattaWatch Watch App/RegattaWatch Watch App.entitlements";
@@ -1005,6 +1151,7 @@
 		1D69FEE92CE967F9001C178A /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = "RegattaWatch Watch App/RegattaWatch Watch App.entitlements";
@@ -1123,6 +1270,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		1D04D33D2CF3DD91006A9B82 /* Build configuration list for PBXNativeTarget "RegattaWidgetExtensionExtension" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				1D04D33B2CF3DD91006A9B82 /* Debug */,
+				1D04D33C2CF3DD91006A9B82 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		1D69FE8B2CE967AA001C178A /* Build configuration list for PBXProject "Regatta" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
