@@ -8,6 +8,8 @@
 import WidgetKit
 import SwiftUI
 
+
+
 struct Provider: AppIntentTimelineProvider {
     func placeholder(in context: Context) -> SimpleEntry {
         SimpleEntry(date: Date(), configuration: ConfigurationAppIntent())

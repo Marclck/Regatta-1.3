@@ -127,6 +127,12 @@ class WatchTimerState: ObservableObject {
         if persistentTimer.isInStopwatchMode && mode != .stopwatch {
             mode = .stopwatch
             WKInterfaceDevice.current().play(.success)
+            
+            // Ensure stopwatch starts from 0
+            lastStopwatchMinute = Int(currentTime) / 60
+
+            // Play haptic feedback for stopwatch start
+            playDoubleHaptic()
         }
     
         
@@ -158,9 +164,9 @@ class WatchTimerState: ObservableObject {
                     }
                 }
             } else {
+                // Transition to stopwatch mode
                 mode = .stopwatch
-                currentTime = 0
-                lastStopwatchMinute = 0
+                lastStopwatchMinute = Int(currentTime) / 60
                 
                 // 4. Double haptic at start of stopwatch
                 playDoubleHaptic()

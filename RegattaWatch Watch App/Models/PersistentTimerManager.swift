@@ -67,8 +67,12 @@ class PersistentTimerManager: ObservableObject {
                 let countdownEndTime = Date().addingTimeInterval(-elapsed)
                 
                 isInStopwatchMode = true
+                print("DEBUG: Transition to Stopwatch Mode. Countdown End Time: \(countdownEndTime)")
+
                 if stopwatchStartTime == nil {
                     stopwatchStartTime = countdownEndTime // Set accurate start time
+                    print("DEBUG: Stopwatch Start Time Set: \(stopwatchStartTime!)")
+
                 }
             }
         }
@@ -79,9 +83,11 @@ class PersistentTimerManager: ObservableObject {
             let currentTime = Date().timeIntervalSince(startTime!)
             
             if isInStopwatchMode {
-                return currentTime
+                return currentTime - startAmount
+                print("DEBUG: Stopwatch Time Elapsed: \(currentTime)") // Log stopwatch time
             } else {
                 let remainingTime = startAmount - currentTime
+                print("DEBUG: Countdown Remaining Time: \(remainingTime)") // Log countdown time
                 
                 // Check if countdown finished
                 if remainingTime <= 0 {
