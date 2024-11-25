@@ -54,9 +54,9 @@ class PersistentTimerManager: ObservableObject {
         stopwatchStartTime = nil
         
         // Schedule notifications
-         WatchNotificationManager.shared.scheduleTimerNotifications(
-             duration: TimeInterval(minutes * 60)
-         )
+        WatchNotificationManager.shared.scheduleTimerNotifications(
+            duration: TimeInterval(minutes * 60)
+        )
     }
     
     func checkBackgroundModeChange() {
@@ -76,31 +76,31 @@ class PersistentTimerManager: ObservableObject {
     
     func getCurrentTime() -> TimeInterval {
         if isTimerRunning {
-              let currentTime = Date().timeIntervalSince(startTime!)
-              
-              if isInStopwatchMode {
-                  return currentTime
-              } else {
-                  let remainingTime = startAmount - currentTime
-                  
-                  // Check if countdown finished
-                  if remainingTime <= 0 {
-                      // Transition to stopwatch mode
-                      isInStopwatchMode = true
-                      pauseTime = nil // Clear the pause time
-                      return 0
-                  }
-                  
-                  return remainingTime
-              }
-          } else {
-              if let pauseTime = pauseTime {
-                  return startAmount - Date().timeIntervalSince(pauseTime)
-              } else {
-                  return startAmount
-              }
-          }
-      }
+            let currentTime = Date().timeIntervalSince(startTime!)
+            
+            if isInStopwatchMode {
+                return currentTime
+            } else {
+                let remainingTime = startAmount - currentTime
+                
+                // Check if countdown finished
+                if remainingTime <= 0 {
+                    // Transition to stopwatch mode
+                    isInStopwatchMode = true
+                    pauseTime = nil // Clear the pause time
+                    return 0
+                }
+                
+                return remainingTime
+            }
+        } else {
+            if let pauseTime = pauseTime {
+                return startAmount - Date().timeIntervalSince(pauseTime)
+            } else {
+                return startAmount
+            }
+        }
+    }
     
     func pauseTimer() {
         isTimerRunning = false
@@ -111,27 +111,42 @@ class PersistentTimerManager: ObservableObject {
     func resumeTimer() {
         isTimerRunning = true
         
+        let currentTime = getCurrentTime()
+        let remainingTime = currentTime
+        
+        print("⏱️ Debug - Current time: \(currentTime)")
+        print("⏱️ Debug - Start amount: \(startAmount)")
+        print("⏱️ Debug - Remaining time: \(remainingTime)")
+        
         if let pauseTime = pauseTime {
             let elapsedTimeSinceLastPause = Date().timeIntervalSince(pauseTime)
             startTime = startTime?.addingTimeInterval(elapsedTimeSinceLastPause)
             self.pauseTime = nil
+            // Debug pause adjustment
+            print("⏱️ Resume - Elapsed since pause: \(elapsedTimeSinceLastPause)")
+            print("⏱️ Resume - Adjusted start time: \(startTime?.description ?? "nil")")
         }
         
-        // Reschedule notifications
-        WatchNotificationManager.shared.scheduleTimerNotifications(
-            duration: startAmount - getCurrentTime()
-        )
+        // Only schedule if enough time remains
+        if remainingTime > 10 {
+            WatchNotificationManager.shared.scheduleTimerNotifications(
+                duration: remainingTime
+            )
+            print("⏱️ Resume - Notifications scheduled for \(remainingTime) seconds")
+        } else {
+            print("⏱️ Resume - Not enough time remaining for notifications")
+        }
     }
-
+        
+        
+        func resetTimer() {
+            startTime = nil
+            startAmount = 0
+            isTimerRunning = false
+            isInStopwatchMode = false
+            stopwatchStartTime = nil
+            WatchNotificationManager.shared.cancelAllNotifications()
+            
+        }
+    }
     
-    func resetTimer() {
-        startTime = nil
-        startAmount = 0
-        isTimerRunning = false
-        isInStopwatchMode = false
-        stopwatchStartTime = nil
-        WatchNotificationManager.shared.cancelAllNotifications()
-
-    }
-}
-

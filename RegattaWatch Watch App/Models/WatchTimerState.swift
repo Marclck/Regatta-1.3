@@ -220,7 +220,6 @@ class WatchTimerState: ObservableObject {
         currentTime = 0
         isConfirmed = false
         persistentTimer.resetTimer()
-
     }
 }
 
