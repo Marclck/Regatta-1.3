@@ -86,7 +86,7 @@ extension ConfigurationAppIntent {
     }
 }
 
-#Preview(as: .accessoryRectangular) {
+#Preview(as: .accessoryCircular) {
     RegattaWidgetExtension()
 } timeline: {
     SimpleEntry(date: .now, configuration: .smiley)

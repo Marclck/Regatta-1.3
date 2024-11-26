@@ -22,8 +22,8 @@ struct TimeDisplayView: View {
                 )) {
                     ForEach(1...30, id: \.self) { minute in
                         Text("\(String(format: "%02d:00", minute))")
-                            .font(.system(size: 36)) //36 b4 adjustment
-                            .scaleEffect(x:1.4, y:1)
+                            .font(.zenithBeta(size: 34)) //36 b4 adjustment
+                            .scaleEffect(x:1, y:1)
                             .foregroundColor(.white)
                     }
                 }
@@ -36,8 +36,8 @@ struct TimeDisplayView: View {
                     .offset(y: 11)
                     .padding(.top, 13)
                     .padding(.bottom, 21)
-                    .font(.system(size: 36))
-                    .scaleEffect(x:1.4, y:1)
+                    .font(.zenithBeta(size: 34)) //36 b4 adjustment
+                    .scaleEffect(x:1, y:1)
                     .foregroundColor(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : .white)
             }
         }

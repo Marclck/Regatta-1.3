@@ -43,6 +43,8 @@
 		1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */; };
 		1DBD85D82CEFE8290028E391 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D72CEFE8290028E391 /* HapticManager.swift */; };
 		1DBD85E22CF142A50028E391 /* PersistentTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85E12CF142A50028E391 /* PersistentTimerManager.swift */; };
+		1DC4B3282CF5454F00A8CC30 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B3272CF5454F00A8CC30 /* FontManager.swift */; };
+		1DC4B3292CF5454F00A8CC30 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B3272CF5454F00A8CC30 /* FontManager.swift */; };
 		1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */; };
 		1DD528452CEBEBE7005FFEA2 /* SeparatorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */; };
 		1DD528492CEBED22005FFEA2 /* TimerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528482CEBED22005FFEA2 /* TimerMode.swift */; };
@@ -167,6 +169,7 @@
 		1DBD85DD2CF133510028E391 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1DBD85DE2CF133720028E391 /* Regatta.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Regatta.entitlements; sourceTree = "<group>"; };
 		1DBD85E12CF142A50028E391 /* PersistentTimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentTimerManager.swift; sourceTree = "<group>"; };
+		1DC4B3272CF5454F00A8CC30 /* FontManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
 		1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTimerState.swift; sourceTree = "<group>"; };
 		1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorOverlay.swift; sourceTree = "<group>"; };
 		1DD528482CEBED22005FFEA2 /* TimerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerMode.swift; sourceTree = "<group>"; };
@@ -372,6 +375,7 @@
 				1DD528482CEBED22005FFEA2 /* TimerMode.swift */,
 				1D69FEF62CE968B5001C178A /* TimerState.swift */,
 				1DE3D0682CF3052A00B4056F /* StartCountdownIntent.swift */,
+				1DC4B3272CF5454F00A8CC30 /* FontManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -695,6 +699,7 @@
 				1D69FEFF2CE969D9001C178A /* CurrentTimeView.swift in Sources */,
 				1DE3D06B2CF3108900B4056F /* StartCountdownIntent.swift in Sources */,
 				1D69FE942CE967AA001C178A /* RegattaApp.swift in Sources */,
+				1DC4B3282CF5454F00A8CC30 /* FontManager.swift in Sources */,
 				1D69FEFD2CE969CE001C178A /* ProgressBarView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -730,6 +735,7 @@
 				1D69FEC82CE967F7001C178A /* ContentView.swift in Sources */,
 				1D69FF072CE96A32001C178A /* CurrentTimeView.swift in Sources */,
 				1D69FF052CE96A26001C178A /* ProgressBarView.swift in Sources */,
+				1DC4B3292CF5454F00A8CC30 /* FontManager.swift in Sources */,
 				1DBD85D82CEFE8290028E391 /* HapticManager.swift in Sources */,
 				1DD528452CEBEBE7005FFEA2 /* SeparatorOverlay.swift in Sources */,
 				1D69FEC62CE967F7001C178A /* RegattaWatchApp.swift in Sources */,

@@ -71,8 +71,8 @@ class WatchTimerState: ObservableObject {
                 return String(format: "%02d:00", selectedMinutes)
             }
         case .countdown:
-            let minutes = Int(currentTime) / 60
-            let seconds = Int(currentTime) % 60
+            let minutes = (Int(currentTime) + 1) / 60
+            let seconds = (Int(currentTime) + 1) % 60
             return String(format: "%02d:%02d", minutes, seconds)
         case .stopwatch:
             let minutes = Int(currentTime) / 60
