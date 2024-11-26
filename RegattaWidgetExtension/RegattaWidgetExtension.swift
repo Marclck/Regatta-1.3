@@ -14,13 +14,15 @@ struct Provider: TimelineProvider {
     }
 
     func getSnapshot(in context: Context, completion: @escaping (SimpleEntry) -> ()) {
-        let lastUsedTime = UserDefaults.standard.integer(forKey: "lastUsedTime")
+        //let lastUsedTime = UserDefaults.standard.integer(forKey: "lastUsedTime")
+        let lastUsedTime = SharedDefaults.getLastUsedTime()
         let entry = SimpleEntry(date: Date(), lastUsedTime: lastUsedTime)
         completion(entry)
     }
     
     func getTimeline(in context: Context, completion: @escaping (Timeline<SimpleEntry>) -> ()) {
-        let lastUsedTime = UserDefaults.standard.integer(forKey: "lastUsedTime")
+        //let lastUsedTime = UserDefaults.standard.integer(forKey: "lastUsedTime")
+        let lastUsedTime = SharedDefaults.getLastUsedTime()
         let entry = SimpleEntry(date: Date(), lastUsedTime: lastUsedTime)
         
         // Update timeline when app changes the time
@@ -43,10 +45,10 @@ struct RegattaWidgetExtensionEntryView : View {
                 .font(.system(.caption, design: .rounded))
         } currentValueLabel: {
             Text(String(format: "%02d", entry.lastUsedTime))
-                .font(.system(.body, design: .monospaced))
+                .font(.zenithBeta)
         }
         .gaugeStyle(.accessoryCircular)
-        .tint(Gradient(colors: [.orange, .cyan]))
+        .tint(Gradient(colors: [.cyan, .orange, .cyan, .blue]))
         .containerBackground(.clear, for: .widget)
     }
 }

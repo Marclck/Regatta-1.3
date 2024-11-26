@@ -83,8 +83,8 @@ class PersistentTimerManager: ObservableObject {
             let currentTime = Date().timeIntervalSince(startTime!)
             
             if isInStopwatchMode {
-                return currentTime - startAmount
                 print("DEBUG: Stopwatch Time Elapsed: \(currentTime)") // Log stopwatch time
+                return currentTime - startAmount
             } else {
                 let remainingTime = startAmount - currentTime
                 print("DEBUG: Countdown Remaining Time: \(remainingTime)") // Log countdown time

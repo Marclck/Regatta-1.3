@@ -40,6 +40,7 @@
 		1D69FF072CE96A32001C178A /* CurrentTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FF062CE96A32001C178A /* CurrentTimeView.swift */; };
 		1D69FF092CE96A3B001C178A /* TimeDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FF082CE96A3B001C178A /* TimeDisplayView.swift */; };
 		1D69FF0B2CE96A44001C178A /* ButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FF0A2CE96A44001C178A /* ButtonsView.swift */; };
+		1D9778692CF67949007D861B /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B3272CF5454F00A8CC30 /* FontManager.swift */; };
 		1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */; };
 		1DBD85D82CEFE8290028E391 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D72CEFE8290028E391 /* HapticManager.swift */; };
 		1DBD85E22CF142A50028E391 /* PersistentTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85E12CF142A50028E391 /* PersistentTimerManager.swift */; };
@@ -47,6 +48,7 @@
 		1DC4B3292CF5454F00A8CC30 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B3272CF5454F00A8CC30 /* FontManager.swift */; };
 		1DC4B32B2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */; };
 		1DC4B32C2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */; };
+		1DC4B32E2CF676B900A8CC30 /* SharedDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */; };
 		1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */; };
 		1DD528452CEBEBE7005FFEA2 /* SeparatorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */; };
 		1DD528492CEBED22005FFEA2 /* TimerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528482CEBED22005FFEA2 /* TimerMode.swift */; };
@@ -173,6 +175,7 @@
 		1DBD85E12CF142A50028E391 /* PersistentTimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentTimerManager.swift; sourceTree = "<group>"; };
 		1DC4B3272CF5454F00A8CC30 /* FontManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
 		1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedDefaults.swift; sourceTree = "<group>"; };
+		1DC4B32D2CF6762000A8CC30 /* RegattaWidgetExtensionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RegattaWidgetExtensionExtension.entitlements; sourceTree = "<group>"; };
 		1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTimerState.swift; sourceTree = "<group>"; };
 		1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorOverlay.swift; sourceTree = "<group>"; };
 		1DD528482CEBED22005FFEA2 /* TimerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerMode.swift; sourceTree = "<group>"; };
@@ -259,6 +262,7 @@
 		1D69FE872CE967AA001C178A = {
 			isa = PBXGroup;
 			children = (
+				1DC4B32D2CF6762000A8CC30 /* RegattaWidgetExtensionExtension.entitlements */,
 				1D69FE922CE967AA001C178A /* Regatta */,
 				1D69FEC42CE967F7001C178A /* RegattaWatch Watch App */,
 				1D04D3302CF3DD90006A9B82 /* RegattaWidgetExtension */,
@@ -686,6 +690,8 @@
 			files = (
 				1D04D3322CF3DD90006A9B82 /* RegattaWidgetExtension.swift in Sources */,
 				1D04D3342CF3DD90006A9B82 /* AppIntent.swift in Sources */,
+				1D9778692CF67949007D861B /* FontManager.swift in Sources */,
+				1DC4B32E2CF676B900A8CC30 /* SharedDefaults.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -807,6 +813,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = RegattaWidgetExtensionExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -837,6 +844,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME = WidgetBackground;
+				CODE_SIGN_ENTITLEMENTS = RegattaWidgetExtensionExtension.entitlements;
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;

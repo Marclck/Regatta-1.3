@@ -77,7 +77,7 @@ class WatchTimerState: ObservableObject {
         case .stopwatch:
             let minutes = Int(currentTime) / 60
             let seconds = Int(currentTime) % 60
-            let milliseconds = Int((currentTime.truncatingRemainder(dividingBy: 1)) * 100)
+            //let milliseconds = Int((currentTime.truncatingRemainder(dividingBy: 1)) * 100)
             return String(format: "%02d:%02d", minutes, seconds)
         }
     }
@@ -110,6 +110,7 @@ class WatchTimerState: ObservableObject {
             // Don't reset currentTime if already confirmed
             currentTime = Double(selectedMinutes * 60)
             UserDefaults.standard.set(selectedMinutes, forKey: "lastUsedTime")
+            SharedDefaults.setLastUsedTime(selectedMinutes)
             persistentTimer.startCountdown(minutes: selectedMinutes)
             WKInterfaceDevice.current().play(.start) //haptic
         }
