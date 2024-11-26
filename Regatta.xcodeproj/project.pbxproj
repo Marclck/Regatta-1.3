@@ -370,6 +370,7 @@
 		1D69FEF12CE96823001C178A /* Shared */ = {
 			isa = PBXGroup;
 			children = (
+				1DD9DBCB2CF67AF900D1E608 /* Charts */,
 				1D69FEF22CE96830001C178A /* Models */,
 				1D69FEF32CE96836001C178A /* Views */,
 			);
@@ -433,6 +434,13 @@
 				1DE3D0662CF2FCAD00B4056F /* WatchNotificationManager.swift */,
 			);
 			path = Models;
+			sourceTree = "<group>";
+		};
+		1DD9DBCB2CF67AF900D1E608 /* Charts */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Charts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
