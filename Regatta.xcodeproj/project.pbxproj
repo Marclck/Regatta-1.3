@@ -52,6 +52,11 @@
 		1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */; };
 		1DD528452CEBEBE7005FFEA2 /* SeparatorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */; };
 		1DD528492CEBED22005FFEA2 /* TimerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528482CEBED22005FFEA2 /* TimerMode.swift */; };
+		1DD9DBD12CF680B800D1E608 /* SharedDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */; };
+		1DD9DBD52CF683EE00D1E608 /* LineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD9DBCE2CF67C4100D1E608 /* LineChartManager.swift */; };
+		1DD9DBD62CF6844B00D1E608 /* LineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD9DBCE2CF67C4100D1E608 /* LineChartManager.swift */; };
+		1DD9DBD82CF6844E00D1E608 /* LineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD9DBCE2CF67C4100D1E608 /* LineChartManager.swift */; };
+		1DD9DBD92CF6844F00D1E608 /* LineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD9DBCE2CF67C4100D1E608 /* LineChartManager.swift */; };
 		1DE3D0672CF2FCAD00B4056F /* WatchNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3D0662CF2FCAD00B4056F /* WatchNotificationManager.swift */; };
 		1DE3D0692CF3052A00B4056F /* StartCountdownIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3D0682CF3052A00B4056F /* StartCountdownIntent.swift */; };
 		1DE3D06B2CF3108900B4056F /* StartCountdownIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3D0682CF3052A00B4056F /* StartCountdownIntent.swift */; };
@@ -180,6 +185,7 @@
 		1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorOverlay.swift; sourceTree = "<group>"; };
 		1DD528482CEBED22005FFEA2 /* TimerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerMode.swift; sourceTree = "<group>"; };
 		1DD5284A2CEC0983005FFEA2 /* RegattaWatch-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "RegattaWatch-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
+		1DD9DBCE2CF67C4100D1E608 /* LineChartManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartManager.swift; sourceTree = "<group>"; };
 		1DE3D0662CF2FCAD00B4056F /* WatchNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchNotificationManager.swift; sourceTree = "<group>"; };
 		1DE3D0682CF3052A00B4056F /* StartCountdownIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartCountdownIntent.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -439,6 +445,7 @@
 		1DD9DBCB2CF67AF900D1E608 /* Charts */ = {
 			isa = PBXGroup;
 			children = (
+				1DD9DBCE2CF67C4100D1E608 /* LineChartManager.swift */,
 			);
 			path = Charts;
 			sourceTree = "<group>";
@@ -699,6 +706,7 @@
 				1D04D3322CF3DD90006A9B82 /* RegattaWidgetExtension.swift in Sources */,
 				1D04D3342CF3DD90006A9B82 /* AppIntent.swift in Sources */,
 				1D9778692CF67949007D861B /* FontManager.swift in Sources */,
+				1DD9DBD92CF6844F00D1E608 /* LineChartManager.swift in Sources */,
 				1DC4B32E2CF676B900A8CC30 /* SharedDefaults.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -713,6 +721,7 @@
 				1D69FF032CE969EF001C178A /* ButtonsView.swift in Sources */,
 				1D69FE962CE967AA001C178A /* ContentView.swift in Sources */,
 				1D69FEF72CE968B5001C178A /* TimerState.swift in Sources */,
+				1DD9DBD62CF6844B00D1E608 /* LineChartManager.swift in Sources */,
 				1D69FE982CE967AA001C178A /* Item.swift in Sources */,
 				1D69FEFB2CE96905001C178A /* SeparatorMark.swift in Sources */,
 				1D69FEFF2CE969D9001C178A /* CurrentTimeView.swift in Sources */,
@@ -727,7 +736,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DD9DBD52CF683EE00D1E608 /* LineChartManager.swift in Sources */,
 				1D69FEA72CE967AB001C178A /* RegattaTests.swift in Sources */,
+				1DD9DBD12CF680B800D1E608 /* SharedDefaults.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -744,6 +755,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DD9DBD82CF6844E00D1E608 /* LineChartManager.swift in Sources */,
 				1DE3D0692CF3052A00B4056F /* StartCountdownIntent.swift in Sources */,
 				1DBD85E22CF142A50028E391 /* PersistentTimerManager.swift in Sources */,
 				1D69FF0B2CE96A44001C178A /* ButtonsView.swift in Sources */,

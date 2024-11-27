@@ -222,6 +222,16 @@ class WatchTimerState: ObservableObject {
     }
     
     func resetTimer() {
+        // Record finish time if in stopwatch mode and running
+        if mode == .stopwatch && isRunning {
+            let finishTime = persistentTimer.getCurrentTime()
+            SharedDefaults.setLastFinishTime(finishTime)
+            print("⌚️ WatchTimerState: Recorded finish time: \(finishTime)")
+        } else {
+            SharedDefaults.setLastFinishTime(0)
+            print("⌚️ WatchTimerState: Reset finish time to 0")
+        }
+      
         mode = .setup
         isRunning = false
         currentTime = 0

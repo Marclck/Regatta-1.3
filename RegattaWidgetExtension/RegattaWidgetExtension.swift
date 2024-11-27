@@ -38,18 +38,31 @@ struct SimpleEntry: TimelineEntry {
 
 struct RegattaWidgetExtensionEntryView : View {
     var entry: Provider.Entry
-
+    
     var body: some View {
-        Gauge(value: Double(entry.lastUsedTime), in: 0...30) {
-            Text("min")
-                .font(.system(.caption, design: .rounded))
-        } currentValueLabel: {
-            Text(String(format: "%02d", entry.lastUsedTime))
-                .font(.system(.body, design: .monospaced))
+        ZStack {
+            Gauge(value: Double(entry.lastUsedTime), in: 0...30) {
+                Text("min")
+                    .font(.system(size: 12, weight: .semibold, design: .rounded))
+                    .foregroundColor(.black)
+            } currentValueLabel: {
+                Text(String(format: "%02d", entry.lastUsedTime))
+                    .font(.system(size: 18, weight: .semibold, design: .monospaced))
+            }
+            .gaugeStyle(.accessoryCircular)
+            .tint(Gradient(colors: [.blue.opacity(0.5), .cyan, .cyan, .blue.opacity(0.5)]))
+            .containerBackground(.clear, for: .widget)
         }
-        .gaugeStyle(.accessoryCircular)
-        .tint(Gradient(colors: [.cyan, .orange, .cyan, .blue]))
-        .containerBackground(.clear, for: .widget)
+        .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
+        .background()
+        .backgroundStyle(.linearGradient(colors: [
+            .clear,
+            .clear,
+            .clear,
+            .cyan.opacity(0.3),
+            .blue,
+            .blue
+        ], startPoint: .top, endPoint: .bottom))
     }
 }
 
