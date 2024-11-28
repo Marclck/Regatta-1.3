@@ -24,7 +24,7 @@ struct ContentView: View {
                     .frame(height: 10)
                 
                 Text("Regatta")
-                    .font(.system(size: 36, weight: .bold, design: .monospaced).italic())
+                    .font(.system(size: 40, weight: .bold, design: .monospaced).italic())
                     .foregroundColor(.cyan)
                 
                 Spacer()
@@ -46,7 +46,7 @@ struct ContentView: View {
                 Spacer()
                     .frame(height: 2)
                 
-                Text("made for sailing athletes")
+                Text("made for sailing enthusiasts")
                     .font(.system(size: 16, design: .monospaced).italic())
                     .foregroundColor(.orange)
                     .padding(.bottom, 20)
@@ -55,8 +55,8 @@ struct ContentView: View {
                     .frame(height: 50)
                 
                 // Support link
-                Link("contact and support",
-                     destination: URL(string: "mailto:placeholder@email.com")!)
+                Link("contact | support | suggestion",
+                     destination: URL(string: "mailto:normalappco@gmail.com")!)
                     .font(.system(size: 14))
                     .foregroundColor(.gray)
                     .padding(.bottom, 30)

@@ -21,7 +21,7 @@ struct WatchProgressBarView: View {
             ZStack {
                 // Background track - wrapping around screen edges
                 RoundedRectangle(cornerRadius: 55)
-                    .stroke(Color.blue.opacity(0.2), lineWidth: 30)
+                    .stroke(Color.blue.opacity(0.3), lineWidth: 25)
                     .frame(width: barWidth, height: barHeight)
                     .position(x: frame.midX, y: frame.midY)
                 
@@ -30,7 +30,7 @@ struct WatchProgressBarView: View {
                     .trim(from: 0, to: timerState.progress)
                     .stroke(
                         Color(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : .cyan),
-                        style: StrokeStyle(lineWidth: 30, lineCap: .butt)
+                        style: StrokeStyle(lineWidth: 25, lineCap: .butt)
                     )
                     .frame(width: barHeight, height: barWidth)
                     .position(x: frame.midX, y: frame.midY)

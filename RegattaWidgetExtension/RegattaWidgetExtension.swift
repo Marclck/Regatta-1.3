@@ -50,7 +50,7 @@ struct RegattaWidgetExtensionEntryView : View {
                     .font(.system(size: 18, weight: .semibold, design: .monospaced))
             }
             .gaugeStyle(.accessoryCircular)
-            .tint(Gradient(colors: [.blue.opacity(0.5), .cyan, .cyan, .blue.opacity(0.5)]))
+            .tint(Gradient(colors: [.cyan.opacity(0.5), .cyan, .cyan, .cyan.opacity(0.5)]))
             .containerBackground(.clear, for: .widget)
         }
         .frame(minWidth: /*@START_MENU_TOKEN@*/0/*@END_MENU_TOKEN@*/, maxWidth: .infinity, minHeight: 0, maxHeight: .infinity)
@@ -58,10 +58,10 @@ struct RegattaWidgetExtensionEntryView : View {
         .backgroundStyle(.linearGradient(colors: [
             .clear,
             .clear,
-            .clear,
+            .clear, //conditional
             .cyan.opacity(0.3),
-            .blue,
-            .blue
+            .cyan,
+            .cyan
         ], startPoint: .top, endPoint: .bottom))
     }
 }

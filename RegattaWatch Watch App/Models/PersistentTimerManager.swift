@@ -87,7 +87,7 @@ class PersistentTimerManager: ObservableObject {
                 return currentTime - startAmount
             } else {
                 let remainingTime = startAmount - currentTime
-                print("DEBUG: Countdown Remaining Time: \(remainingTime)") // Log countdown time
+                //print("DEBUG: Countdown Remaining Time: \(remainingTime)") // Log countdown time
                 
                 // Check if countdown finished
                 if remainingTime <= 0 {
