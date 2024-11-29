@@ -60,7 +60,7 @@ struct LastMinuteSeparatorLine: View {
             path.move(to: CGPoint(x: startX, y: startY))
             path.addLine(to: CGPoint(x: endX, y: endY))
         }
-        .stroke(Color.black, lineWidth: 4)
+        .stroke(Color.black, lineWidth: 2)
         .rotationEffect(.degrees(rotationAngle), anchor: .center)
         // Remove all transitions and animations
     }

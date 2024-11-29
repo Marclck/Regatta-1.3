@@ -74,7 +74,7 @@ struct WatchSeparatorLine: View {
             path.move(to: CGPoint(x: startX, y: startY))
             path.addLine(to: CGPoint(x: endX, y: endY))
         }
-        .stroke(Color.black, lineWidth: 4)
+        .stroke(Color.black, lineWidth: 3)
         .rotationEffect(.degrees(rotationAngle), anchor: .center)
         .opacity(isVisible ? 1 : 0)
         .scaleEffect(isVisible ? 1 : 0.1, anchor: .center)
