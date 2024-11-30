@@ -22,13 +22,13 @@ struct TimeDisplayView: View {
                 )) {
                     ForEach(1...30, id: \.self) { minute in
                         Text("\(String(format: "%02d:00", minute))")
-                            .font(.zenithBeta(size: 34)) //36 b4 adjustment
+                            .font(.zenithBeta(size: 38)) //36 b4 adjustment
                             .scaleEffect(x:1, y:1)
                             .foregroundColor(.white)
                     }
                 }
                 .pickerStyle(.wheel)
-                .frame(width: 140, height: 75) //140 by 75
+                .frame(width: 150, height: 80) //140 by 75
                 .scaleEffect(x:1, y:1)
                 .padding(.horizontal, 5)
             } else {
@@ -36,7 +36,7 @@ struct TimeDisplayView: View {
                     .offset(y: 11)
                     .padding(.top, 13)
                     .padding(.bottom, 21)
-                    .font(.zenithBeta(size: 34)) //36 b4 adjustment
+                    .font(.zenithBeta(size: 38)) //36 b4 adjustment
                     .scaleEffect(x:1, y:1)
                     .foregroundColor(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : .white)
             }

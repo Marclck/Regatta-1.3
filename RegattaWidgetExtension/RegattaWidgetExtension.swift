@@ -47,7 +47,7 @@ struct RegattaWidgetExtensionEntryView : View {
                     .foregroundColor(.black)
             } currentValueLabel: {
                 Text(String(format: "%02d", entry.lastUsedTime))
-                    .font(.system(size: 18, weight: .semibold, design: .monospaced))
+                    .font(.zenithBeta(size: 18))
             }
             .gaugeStyle(.accessoryCircular)
             .tint(Gradient(colors: [.cyan.opacity(0.5), .cyan, .cyan, .cyan.opacity(0.5)]))

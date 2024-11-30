@@ -66,11 +66,11 @@ struct ButtonsView: View {
                     .font(.system(size: 24, weight: .bold))
                     .fontWeight(.heavy)
                     .symbolVariant(.fill)
-                    .foregroundColor(.cyan)
+                    .foregroundColor(buttonForegroundColor)
                     .frame(width: 65, height: 50)
                     .background(
                         RoundedRectangle(cornerRadius: 40)
-                            .fill(Color.blue.opacity(0.3))
+                            .fill(buttonColor)
                     )
                 // Remove any additional backgrounds/shadows by clipping
                 .clipShape(RoundedRectangle(cornerRadius: 15))
@@ -78,6 +78,24 @@ struct ButtonsView: View {
         .buttonStyle(PlainButtonStyle()) // Remove default button styling
         }
     }
+    
+    private var buttonForegroundColor: Color {
+        if timerState.mode == .countdown && timerState.currentTime <= 60 {
+            return Color.orange
+        } else {
+            return Color.blue
+        }
+    }
+    
+    private var buttonColor: Color {
+        if timerState.mode == .countdown && timerState.currentTime <= 60 {
+            return Color.orange.opacity(0.3)
+        } else {
+            return Color.blue.opacity(0.3)
+        }
+    }
+    
+    
     private var leftButtonIcon: String {
         switch timerState.mode {
         case TimerMode.setup:

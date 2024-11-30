@@ -38,7 +38,7 @@ struct ContentView: View {
                     // Content
                     VStack(spacing: 0) {
                         
-                        CurrentTimeView()
+                        CurrentTimeView(timerState: timerState)
                             .padding(.top, -10)
                         
                         Spacer()

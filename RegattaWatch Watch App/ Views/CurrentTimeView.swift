@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 struct CurrentTimeView: View {
+    @ObservedObject var timerState: WatchTimerState  // Add this property
+
     @State private var currentTime = Date()
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
@@ -20,13 +22,19 @@ struct CurrentTimeView: View {
                         .padding(.vertical, 4)    // Add vertical padding inside the background
                         .background(
                             RoundedRectangle(cornerRadius: 8)
-                                .fill(Color.cyan.opacity(0.9)) // Semi-transparent black background
+                                .fill(backgroundColor) // Semi-transparent black background
                             )
             .onReceive(timer) { input in
                 currentTime = input
             }
     }
-                            
+                          
+    private var backgroundColor: Color {
+            timerState.mode == .countdown && timerState.currentTime <= 60
+                ? Color.orange.opacity(0.9)
+                : Color.cyan.opacity(0.9)
+        }
+    
     
     private func timeString(from date: Date) -> String {
         let formatter = DateFormatter()
