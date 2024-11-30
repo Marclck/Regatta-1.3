@@ -13,6 +13,8 @@
 		1D04D3342CF3DD90006A9B82 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D04D3332CF3DD90006A9B82 /* AppIntent.swift */; };
 		1D04D3362CF3DD91006A9B82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D04D3352CF3DD91006A9B82 /* Assets.xcassets */; };
 		1D04D33A2CF3DD91006A9B82 /* RegattaWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1D04D32D2CF3DD90006A9B82 /* RegattaWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1D5E48192CFBC519004813A4 /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E48182CFBC519004813A4 /* JournalView.swift */; };
+		1D5E481B2CFBC79C004813A4 /* JournalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E481A2CFBC79C004813A4 /* JournalManager.swift */; };
 		1D69FE942CE967AA001C178A /* RegattaApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FE932CE967AA001C178A /* RegattaApp.swift */; };
 		1D69FE962CE967AA001C178A /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FE952CE967AA001C178A /* ContentView.swift */; };
 		1D69FE982CE967AA001C178A /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FE972CE967AA001C178A /* Item.swift */; };
@@ -139,6 +141,8 @@
 		1D04D3352CF3DD91006A9B82 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1D04D3372CF3DD91006A9B82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D0B5B492CED2E2000DC4BE5 /* RegattaWatch Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RegattaWatch Watch App.entitlements"; sourceTree = "<group>"; };
+		1D5E48182CFBC519004813A4 /* JournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalView.swift; sourceTree = "<group>"; };
+		1D5E481A2CFBC79C004813A4 /* JournalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalManager.swift; sourceTree = "<group>"; };
 		1D63A9832CEE920B00A372DA /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		1D63A9852CEE920B00A372DA /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		1D69FE902CE967AA001C178A /* Regatta.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Regatta.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -391,6 +395,7 @@
 				1DE3D0682CF3052A00B4056F /* StartCountdownIntent.swift */,
 				1DC4B3272CF5454F00A8CC30 /* FontManager.swift */,
 				1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */,
+				1D5E481A2CFBC79C004813A4 /* JournalManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -412,6 +417,7 @@
 				1D69FEFE2CE969D9001C178A /* CurrentTimeView.swift */,
 				1D69FF002CE969E5001C178A /* TimeDisplayView.swift */,
 				1D69FF022CE969EF001C178A /* ButtonsView.swift */,
+				1D5E48182CFBC519004813A4 /* JournalView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -720,7 +726,9 @@
 				1DC4B32B2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */,
 				1D69FF032CE969EF001C178A /* ButtonsView.swift in Sources */,
 				1D69FE962CE967AA001C178A /* ContentView.swift in Sources */,
+				1D5E481B2CFBC79C004813A4 /* JournalManager.swift in Sources */,
 				1D69FEF72CE968B5001C178A /* TimerState.swift in Sources */,
+				1D5E48192CFBC519004813A4 /* JournalView.swift in Sources */,
 				1DD9DBD62CF6844B00D1E608 /* LineChartManager.swift in Sources */,
 				1D69FE982CE967AA001C178A /* Item.swift in Sources */,
 				1D69FEFB2CE96905001C178A /* SeparatorMark.swift in Sources */,

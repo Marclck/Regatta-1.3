@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-import WatchKit
+import WatchKit 
 import WidgetKit
 
 class WatchTimerState: ObservableObject {
@@ -115,7 +115,7 @@ class WatchTimerState: ObservableObject {
             WKInterfaceDevice.current().play(.start) //haptic
         }
         isRunning = true
-        persistentTimer.resumeTimer() // Add this to ensure persistent timer starts
+        persistentTimer.startCountdown(minutes: selectedMinutes) // Add this to ensure persistent timer starts
     }
    
     func updateTimer() {
@@ -223,7 +223,7 @@ class WatchTimerState: ObservableObject {
     
     func resetTimer() {
         // Record finish time if in stopwatch mode and running
-        if mode == .stopwatch && isRunning {
+        if mode == .stopwatch {
             let finishTime = persistentTimer.getCurrentTime()
             SharedDefaults.setLastFinishTime(finishTime)
             print("⌚️ WatchTimerState: Recorded finish time: \(finishTime)")

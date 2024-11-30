@@ -33,22 +33,25 @@ class WatchNotificationManager: NSObject {
         center.removeAllPendingNotificationRequests()
         
         // Schedule "Last 10 seconds" notification
-        let lastTenSecondsDate = Date().addingTimeInterval(duration - 10)
+        let lastTenSecondsDate = Date().addingTimeInterval(duration - 30)
         scheduleNotification(
             identifier: "lastTenSeconds",
-            title: "Last 10 seconds",
-            body: "10 seconds to go!",
+            title: "Last 20 seconds",
+            body: "20 seconds to go!",
             date: lastTenSecondsDate
         )
+        print("last ten at \(lastTenSecondsDate).")
         
         // Schedule "Countdown complete" notification
-        let countdownCompleteDate = Date().addingTimeInterval(duration)
+        let countdownCompleteDate = Date().addingTimeInterval(duration-20)
         scheduleNotification(
             identifier: "countdownComplete",
-            title: "Countdown complete",
-            body: "Stopwatch has started!",
+            title: "Countdown finishing",
+            body: "Stopwatch starting!",
             date: countdownCompleteDate
         )
+        print("complete at \(countdownCompleteDate).")
+
     }
     
     private func scheduleNotification(identifier: String, title: String, body: String, date: Date) {
@@ -68,7 +71,6 @@ class WatchNotificationManager: NSObject {
             content: content,
             trigger: trigger
         )
-        
         UNUserNotificationCenter.current().add(request)
     }
     

@@ -57,6 +57,8 @@ class PersistentTimerManager: ObservableObject {
         WatchNotificationManager.shared.scheduleTimerNotifications(
             duration: TimeInterval(minutes * 60)
         )
+        print("start countdown notifications scheduled.")
+
     }
     
     func checkBackgroundModeChange() {

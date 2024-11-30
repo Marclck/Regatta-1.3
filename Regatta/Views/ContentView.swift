@@ -8,6 +8,26 @@
 import SwiftUI
 
 struct ContentView: View {
+    @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
+
+    var body: some View {
+        TabView {
+            MainInfoView()
+                .tabItem {
+                    Label("Timer", systemImage: "timer.circle.fill")
+                }
+
+            // Journal Tab
+            JournalView()
+                .tabItem {
+                    Label("Journal", systemImage: "book.closed.circle.fill")
+                }
+        }
+    }
+}
+
+// Move existing content to new MainInfoView
+struct MainInfoView: View {
 //    @StateObject private var timerState = WatchTimerState()
 //    @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
     
