@@ -9,21 +9,56 @@ import Foundation
 import SwiftUI
 
 struct JournalView: View {
-    //@StateObject private var journalManager = JournalManager.shared
+    @StateObject private var sessionStore = iOSSessionStore.shared
     
     var body: some View {
-        //List(journalManager.allSessions.reversed(), id: \.date) { session in
-            VStack(alignment: .leading, spacing: 4) {
-                Text("Countdown: 0 min")
-//                Text("Countdown: \(session.countdownDuration) min")
-                    .font(.headline)
-                Text("Start: 0")
-//                Text("Start: \(session.formattedStartTime)")
-                    .font(.subheadline)
-                Text("Race Time: 0")
-//                Text("Race Time: \(session.formattedRaceTime)")
-                    .font(.subheadline)
+        NavigationView {
+            Group {
+                if sessionStore.sessions.isEmpty {
+                    VStack {
+                        Text("No race sessions recorded yet")
+                            .font(.system(.body, design: .monospaced))
+                            .foregroundColor(.gray)
+                        
+                        Text("Complete a race to see it here")
+                            .font(.system(.caption, design: .monospaced))
+                            .foregroundColor(.gray)
+                            .padding(.top, 4)
+                    }
+                } else {
+                    List {
+                        ForEach(sessionStore.sessions, id: \.date) { session in
+                            SessionRowView(session: session)
+                            
+                            
+                        }
+                    }
+                }
             }
-            .padding(.vertical, 4)
+            .navigationTitle("Race Journal")
+        }
+        .onAppear {
+            sessionStore.loadSessions()
         }
     }
+}
+
+struct SessionRowView: View {
+    let session: RaceSession
+    
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            Text(session.formattedStartTime)
+                .font(.system(.headline, design: .monospaced))
+            
+            HStack {
+                Text("Countdown: \(session.countdownDuration) min")
+                Spacer()
+                Text("Race: \(session.formattedRaceTime)")
+            }
+            .font(.system(.subheadline, design: .monospaced))
+            .foregroundColor(.secondary)
+        }
+        .padding(.vertical, 4)
+    }
+}

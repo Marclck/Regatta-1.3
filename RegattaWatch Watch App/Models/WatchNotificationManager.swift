@@ -36,8 +36,8 @@ class WatchNotificationManager: NSObject {
         let lastTenSecondsDate = Date().addingTimeInterval(duration - 30)
         scheduleNotification(
             identifier: "lastTenSeconds",
-            title: "Last 20 seconds",
-            body: "20 seconds to go!",
+            title: "Last 15 seconds",
+            body: "15 seconds to go!",
             date: lastTenSecondsDate
         )
         print("last ten at \(lastTenSecondsDate).")

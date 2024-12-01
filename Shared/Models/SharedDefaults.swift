@@ -9,12 +9,67 @@ import Foundation
 import WidgetKit
 
 struct SharedDefaults {
-    static let suiteName = "group.heart.Regatta.watchkitapp" // Replace with your group name
-    static let shared = UserDefaults(suiteName: suiteName)!
+    private static let appGroupIdentifier = "group.heart.Regatta.watchkitapp"
+
+    static let shared: UserDefaults = {
+        guard let defaults = UserDefaults(suiteName: appGroupIdentifier) else {
+            fatalError("Failed to create shared UserDefaults with suite: \(appGroupIdentifier)")
+        }
+        return defaults
+    }()
+    
+    // Add container URL for file-based sharing
+    static let container: URL = {
+        guard let url = FileManager.default.containerURL(
+            forSecurityApplicationGroupIdentifier: appGroupIdentifier
+        ) else {
+            fatalError("Failed to create container URL for group: \(appGroupIdentifier)")
+        }
+        return url
+    }()
     
     static let lastUsedTimeKey = "lastUsedTime"
     static let lastFinishTimeKey = "lastFinishTime"  // New key
 
+    static let sessionsKey = "savedRaceSessions"
+    static let currentSessionKey = "currentRaceSession"
+    
+    // Methods using container for file-based storage
+    static func saveSessionsToContainer(_ sessions: [RaceSession]) {
+        let encoder = JSONEncoder()
+        do {
+            let data = try encoder.encode(sessions)
+            let fileURL = container.appendingPathComponent("sessions.json")
+            try data.write(to: fileURL)
+            print("📱 SharedDefaults: Saved sessions to container")
+            
+            // Also save to UserDefaults as backup
+            shared.set(data, forKey: sessionsKey)
+            shared.synchronize()
+        } catch {
+            print("📱 SharedDefaults: Error saving sessions to container: \(error)")
+        }
+    }
+    
+    static func loadSessionsFromContainer() -> [RaceSession]? {
+        let fileURL = container.appendingPathComponent("sessions.json")
+        do {
+            let data = try Data(contentsOf: fileURL)
+            let sessions = try JSONDecoder().decode([RaceSession].self, from: data)
+            print("📱 SharedDefaults: Loaded \(sessions.count) sessions from container")
+            return sessions
+        } catch {
+            print("📱 SharedDefaults: Error loading sessions from container: \(error)")
+            
+            // Try loading from UserDefaults as backup
+            if let data = shared.data(forKey: sessionsKey),
+               let sessions = try? JSONDecoder().decode([RaceSession].self, from: data) {
+                return sessions
+            }
+            return nil
+        }
+    }
+    
     
     static func setLastUsedTime(_ minutes: Int) {
         shared.set(minutes, forKey: lastUsedTimeKey)

@@ -40,10 +40,10 @@ struct ContentView: View {
                         
                         CurrentTimeView(timerState: timerState)
                             .padding(.top, -10)
-                        
+                                                
                         Spacer()
                             .frame(height: 0) // Space after current time
-                        
+                                                
                         TimeDisplayView(timerState: timerState)
                             .frame(height: 150)  // Fixed height for picker
                             .position(x: geometry.size.width/2, y: centerY/2+10)

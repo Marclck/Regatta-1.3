@@ -16,6 +16,9 @@ class PersistentTimerManager: ObservableObject {
     @AppStorage("stopwatchStartTime") private var storedStopwatchStartTime: Double = 0
     @AppStorage("pauseTime") private var storedPauseTime: Double = 0
     
+    private let journalManager = JournalManager.shared
+
+    
     var startTime: Date? {
         get { storedStartTime > 0 ? Date(timeIntervalSince1970: storedStartTime) : nil }
         set { storedStartTime = newValue?.timeIntervalSince1970 ?? 0 }
@@ -57,6 +60,8 @@ class PersistentTimerManager: ObservableObject {
         WatchNotificationManager.shared.scheduleTimerNotifications(
             duration: TimeInterval(minutes * 60)
         )
+        journalManager.startNewSession(countdownMinutes: minutes)
+        
         print("start countdown notifications scheduled.")
 
     }
@@ -67,6 +72,8 @@ class PersistentTimerManager: ObservableObject {
             if currentTime <= 0 {
                 let elapsed = abs(currentTime) // How long ago countdown ended
                 let countdownEndTime = Date().addingTimeInterval(-elapsed)
+                
+                journalManager.recordRaceStart() //record race start when mode change in bg
                 
                 isInStopwatchMode = true
                 print("DEBUG: Transition to Stopwatch Mode. Countdown End Time: \(countdownEndTime)")
@@ -85,7 +92,7 @@ class PersistentTimerManager: ObservableObject {
             let currentTime = Date().timeIntervalSince(startTime!)
             
             if isInStopwatchMode {
-                print("DEBUG: Stopwatch Time Elapsed: \(currentTime)") // Log stopwatch time
+                //print("DEBUG: Stopwatch Time Elapsed: \(currentTime)") // Log stopwatch time
                 return currentTime - startAmount
             } else {
                 let remainingTime = startAmount - currentTime

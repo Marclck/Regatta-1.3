@@ -20,6 +20,7 @@ class WatchTimerState: ObservableObject {
     
     // Add persistent timer manager
     private let persistentTimer = PersistentTimerManager()
+    private let journalManager = JournalManager.shared
     
     init() {
         
@@ -115,7 +116,6 @@ class WatchTimerState: ObservableObject {
             WKInterfaceDevice.current().play(.start) //haptic
         }
         isRunning = true
-        persistentTimer.startCountdown(minutes: selectedMinutes) // Add this to ensure persistent timer starts
     }
    
     func updateTimer() {
@@ -131,6 +131,7 @@ class WatchTimerState: ObservableObject {
             
             // Ensure stopwatch starts from 0
             lastStopwatchMinute = Int(currentTime) / 60
+            journalManager.recordRaceStart() //record race start when mode change
 
             // Play haptic feedback for stopwatch start
             playDoubleHaptic()
@@ -224,10 +225,12 @@ class WatchTimerState: ObservableObject {
     func resetTimer() {
         // Record finish time if in stopwatch mode and running
         if mode == .stopwatch {
+            journalManager.recordSessionEnd(totalTime: currentTime)
             let finishTime = persistentTimer.getCurrentTime()
             SharedDefaults.setLastFinishTime(finishTime)
             print("⌚️ WatchTimerState: Recorded finish time: \(finishTime)")
         } else {
+            journalManager.cancelSession()
             SharedDefaults.setLastFinishTime(0)
             print("⌚️ WatchTimerState: Reset finish time to 0")
         }
