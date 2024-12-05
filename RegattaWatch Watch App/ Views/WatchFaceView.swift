@@ -52,7 +52,7 @@ struct WatchFaceView: View {
                            Text(hourString(from: currentTime))
                                .scaleEffect(x:1, y:0.9)
                                .foregroundColor(.white)
-                               .offset(y:isLuminanceReduced ? 20 : 6) //16/7
+                               .offset(y:isLuminanceReduced ? 21 : 6) //16/7
                            
                            // Minutes
                            Text(minuteString(from: currentTime))
@@ -60,7 +60,7 @@ struct WatchFaceView: View {
                                .foregroundColor(isLuminanceReduced ? .cyan : .white)
                                .offset(y:isLuminanceReduced ? -33 : -22) //-30/-23
                         }
-                        .font(.zenithBeta(size: 90))
+                        .font(.zenithBeta(size: 90, weight: .medium))
                             .scaleEffect(x:1, y:0.9)
                             .foregroundColor(.white)
                             .frame(width: 150, height: 60)

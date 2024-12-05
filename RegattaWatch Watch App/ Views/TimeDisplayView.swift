@@ -24,7 +24,7 @@ struct TimeDisplayView: View {
                 {
                     ForEach(1...30, id: \.self) { minute in
                         Text("\(String(format: "%02d:00", minute))")
-                            .font(.zenithBeta(size: 38)) //36 b4 adjustment
+                            .font(.zenithBeta(size: 38, weight: .medium)) //36 b4 adjustment
                             .scaleEffect(x:1, y:1)
                             .foregroundColor(.white)
                     }
@@ -47,7 +47,7 @@ struct TimeDisplayView: View {
                     .offset(y:10.5) //11 with wheel label, 4.5 without
                     .padding(.top, 13)
                     .padding(.bottom, 21)
-                    .font(.zenithBeta(size: 38)) //36 b4 adjustment
+                    .font(.zenithBeta(size: 38, weight: .medium)) //36 b4 adjustment
                     .scaleEffect(x:1, y:1)
                     .foregroundColor(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : .white)
             }
