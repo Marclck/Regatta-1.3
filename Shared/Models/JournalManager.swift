@@ -30,6 +30,16 @@ struct RaceSession: Codable {
         let milliseconds = Int((duration.truncatingRemainder(dividingBy: 1)) * 100)
         return String(format: "%02d:%02d.%02d", minutes, seconds, milliseconds)
     }
+    
+    private var formattedLastFinishTime: String {
+        guard let lastSession = JournalManager.shared.allSessions.last,
+              let duration = lastSession.raceDuration else {
+            return "--:--"
+        }
+        let minutes = Int(duration) / 60
+        let seconds = Int(duration) % 60
+        return String(format: "%02d:%02d", minutes, seconds)
+    }
 }
 
 class JournalManager: ObservableObject {

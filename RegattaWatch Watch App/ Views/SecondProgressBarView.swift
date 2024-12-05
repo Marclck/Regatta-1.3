@@ -1,0 +1,47 @@
+//
+//  SecondProgressBarView.swift
+//  RegattaWatch Watch App
+//
+//  Created by Chikai Lai on 01/12/2024.
+//
+
+import Foundation
+import SwiftUI
+
+struct SecondProgressBarView: View {
+    @State private var currentSecond: Double = 0
+    @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
+    
+    var body: some View {
+        GeometryReader { geometry in
+            let frame = geometry.frame(in: .global)
+            let barWidth = frame.width
+            let barHeight = frame.height
+            
+            ZStack {
+                // Background track - wrapping around screen edges
+                RoundedRectangle(cornerRadius: 55)
+                    .stroke(Color.blue.opacity(0.3), lineWidth: 25)
+                    .frame(width: barWidth, height: barHeight)
+                    .position(x: frame.midX, y: frame.midY)
+                
+                // Progress fill for seconds
+                RoundedRectangle(cornerRadius: 55)
+                    .trim(from: 0, to: currentSecond/60)
+                    .stroke(
+                        Color.cyan,
+                        style: StrokeStyle(lineWidth: 25, lineCap: .butt)
+                    )
+                    .frame(width: barHeight, height: barWidth)
+                    .position(x: frame.midX, y: frame.midY)
+                    .rotationEffect(.degrees(-90))  // Align trim start to top
+                
+            }
+        }
+        .ignoresSafeArea()
+        .onReceive(timer) { _ in
+            let components = Calendar.current.dateComponents([.second, .nanosecond], from: Date())
+            currentSecond = Double(components.second!) + Double(components.nanosecond!) / 1_000_000_000
+        }
+    }
+}

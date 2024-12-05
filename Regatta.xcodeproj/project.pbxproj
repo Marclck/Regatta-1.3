@@ -46,6 +46,9 @@
 		1D69FF072CE96A32001C178A /* CurrentTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FF062CE96A32001C178A /* CurrentTimeView.swift */; };
 		1D69FF092CE96A3B001C178A /* TimeDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FF082CE96A3B001C178A /* TimeDisplayView.swift */; };
 		1D69FF0B2CE96A44001C178A /* ButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D69FF0A2CE96A44001C178A /* ButtonsView.swift */; };
+		1D768D732CFD1AA800DB4EE5 /* WatchFaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D722CFD1AA800DB4EE5 /* WatchFaceView.swift */; };
+		1D768D752CFD1AE800DB4EE5 /* SecondProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D742CFD1AE800DB4EE5 /* SecondProgressBarView.swift */; };
+		1D768D772CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D762CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift */; };
 		1D9778692CF67949007D861B /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B3272CF5454F00A8CC30 /* FontManager.swift */; };
 		1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */; };
 		1DBD85D82CEFE8290028E391 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D72CEFE8290028E391 /* HapticManager.swift */; };
@@ -182,6 +185,9 @@
 		1D69FF062CE96A32001C178A /* CurrentTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrentTimeView.swift; sourceTree = "<group>"; };
 		1D69FF082CE96A3B001C178A /* TimeDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeDisplayView.swift; sourceTree = "<group>"; };
 		1D69FF0A2CE96A44001C178A /* ButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsView.swift; sourceTree = "<group>"; };
+		1D768D722CFD1AA800DB4EE5 /* WatchFaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFaceView.swift; sourceTree = "<group>"; };
+		1D768D742CFD1AE800DB4EE5 /* SecondProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondProgressBarView.swift; sourceTree = "<group>"; };
+		1D768D762CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDisplayAsCurrentTimeView.swift; sourceTree = "<group>"; };
 		1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastMinuteSeparatorView.swift; sourceTree = "<group>"; };
 		1DBD85D72CEFE8290028E391 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		1DBD85DD2CF133510028E391 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -447,6 +453,9 @@
 				1D69FF0A2CE96A44001C178A /* ButtonsView.swift */,
 				1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */,
 				1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */,
+				1D768D722CFD1AA800DB4EE5 /* WatchFaceView.swift */,
+				1D768D742CFD1AE800DB4EE5 /* SecondProgressBarView.swift */,
+				1D768D762CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift */,
 			);
 			path = " Views";
 			sourceTree = "<group>";
@@ -783,13 +792,16 @@
 				1DD9DBD82CF6844E00D1E608 /* LineChartManager.swift in Sources */,
 				1DE3D0692CF3052A00B4056F /* StartCountdownIntent.swift in Sources */,
 				1DBD85E22CF142A50028E391 /* PersistentTimerManager.swift in Sources */,
+				1D768D772CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift in Sources */,
 				1D69FF0B2CE96A44001C178A /* ButtonsView.swift in Sources */,
+				1D768D732CFD1AA800DB4EE5 /* WatchFaceView.swift in Sources */,
 				1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */,
 				1DD528492CEBED22005FFEA2 /* TimerMode.swift in Sources */,
 				1D69FF092CE96A3B001C178A /* TimeDisplayView.swift in Sources */,
 				1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */,
 				1D69FEC82CE967F7001C178A /* ContentView.swift in Sources */,
 				1D69FF072CE96A32001C178A /* CurrentTimeView.swift in Sources */,
+				1D768D752CFD1AE800DB4EE5 /* SecondProgressBarView.swift in Sources */,
 				1D69FF052CE96A26001C178A /* ProgressBarView.swift in Sources */,
 				1DC4B3292CF5454F00A8CC30 /* FontManager.swift in Sources */,
 				1DBD85D82CEFE8290028E391 /* HapticManager.swift in Sources */,

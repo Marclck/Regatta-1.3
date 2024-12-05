@@ -32,14 +32,14 @@ struct TimeDisplayView: View {
                 .offset(y:6)
                 .labelsHidden()
                 .pickerStyle(.wheel)
-                .frame(width: 150, height: 60) //140 by 75
+                .frame(width: 150, height: 80) //140 by 75
                 .scaleEffect(x:1, y:1)
                 .padding(.horizontal, 5)
                 .focused($FocusState)
                 .overlay(alignment: .bottom) {
                     RoundedRectangle(cornerRadius: 12.5).stroke(lineWidth: 2.1)
                         .offset(y:5)
-                        .frame(width: 149.5, height: 58)
+                        .frame(width: 149.5, height: 78)
                         .foregroundColor(FocusState ? .cyan : .clear)
                 }
             } else {

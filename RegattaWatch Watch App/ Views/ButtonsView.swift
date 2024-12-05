@@ -38,14 +38,14 @@ struct ButtonsView: View {
                 }
             }) {
                 Image(systemName: leftButtonIcon)
-                    .font(.system(size: 24, weight: .bold))
+                    .font(.system(size: 24))
                     .fontWeight(.heavy)
                     .symbolVariant(.fill)
-                    .foregroundColor(.white)
+                    .foregroundColor(leftButtonIcon == "xmark" ? .orange : .white)
                     .frame(width: 65, height: 50)
                     .background(
                         RoundedRectangle(cornerRadius: 40)
-                            .fill(Color.gray.opacity(0.3))
+                            .fill(leftButtonIcon == "xmark" ? Color.orange.opacity(0.4) : Color.gray.opacity(0.4))
                     )
                 // Remove any additional backgrounds/shadows by clipping
                 .clipShape(RoundedRectangle(cornerRadius: 15))
@@ -63,7 +63,7 @@ struct ButtonsView: View {
                   }
             }) {
                 Image(systemName: rightButtonIcon)
-                    .font(.system(size: 24, weight: .bold))
+                    .font(.system(size: 24))
                     .fontWeight(.heavy)
                     .symbolVariant(.fill)
                     .foregroundColor(buttonForegroundColor)
@@ -81,7 +81,7 @@ struct ButtonsView: View {
     
     private var buttonForegroundColor: Color {
         if timerState.mode == .countdown && timerState.currentTime <= 60 {
-            return Color.orange
+            return Color.blue
         } else {
             return Color.blue
         }
@@ -89,9 +89,9 @@ struct ButtonsView: View {
     
     private var buttonColor: Color {
         if timerState.mode == .countdown && timerState.currentTime <= 60 {
-            return Color.orange.opacity(0.3)
+            return Color.blue.opacity(0.4)
         } else {
-            return Color.blue.opacity(0.3)
+            return Color.blue.opacity(0.4)
         }
     }
     
