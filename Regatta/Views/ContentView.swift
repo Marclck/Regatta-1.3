@@ -9,18 +9,29 @@ import SwiftUI
 
 struct ContentView: View {
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
+    @EnvironmentObject var colorManager: ColorManager
+
 
     var body: some View {
         TabView {
             MainInfoView()
+                .environmentObject(colorManager)  // Add explicitly
                 .tabItem {
                     Label("Timer", systemImage: "timer.circle.fill")
                 }
 
             // Journal Tab
             JournalView()
+                .environmentObject(colorManager)  // Add explicitly
                 .tabItem {
                     Label("Journal", systemImage: "book.closed.circle.fill")
+                }
+            
+            // settings
+            SettingsView()
+                .environmentObject(colorManager)  // Add explicitly
+                .tabItem {
+                    Label("Settings", systemImage: "gear.circle.fill")
                 }
         }
     }
@@ -105,6 +116,8 @@ struct MainInfoView: View {
 // Preview
 #Preview {
     ContentView()
+        .environmentObject(ColorManager())
+
 }
 
 //struct ContentView: View {

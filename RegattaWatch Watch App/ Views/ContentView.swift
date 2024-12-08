@@ -28,7 +28,7 @@ struct ContentView: View {
     var body: some View {
         ZStack {
             if showingWatchFace {
-                WatchFaceView(timerState: timerState)
+                AltRaceView(timerState: timerState)
             } else {
                 TimerView(timerState: timerState)
             }

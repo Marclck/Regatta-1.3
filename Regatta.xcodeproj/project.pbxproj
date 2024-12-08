@@ -14,10 +14,16 @@
 		1D04D3362CF3DD91006A9B82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D04D3352CF3DD91006A9B82 /* Assets.xcassets */; };
 		1D04D33A2CF3DD91006A9B82 /* RegattaWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1D04D32D2CF3DD90006A9B82 /* RegattaWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1D2F22652CFC91B500AE4D71 /* JournalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E481A2CFBC79C004813A4 /* JournalManager.swift */; };
+		1D3DC5692D0280D600252F1F /* AltRaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DC5682D0280D600252F1F /* AltRaceView.swift */; };
 		1D412E062D02442A0062C639 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E052D02442A0062C639 /* ColorManager.swift */; };
 		1D412E072D02442A0062C639 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E052D02442A0062C639 /* ColorManager.swift */; };
 		1D412E082D02442A0062C639 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E052D02442A0062C639 /* ColorManager.swift */; };
 		1D412E092D02442A0062C639 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E052D02442A0062C639 /* ColorManager.swift */; };
+		1D412E152D025A2C0062C639 /* ColorThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E142D025A2C0062C639 /* ColorThemeView.swift */; };
+		1D412E162D025A2C0062C639 /* ColorThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E142D025A2C0062C639 /* ColorThemeView.swift */; };
+		1D412E172D025A2C0062C639 /* ColorThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E142D025A2C0062C639 /* ColorThemeView.swift */; };
+		1D412E182D025A2C0062C639 /* ColorThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E142D025A2C0062C639 /* ColorThemeView.swift */; };
+		1D412E1A2D025A430062C639 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E192D025A430062C639 /* SettingsView.swift */; };
 		1D5E48192CFBC519004813A4 /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E48182CFBC519004813A4 /* JournalView.swift */; };
 		1D5E481C2CFBC907004813A4 /* JournalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E481A2CFBC79C004813A4 /* JournalManager.swift */; };
 		1D5E481D2CFBC909004813A4 /* JournalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E481A2CFBC79C004813A4 /* JournalManager.swift */; };
@@ -152,7 +158,10 @@
 		1D04D3352CF3DD91006A9B82 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1D04D3372CF3DD91006A9B82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D0B5B492CED2E2000DC4BE5 /* RegattaWatch Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RegattaWatch Watch App.entitlements"; sourceTree = "<group>"; };
+		1D3DC5682D0280D600252F1F /* AltRaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltRaceView.swift; sourceTree = "<group>"; };
 		1D412E052D02442A0062C639 /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
+		1D412E142D025A2C0062C639 /* ColorThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorThemeView.swift; sourceTree = "<group>"; };
+		1D412E192D025A430062C639 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1D5E48182CFBC519004813A4 /* JournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalView.swift; sourceTree = "<group>"; };
 		1D5E481A2CFBC79C004813A4 /* JournalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalManager.swift; sourceTree = "<group>"; };
 		1D5E48222CFC5DD7004813A4 /* iOSSessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSSessionStore.swift; sourceTree = "<group>"; };
@@ -444,6 +453,8 @@
 				1D69FF002CE969E5001C178A /* TimeDisplayView.swift */,
 				1D69FF022CE969EF001C178A /* ButtonsView.swift */,
 				1D5E48182CFBC519004813A4 /* JournalView.swift */,
+				1D412E142D025A2C0062C639 /* ColorThemeView.swift */,
+				1D412E192D025A430062C639 /* SettingsView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -462,6 +473,7 @@
 				1D768D722CFD1AA800DB4EE5 /* WatchFaceView.swift */,
 				1D768D742CFD1AE800DB4EE5 /* SecondProgressBarView.swift */,
 				1D768D762CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift */,
+				1D3DC5682D0280D600252F1F /* AltRaceView.swift */,
 			);
 			path = " Views";
 			sourceTree = "<group>";
@@ -742,6 +754,7 @@
 				1D04D3322CF3DD90006A9B82 /* RegattaWidgetExtension.swift in Sources */,
 				1D04D3342CF3DD90006A9B82 /* AppIntent.swift in Sources */,
 				1D9778692CF67949007D861B /* FontManager.swift in Sources */,
+				1D412E182D025A2C0062C639 /* ColorThemeView.swift in Sources */,
 				1DD9DBD92CF6844F00D1E608 /* LineChartManager.swift in Sources */,
 				1DC4B32E2CF676B900A8CC30 /* SharedDefaults.swift in Sources */,
 				1D5E481D2CFBC909004813A4 /* JournalManager.swift in Sources */,
@@ -757,6 +770,7 @@
 				1D69FF012CE969E5001C178A /* TimeDisplayView.swift in Sources */,
 				1DC4B32B2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */,
 				1D69FF032CE969EF001C178A /* ButtonsView.swift in Sources */,
+				1D412E1A2D025A430062C639 /* SettingsView.swift in Sources */,
 				1D69FE962CE967AA001C178A /* ContentView.swift in Sources */,
 				1D69FEF72CE968B5001C178A /* TimerState.swift in Sources */,
 				1D5E48192CFBC519004813A4 /* JournalView.swift in Sources */,
@@ -768,6 +782,7 @@
 				1D69FE942CE967AA001C178A /* RegattaApp.swift in Sources */,
 				1DC4B3282CF5454F00A8CC30 /* FontManager.swift in Sources */,
 				1D412E062D02442A0062C639 /* ColorManager.swift in Sources */,
+				1D412E152D025A2C0062C639 /* ColorThemeView.swift in Sources */,
 				1D5E48232CFC5DD7004813A4 /* iOSSessionStore.swift in Sources */,
 				1D69FEFD2CE969CE001C178A /* ProgressBarView.swift in Sources */,
 			);
@@ -779,6 +794,7 @@
 			files = (
 				1DD9DBD52CF683EE00D1E608 /* LineChartManager.swift in Sources */,
 				1D412E072D02442A0062C639 /* ColorManager.swift in Sources */,
+				1D412E162D025A2C0062C639 /* ColorThemeView.swift in Sources */,
 				1D2F22652CFC91B500AE4D71 /* JournalManager.swift in Sources */,
 				1D69FEA72CE967AB001C178A /* RegattaTests.swift in Sources */,
 				1DD9DBD12CF680B800D1E608 /* SharedDefaults.swift in Sources */,
@@ -805,6 +821,7 @@
 				1D69FF0B2CE96A44001C178A /* ButtonsView.swift in Sources */,
 				1D768D732CFD1AA800DB4EE5 /* WatchFaceView.swift in Sources */,
 				1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */,
+				1D412E172D025A2C0062C639 /* ColorThemeView.swift in Sources */,
 				1DD528492CEBED22005FFEA2 /* TimerMode.swift in Sources */,
 				1D69FF092CE96A3B001C178A /* TimeDisplayView.swift in Sources */,
 				1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */,
@@ -816,6 +833,7 @@
 				1D412E082D02442A0062C639 /* ColorManager.swift in Sources */,
 				1DBD85D82CEFE8290028E391 /* HapticManager.swift in Sources */,
 				1DD528452CEBEBE7005FFEA2 /* SeparatorOverlay.swift in Sources */,
+				1D3DC5692D0280D600252F1F /* AltRaceView.swift in Sources */,
 				1D69FEC62CE967F7001C178A /* RegattaWatchApp.swift in Sources */,
 				1DC4B32C2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */,
 				1DE3D0672CF2FCAD00B4056F /* WatchNotificationManager.swift in Sources */,
@@ -1083,7 +1101,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = heart.Regatta.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = heart.Regatta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -1115,7 +1133,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = heart.Regatta.watchkitapp;
+				PRODUCT_BUNDLE_IDENTIFIER = heart.Regatta;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

@@ -15,6 +15,7 @@ import WatchConnectivity
 
 enum ColorTheme: String, CaseIterable, Codable {
     case cambridgeBlue = "A3C1AD"
+    case ultraBlue = "00FFFF"    // Adding cyan as Ultra Blue
     case maritimeBlue = "003399"
     case spinnakerRed = "E63946"
     case deepSeaTeal = "006D77"
@@ -24,6 +25,7 @@ enum ColorTheme: String, CaseIterable, Codable {
     var name: String {
         switch self {
         case .cambridgeBlue: return "Cambridge Blue"
+        case .ultraBlue: return "Ultra Blue"    // Add this case
         case .maritimeBlue: return "Maritime Blue"
         case .spinnakerRed: return "Spinnaker Red"
         case .deepSeaTeal: return "Deep Sea Teal"

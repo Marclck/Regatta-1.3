@@ -81,9 +81,9 @@ struct ButtonsView: View {
     
     private var buttonForegroundColor: Color {
         if timerState.mode == .countdown && timerState.currentTime <= 60 {
-            return Color.blue
+            return Color.cyan
         } else {
-            return Color.blue
+            return Color.cyan
         }
     }
     
