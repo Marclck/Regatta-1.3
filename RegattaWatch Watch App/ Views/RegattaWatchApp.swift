@@ -15,11 +15,14 @@ struct WatchRegattaApp: App {
         WatchNotificationManager.shared.setupDelegate()
     }
   
+    @StateObject private var colorManager = ColorManager()
+    @StateObject private var settings = AppSettings()
     
     var body: some Scene {
         WindowGroup {
             ContentView()
-
+                .environmentObject(colorManager)
+                .environmentObject(settings)
         }
     }
 }

@@ -11,6 +11,8 @@ import WatchKit
 
 struct WatchFaceView: View {
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
+    @EnvironmentObject var settings: AppSettings
+
     @ObservedObject var timerState: WatchTimerState
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
     @State private var currentTime = Date()
@@ -29,7 +31,7 @@ struct WatchFaceView: View {
                     SecondProgressBarView()
                     
                     
-                    Text("Ultra")
+                    Text(settings.teamName)
                         .font(.system(size: 14, weight: .bold)) //36 b4 adjustment
                         .rotationEffect(.degrees(270), anchor: .center)
                         .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.8)) // see how the code is referenced.
@@ -52,18 +54,18 @@ struct WatchFaceView: View {
                         VStack(spacing: -10) {  // Adjust spacing as needed
                            // Hours
                            Text(hourString(from: currentTime))
-                               .scaleEffect(x:1, y:0.9)
+                               .scaleEffect(x:1, y:1)
                                .foregroundColor(.white)
-                               .offset(y:isLuminanceReduced ? 21 : 6) //16/7
+                               .offset(y:isLuminanceReduced ? 15 : 6) //16/7
                            
                            // Minutes
                            Text(minuteString(from: currentTime))
-                               .scaleEffect(x:1, y:0.9)
+                               .scaleEffect(x:1, y:1)
                                .foregroundColor(isLuminanceReduced ? .cyan : .white)
-                               .offset(y:isLuminanceReduced ? -33 : -22) //-30/-23
+                               .offset(y:isLuminanceReduced ? -28 : -14) //-30/-23
                         }
-                        .font(.zenithBeta(size: 90, weight: .medium))
-                            .scaleEffect(x:1, y:0.9)
+                        .font(.zenithBeta(size: 80, weight: .medium))
+                            .scaleEffect(x:1, y:1.1)
                             .foregroundColor(.white)
                             .frame(width: 150, height: 60)
                             .position(x: geometry.size.width/2, y: centerY/2+10)
@@ -89,10 +91,10 @@ struct WatchFaceView: View {
                         }
                         .frame(width: 180, height: 40)  // Extended width to accommodate text
                         .padding(.bottom, 0)
-                        .offset(y:60) //25
+                        .offset(y:62) //25
                         
                         
-                        Text("Ultra")
+                        Text(settings.teamName)
                             .font(.system(size: 14, weight: .bold)) //36 b4 adjustment
                             .rotationEffect(.degrees(270), anchor: .center)
                             .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(1)) // see how the code is referenced.
@@ -148,8 +150,12 @@ struct ContentView_Previews: PreviewProvider {
         Group {
             ContentView()
                 .environment(\.isLuminanceReduced, true)
+                .environmentObject(ColorManager())
+                .environmentObject(AppSettings())
             ContentView()
                 .environment(\.isLuminanceReduced, false)
+                .environmentObject(ColorManager())
+                .environmentObject(AppSettings())
         }
     }
 }

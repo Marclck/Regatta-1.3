@@ -22,13 +22,28 @@ struct OverlayPlayerForTimeRemove: View {
 }
 
 struct ContentView: View {
+    
+    @State private var showSettings = false
+    @EnvironmentObject var colorManager: ColorManager
+    @EnvironmentObject var settings: AppSettings
+    @State private var refreshToggle = false  // Add at top with other state variables
+    private let impactGenerator = WKHapticType.click
+
+    @State private var viewID = UUID()
+    @State private var lastTeamName = ""
+    @State private var lastRaceInfoState = false
+    
     @StateObject private var timerState = WatchTimerState()
     @State private var showingWatchFace = false
     
     var body: some View {
         ZStack {
             if showingWatchFace {
-                AltRaceView(timerState: timerState)
+                if settings.showRaceInfo {
+                    WatchFaceView(timerState: timerState)
+                } else {
+                    AltRaceView(timerState: timerState)
+                }
             } else {
                 TimerView(timerState: timerState)
             }
@@ -42,14 +57,52 @@ struct ContentView: View {
                     .position(x: geometry.size.width/2, y: geometry.size.height/2 - 90)
                     .onTapGesture {
                         print("!! watchface toggled")
+                        WKInterfaceDevice.current().play(impactGenerator)
+
                         withAnimation {
                             showingWatchFace.toggle()
                         }
                     }
             }
         }
+        .id(viewID) // Force entire view refresh
+        .onChange(of: settings.teamName) { _, newValue in
+            if lastTeamName != newValue {
+                viewID = UUID()
+                lastTeamName = newValue
+            }
+        }
+        .onChange(of: settings.showRaceInfo) { _, newValue in
+            if lastRaceInfoState != newValue {
+                viewID = UUID()
+                lastRaceInfoState = newValue
+            }
+        }
+        .onAppear {
+            lastTeamName = settings.teamName
+            lastRaceInfoState = settings.showRaceInfo
+        }
+        
+        .sheet(isPresented: $showSettings, onDismiss: {
+            // Force view refresh
+            withAnimation {
+                refreshToggle.toggle()
+            }
+        }) {
+            SettingsView(showSettings: $showSettings)
+        }
+
+        .gesture(
+            LongPressGesture(minimumDuration: 1.0)
+                .onEnded { _ in
+                    WKInterfaceDevice.current().play(.notification)
+
+                    showSettings = true
+                }
+        )
     }
 }
+
     
 struct TimerView: View {
     @ObservedObject var timerState: WatchTimerState
@@ -103,4 +156,6 @@ struct TimerView: View {
 
 #Preview {
     ContentView()
+        .environmentObject(ColorManager())
+        .environmentObject(AppSettings())
 }

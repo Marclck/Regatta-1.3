@@ -11,6 +11,8 @@ import WatchKit
 
 struct AltRaceView: View {
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
+    @EnvironmentObject var settings: AppSettings
+
     @ObservedObject var timerState: WatchTimerState
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
     @State private var currentTime = Date()
@@ -28,7 +30,7 @@ struct AltRaceView: View {
                     // Progress bar showing seconds
                     SecondProgressBarView()
                     
-                    Text("Ultra")
+                    Text(settings.teamName)
                         .font(.system(size: 14, weight: .bold)) //36 b4 adjustment
                         .rotationEffect(.degrees(270), anchor: .center)
                         .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(1)) // see how the code is referenced.
@@ -55,17 +57,17 @@ struct AltRaceView: View {
                            Text(hourString(from: currentTime))
                                .scaleEffect(x:1, y:0.9) //y0.9
                                .foregroundColor(.white)
-                               .offset(y:isLuminanceReduced ? 24 : 10) //16/7=regular; 22=medium
+                               .offset(y:isLuminanceReduced ? 16 : 4) //16/7=regular; 22=medium
                            
                            // Minutes
                            Text(minuteString(from: currentTime))
                                 .scaleEffect(x:1, y:0.9) //y0.9
                                .foregroundColor(isLuminanceReduced ? .cyan : .white)
-                               .offset(y:isLuminanceReduced ? -35 : -22) //-30/-23 = regular; 31=medium
+                               .offset(y:isLuminanceReduced ? -34 : -24) //-30/-23 = regular; 31=medium
                            
                             
                         }
-                        .font(.zenithBeta(size: 90, weight: .semibold))
+                        .font(.zenithBeta(size: 84, weight: .medium))
                         .scaleEffect(x:1, y:1.3) //y1.2
                             .foregroundColor(.white)
                             .frame(width: 150, height: 60)
@@ -83,6 +85,10 @@ struct AltRaceView: View {
                     timerState.updateTimer()
                 }
             }
+        }
+        .onDisappear {
+            timer.upstream.connect().cancel()
+            timeTimer.upstream.connect().cancel()
         }
     }
         private func timeString(from date: Date) -> String {
@@ -136,8 +142,12 @@ struct ContentView_Previews2: PreviewProvider {
         Group {
             ContentView()
                 .environment(\.isLuminanceReduced, true)
+                .environmentObject(ColorManager())
+                .environmentObject(AppSettings())
             ContentView()
                 .environment(\.isLuminanceReduced, false)
+                .environmentObject(ColorManager())
+                .environmentObject(AppSettings())
         }
     }
 }
