@@ -14,21 +14,23 @@ import WatchConnectivity
 #endif
 
 enum ColorTheme: String, CaseIterable, Codable {
-    case cambridgeBlue = "A3C1AD"
-    case ultraBlue = "00FFFF"    // Adding cyan as Ultra Blue
-    case maritimeBlue = "003399"
-    case spinnakerRed = "E63946"
-    case deepSeaTeal = "006D77"
+    case cambridgeBlue = "A0C1AB"
+    case ultraBlue = "47BBFC"    // Adding cyan as Ultra Blue
+    case brittanBlue = "#8FCB5A"
+    case maritimeBlue = "47CDFF"
+    case racingRed = "C9293E"
+    case kiwiBlue = "01EAF8"
     case signalOrange = "FF4D00"
-    case marineYellow = "FFD700"
+    case marineYellow = "F6A726"
     
     var name: String {
         switch self {
         case .cambridgeBlue: return "Cambridge Blue"
         case .ultraBlue: return "Ultra Blue"    // Add this case
+        case .brittanBlue: return "Brittan Blue"
         case .maritimeBlue: return "Maritime Blue"
-        case .spinnakerRed: return "Spinnaker Red"
-        case .deepSeaTeal: return "Deep Sea Teal"
+        case .racingRed: return "Racing Red"
+        case .kiwiBlue: return "Kiwi Blue"
         case .signalOrange: return "Signal Orange"
         case .marineYellow: return "Marine Yellow"
         }
@@ -36,6 +38,17 @@ enum ColorTheme: String, CaseIterable, Codable {
 }
 
 class ColorManager: NSObject, ObservableObject {
+    static let sharedDefaults = UserDefaults(suiteName: "group.heart.Regatta")!
+    
+    // Add this static method to get color from any extension
+    static func getCurrentThemeColor() -> Color {
+        if let savedTheme = sharedDefaults.string(forKey: "selectedTheme"),
+           let theme = ColorTheme(rawValue: savedTheme) {
+            return Color(hex: theme.rawValue)
+        }
+        return Color(hex: ColorTheme.cambridgeBlue.rawValue)
+    }
+    
     @Published var selectedTheme: ColorTheme {
         didSet {
             saveTheme()
@@ -48,7 +61,8 @@ class ColorManager: NSObject, ObservableObject {
     private let themeKey = "selectedTheme"
     
     override init() {
-        if let savedTheme = UserDefaults.standard.string(forKey: "selectedTheme"),
+        // Update this to use shared defaults
+        if let savedTheme = ColorManager.sharedDefaults.string(forKey: themeKey),
            let theme = ColorTheme(rawValue: savedTheme) {
             self.selectedTheme = theme
         } else {
@@ -63,7 +77,7 @@ class ColorManager: NSObject, ObservableObject {
     }
     
     private func saveTheme() {
-        UserDefaults.standard.set(selectedTheme.rawValue, forKey: themeKey)
+        ColorManager.sharedDefaults.set(selectedTheme.rawValue, forKey: themeKey)
     }
     
     #if os(iOS)

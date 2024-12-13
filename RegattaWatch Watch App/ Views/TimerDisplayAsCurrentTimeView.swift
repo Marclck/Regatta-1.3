@@ -11,6 +11,8 @@ import WatchKit
 
 struct TimerDisplayAsCurrentTime: View {
     @ObservedObject var timerState: WatchTimerState
+    @EnvironmentObject var colorManager: ColorManager
+
     
     var body: some View {
         Text(displayText)
@@ -35,7 +37,7 @@ struct TimerDisplayAsCurrentTime: View {
     
     private var backgroundColor: Color {
         timerState.mode == .countdown && timerState.currentTime <= 60
-            ? Color.orange.opacity(0.9)
-            : Color.cyan.opacity(0.9)
+            ? Color.orange.opacity(1)
+            : Color(hex: colorManager.selectedTheme.rawValue).opacity(1)
     }
 }

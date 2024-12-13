@@ -10,6 +10,8 @@ import SwiftUI
 
 struct ButtonsView: View {
     @ObservedObject var timerState: WatchTimerState
+    @EnvironmentObject var colorManager: ColorManager
+
     
     var body: some View {
         
@@ -81,17 +83,17 @@ struct ButtonsView: View {
     
     private var buttonForegroundColor: Color {
         if timerState.mode == .countdown && timerState.currentTime <= 60 {
-            return Color.cyan
+            return Color(hex: colorManager.selectedTheme.rawValue)
         } else {
-            return Color.cyan
+            return Color(hex: colorManager.selectedTheme.rawValue)
         }
     }
     
     private var buttonColor: Color {
         if timerState.mode == .countdown && timerState.currentTime <= 60 {
-            return Color.blue.opacity(0.4)
+            return Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4)
         } else {
-            return Color.blue.opacity(0.4)
+            return Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4)
         }
     }
     

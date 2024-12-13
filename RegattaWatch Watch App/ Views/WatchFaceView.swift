@@ -12,6 +12,8 @@ import WatchKit
 struct WatchFaceView: View {
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
     @EnvironmentObject var settings: AppSettings
+    @EnvironmentObject var colorManager: ColorManager
+
 
     @ObservedObject var timerState: WatchTimerState
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
@@ -56,13 +58,13 @@ struct WatchFaceView: View {
                            Text(hourString(from: currentTime))
                                .scaleEffect(x:1, y:1)
                                .foregroundColor(.white)
-                               .offset(y:isLuminanceReduced ? 15 : 6) //16/7
+                               .offset(y:isLuminanceReduced ? 17 : 8) //16/7
                            
                            // Minutes
                            Text(minuteString(from: currentTime))
                                .scaleEffect(x:1, y:1)
-                               .foregroundColor(isLuminanceReduced ? .cyan : .white)
-                               .offset(y:isLuminanceReduced ? -28 : -14) //-30/-23
+                               .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : .white)
+                               .offset(y:isLuminanceReduced ? -26 : -14) //-30/-23
                         }
                         .font(.zenithBeta(size: 80, weight: .medium))
                             .scaleEffect(x:1, y:1.1)
@@ -91,7 +93,7 @@ struct WatchFaceView: View {
                         }
                         .frame(width: 180, height: 40)  // Extended width to accommodate text
                         .padding(.bottom, 0)
-                        .offset(y:62) //25
+                        .offset(y:64) //25
                         
                         
                         Text(settings.teamName)

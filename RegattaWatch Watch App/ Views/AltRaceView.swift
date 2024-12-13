@@ -12,6 +12,8 @@ import WatchKit
 struct AltRaceView: View {
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
     @EnvironmentObject var settings: AppSettings
+    @EnvironmentObject var colorManager: ColorManager
+
 
     @ObservedObject var timerState: WatchTimerState
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
@@ -57,13 +59,13 @@ struct AltRaceView: View {
                            Text(hourString(from: currentTime))
                                .scaleEffect(x:1, y:0.9) //y0.9
                                .foregroundColor(.white)
-                               .offset(y:isLuminanceReduced ? 16 : 4) //16/7=regular; 22=medium
+                               .offset(y:isLuminanceReduced ? 13 : 4) //16/7=regular; 22=medium
                            
                            // Minutes
                            Text(minuteString(from: currentTime))
                                 .scaleEffect(x:1, y:0.9) //y0.9
-                               .foregroundColor(isLuminanceReduced ? .cyan : .white)
-                               .offset(y:isLuminanceReduced ? -34 : -24) //-30/-23 = regular; 31=medium
+                               .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : .white)
+                               .offset(y:isLuminanceReduced ? -37 : -24) //-30/-23 = regular; 31=medium
                            
                             
                         }

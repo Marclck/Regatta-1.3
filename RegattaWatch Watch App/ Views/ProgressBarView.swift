@@ -10,6 +10,8 @@ import SwiftUI
 
 struct WatchProgressBarView: View {
     @ObservedObject var timerState: WatchTimerState
+    @EnvironmentObject var colorManager: ColorManager
+
     
     var body: some View {
         GeometryReader { geometry in
@@ -29,7 +31,7 @@ struct WatchProgressBarView: View {
                 RoundedRectangle(cornerRadius: 55)
                     .trim(from: 0, to: timerState.progress)
                     .stroke(
-                        Color(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : .cyan),
+                        Color(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : Color(hex: colorManager.selectedTheme.rawValue)),
                         style: StrokeStyle(lineWidth: 25, lineCap: .butt)
                     )
                     .frame(width: barHeight, height: barWidth)

@@ -95,7 +95,7 @@ struct ContentView: View {
         .gesture(
             LongPressGesture(minimumDuration: 1.0)
                 .onEnded { _ in
-                    WKInterfaceDevice.current().play(.notification)
+                    WKInterfaceDevice.current().play(impactGenerator)
 
                     showSettings = true
                 }

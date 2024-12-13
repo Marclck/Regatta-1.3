@@ -102,9 +102,9 @@ struct SettingsView: View {
                         Section {
                             TextField("Team Name", text: $settings.teamName)
                                 .onChange(of: settings.teamName) { _, newValue in
-                                    settings.teamName = String(newValue.prefix(9))
+                                    settings.teamName = String(newValue.prefix(14))
                                 }
-                            Text("\(9 - settings.teamName.count) characters remaining")
+                            Text("\(14 - settings.teamName.count) characters remaining")
                                 .font(.caption2)
                         }
                         
@@ -118,6 +118,8 @@ struct SettingsView: View {
                 
                 // Race Info Toggle
                 Toggle("Race Info", isOn: $settings.showRaceInfo)
+                Text("Restart the app for the changes to take effect. Double press digital crown and swipe left to close the app.")
+                    .font(.caption2)
             }
         }
     }

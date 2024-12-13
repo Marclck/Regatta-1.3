@@ -10,6 +10,8 @@ import SwiftUI
 
 struct CurrentTimeView: View {
     @ObservedObject var timerState: WatchTimerState  // Add this property
+    @EnvironmentObject var colorManager: ColorManager
+
 
     @State private var currentTime = Date()
     let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
@@ -31,8 +33,8 @@ struct CurrentTimeView: View {
                           
     private var backgroundColor: Color {
             timerState.mode == .countdown && timerState.currentTime <= 60
-                ? Color.orange.opacity(0.9)
-                : Color.cyan.opacity(0.9)
+                ? Color.orange.opacity(1)
+                : Color(hex: colorManager.selectedTheme.rawValue).opacity(1)
         }
     
     

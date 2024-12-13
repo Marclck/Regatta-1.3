@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 struct SecondProgressBarView: View {
+    @EnvironmentObject var colorManager: ColorManager
+
     @State private var currentSecond: Double = 0
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
     
@@ -29,7 +31,7 @@ struct SecondProgressBarView: View {
                 RoundedRectangle(cornerRadius: 55)
                     .trim(from: 0, to: currentSecond/60)
                     .stroke(
-                        Color.cyan,
+                        Color(hex: colorManager.selectedTheme.rawValue),
                         style: StrokeStyle(lineWidth: 25, lineCap: .butt)
                     )
                     .frame(width: barHeight, height: barWidth)

@@ -5,7 +5,7 @@
 	<key>WKApplication</key>
 	<true/>
 	<key>WKAppBundleIdentifier</key>
-	<string>heart.Regatta</string>
+	<string>heart.Regatta.watchkitapp</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>StartCountdownIntent</string>

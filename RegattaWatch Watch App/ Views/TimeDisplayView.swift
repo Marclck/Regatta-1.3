@@ -10,6 +10,8 @@ import SwiftUI
 
 struct TimeDisplayView: View {
     @ObservedObject var timerState: WatchTimerState
+    @EnvironmentObject var colorManager: ColorManager
+
     @FocusState var FocusState
     
     var body: some View {
@@ -40,7 +42,7 @@ struct TimeDisplayView: View {
                     RoundedRectangle(cornerRadius: 12.5).stroke(lineWidth: 2.1)
                         .offset(y:5)
                         .frame(width: 149.5, height: 78)
-                        .foregroundColor(FocusState ? .cyan : .clear)
+                        .foregroundColor(FocusState ? Color(hex: colorManager.selectedTheme.rawValue) : .clear)
                 }
             } else {
                 Text(timerState.formattedTime)
