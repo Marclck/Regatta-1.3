@@ -46,7 +46,7 @@ class ColorManager: NSObject, ObservableObject {
            let theme = ColorTheme(rawValue: savedTheme) {
             return Color(hex: theme.rawValue)
         }
-        return Color(hex: ColorTheme.cambridgeBlue.rawValue)
+        return Color(hex: ColorTheme.ultraBlue.rawValue)
     }
     
     @Published var selectedTheme: ColorTheme {

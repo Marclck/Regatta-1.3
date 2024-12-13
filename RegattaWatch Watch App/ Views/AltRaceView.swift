@@ -33,7 +33,7 @@ struct AltRaceView: View {
                     SecondProgressBarView()
                     
                     Text(settings.teamName)
-                        .font(.system(size: 14, weight: .bold)) //36 b4 adjustment
+                        .font(.system(size: 11, weight: .bold)) //14 b4 adjustment
                         .rotationEffect(.degrees(270), anchor: .center)
                         .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(1)) // see how the code is referenced.
                         .position(x: 4, y: centerY/2+55)
@@ -59,13 +59,13 @@ struct AltRaceView: View {
                            Text(hourString(from: currentTime))
                                .scaleEffect(x:1, y:0.9) //y0.9
                                .foregroundColor(.white)
-                               .offset(y:isLuminanceReduced ? 13 : 4) //16/7=regular; 22=medium
+                               .offset(y:isLuminanceReduced ? 10 : 4) //13
                            
                            // Minutes
                            Text(minuteString(from: currentTime))
                                 .scaleEffect(x:1, y:0.9) //y0.9
                                .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : .white)
-                               .offset(y:isLuminanceReduced ? -37 : -24) //-30/-23 = regular; 31=medium
+                               .offset(y:isLuminanceReduced ? -40 : -24) //37
                            
                             
                         }

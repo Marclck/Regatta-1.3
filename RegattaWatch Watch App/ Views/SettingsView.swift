@@ -109,7 +109,7 @@ struct SettingsView: View {
                         }
                         
                         Button("Reset to Default") {
-                            settings.teamName = "Ultra"
+                            settings.teamName = "ULTRA"
                             showTeamNameEdit = false
                         }
                         .foregroundColor(.red)
