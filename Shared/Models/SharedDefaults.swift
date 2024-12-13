@@ -95,4 +95,23 @@ struct SharedDefaults {
         print("📱 SharedDefaults: Retrieved last finish time: \(time) seconds")
         return time
     }
+    
+    static let themeKey = "selectedTheme"
+    
+    static func saveTheme(_ theme: ColorTheme) {
+        shared.set(theme.rawValue, forKey: themeKey)
+        print("📱 SharedDefaults: Saved theme: \(theme.name)")
+        WidgetCenter.shared.reloadAllTimelines()  // Reload widgets when theme changes
+    }
+    
+    static func getTheme() -> ColorTheme {
+        if let savedTheme = shared.string(forKey: themeKey),
+           let theme = ColorTheme(rawValue: savedTheme) {
+            print("📱 SharedDefaults: Retrieved theme: \(theme.name)")
+            return theme
+        }
+        print("📱 SharedDefaults: Using default theme: Cambridge Blue")
+        return .cambridgeBlue
+    }
+    
 }

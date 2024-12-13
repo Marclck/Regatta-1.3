@@ -38,37 +38,30 @@ enum ColorTheme: String, CaseIterable, Codable {
 }
 
 class ColorManager: NSObject, ObservableObject {
-    static let sharedDefaults = UserDefaults(suiteName: "group.heart.Regatta")!
+    // Remove this as we're using SharedDefaults.shared instead
+    // static let sharedDefaults = UserDefaults(suiteName: "group.heart.Regatta")!
     
-    // Add this static method to get color from any extension
+    // Update static method to use SharedDefaults
     static func getCurrentThemeColor() -> Color {
-        if let savedTheme = sharedDefaults.string(forKey: "selectedTheme"),
-           let theme = ColorTheme(rawValue: savedTheme) {
-            return Color(hex: theme.rawValue)
-        }
-        return Color(hex: ColorTheme.ultraBlue.rawValue)
+        let theme = SharedDefaults.getTheme()
+        return Color(hex: theme.rawValue)
     }
     
     @Published var selectedTheme: ColorTheme {
         didSet {
-            saveTheme()
+            SharedDefaults.saveTheme(selectedTheme)
             #if os(iOS)
             sendToWatch()
             #endif
         }
     }
     
-    private let themeKey = "selectedTheme"
+    // Remove this as it's now handled in SharedDefaults
+    // private let themeKey = "selectedTheme"
     
     override init() {
-        // Update this to use shared defaults
-        if let savedTheme = ColorManager.sharedDefaults.string(forKey: themeKey),
-           let theme = ColorTheme(rawValue: savedTheme) {
-            self.selectedTheme = theme
-        } else {
-            self.selectedTheme = .cambridgeBlue
-        }
-        
+        // Update to use SharedDefaults
+        self.selectedTheme = SharedDefaults.getTheme()
         super.init()
         
         #if os(iOS)
@@ -76,32 +69,38 @@ class ColorManager: NSObject, ObservableObject {
         #endif
     }
     
-    private func saveTheme() {
-        ColorManager.sharedDefaults.set(selectedTheme.rawValue, forKey: themeKey)
+#if os(iOS)
+private func setupWatchConnection() {
+    if WCSession.isSupported() {
+        let session = WCSession.default
+        session.delegate = self
+        session.activate()
     }
-    
-    #if os(iOS)
-    private func setupWatchConnection() {
-        if WCSession.isSupported() {
-            let session = WCSession.default
-            session.delegate = self
-            session.activate()
-        }
-    }
-    
-    private func sendToWatch() {
-        guard WCSession.default.isReachable else { return }
-        
-        do {
-            try WCSession.default.updateApplicationContext([
-                "selectedTheme": selectedTheme.rawValue
-            ])
-        } catch {
-            print("Error sending theme to watch: \(error.localizedDescription)")
-        }
-    }
-    #endif
 }
+
+private func sendToWatch() {
+    guard WCSession.default.isReachable else { return }
+    
+    do {
+        try WCSession.default.updateApplicationContext([
+            "selectedTheme": selectedTheme.rawValue
+        ])
+    } catch {
+        print("Error sending theme to watch: \(error.localizedDescription)")
+    }
+}
+#endif
+    
+    // Remove this as it's now handled in SharedDefaults.saveTheme
+    // private func saveTheme() {
+    //     ColorManager.sharedDefaults.set(selectedTheme.rawValue, forKey: themeKey)
+    // }
+    
+    // Rest of the code remains the same...
+}
+
+
+
 
 extension Color {
     init(hex: String) {

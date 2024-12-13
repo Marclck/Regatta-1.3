@@ -18,7 +18,6 @@
 		1D412E062D02442A0062C639 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E052D02442A0062C639 /* ColorManager.swift */; };
 		1D412E072D02442A0062C639 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E052D02442A0062C639 /* ColorManager.swift */; };
 		1D412E082D02442A0062C639 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E052D02442A0062C639 /* ColorManager.swift */; };
-		1D412E092D02442A0062C639 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E052D02442A0062C639 /* ColorManager.swift */; };
 		1D412E152D025A2C0062C639 /* ColorThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E142D025A2C0062C639 /* ColorThemeView.swift */; };
 		1D412E162D025A2C0062C639 /* ColorThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E142D025A2C0062C639 /* ColorThemeView.swift */; };
 		1D412E172D025A2C0062C639 /* ColorThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E142D025A2C0062C639 /* ColorThemeView.swift */; };
@@ -59,6 +58,7 @@
 		1D768D732CFD1AA800DB4EE5 /* WatchFaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D722CFD1AA800DB4EE5 /* WatchFaceView.swift */; };
 		1D768D752CFD1AE800DB4EE5 /* SecondProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D742CFD1AE800DB4EE5 /* SecondProgressBarView.swift */; };
 		1D768D772CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D762CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift */; };
+		1D922ABA2D0C9407004FA716 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E052D02442A0062C639 /* ColorManager.swift */; };
 		1D9778692CF67949007D861B /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B3272CF5454F00A8CC30 /* FontManager.swift */; };
 		1DB44CB82D0744C70035B2F2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB44CB72D0744C70035B2F2 /* SettingsView.swift */; };
 		1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */; };
@@ -753,7 +753,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				1D412E092D02442A0062C639 /* ColorManager.swift in Sources */,
 				1D04D3322CF3DD90006A9B82 /* RegattaWidgetExtension.swift in Sources */,
 				1D04D3342CF3DD90006A9B82 /* AppIntent.swift in Sources */,
 				1D9778692CF67949007D861B /* FontManager.swift in Sources */,
@@ -761,6 +760,7 @@
 				1DD9DBD92CF6844F00D1E608 /* LineChartManager.swift in Sources */,
 				1DC4B32E2CF676B900A8CC30 /* SharedDefaults.swift in Sources */,
 				1D5E481D2CFBC909004813A4 /* JournalManager.swift in Sources */,
+				1D922ABA2D0C9407004FA716 /* ColorManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
