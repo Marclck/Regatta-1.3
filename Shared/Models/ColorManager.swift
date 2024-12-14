@@ -17,9 +17,10 @@ enum ColorTheme: String, CaseIterable, Codable {
     case cambridgeBlue = "A0C1AB"
     case ultraBlue = "47BBFC"    // Adding cyan as Ultra Blue
     case brittanBlue = "#8FCB5A"
-    case maritimeBlue = "47CDFF"
+    case maritimeBlue = "009FFF"
     case racingRed = "C9293E"
     case kiwiBlue = "01EAF8"
+    case speedPapaya = "D5791C"
     case signalOrange = "FF4D00"
     case marineYellow = "F6A726"
     
@@ -31,6 +32,7 @@ enum ColorTheme: String, CaseIterable, Codable {
         case .maritimeBlue: return "Maritime Blue"
         case .racingRed: return "Racing Red"
         case .kiwiBlue: return "Kiwi Blue"
+        case .speedPapaya: return "Speed Papaya"
         case .signalOrange: return "Signal Orange"
         case .marineYellow: return "Marine Yellow"
         }
