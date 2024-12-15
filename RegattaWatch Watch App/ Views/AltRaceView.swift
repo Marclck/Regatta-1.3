@@ -65,7 +65,7 @@ struct AltRaceView: View {
                            Text(minuteString(from: currentTime))
                                 .scaleEffect(x:1, y:0.9) //y0.9
                                .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : .white)
-                               .offset(y:isLuminanceReduced ? -40 : -24) //37
+                               .offset(y:isLuminanceReduced ? -44 : -24) //37
                            
                             
                         }

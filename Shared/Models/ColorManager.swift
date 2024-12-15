@@ -17,11 +17,11 @@ enum ColorTheme: String, CaseIterable, Codable {
     case cambridgeBlue = "A0C1AB"
     case ultraBlue = "47BBFC"    // Adding cyan as Ultra Blue
     case brittanBlue = "#8FCB5A"
-    case maritimeBlue = "009FFF"
+    case maritimeBlue = "049DFE"
     case racingRed = "C9293E"
     case kiwiBlue = "01EAF8"
     case speedPapaya = "D5791C"
-    case signalOrange = "FF4D00"
+    case signalOrange = "F37021"
     case marineYellow = "F6A726"
     
     var name: String {
