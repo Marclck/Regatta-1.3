@@ -8,19 +8,58 @@
 import Foundation
 
 struct RaceSession: Codable {
-    var id: String { date.timeIntervalSince1970.description }  // Create unique ID from date
-
+    var id: String { date.timeIntervalSince1970.description }
+    
     let date: Date
-    let countdownDuration: Int  // in minutes
-    let raceStartTime: Date?    // nil if cancelled before stopwatch
-    let raceDuration: TimeInterval?  // nil if cancelled before finish
+    let countdownDuration: Int
+    let raceStartTime: Date?
+    let raceDuration: TimeInterval?
+    let timeZoneOffset: Int  // Store the timezone offset in seconds
+    
+    init(date: Date, countdownDuration: Int, raceStartTime: Date?, raceDuration: TimeInterval?) {
+        self.date = date
+        self.countdownDuration = countdownDuration
+        self.raceStartTime = raceStartTime
+        self.raceDuration = raceDuration
+        self.timeZoneOffset = TimeZone.current.secondsFromGMT()
+    }
     
     var formattedStartTime: String {
         guard let startTime = raceStartTime else { return "N/A" }
         let formatter = DateFormatter()
+        
+        // Create timezone from stored offset
+        let timeZone = TimeZone(secondsFromGMT: timeZoneOffset) ?? TimeZone.current
+        formatter.timeZone = timeZone
+        
         formatter.dateStyle = .short
         formatter.timeStyle = .medium
         return formatter.string(from: startTime)
+    }
+    
+    // Helper methods for SessionRowView
+    func formattedDate() -> String {
+        let formatter = DateFormatter()
+        let timeZone = TimeZone(secondsFromGMT: timeZoneOffset) ?? TimeZone.current
+        formatter.timeZone = timeZone
+        formatter.dateStyle = .short
+        formatter.timeStyle = .none
+        return formatter.string(from: date)
+    }
+    
+    func formattedTime() -> String {
+        let formatter = DateFormatter()
+        let timeZone = TimeZone(secondsFromGMT: timeZoneOffset) ?? TimeZone.current
+        formatter.timeZone = timeZone
+        formatter.dateStyle = .none
+        formatter.timeStyle = .medium
+        return formatter.string(from: date)
+    }
+    
+    func timeZoneString() -> String {
+        let hours = abs(timeZoneOffset) / 3600
+        let sign = timeZoneOffset >= 0 ? "+" : "-"
+        return "GMT\(sign)\(hours)"
     }
     
     var formattedRaceTime: String {

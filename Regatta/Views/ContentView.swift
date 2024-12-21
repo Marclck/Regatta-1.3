@@ -14,17 +14,17 @@ struct ContentView: View {
 
     var body: some View {
         TabView {
-            MainInfoView()
-                .environmentObject(colorManager)  // Add explicitly
-                .tabItem {
-                    Label("Timer", systemImage: "timer.circle.fill")
-                }
-
             // Journal Tab
             JournalView()
                 .environmentObject(colorManager)  // Add explicitly
                 .tabItem {
                     Label("Journal", systemImage: "book.closed.circle.fill")
+                }
+
+            MainInfoView()
+                .environmentObject(colorManager)  // Add explicitly
+                .tabItem {
+                    Label("Timer", systemImage: "timer.circle.fill")
                 }
             
             // settings

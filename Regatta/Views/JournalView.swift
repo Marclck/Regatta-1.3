@@ -14,7 +14,9 @@ struct JournalView: View {
     var body: some View {
         NavigationView {
             Group {
-                if sessionStore.sessions.isEmpty {
+                if sessionStore.isLoading {
+                    ProgressView("Loading sessions...")
+                } else if sessionStore.sessions.isEmpty {
                     VStack {
                         Text("No race sessions recorded yet")
                             .font(.system(.body, design: .monospaced))
@@ -31,18 +33,22 @@ struct JournalView: View {
                             SessionRowView(session: session)
                         }
                     }
-                    .refreshable {
-                        await withCheckedContinuation { continuation in
-                            print("📱 JournalView: Pull to refresh triggered")
-                            sessionStore.refreshSessions()
-                            continuation.resume()
-                        }
-                    }
                 }
             }
             .navigationTitle("Race Journal")
+            .refreshable {
+                print("📱 JournalView: Pull to refresh triggered")
+                await withCheckedContinuation { continuation in
+                    Task { @MainActor in
+                        sessionStore.refreshSessions()
+                        continuation.resume()
+                    }
+                }
+                print("📱 JournalView: Refresh completed")
+            }
         }
         .onAppear {
+            print("📱 JournalView: View appeared")
             sessionStore.loadSessions()
         }
     }
@@ -53,8 +59,13 @@ struct SessionRowView: View {
     
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
-            Text(session.formattedStartTime)
-                .font(.system(.headline, design: .monospaced))
+            HStack {
+                Text(session.formattedDate())
+                    .font(.system(.headline))
+                Spacer()
+                Text("\(session.formattedTime()) \(session.timeZoneString())")
+                    .font(.system(.headline))
+            }
             
             HStack {
                 Text("Countdown: \(session.countdownDuration) min")
@@ -65,5 +76,50 @@ struct SessionRowView: View {
             .foregroundColor(.secondary)
         }
         .padding(.vertical, 4)
+    }
+}
+
+// MARK: - Previews
+#Preview("Journal View - With Sessions") {
+    let mockSessions = [
+        RaceSession(
+            date: Date(),
+            countdownDuration: 5,
+            raceStartTime: Date().addingTimeInterval(-300),
+            raceDuration: 125.43
+        ),
+        RaceSession(
+            date: Date().addingTimeInterval(-3600),
+            countdownDuration: 3,
+            raceStartTime: Date().addingTimeInterval(-3900),
+            raceDuration: 98.76
+        )
+    ]
+    
+    return JournalView()
+        .previewDisplayName("With Sessions")
+        .onAppear {
+            SharedDefaults.saveSessionsToContainer(mockSessions)
+        }
+}
+
+#Preview("Journal View - Empty") {
+    JournalView()
+        .previewDisplayName("Empty State")
+        .onAppear {
+            SharedDefaults.saveSessionsToContainer([])
+        }
+}
+
+#Preview("Session Row") {
+    let mockSession = RaceSession(
+        date: Date(),
+        countdownDuration: 5,
+        raceStartTime: Date().addingTimeInterval(-300),
+        raceDuration: 125.43
+    )
+    
+    return List {
+        SessionRowView(session: mockSession)
     }
 }

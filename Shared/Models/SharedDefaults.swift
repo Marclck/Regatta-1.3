@@ -5,11 +5,26 @@
 //  Created by Chikai Lai on 26/11/2024.
 //
 
+//
+//  SharedDefaults.swift
+//  Regatta
+//
+//  Created by Chikai Lai on 26/11/2024.
+//
+
 import Foundation
 import WidgetKit
 
 struct SharedDefaults {
     private static let appGroupIdentifier = "group.heart.Regatta.watchkitapp"
+    
+    // Used for migrating old sessions
+    private struct LegacyRaceSession: Codable {
+        let date: Date
+        let countdownDuration: Int
+        let raceStartTime: Date?
+        let raceDuration: TimeInterval?
+    }
 
     static let shared: UserDefaults = {
         guard let defaults = UserDefaults(suiteName: appGroupIdentifier) else {
@@ -18,7 +33,6 @@ struct SharedDefaults {
         return defaults
     }()
     
-    // Add container URL for file-based sharing
     static let container: URL = {
         guard let url = FileManager.default.containerURL(
             forSecurityApplicationGroupIdentifier: appGroupIdentifier
@@ -29,23 +43,35 @@ struct SharedDefaults {
     }()
     
     static let lastUsedTimeKey = "lastUsedTime"
-    static let lastFinishTimeKey = "lastFinishTime"  // New key
-
+    static let lastFinishTimeKey = "lastFinishTime"
     static let sessionsKey = "savedRaceSessions"
     static let currentSessionKey = "currentRaceSession"
     
-    // Methods using container for file-based storage
     static func saveSessionsToContainer(_ sessions: [RaceSession]) {
         let encoder = JSONEncoder()
         do {
             let data = try encoder.encode(sessions)
+            
+            // Create a temporary file first
+            let tempFileURL = container.appendingPathComponent("sessions.json.tmp")
+            try data.write(to: tempFileURL)
+            
+            // Get the final file URL
             let fileURL = container.appendingPathComponent("sessions.json")
-            try data.write(to: fileURL)
-            print("📱 SharedDefaults: Saved sessions to container")
+            
+            // If a file exists at the destination, remove it
+            if FileManager.default.fileExists(atPath: fileURL.path) {
+                try FileManager.default.removeItem(at: fileURL)
+            }
+            
+            // Move the temporary file to the final location
+            try FileManager.default.moveItem(at: tempFileURL, to: fileURL)
             
             // Also save to UserDefaults as backup
             shared.set(data, forKey: sessionsKey)
             shared.synchronize()
+            
+            print("📱 SharedDefaults: Saved sessions to container")
         } catch {
             print("📱 SharedDefaults: Error saving sessions to container: \(error)")
         }
@@ -55,19 +81,73 @@ struct SharedDefaults {
         let fileURL = container.appendingPathComponent("sessions.json")
         do {
             let data = try Data(contentsOf: fileURL)
-            let sessions = try JSONDecoder().decode([RaceSession].self, from: data)
-            print("📱 SharedDefaults: Loaded \(sessions.count) sessions from container")
-            return sessions
+            let decoder = JSONDecoder()
+            
+            // First try to decode as current version
+            do {
+                let sessions = try decoder.decode([RaceSession].self, from: data)
+                print("📱 SharedDefaults: Loaded \(sessions.count) sessions from container")
+                return sessions
+            } catch DecodingError.keyNotFound(let key, _) where key.stringValue == "timeZoneOffset" {
+                // If timeZoneOffset is missing, try to decode as legacy format and migrate
+                print("📱 SharedDefaults: Attempting to migrate legacy sessions")
+                do {
+                    let legacySessions = try decoder.decode([LegacyRaceSession].self, from: data)
+                    
+                    // Convert legacy sessions to current format
+                    let migratedSessions = legacySessions.map { legacy in
+                        RaceSession(
+                            date: legacy.date,
+                            countdownDuration: legacy.countdownDuration,
+                            raceStartTime: legacy.raceStartTime,
+                            raceDuration: legacy.raceDuration
+                        )
+                    }
+                    
+                    // Save migrated sessions back to container
+                    saveSessionsToContainer(migratedSessions)
+                    print("📱 SharedDefaults: Successfully migrated \(migratedSessions.count) sessions")
+                    return migratedSessions
+                } catch {
+                    print("📱 SharedDefaults: Failed to decode legacy sessions: \(error)")
+                    // Fall through to try UserDefaults backup
+                }
+            }
         } catch {
             print("📱 SharedDefaults: Error loading sessions from container: \(error)")
-            
-            // Try loading from UserDefaults as backup
-            if let data = shared.data(forKey: sessionsKey),
-               let sessions = try? JSONDecoder().decode([RaceSession].self, from: data) {
-                return sessions
-            }
-            return nil
         }
+        
+        // Try loading from UserDefaults as backup
+        if let data = shared.data(forKey: sessionsKey) {
+            do {
+                // Try current version first
+                let sessions = try JSONDecoder().decode([RaceSession].self, from: data)
+                print("📱 SharedDefaults: Loaded \(sessions.count) sessions from UserDefaults backup")
+                return sessions
+            } catch DecodingError.keyNotFound(let key, _) where key.stringValue == "timeZoneOffset" {
+                // Try legacy version if timeZoneOffset is missing
+                do {
+                    let legacySessions = try JSONDecoder().decode([LegacyRaceSession].self, from: data)
+                    let migratedSessions = legacySessions.map { legacy in
+                        RaceSession(
+                            date: legacy.date,
+                            countdownDuration: legacy.countdownDuration,
+                            raceStartTime: legacy.raceStartTime,
+                            raceDuration: legacy.raceDuration
+                        )
+                    }
+                    print("📱 SharedDefaults: Migrated \(migratedSessions.count) sessions from UserDefaults backup")
+                    return migratedSessions
+                } catch {
+                    print("📱 SharedDefaults: Failed to decode legacy sessions from UserDefaults: \(error)")
+                }
+            } catch {
+                print("📱 SharedDefaults: Failed to decode sessions from UserDefaults: \(error)")
+            }
+        }
+        
+        print("📱 SharedDefaults: No valid sessions found in container or UserDefaults")
+        return nil
     }
     
     

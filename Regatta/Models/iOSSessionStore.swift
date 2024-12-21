@@ -31,22 +31,41 @@ class iOSSessionStore: ObservableObject {
             object: nil
         )
         
-        loadSessions()
+        // Setup WatchConnectivity
+        _ = WatchSessionManager.shared
         
-        // Initialize Watch Connectivity
-        _ = WatchSessionManager.shared  // Changed from PhoneSessionManager to WatchSessionManager
-    }
-    
-    func loadSessions() {
-        print("📱 iOS Store: Loading sessions directly")
-        isLoading = true
-        sessions = journalManager.allSessions
-        print("📱 iOS Store: Direct load complete - sessions count: \(sessions.count)")
-        isLoading = false
+        // Initial load
+        loadSessions()
     }
     
     @objc func refreshSessions() {
         print("📱 iOS Store: Refreshing sessions")
         loadSessions()
+    }
+    
+    func loadSessions() {
+        print("📱 iOS Store: Loading sessions started")
+        
+        Task { @MainActor in
+            isLoading = true
+            defer {
+                isLoading = false
+                objectWillChange.send()  // Explicitly notify observers
+            }
+            
+            if let sessions = SharedDefaults.loadSessionsFromContainer() {
+                print("📱 iOS Store: Loaded \(sessions.count) sessions")
+                await MainActor.run {
+                    self.sessions = sessions
+                    self.objectWillChange.send()  // Explicitly notify observers
+                }
+            } else {
+                print("📱 iOS Store: No sessions found")
+                await MainActor.run {
+                    self.sessions = []
+                    self.objectWillChange.send()  // Explicitly notify observers
+                }
+            }
+        }
     }
 }
