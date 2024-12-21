@@ -24,7 +24,7 @@ struct ContentView: View {
             MainInfoView()
                 .environmentObject(colorManager)  // Add explicitly
                 .tabItem {
-                    Label("Timer", systemImage: "timer.circle.fill")
+                    Label("Info", systemImage: "timer.circle.fill")
                 }
             
             // settings
@@ -39,64 +39,108 @@ struct ContentView: View {
 
 // Move existing content to new MainInfoView
 struct MainInfoView: View {
-//    @StateObject private var timerState = WatchTimerState()
-//    @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
-    
     @StateObject private var timerState = TimerState()
     
     var body: some View {
-        ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
-            
-            VStack(spacing: 10) {
-                // Title
-
-                Spacer()
-                    .frame(height: 10)
+        NavigationView {
+            List {
+                Section("What is Regatta?") {
+                    HStack {
+                        Image(systemName: "sailboat.fill")
+                        Text("Race countdown timer & sailing stopwatch")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                    
+                    HStack {
+                        Image(systemName: "timer.circle.fill")
+                        Text("Set countdown from 1-30 minutes for race start sequence")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                    
+                    HStack {
+                        Image(systemName: "stopwatch.fill")
+                        Text("Auto-transitions to stopwatch at zero for race timing")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                    
+                    HStack {
+                        Image(systemName: "apple.watch")
+                        Text("Designed for Apple Watch with iPhone companion app")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                }
                 
-                Text("Regatta")
-                    .font(.system(size: 40, weight: .bold, design: .monospaced).italic())
-                    .foregroundColor(.cyan)
+                Section("How to Use") {
+                    HStack {
+                        Image(systemName: "1.circle.fill")
+                        Text("Open the Watch app")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                    
+                    HStack {
+                        Image(systemName: "2.circle.fill")
+                        Text("Set countdown duration (1-30 minutes)")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                    
+                    HStack {
+                        Image(systemName: "3.circle.fill")
+                        Text("Start the countdown")
+                            .font(.system(.body, design: .monospaced))
+                    }
+                    
+                    HStack {
+                        Image(systemName: "4.circle.fill")
+                        Text("Countdown automatically transitions to stopwatch at zero")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                    
+                    HStack {
+                        Image(systemName: "5.circle.fill")
+                        Text("Stop the timer to record your race; session stopped before stopwatch started will not be recorded")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                }
                 
-                Spacer()
-                    .frame(height: 10)
+                Section("Features") {
+                    HStack {
+                        Image(systemName: "bell.fill")
+                        Text("Haptic feedback at key moments")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                    
+                    HStack {
+                        Image(systemName: "clock.fill")
+                        Text("Runs in background with notifications")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                    
+                    HStack {
+                        Image(systemName: "book.closed.fill")
+                        Text("Race history stored in Journal")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                }
                 
-                // Description
-                Text("countdown timer")
-                    .font(.system(size: 18, design: .monospaced))
-                    .foregroundColor(.cyan)
-                
-                Text("&")
-                    .font(.system(size: 18, design: .monospaced))
-                    .foregroundColor(.cyan)
-                
-                Text("stopwatch")
-                    .font(.system(size: 18, design: .monospaced))
-                    .foregroundColor(.cyan)
-                
-                Spacer()
-                    .frame(height: 2)
-                
-                Text("made for sailing enthusiasts")
-                    .font(.system(size: 16, design: .monospaced).italic())
-                    .foregroundColor(.orange)
-                    .padding(.bottom, 20)
-                
-                Spacer()
-                    .frame(height: 50)
-                
-                // Support link
-                Link("contact | support | suggestion",
-                     destination: URL(string: "mailto:normalappco@gmail.com")!)
-                    .font(.system(size: 14))
-                    .foregroundColor(.gray)
-                    .padding(.bottom, 30)
+                Section {
+                    VStack(alignment: .center, spacing: 12) {
+                        Text("made for sailing enthusiasts")
+                            .font(.system(.subheadline, design: .monospaced))
+                            .italic()
+                            .foregroundColor(.secondary)
+                        
+//                        Link("contact | support | suggestion",
+//                             destination: URL(string: "mailto:normalappco@gmail.com")!)
+//                            .font(.system(.caption, design: .monospaced))
+//                            .foregroundColor(.secondary)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .listRowBackground(Color.clear)
+                }
             }
-            .multilineTextAlignment(.center)
+            .navigationTitle("About")
         }
-        
         .onAppear {
-            // Add observer for shortcut
             NotificationCenter.default.addObserver(
                 forName: NSNotification.Name("StartCountdownFromShortcut"),
                 object: nil,
@@ -106,11 +150,11 @@ struct MainInfoView: View {
                     }
                 }
         }
-        
-//        .onReceive(timer) { _ in
-//            timerState.updateTimer()
-//        }
     }
+}
+
+#Preview {
+    MainInfoView()
 }
 
 // Preview

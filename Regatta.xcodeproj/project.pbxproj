@@ -423,6 +423,7 @@
 		1D69FEAF2CE967AB001C178A /* RegattaUITests */ = {
 			isa = PBXGroup;
 			children = (
+				1D2E53F82D17157900C669D4 /* TabBar */,
 				1D69FEB02CE967AB001C178A /* RegattaUITests.swift */,
 				1D69FEB22CE967AB001C178A /* RegattaUITestsLaunchTests.swift */,
 			);
@@ -504,7 +505,6 @@
 		1D69FEF42CE96848001C178A /* Views */ = {
 			isa = PBXGroup;
 			children = (
-				1D2E53F82D17157900C669D4 /* TabBar */,
 				1D69FE952CE967AA001C178A /* ContentView.swift */,
 				1D69FEFC2CE969CE001C178A /* ProgressBarView.swift */,
 				1D69FEFE2CE969D9001C178A /* CurrentTimeView.swift */,
