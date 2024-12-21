@@ -21,19 +21,20 @@ class iOSSessionStore: ObservableObject {
     static let shared = iOSSessionStore()
     
     private init() {
-        
         print("📱 iOS Store: Initializing")
-        print("📱 iOS Store: Initial JournalManager sessions count: \(journalManager.allSessions.count)")
         
-        journalManager.$allSessions
-            .receive(on: DispatchQueue.main)
-            .sink { [weak self] updatedSessions in
-                print("📱 iOS Store: Received update from JournalManager with \(updatedSessions.count) sessions")
-                self?.sessions = updatedSessions
-            }
-            .store(in: &cancellables)
+        // Listen for Watch Connectivity updates
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(refreshSessions),
+            name: Notification.Name("SessionsUpdatedFromWatch"),
+            object: nil
+        )
         
         loadSessions()
+        
+        // Initialize Watch Connectivity
+        _ = WatchSessionManager.shared  // Changed from PhoneSessionManager to WatchSessionManager
     }
     
     func loadSessions() {

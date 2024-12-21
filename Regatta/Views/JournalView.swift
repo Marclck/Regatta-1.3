@@ -29,8 +29,13 @@ struct JournalView: View {
                     List {
                         ForEach(sessionStore.sessions, id: \.date) { session in
                             SessionRowView(session: session)
-                            
-                            
+                        }
+                    }
+                    .refreshable {
+                        await withCheckedContinuation { continuation in
+                            print("📱 JournalView: Pull to refresh triggered")
+                            sessionStore.refreshSessions()
+                            continuation.resume()
                         }
                     }
                 }

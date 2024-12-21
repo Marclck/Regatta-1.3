@@ -28,11 +28,11 @@ struct ContentView: View {
                 }
             
             // settings
-            SettingsView()
-                .environmentObject(colorManager)  // Add explicitly
-                .tabItem {
-                    Label("Settings", systemImage: "gear.circle.fill")
-                }
+//            SettingsView()
+//                .environmentObject(colorManager)  // Add explicitly
+//                .tabItem {
+//                    Label("Settings", systemImage: "gear.circle.fill")
+//                }
         }
     }
 }

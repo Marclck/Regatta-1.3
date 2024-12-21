@@ -140,8 +140,17 @@ class JournalManager: ObservableObject {
         }
     }
     
-    private func saveSessions() {
-        SharedDefaults.saveSessionsToContainer(allSessions)
+    func saveSessions() {
+        SharedDefaults.saveSessionsToContainer(self.allSessions)
+        
+        #if os(watchOS)
+        guard !allSessions.isEmpty else {
+            print("📓 No sessions to transfer")
+            return
+        }
+        // Send to iOS
+        WatchSessionManager.shared.transferSessions(self.allSessions)
+        #endif
     }
     
     private func loadCurrentSession() {
