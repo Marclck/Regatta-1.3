@@ -65,7 +65,7 @@ struct MainInfoView: View {
                     
                     HStack {
                         Image(systemName: "apple.watch")
-                        Text("Designed for Apple Watch with iPhone companion app")
+                        Text("Designed for Apple Watch Ultra with iPhone companion app")
                     }
                     .font(.system(.body, design: .monospaced))
                 }
