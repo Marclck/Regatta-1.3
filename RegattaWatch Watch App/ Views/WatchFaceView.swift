@@ -20,6 +20,14 @@ struct WatchFaceView: View {
     @State private var currentTime = Date()
     let timeTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
+    private var isUltraWatch: Bool {
+        #if os(watchOS)
+        return WKInterfaceDevice.current().model.contains("Ultra")
+        #else
+        return false
+        #endif
+    }
+    
     var body: some View {
         ZStack {
             Color.black.edgesIgnoringSafeArea(.all)
@@ -82,18 +90,27 @@ struct WatchFaceView: View {
                         
                         VStack(alignment: .center, spacing: 1) {
                             // Date in format "Wed Nov 22"
-                            Text(dateString(from: Date()))
-                                .font(.system(size:14))
-                                .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
+                            if isUltraWatch {
+                                Text(dateString(from: Date()))
+                                    .font(.system(size:14))
+                                    .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
+                            }
 
                             // Last finish time
-                            Text("Race \(JournalManager.shared.allSessions.count)")
-                               .font(.system(size: 14))
-                               .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
+                            if isUltraWatch {
+                                Text("Race \(JournalManager.shared.allSessions.count)")
+                                    .font(.system(size: 14))
+                                    .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
+                            } else {
+                                Text("Race \(JournalManager.shared.allSessions.count)")
+                                    .offset(y:-10)
+                                    .font(.system(size: 14))
+                                    .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
+                            }
                         }
                         .frame(width: 180, height: 40)  // Extended width to accommodate text
                         .padding(.bottom, 0)
-                        .offset(y:64) //25
+                        .offset(y:28) //25
                         
                         
                     }
