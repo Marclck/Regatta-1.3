@@ -15,6 +15,14 @@ struct SecondProgressBarView: View {
     @State private var currentSecond: Double = 0
     @State private var timer = Timer.publish(every: AppSettings().timerInterval, on: .main, in: .common).autoconnect()
 
+    private var isUltraWatch: Bool {
+        #if os(watchOS)
+        return WKInterfaceDevice.current().name.contains("Ultra")
+        #else
+        return false
+        #endif
+    }
+    
     private func updateSecond() {
         let components = Calendar.current.dateComponents([.second, .nanosecond], from: Date())
         
@@ -35,22 +43,39 @@ struct SecondProgressBarView: View {
             
             ZStack {
                 // Background track - wrapping around screen edges
-                RoundedRectangle(cornerRadius: 55)
-                    .stroke(Color.blue.opacity(0.3), lineWidth: 25)
-                    .frame(width: barWidth, height: barHeight)
-                    .position(x: frame.midX, y: frame.midY)
-                
+                if isUltraWatch {
+                    RoundedRectangle(cornerRadius: 55)
+                        .stroke(Color.blue.opacity(0.3), lineWidth: 25)
+                        .frame(width: barWidth, height: barHeight)
+                        .position(x: frame.midX, y: frame.midY)
+                } else {
+                    RoundedRectangle(cornerRadius: 49)
+                        .stroke(Color.blue.opacity(0.3), lineWidth: 25)
+                        .frame(width: barWidth, height: barHeight)
+                        .position(x: frame.midX, y: frame.midY)
+                }
                 // Progress fill for seconds
-                RoundedRectangle(cornerRadius: 55)
-                    .trim(from: 0, to: currentSecond/60)
-                    .stroke(
-                        Color(hex: colorManager.selectedTheme.rawValue),
-                        style: StrokeStyle(lineWidth: 25, lineCap: .butt)
-                    )
-                    .frame(width: barHeight, height: barWidth)
-                    .position(x: frame.midX, y: frame.midY)
-                    .rotationEffect(.degrees(-90))  // Align trim start to top
-                
+                if isUltraWatch {
+                    RoundedRectangle(cornerRadius: 55)
+                        .trim(from: 0, to: currentSecond/60)
+                        .stroke(
+                            Color(hex: colorManager.selectedTheme.rawValue),
+                            style: StrokeStyle(lineWidth: 25, lineCap: .butt)
+                        )
+                        .frame(width: barHeight, height: barWidth)
+                        .position(x: frame.midX, y: frame.midY)
+                        .rotationEffect(.degrees(-90))  // Align trim start to top
+                } else {
+                    RoundedRectangle(cornerRadius: 49)
+                        .trim(from: 0, to: currentSecond/60)
+                        .stroke(
+                            Color(hex: colorManager.selectedTheme.rawValue),
+                            style: StrokeStyle(lineWidth: 25, lineCap: .butt)
+                        )
+                        .frame(width: barHeight, height: barWidth)
+                        .position(x: frame.midX, y: frame.midY)
+                        .rotationEffect(.degrees(-90))  // Align trim start to top
+                }
             }
         }
         .ignoresSafeArea()
