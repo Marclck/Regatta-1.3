@@ -36,7 +36,7 @@ struct WatchProgressBarView: View {
                         .position(x: frame.midX, y: frame.midY)
                 } else {
                     // Background track - wrapping around screen edges
-                    RoundedRectangle(cornerRadius: 49)
+                    RoundedRectangle(cornerRadius: 42)
                         .stroke(Color.blue.opacity(0.3), lineWidth: 25)
                         .frame(width: barWidth, height: barHeight)
                         .position(x: frame.midX, y: frame.midY)
@@ -53,7 +53,7 @@ struct WatchProgressBarView: View {
                         .position(x: frame.midX, y: frame.midY)
                         .rotationEffect(.degrees(-90))  // Align trim start to top
                 } else {
-                    RoundedRectangle(cornerRadius: 49)
+                    RoundedRectangle(cornerRadius: 42)
                         .trim(from: 0, to: timerState.progress)
                         .stroke(
                             Color(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : Color(hex: colorManager.selectedTheme.rawValue)),

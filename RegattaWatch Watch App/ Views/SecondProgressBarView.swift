@@ -49,7 +49,7 @@ struct SecondProgressBarView: View {
                         .frame(width: barWidth, height: barHeight)
                         .position(x: frame.midX, y: frame.midY)
                 } else {
-                    RoundedRectangle(cornerRadius: 49)
+                    RoundedRectangle(cornerRadius: 42)
                         .stroke(Color.blue.opacity(0.3), lineWidth: 25)
                         .frame(width: barWidth, height: barHeight)
                         .position(x: frame.midX, y: frame.midY)
@@ -66,7 +66,7 @@ struct SecondProgressBarView: View {
                         .position(x: frame.midX, y: frame.midY)
                         .rotationEffect(.degrees(-90))  // Align trim start to top
                 } else {
-                    RoundedRectangle(cornerRadius: 49)
+                    RoundedRectangle(cornerRadius: 42)
                         .trim(from: 0, to: currentSecond/60)
                         .stroke(
                             Color(hex: colorManager.selectedTheme.rawValue),
