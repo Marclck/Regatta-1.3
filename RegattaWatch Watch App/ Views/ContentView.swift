@@ -10,6 +10,14 @@ import AVFoundation
 import WatchKit
 import AVKit
 
+private var isUltraWatch: Bool {
+    #if os(watchOS)
+    return WKInterfaceDevice.current().name.contains("Ultra")
+    #else
+    return false
+    #endif
+}
+
 struct OverlayPlayerForTimeRemove: View {
     var body: some View {
         VideoPlayer(player: nil,videoOverlay: { })
@@ -137,11 +145,17 @@ struct TimerView: View {
                         Spacer()
                             .frame(height: 0) // Adjust this value to control space between picker and buttons
                         
-                        ButtonsView(timerState: timerState)
-                            .padding(.bottom, -10) // this control the position of the buttons to match numbers in timer and picker
-                            .background(OverlayPlayerForTimeRemove())
-                            .offset(y:5)
-
+                        if isUltraWatch {
+                            ButtonsView(timerState: timerState)
+                                .padding(.bottom, -10) // this control the position of the buttons to match numbers in timer and picker
+                                .background(OverlayPlayerForTimeRemove())
+                                .offset(y:5)
+                        } else {
+                            ButtonsView(timerState: timerState)
+                                .padding(.bottom, -10) // this control the position of the buttons to match numbers in timer and picker
+                                .background(OverlayPlayerForTimeRemove())
+                                .offset(y:0)
+                        }
                     }
                     .padding(.horizontal, 0)
                 }

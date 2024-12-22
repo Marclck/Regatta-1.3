@@ -12,6 +12,13 @@ struct WatchProgressBarView: View {
     @ObservedObject var timerState: WatchTimerState
     @EnvironmentObject var colorManager: ColorManager
 
+    private var isUltraWatch: Bool {
+        #if os(watchOS)
+        return WKInterfaceDevice.current().name.contains("Ultra")
+        #else
+        return false
+        #endif
+    }
     
     var body: some View {
         GeometryReader { geometry in
@@ -21,23 +28,41 @@ struct WatchProgressBarView: View {
             let barHeight = frame.height
             
             ZStack {
-                // Background track - wrapping around screen edges
-                RoundedRectangle(cornerRadius: 55)
-                    .stroke(Color.blue.opacity(0.3), lineWidth: 25)
-                    .frame(width: barWidth, height: barHeight)
-                    .position(x: frame.midX, y: frame.midY)
-                
+                if isUltraWatch {
+                    // Background track - wrapping around screen edges
+                    RoundedRectangle(cornerRadius: 55)
+                        .stroke(Color.blue.opacity(0.3), lineWidth: 25)
+                        .frame(width: barWidth, height: barHeight)
+                        .position(x: frame.midX, y: frame.midY)
+                } else {
+                    // Background track - wrapping around screen edges
+                    RoundedRectangle(cornerRadius: 49)
+                        .stroke(Color.blue.opacity(0.3), lineWidth: 25)
+                        .frame(width: barWidth, height: barHeight)
+                        .position(x: frame.midX, y: frame.midY)
+                }
                 // Progress fill
-                RoundedRectangle(cornerRadius: 55)
-                    .trim(from: 0, to: timerState.progress)
-                    .stroke(
-                        Color(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : Color(hex: colorManager.selectedTheme.rawValue)),
-                        style: StrokeStyle(lineWidth: 25, lineCap: .butt)
-                    )
-                    .frame(width: barHeight, height: barWidth)
-                    .position(x: frame.midX, y: frame.midY)
-                    .rotationEffect(.degrees(-90))  // Align trim start to top
-                
+                if isUltraWatch {
+                    RoundedRectangle(cornerRadius: 55)
+                        .trim(from: 0, to: timerState.progress)
+                        .stroke(
+                            Color(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : Color(hex: colorManager.selectedTheme.rawValue)),
+                            style: StrokeStyle(lineWidth: 25, lineCap: .butt)
+                        )
+                        .frame(width: barHeight, height: barWidth)
+                        .position(x: frame.midX, y: frame.midY)
+                        .rotationEffect(.degrees(-90))  // Align trim start to top
+                } else {
+                    RoundedRectangle(cornerRadius: 49)
+                        .trim(from: 0, to: timerState.progress)
+                        .stroke(
+                            Color(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : Color(hex: colorManager.selectedTheme.rawValue)),
+                            style: StrokeStyle(lineWidth: 25, lineCap: .butt)
+                        )
+                        .frame(width: barHeight, height: barWidth)
+                        .position(x: frame.midX, y: frame.midY)
+                        .rotationEffect(.degrees(-90))  // Align trim start to top
+                }
                 // Separators overlay
                 WatchSeparatorOverlay(
                     totalMinutes: timerState.selectedMinutes,
@@ -60,4 +85,10 @@ struct WatchProgressBarView: View {
         }
         .ignoresSafeArea()  // Allow the progress bar to extend to the edges
     }
+}
+
+#Preview {
+    ContentView()
+        .environmentObject(ColorManager())
+        .environmentObject(AppSettings())
 }

@@ -22,7 +22,7 @@ struct WatchFaceView: View {
     
     private var isUltraWatch: Bool {
         #if os(watchOS)
-        return WKInterfaceDevice.current().model.contains("Ultra")
+        return WKInterfaceDevice.current().name.contains("Ultra")
         #else
         return false
         #endif
