@@ -9,11 +9,20 @@ import Foundation
 import SwiftUI
 
 class AppSettings: ObservableObject {
+    // Timer interval in seconds (1.0 when smooth is off, 0.01 when on)
+    var timerInterval: Double {
+        return smoothSecond ? 0.01 : 1.0
+    }
+    
+    // Team name color hex value (ultraBlue when on, speedPapaya when off)
+    var teamNameColorHex: String {
+        return altTeamNameColor ? ColorTheme.ultraBlue.rawValue : ColorTheme.speedPapaya.rawValue
+    }
+    
     @Published var teamName: String {
         didSet {
             UserDefaults.standard.set(teamName, forKey: "teamName")
             print("Team name changed to: \(teamName)") // Debug print
-
         }
     }
     
@@ -21,15 +30,29 @@ class AppSettings: ObservableObject {
         didSet {
             UserDefaults.standard.set(showRaceInfo, forKey: "showRaceInfo")
             print("ShowRaceInfo changed to: \(showRaceInfo)") // Debug print
-
+        }
+    }
+    
+    @Published var smoothSecond: Bool {
+        didSet {
+            UserDefaults.standard.set(smoothSecond, forKey: "smoothSecond")
+            print("SmoothSecond changed to: \(smoothSecond)") // Debug print
+        }
+    }
+    
+    @Published var altTeamNameColor: Bool {
+        didSet {
+            UserDefaults.standard.set(altTeamNameColor, forKey: "altTeamNameColor")
+            print("AltTeamNameColor changed to: \(altTeamNameColor)") // Debug print
         }
     }
     
     init() {
         self.teamName = UserDefaults.standard.string(forKey: "teamName") ?? "Ultra"
         self.showRaceInfo = UserDefaults.standard.bool(forKey: "showRaceInfo")
+        self.smoothSecond = UserDefaults.standard.bool(forKey: "smoothSecond")
+        self.altTeamNameColor = UserDefaults.standard.bool(forKey: "altTeamNameColor")
         UserDefaults.standard.synchronize()  // Force save
-
     }
 }
 
@@ -40,15 +63,14 @@ struct SettingsView: View {
     @State private var showThemePicker = false
     @State private var showTeamNameEdit = false
     @State private var refreshToggle = false  // Add at top with other state variables
-
     
     var body: some View {
         VStack(spacing: 0) {
             // Compact header
-                Text("Settings")
-                    .font(.system(size: 17, weight: .semibold))
-            .padding(.horizontal)
-            .padding(.vertical, 8)
+            Text("Settings")
+                .font(.system(size: 17, weight: .semibold))
+                .padding(.horizontal)
+                .padding(.vertical, 8)
             
             // Settings content
             List {
@@ -118,6 +140,13 @@ struct SettingsView: View {
                 
                 // Race Info Toggle
                 Toggle("Race Info", isOn: $settings.showRaceInfo)
+                
+                // Smooth Second Toggle
+                Toggle("Smooth Second", isOn: $settings.smoothSecond)
+                
+                // Alt Team Name Color Toggle
+                Toggle("Alt Team Name Color", isOn: $settings.altTeamNameColor)
+                
                 Text("Restart the app for the changes to take effect. Double press digital crown and swipe left to close the app.")
                     .font(.caption2)
             }

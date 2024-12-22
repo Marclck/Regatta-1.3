@@ -10,10 +10,11 @@ import SwiftUI
 
 struct SecondProgressBarView: View {
     @EnvironmentObject var colorManager: ColorManager
+    @EnvironmentObject var settings: AppSettings
 
     @State private var currentSecond: Double = 0
-    @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
-    
+    @State private var timer = Timer.publish(every: AppSettings().timerInterval, on: .main, in: .common).autoconnect()
+
     var body: some View {
         GeometryReader { geometry in
             let frame = geometry.frame(in: .global)
@@ -43,7 +44,14 @@ struct SecondProgressBarView: View {
         .ignoresSafeArea()
         .onReceive(timer) { _ in
             let components = Calendar.current.dateComponents([.second, .nanosecond], from: Date())
-            currentSecond = Double(components.second!) + Double(components.nanosecond!) / 1_000_000_000
+            
+            // If timer interval is 1 second, only update on exact seconds
+            if settings.timerInterval == 1.0 {
+                currentSecond = Double(components.second!)
+            } else {
+                // For smooth animation, include nanoseconds
+                currentSecond = Double(components.second!) + Double(components.nanosecond!) / 1_000_000_000
+            }
         }
     }
 }

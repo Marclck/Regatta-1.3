@@ -36,7 +36,7 @@ struct WatchFaceView: View {
                     Text(settings.teamName)
                         .font(.system(size: 11, weight: .bold)) //36 b4 adjustment
                         .rotationEffect(.degrees(270), anchor: .center)
-                        .foregroundColor(Color(hex: ColorTheme.speedPapaya.rawValue).opacity(0.8)) // see how the code is referenced.
+                        .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(0.8)) // see how the code is referenced.
                         .position(x: 4, y: centerY/2+60)
                         .onReceive(timeTimer) { input in
                             currentTime = input
@@ -95,15 +95,6 @@ struct WatchFaceView: View {
                         .padding(.bottom, 0)
                         .offset(y:64) //25
                         
-                        
-                        Text(settings.teamName)
-                            .font(.system(size: 14, weight: .bold)) //36 b4 adjustment
-                            .rotationEffect(.degrees(270), anchor: .center)
-                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(1)) // see how the code is referenced.
-                            .position(x: 4, y: centerY/2+55)
-                            .onReceive(timeTimer) { input in
-                                currentTime = input
-                            }
                         
                     }
                     .padding(.horizontal, 0)
