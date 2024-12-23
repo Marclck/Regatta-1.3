@@ -142,7 +142,7 @@ struct SettingsView: View {
                 Toggle("Race Info", isOn: $settings.showRaceInfo)
                 
                 // Smooth Second Toggle
-                Toggle("Smooth Second", isOn: $settings.smoothSecond)
+                Toggle("Smooth Second Movement", isOn: $settings.smoothSecond)
                 
                 // Alt Team Name Color Toggle
                 Toggle("Alt Team Name Color", isOn: $settings.altTeamNameColor)

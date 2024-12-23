@@ -55,6 +55,18 @@
 		1D412E172D025A2C0062C639 /* ColorThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E142D025A2C0062C639 /* ColorThemeView.swift */; };
 		1D412E182D025A2C0062C639 /* ColorThemeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E142D025A2C0062C639 /* ColorThemeView.swift */; };
 		1D412E1A2D025A430062C639 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E192D025A430062C639 /* SettingsView.swift */; };
+		1D4384682D186D10000DE437 /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384672D186D10000DE437 /* IAPManager.swift */; };
+		1D4384692D186D10000DE437 /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384672D186D10000DE437 /* IAPManager.swift */; };
+		1D43846A2D186D10000DE437 /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384672D186D10000DE437 /* IAPManager.swift */; };
+		1D43846B2D186D10000DE437 /* IAPManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384672D186D10000DE437 /* IAPManager.swift */; };
+		1D43846D2D186D43000DE437 /* PremiumAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D43846C2D186D43000DE437 /* PremiumAlertView.swift */; };
+		1D43846E2D186D43000DE437 /* PremiumAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D43846C2D186D43000DE437 /* PremiumAlertView.swift */; };
+		1D43846F2D186D43000DE437 /* PremiumAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D43846C2D186D43000DE437 /* PremiumAlertView.swift */; };
+		1D4384702D186D43000DE437 /* PremiumAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D43846C2D186D43000DE437 /* PremiumAlertView.swift */; };
+		1D4384722D18725D000DE437 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384712D18725D000DE437 /* SubscriptionView.swift */; };
+		1D4384732D18725D000DE437 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384712D18725D000DE437 /* SubscriptionView.swift */; };
+		1D4384742D18725D000DE437 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384712D18725D000DE437 /* SubscriptionView.swift */; };
+		1D4384752D18725D000DE437 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384712D18725D000DE437 /* SubscriptionView.swift */; };
 		1D5E48192CFBC519004813A4 /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E48182CFBC519004813A4 /* JournalView.swift */; };
 		1D5E481C2CFBC907004813A4 /* JournalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E481A2CFBC79C004813A4 /* JournalManager.swift */; };
 		1D5E481D2CFBC909004813A4 /* JournalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E481A2CFBC79C004813A4 /* JournalManager.swift */; };
@@ -203,6 +215,9 @@
 		1D412E052D02442A0062C639 /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
 		1D412E142D025A2C0062C639 /* ColorThemeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorThemeView.swift; sourceTree = "<group>"; };
 		1D412E192D025A430062C639 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1D4384672D186D10000DE437 /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
+		1D43846C2D186D43000DE437 /* PremiumAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumAlertView.swift; sourceTree = "<group>"; };
+		1D4384712D18725D000DE437 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
 		1D5E48182CFBC519004813A4 /* JournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalView.swift; sourceTree = "<group>"; };
 		1D5E481A2CFBC79C004813A4 /* JournalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalManager.swift; sourceTree = "<group>"; };
 		1D5E48222CFC5DD7004813A4 /* iOSSessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSSessionStore.swift; sourceTree = "<group>"; };
@@ -489,6 +504,9 @@
 				1D5E481A2CFBC79C004813A4 /* JournalManager.swift */,
 				1D412E052D02442A0062C639 /* ColorManager.swift */,
 				1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */,
+				1D4384672D186D10000DE437 /* IAPManager.swift */,
+				1D43846C2D186D43000DE437 /* PremiumAlertView.swift */,
+				1D4384712D18725D000DE437 /* SubscriptionView.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -809,9 +827,11 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D43846B2D186D10000DE437 /* IAPManager.swift in Sources */,
 				1D04D3322CF3DD90006A9B82 /* RegattaWidgetExtension.swift in Sources */,
 				1D2E54022D1715AD00C669D4 /* TabBarView.swift in Sources */,
 				1D2E54112D1715FE00C669D4 /* TabItemModel.swift in Sources */,
+				1D4384752D18725D000DE437 /* SubscriptionView.swift in Sources */,
 				1D04D3342CF3DD90006A9B82 /* AppIntent.swift in Sources */,
 				1D2E53FD2D17159600C669D4 /* TabBarContentView.swift in Sources */,
 				1D9778692CF67949007D861B /* FontManager.swift in Sources */,
@@ -825,6 +845,7 @@
 				1D2E540C2D1715E800C669D4 /* TabButtonStyle.swift in Sources */,
 				1D922ABA2D0C9407004FA716 /* ColorManager.swift in Sources */,
 				1D2E541B2D17162700C669D4 /* Tabs.swift in Sources */,
+				1D4384702D186D43000DE437 /* PremiumAlertView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -834,6 +855,7 @@
 			files = (
 				1D5E48242CFC6068004813A4 /* JournalManager.swift in Sources */,
 				1D69FEF92CE968FB001C178A /* ScreenEdgePath.swift in Sources */,
+				1D4384682D186D10000DE437 /* IAPManager.swift in Sources */,
 				1D2E54132D17161200C669D4 /* TabScrollContentView.swift in Sources */,
 				1D69FF012CE969E5001C178A /* TimeDisplayView.swift in Sources */,
 				1D2E54092D1715E800C669D4 /* TabButtonStyle.swift in Sources */,
@@ -848,6 +870,7 @@
 				1D5E48192CFBC519004813A4 /* JournalView.swift in Sources */,
 				1DD9DBD62CF6844B00D1E608 /* LineChartManager.swift in Sources */,
 				1D69FE982CE967AA001C178A /* Item.swift in Sources */,
+				1D43846D2D186D43000DE437 /* PremiumAlertView.swift in Sources */,
 				1D69FEFB2CE96905001C178A /* SeparatorMark.swift in Sources */,
 				1D69FEFF2CE969D9001C178A /* CurrentTimeView.swift in Sources */,
 				1D2E540E2D1715FE00C669D4 /* TabItemModel.swift in Sources */,
@@ -857,6 +880,7 @@
 				1D412E062D02442A0062C639 /* ColorManager.swift in Sources */,
 				1D2E53FF2D1715AD00C669D4 /* TabBarView.swift in Sources */,
 				1D412E152D025A2C0062C639 /* ColorThemeView.swift in Sources */,
+				1D4384722D18725D000DE437 /* SubscriptionView.swift in Sources */,
 				1D2E54042D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
 				1D5E48232CFC5DD7004813A4 /* iOSSessionStore.swift in Sources */,
 				1D69FEFD2CE969CE001C178A /* ProgressBarView.swift in Sources */,
@@ -870,9 +894,12 @@
 				1DD9DBD52CF683EE00D1E608 /* LineChartManager.swift in Sources */,
 				1D2E54052D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
 				1D2E540A2D1715E800C669D4 /* TabButtonStyle.swift in Sources */,
+				1D4384732D18725D000DE437 /* SubscriptionView.swift in Sources */,
+				1D43846E2D186D43000DE437 /* PremiumAlertView.swift in Sources */,
 				1D2E54002D1715AD00C669D4 /* TabBarView.swift in Sources */,
 				1D412E072D02442A0062C639 /* ColorManager.swift in Sources */,
 				1D2E54142D17161200C669D4 /* TabScrollContentView.swift in Sources */,
+				1D4384692D186D10000DE437 /* IAPManager.swift in Sources */,
 				1D412E162D025A2C0062C639 /* ColorThemeView.swift in Sources */,
 				1D2E54192D17162700C669D4 /* Tabs.swift in Sources */,
 				1D2F22652CFC91B500AE4D71 /* JournalManager.swift in Sources */,
@@ -897,6 +924,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D43846A2D186D10000DE437 /* IAPManager.swift in Sources */,
 				1DD9DBD82CF6844E00D1E608 /* LineChartManager.swift in Sources */,
 				1D2E54062D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
 				1DE3D0692CF3052A00B4056F /* StartCountdownIntent.swift in Sources */,
@@ -923,7 +951,9 @@
 				1D412E082D02442A0062C639 /* ColorManager.swift in Sources */,
 				1DBD85D82CEFE8290028E391 /* HapticManager.swift in Sources */,
 				1D2E540B2D1715E800C669D4 /* TabButtonStyle.swift in Sources */,
+				1D43846F2D186D43000DE437 /* PremiumAlertView.swift in Sources */,
 				1D2E541A2D17162700C669D4 /* Tabs.swift in Sources */,
+				1D4384742D18725D000DE437 /* SubscriptionView.swift in Sources */,
 				1DD528452CEBEBE7005FFEA2 /* SeparatorOverlay.swift in Sources */,
 				1D3DC5692D0280D600252F1F /* AltRaceView.swift in Sources */,
 				1D69FEC62CE967F7001C178A /* RegattaWatchApp.swift in Sources */,

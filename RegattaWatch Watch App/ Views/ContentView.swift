@@ -32,8 +32,10 @@ struct OverlayPlayerForTimeRemove: View {
 struct ContentView: View {
     
     @State private var showSettings = false
+    @State private var showPremiumAlert = false
     @EnvironmentObject var colorManager: ColorManager
     @EnvironmentObject var settings: AppSettings
+    @StateObject private var iapManager = IAPManager.shared
     @State private var refreshToggle = false  // Add at top with other state variables
     private let impactGenerator = WKHapticType.click
 
@@ -99,14 +101,20 @@ struct ContentView: View {
         }) {
             SettingsView(showSettings: $showSettings)
         }
-
+        .sheet(isPresented: $showPremiumAlert) {
+            PremiumAlertView()
+        }
         .gesture(
             LongPressGesture(minimumDuration: 1.0)
                 .onEnded { _ in
-                    WKInterfaceDevice.current().play(impactGenerator)
-
-                    showSettings = true
-                }
+                     WKInterfaceDevice.current().play(impactGenerator)
+                     
+//                     if iapManager.isPremiumUser {
+                         showSettings = true
+//                     } else {
+//                         showPremiumAlert = true
+//                     }
+                 }
         )
     }
 }

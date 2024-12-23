@@ -40,10 +40,29 @@ struct ContentView: View {
 // Move existing content to new MainInfoView
 struct MainInfoView: View {
     @StateObject private var timerState = TimerState()
+    @ObservedObject private var iapManager = IAPManager.shared
+
     
     var body: some View {
         NavigationView {
             List {
+                
+                Section("Premium Features") {
+                    NavigationLink(destination: SubscriptionView()) {
+                        HStack {
+                            Image(systemName: "star.circle.fill")
+                                .foregroundColor(.yellow)
+                            VStack(alignment: .leading) {
+                                Text("Watch Customization")
+                                    .font(.system(.body, design: .monospaced))
+                                Text(iapManager.isPremiumUser ? "Active" : "$5.99/year")
+                                    .font(.system(.caption, design: .monospaced))
+                                    .foregroundColor(.secondary)
+                            }
+                        }
+                    }
+                }
+                
                 Section("What is Regatta?") {
                     HStack {
                         Image(systemName: "sailboat.fill")
@@ -63,11 +82,9 @@ struct MainInfoView: View {
                     }
                     .font(.system(.body, design: .monospaced))
                     
-                    HStack {
-                        Image(systemName: "apple.watch")
-                        Text("Designed for Apple Watch Ultra with iPhone companion app")
-                    }
+                    Text("Designed for Apple Watch Ultra with iPhone companion app")
                     .font(.system(.body, design: .monospaced))
+                    
                 }
                 
                 Section("How to Use") {
@@ -100,6 +117,10 @@ struct MainInfoView: View {
                         Text("Stop the timer to record your race; session stopped before stopwatch started will not be recorded")
                     }
                     .font(.system(.body, design: .monospaced))
+                    
+                    Text("Add complication to your watch face for quick timer access")
+                        .font(.system(.body, design: .monospaced))
+
                 }
                 
                 Section("Features") {
