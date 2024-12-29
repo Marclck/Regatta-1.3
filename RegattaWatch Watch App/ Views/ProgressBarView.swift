@@ -11,14 +11,7 @@ import SwiftUI
 struct WatchProgressBarView: View {
     @ObservedObject var timerState: WatchTimerState
     @EnvironmentObject var colorManager: ColorManager
-
-    private var isUltraWatch: Bool {
-        #if os(watchOS)
-        return WKInterfaceDevice.current().name.contains("Ultra")
-        #else
-        return false
-        #endif
-    }
+    @EnvironmentObject var settings: AppSettings
     
     var body: some View {
         GeometryReader { geometry in
@@ -29,13 +22,13 @@ struct WatchProgressBarView: View {
             
             ZStack {
                     // Background track - wrapping around screen edges
-                    RoundedRectangle(cornerRadius: 55)
+                    RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
                         .stroke(Color.blue.opacity(0.3), lineWidth: 25)
                         .frame(width: barWidth, height: barHeight)
                         .position(x: frame.midX, y: frame.midY)
 
                 // Progress fill
-                    RoundedRectangle(cornerRadius: 55)
+                    RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
                         .trim(from: 0, to: timerState.progress)
                         .stroke(
                             Color(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : Color(hex: colorManager.selectedTheme.rawValue)),

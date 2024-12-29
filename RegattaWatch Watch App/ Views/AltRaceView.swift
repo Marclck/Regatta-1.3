@@ -20,10 +20,16 @@ struct AltRaceView: View {
     @State private var currentTime = Date()
     let timeTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
+    
+    
     var body: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
-            
+            if settings.lightMode {
+                 Color.white.edgesIgnoringSafeArea(.all)
+             } else {
+                 Color.black.edgesIgnoringSafeArea(.all)
+             }
+             
             GeometryReader { geometry in
                 let centerY = geometry.size.height/2
                 ZStack {
@@ -58,13 +64,13 @@ struct AltRaceView: View {
                            // Hours
                            Text(hourString(from: currentTime))
                                .scaleEffect(x:1, y:0.9) //y0.9
-                               .foregroundColor(.white)
+                               .foregroundColor(settings.lightMode ? .black : .white)
                                .offset(y:isLuminanceReduced ? 10 : 4) //13
                            
                            // Minutes
                            Text(minuteString(from: currentTime))
                                 .scaleEffect(x:1, y:0.9) //y0.9
-                               .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : .white)
+                               .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
                                .offset(y:isLuminanceReduced ? -44 : -24) //37
                            
                             

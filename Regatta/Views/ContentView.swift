@@ -53,7 +53,7 @@ struct MainInfoView: View {
                             Image(systemName: "star.circle.fill")
                                 .foregroundColor(.yellow)
                             VStack(alignment: .leading) {
-                                Text("Watch Customization")
+                                Text("Team Customization")
                                     .font(.system(.body, design: .monospaced))
                                 Text(iapManager.isPremiumUser ? "Active" : "$5.99/year")
                                     .font(.system(.caption, design: .monospaced))

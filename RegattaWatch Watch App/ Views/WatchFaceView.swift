@@ -30,7 +30,11 @@ struct WatchFaceView: View {
     
     var body: some View {
         ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
+            if settings.lightMode {
+                 Color.white.edgesIgnoringSafeArea(.all)
+             } else {
+                 Color.black.edgesIgnoringSafeArea(.all)
+             }
             
             GeometryReader { geometry in
                 let centerY = geometry.size.height/2
@@ -44,7 +48,7 @@ struct WatchFaceView: View {
                     Text(settings.teamName)
                         .font(.system(size: 11, weight: .semibold)) //36 b4 adjustment
                         .rotationEffect(.degrees(270), anchor: .center)
-                        .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(0.8)) // see how the code is referenced.
+                        .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1)) // see how the code is referenced.
                         .position(x: 4, y: centerY/2+60)
                         .onReceive(timeTimer) { input in
                             currentTime = input
@@ -65,13 +69,13 @@ struct WatchFaceView: View {
                            // Hours
                            Text(hourString(from: currentTime))
                                .scaleEffect(x:1, y:1)
-                               .foregroundColor(.white)
+                               .foregroundColor(settings.lightMode ? .black : .white)
                                .offset(y:isLuminanceReduced ? 17 : 8) //16/7
                            
                            // Minutes
                            Text(minuteString(from: currentTime))
                                .scaleEffect(x:1, y:1)
-                               .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : .white)
+                               .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
                                .offset(y:isLuminanceReduced ? -26 : -14) //-30/-23
                         }
                         .font(.zenithBeta(size: 80, weight: .medium))

@@ -12,9 +12,20 @@ import AVKit
 
 private var isUltraWatch: Bool {
     #if os(watchOS)
-    return WKInterfaceDevice.current().name.contains("Ultra")
+    return WKInterfaceDevice.current().model.contains("Ultra")
     #else
     return false
+    #endif
+}
+
+func printWatchModel() {
+    #if os(watchOS)
+    let device = WKInterfaceDevice.current()
+    print("Current Watch Model: \(device.model)")
+    print("Current Watch Name: \(device.name)")
+    print("Current Watch ppi: \(device.screenBounds)")
+    #else
+    print("Not running on watchOS")
     #endif
 }
 
@@ -91,6 +102,7 @@ struct ContentView: View {
         .onAppear {
             lastTeamName = settings.teamName
             lastRaceInfoState = settings.showRaceInfo
+            printWatchModel()
         }
         
         .sheet(isPresented: $showSettings, onDismiss: {

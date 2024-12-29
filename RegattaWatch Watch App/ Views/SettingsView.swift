@@ -16,7 +16,7 @@ class AppSettings: ObservableObject {
     
     // Team name color hex value (ultraBlue when on, speedPapaya when off)
     var teamNameColorHex: String {
-        return altTeamNameColor ? ColorTheme.ultraBlue.rawValue : ColorTheme.speedPapaya.rawValue
+        return altTeamNameColor ? "#000000" : ColorTheme.speedPapaya.rawValue
     }
     
     @Published var teamName: String {
@@ -47,11 +47,27 @@ class AppSettings: ObservableObject {
         }
     }
     
+    @Published var lightMode: Bool {
+        didSet {
+            UserDefaults.standard.set(lightMode, forKey: "lightMode")
+            print("LightMode changed to: \(lightMode)")
+        }
+    }
+    
+    @Published var ultraModel: Bool {
+        didSet {
+            UserDefaults.standard.set(ultraModel, forKey: "ultraModel")
+            print("UltraModel changed to: \(ultraModel)")
+        }
+    }
+    
     init() {
         self.teamName = UserDefaults.standard.string(forKey: "teamName") ?? "Ultra"
         self.showRaceInfo = UserDefaults.standard.bool(forKey: "showRaceInfo")
         self.smoothSecond = UserDefaults.standard.bool(forKey: "smoothSecond")
         self.altTeamNameColor = UserDefaults.standard.bool(forKey: "altTeamNameColor")
+        self.lightMode = UserDefaults.standard.bool(forKey: "lightMode")
+        self.ultraModel = UserDefaults.standard.object(forKey: "ultraModel") as? Bool ?? true
         UserDefaults.standard.synchronize()  // Force save
     }
 }
@@ -138,6 +154,8 @@ struct SettingsView: View {
                     }
                 }
                 
+                Toggle("Ultra Model", isOn: $settings.ultraModel)
+                
                 // Race Info Toggle
                 Toggle("Race Info", isOn: $settings.showRaceInfo)
                 
@@ -146,6 +164,9 @@ struct SettingsView: View {
                 
                 // Alt Team Name Color Toggle
                 Toggle("Alt Team Name Color", isOn: $settings.altTeamNameColor)
+                
+                Toggle("Light Mode", isOn: $settings.lightMode)
+
                 
                 Text("Restart the app for the changes to take effect. Double press digital crown and swipe left to close the app.")
                     .font(.caption2)

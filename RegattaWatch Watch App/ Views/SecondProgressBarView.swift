@@ -15,13 +15,6 @@ struct SecondProgressBarView: View {
     @State private var currentSecond: Double = 0
     @State private var timer = Timer.publish(every: AppSettings().timerInterval, on: .main, in: .common).autoconnect()
 
-    private var isUltraWatch: Bool {
-        #if os(watchOS)
-        return WKInterfaceDevice.current().name.contains("Ultra")
-        #else
-        return false
-        #endif
-    }
     
     private func updateSecond() {
         let components = Calendar.current.dateComponents([.second, .nanosecond], from: Date())
@@ -42,12 +35,12 @@ struct SecondProgressBarView: View {
             let barHeight = frame.height
             
             ZStack {
-                    RoundedRectangle(cornerRadius:55)
+                    RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
                         .stroke(Color.blue.opacity(0.3), lineWidth: 25)
                         .frame(width: barWidth, height: barHeight)
                         .position(x: frame.midX, y: frame.midY)
                 // Progress fill for seconds
-                    RoundedRectangle(cornerRadius:55)
+                    RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
                         .trim(from: 0, to: currentSecond/60)
                         .stroke(
                             Color(hex: colorManager.selectedTheme.rawValue),
