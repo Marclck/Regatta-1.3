@@ -42,14 +42,12 @@ struct SecondProgressBarView: View {
             let barHeight = frame.height
             
             ZStack {
-                // Background track - wrapping around screen edges
-                RoundedRectangle(cornerRadius: isUltraWatch ? 55 : 42)
-
+                    RoundedRectangle(cornerRadius:55)
                         .stroke(Color.blue.opacity(0.3), lineWidth: 25)
                         .frame(width: barWidth, height: barHeight)
                         .position(x: frame.midX, y: frame.midY)
                 // Progress fill for seconds
-                RoundedRectangle(cornerRadius: isUltraWatch ? 55 : 42)
+                    RoundedRectangle(cornerRadius:55)
                         .trim(from: 0, to: currentSecond/60)
                         .stroke(
                             Color(hex: colorManager.selectedTheme.rawValue),

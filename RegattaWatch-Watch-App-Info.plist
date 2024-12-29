@@ -2,16 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-	<key>WKApplication</key>
-	<true/>
-	<key>WKAppBundleIdentifier</key>
-	<string>heart.Regatta.watchkitapp</string>
 	<key>NSUserActivityTypes</key>
 	<array>
 		<string>StartCountdownIntent</string>
 	</array>
 	<key>UIBackgroundModes</key>
 	<array/>
+	<key>WKAppBundleIdentifier</key>
+	<string>com.heart.astrolabe.watchkitapp</string>
+	<key>WKApplication</key>
+	<true/>
 	<key>WKBackgroundModes</key>
 	<array>
 		<string>physical-therapy</string>

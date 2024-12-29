@@ -33,7 +33,7 @@ struct AltRaceView: View {
                     SecondProgressBarView()
                     
                     Text(settings.teamName)
-                        .font(.system(size: 11, weight: .bold)) //14 b4 adjustment
+                        .font(.system(size: 11, weight: .semibold)) //14 b4 adjustment
                         .rotationEffect(.degrees(270), anchor: .center)
                         .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1)) // see how the code is referenced.
                         .position(x: 4, y: centerY/2+55)

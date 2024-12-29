@@ -16,7 +16,7 @@ import Foundation
 import WidgetKit
 
 struct SharedDefaults {
-    private static let appGroupIdentifier = "group.heart.Regatta.watchkitapp"
+    private static let appGroupIdentifier = "group.com.heart.astrolabe.watchkitapp"
     
     // Used for migrating old sessions
     private struct LegacyRaceSession: Codable {

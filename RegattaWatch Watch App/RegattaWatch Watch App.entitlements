@@ -4,9 +4,9 @@
 <dict>
 	<key>com.apple.security.application-groups</key>
 	<array>
-		<string>group.heart.Regatta.journaldata</string>
-		<string>group.heart.Regatta.watchkitapp</string>
-		<string>group.heart.Regatta</string>
+		<string>group.com.heart.astrolabe</string>
+		<string>group.com.heart.astrolabe.watchkitapp</string>
+		<string>group.com.heart.astrolabe.journalentry</string>
 	</array>
 </dict>
 </plist>

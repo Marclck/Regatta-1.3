@@ -28,21 +28,13 @@ struct WatchProgressBarView: View {
             let barHeight = frame.height
             
             ZStack {
-                if isUltraWatch {
                     // Background track - wrapping around screen edges
                     RoundedRectangle(cornerRadius: 55)
                         .stroke(Color.blue.opacity(0.3), lineWidth: 25)
                         .frame(width: barWidth, height: barHeight)
                         .position(x: frame.midX, y: frame.midY)
-                } else {
-                    // Background track - wrapping around screen edges
-                    RoundedRectangle(cornerRadius: 42)
-                        .stroke(Color.blue.opacity(0.3), lineWidth: 25)
-                        .frame(width: barWidth, height: barHeight)
-                        .position(x: frame.midX, y: frame.midY)
-                }
+
                 // Progress fill
-                if isUltraWatch {
                     RoundedRectangle(cornerRadius: 55)
                         .trim(from: 0, to: timerState.progress)
                         .stroke(
@@ -52,17 +44,6 @@ struct WatchProgressBarView: View {
                         .frame(width: barHeight, height: barWidth)
                         .position(x: frame.midX, y: frame.midY)
                         .rotationEffect(.degrees(-90))  // Align trim start to top
-                } else {
-                    RoundedRectangle(cornerRadius: 42)
-                        .trim(from: 0, to: timerState.progress)
-                        .stroke(
-                            Color(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : Color(hex: colorManager.selectedTheme.rawValue)),
-                            style: StrokeStyle(lineWidth: 25, lineCap: .butt)
-                        )
-                        .frame(width: barHeight, height: barWidth)
-                        .position(x: frame.midX, y: frame.midY)
-                        .rotationEffect(.degrees(-90))  // Align trim start to top
-                }
                 // Separators overlay
                 WatchSeparatorOverlay(
                     totalMinutes: timerState.selectedMinutes,

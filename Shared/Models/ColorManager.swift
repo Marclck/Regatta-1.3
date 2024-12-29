@@ -41,7 +41,7 @@ enum ColorTheme: String, CaseIterable, Codable {
 
 class ColorManager: NSObject, ObservableObject {
     // Remove this as we're using SharedDefaults.shared instead
-    // static let sharedDefaults = UserDefaults(suiteName: "group.heart.Regatta")!
+    // static let sharedDefaults = UserDefaults(suiteName: "group.com.heart.astrolabe")!
     
     // Update static method to use SharedDefaults
     static func getCurrentThemeColor() -> Color {
