@@ -25,12 +25,12 @@ struct SubscriptionView: View {
                             .font(.headline)
                     }
                     
-                    Text("$5.99 / year")
+                    Text("$X.99 / year") //update!!
                         .font(.title2)
                         .bold()
                         .padding(.vertical, 4)
                     
-                    Text("Unlock Customization Settings:")
+                    Text("Unlock Customization Settings (Long Press on Any Screen to Access Settings):")
                         .font(.subheadline)
                         .padding(.top, 4)
                     
@@ -40,6 +40,7 @@ struct SubscriptionView: View {
                         FeatureRow(icon: "clock.fill", text: "Smooth Second Hand - Enable fluid second hand movement with precise computation")
                         FeatureRow(icon: "rectangle.stack.fill", text: "Race Info Display - Toggle between minimal and detailed race information")
                         FeatureRow(icon: "paintpalette.fill", text: "Alternate Color Schemes - Switch between different text color combinations")
+                        FeatureRow(icon: "ruler.fill", text: "Compatibility for Non-Ultra models - UI optimization for non-Ultra watches")
                     }
                     .padding(.vertical, 4)
                 }

@@ -55,7 +55,7 @@ struct MainInfoView: View {
                             VStack(alignment: .leading) {
                                 Text("Team Customization")
                                     .font(.system(.body, design: .monospaced))
-                                Text(iapManager.isPremiumUser ? "Active" : "$5.99/year")
+                                Text(iapManager.isPremiumUser ? "Active" : "$X.99/year") //update!!
                                     .font(.system(.caption, design: .monospaced))
                                     .foregroundColor(.secondary)
                             }
@@ -82,7 +82,10 @@ struct MainInfoView: View {
                     }
                     .font(.system(.body, design: .monospaced))
                     
-                    Text("Designed for Apple Watch Ultra with iPhone companion app")
+                    HStack{
+                        Image(systemName: "applewatch")
+                        Text("Designed for Apple Watch Ultra with iPhone companion app")
+                    }
                     .font(.system(.body, design: .monospaced))
                     
                 }
@@ -113,13 +116,16 @@ struct MainInfoView: View {
                     .font(.system(.body, design: .monospaced))
                     
                     HStack {
-                        Image(systemName: "5.circle.fill")
+                        Image(systemName: "6.circle.fill")
                         Text("Stop the timer to record your race; session stopped before stopwatch started will not be recorded")
                     }
                     .font(.system(.body, design: .monospaced))
                     
-                    Text("Add complication to your watch face for quick timer access")
-                        .font(.system(.body, design: .monospaced))
+                    HStack {
+                        Image(systemName: "5.circle.fill")
+                        Text("Add complication to your watch face for quick timer access")
+                    }
+                    .font(.system(.body, design: .monospaced))
 
                 }
                 
