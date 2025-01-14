@@ -13,6 +13,7 @@
 		1D04D3342CF3DD90006A9B82 /* AppIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D04D3332CF3DD90006A9B82 /* AppIntent.swift */; };
 		1D04D3362CF3DD91006A9B82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D04D3352CF3DD91006A9B82 /* Assets.xcassets */; };
 		1D04D33A2CF3DD91006A9B82 /* RegattaWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1D04D32D2CF3DD90006A9B82 /* RegattaWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		1D1D830F2D3727C9003C8CAA /* SubscriptionOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1D830E2D3727C9003C8CAA /* SubscriptionOverlay.swift */; };
 		1D2E53F42D17014A00C669D4 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */; };
 		1D2E53F52D17014A00C669D4 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */; };
 		1D2E53F62D17014A00C669D4 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */; };
@@ -203,6 +204,7 @@
 		1D04D3352CF3DD91006A9B82 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		1D04D3372CF3DD91006A9B82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D0B5B492CED2E2000DC4BE5 /* RegattaWatch Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RegattaWatch Watch App.entitlements"; sourceTree = "<group>"; };
+		1D1D830E2D3727C9003C8CAA /* SubscriptionOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionOverlay.swift; sourceTree = "<group>"; };
 		1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		1D2E53F92D17159600C669D4 /* TabBarContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarContentView.swift; sourceTree = "<group>"; };
 		1D2E53FE2D1715AD00C669D4 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -551,6 +553,7 @@
 				1D768D762CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift */,
 				1D3DC5682D0280D600252F1F /* AltRaceView.swift */,
 				1DB44CB72D0744C70035B2F2 /* SettingsView.swift */,
+				1D1D830E2D3727C9003C8CAA /* SubscriptionOverlay.swift */,
 			);
 			path = " Views";
 			sourceTree = "<group>";
@@ -943,6 +946,7 @@
 				1D69FF072CE96A32001C178A /* CurrentTimeView.swift in Sources */,
 				1D768D752CFD1AE800DB4EE5 /* SecondProgressBarView.swift in Sources */,
 				1D2E54152D17161200C669D4 /* TabScrollContentView.swift in Sources */,
+				1D1D830F2D3727C9003C8CAA /* SubscriptionOverlay.swift in Sources */,
 				1D69FF052CE96A26001C178A /* ProgressBarView.swift in Sources */,
 				1D2E53FC2D17159600C669D4 /* TabBarContentView.swift in Sources */,
 				1DB44CB82D0744C70035B2F2 /* SettingsView.swift in Sources */,

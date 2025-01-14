@@ -47,15 +47,16 @@ struct MainInfoView: View {
         NavigationView {
             List {
                 
-                Section("Premium Features") {
+                Section("App Access") {
                     NavigationLink(destination: SubscriptionView()) {
                         HStack {
                             Image(systemName: "star.circle.fill")
                                 .foregroundColor(.yellow)
                             VStack(alignment: .leading) {
-                                Text("Team Customization")
+                                Text("Astrolabe Pro")
                                     .font(.system(.body, design: .monospaced))
-                                Text(iapManager.isPremiumUser ? "Active" : "$X.99/year") //update!!
+                                    .foregroundColor(.cyan)
+                                Text(iapManager.isPremiumUser ? "Active" : "7-day free trial, $5.99/year after") //update!!
                                     .font(.system(.caption, design: .monospaced))
                                     .foregroundColor(.secondary)
                             }
@@ -63,7 +64,7 @@ struct MainInfoView: View {
                     }
                 }
                 
-                Section("What is Regatta?") {
+                Section("What is Astrolabe?") {
                     HStack {
                         Image(systemName: "sailboat.fill")
                         Text("Race countdown timer & sailing stopwatch")

@@ -17,16 +17,23 @@ struct PremiumAlertView: View {
     
     var body: some View {
         VStack(spacing: 10) {
-            Text("Premium Feature")
+            Text("Astrolabe Pro")
                 .font(.headline)
             
-            Text("Access advanced settings and customization options")
-                .font(.caption)
-                .multilineTextAlignment(.center)
+            if iapManager.isInTrialPeriod {
+                Text("You're in trial period!\n\(iapManager.formatTimeRemaining())")
+                    .font(.subheadline)
+                    .foregroundColor(.green)
+                    .multilineTextAlignment(.center)
+            } else {
+                Text("Full app access with advanced settings and customization options")
+                    .font(.caption)
+                    .multilineTextAlignment(.center)
+            }
             
             if isPurchasing {
                 ProgressView()
-            } else {
+            } else if !iapManager.isPremiumUser {
                 Button(action: {
                     Task {
                         isPurchasing = true
@@ -39,7 +46,7 @@ struct PremiumAlertView: View {
                         isPurchasing = false
                     }
                 }) {
-                    Text("Unlock Premium")
+                    Text(iapManager.isInTrialPeriod ? "Subscribe Now ($5.99/year)" : "Subscribe ($5.99/year)")
                         .bold()
                 }
             }

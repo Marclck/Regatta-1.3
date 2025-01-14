@@ -9,6 +9,22 @@ import Foundation
 import SwiftUI
 import StoreKit
 
+struct FeatureRow: View {
+    let icon: String
+    let text: String
+    
+    var body: some View {
+        HStack(alignment: .top, spacing: 12) {
+            Image(systemName: icon)
+                .foregroundColor(.blue)
+                .frame(width: 20)
+            
+            Text(text)
+                .font(.system(.body, design: .rounded))
+        }
+    }
+}
+
 struct SubscriptionView: View {
     @ObservedObject private var iapManager = IAPManager.shared
     @State private var isPurchasing = false
@@ -21,30 +37,28 @@ struct SubscriptionView: View {
                     HStack {
                         Image(systemName: "star.circle.fill")
                             .foregroundColor(.yellow)
-                        Text("Team Customization")
+                        Text("Astrolabe Pro")
                             .font(.headline)
                     }
                     
-                    Text("$X.99 / year") //update!!
-                        .font(.title2)
-                        .bold()
-                        .padding(.vertical, 4)
-                    
-                    Text("Unlock Customization Settings (Long Press on Any Screen to Access Settings):")
-                        .font(.subheadline)
-                        .padding(.top, 4)
-                    
                     VStack(alignment: .leading, spacing: 8) {
-                        FeatureRow(icon: "paintbrush.fill", text: "Custom Team Colors - Personalize your watch face with unique team color schemes")
-                        FeatureRow(icon: "textformat", text: "Custom Team Name - Display your team name on the watch face (up to 14 characters)")
-                        FeatureRow(icon: "clock.fill", text: "Smooth Second Hand - Enable fluid second hand movement with precise computation")
+                        FeatureRow(icon: "timer", text: "Regatta Countdown Timer - Precise race start timing and real-time race tracking capabilities")
                         FeatureRow(icon: "rectangle.stack.fill", text: "Race Info Display - Toggle between minimal and detailed race information")
+                        FeatureRow(icon: "paintbrush.fill", text: "Custom Team Colors - Personalize your watch face with unique team color schemes")
+                        FeatureRow(icon: "textformat", text: "Custom Team Name - Display your team name on the face info page (up to 14 characters)")
+                        FeatureRow(icon: "clock.fill", text: "Smooth Second Hand - Enable fluid second hand movement with precise computation")
                         FeatureRow(icon: "paintpalette.fill", text: "Alternate Color Schemes - Switch between different text color combinations")
                         FeatureRow(icon: "ruler.fill", text: "Compatibility for Non-Ultra models - UI optimization for non-Ultra watches")
                     }
-                    .padding(.vertical, 4)
+                        
+                    if iapManager.isInTrialPeriod {
+                        Text("Free Trial - \(iapManager.formatTimeRemaining())")
+                            .font(.title2)
+                            .bold()
+                            .foregroundColor(.cyan)
+                    }
+
                 }
-                .padding(.vertical, 8)
             }
             
             Section {
@@ -60,7 +74,7 @@ struct SubscriptionView: View {
                     }) {
                         HStack {
                             Spacer()
-                            Text(iapManager.isPremiumUser ? "Subscribed" : "Subscribe")
+                            Text(buttonText)
                                 .bold()
                             Spacer()
                         }
@@ -90,7 +104,6 @@ struct SubscriptionView: View {
                 .foregroundColor(.secondary)
             }
         }
-        .navigationTitle("Premium Features")
     }
     
     private func purchaseSubscription() {
@@ -106,20 +119,14 @@ struct SubscriptionView: View {
             isPurchasing = false
         }
     }
-}
-
-struct FeatureRow: View {
-    let icon: String
-    let text: String
     
-    var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            Image(systemName: icon)
-                .foregroundColor(.blue)
-                .frame(width: 20)
-            
-            Text(text)
-                .font(.system(.body, design: .rounded))
+    private var buttonText: String {
+        if iapManager.isPremiumUser {
+            return "Subscribed"
+        } else if iapManager.isInTrialPeriod {
+            return "Subscribe Now ($5.99/year)"
+        } else {
+            return "Subscribe ($5.99/year)"
         }
     }
 }

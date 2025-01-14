@@ -17,12 +17,21 @@ struct WatchRegattaApp: App {
   
     @StateObject private var colorManager = ColorManager()
     @StateObject private var settings = AppSettings()
+    @StateObject private var iapManager = IAPManager.shared
+
     
     var body: some Scene {
         WindowGroup {
-            ContentView()
-                .environmentObject(colorManager)
-                .environmentObject(settings)
+            ZStack {
+                ContentView()
+                    .environmentObject(colorManager)
+                    .environmentObject(settings)
+                
+                if !iapManager.canAccessPremiumFeatures() {
+                    SubscriptionOverlay()
+                }
+            }
+            .environmentObject(iapManager)
         }
     }
 }
