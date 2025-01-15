@@ -28,6 +28,7 @@ struct FeatureRow: View {
 struct SubscriptionView: View {
     @ObservedObject private var iapManager = IAPManager.shared
     @State private var isPurchasing = false
+    @State private var isRestoring = false
     @State private var errorMessage: String?
     
     var body: some View {
@@ -57,12 +58,11 @@ struct SubscriptionView: View {
                             .bold()
                             .foregroundColor(.cyan)
                     }
-
                 }
             }
             
             Section {
-                if isPurchasing {
+                if isPurchasing || isRestoring {
                     HStack {
                         Spacer()
                         ProgressView()
@@ -80,6 +80,17 @@ struct SubscriptionView: View {
                         }
                     }
                     .disabled(iapManager.isPremiumUser)
+                    
+                    Button(action: {
+                        restorePurchases()
+                    }) {
+                        HStack {
+                            Spacer()
+                            Text("Restore Purchases")
+                                .foregroundColor(.secondary)
+                            Spacer()
+                        }
+                    }
                 }
                 
                 if let error = errorMessage {
@@ -114,9 +125,24 @@ struct SubscriptionView: View {
             do {
                 try await iapManager.purchasePremium()
             } catch {
-                errorMessage = "Purchase failed: \(error.localizedDescription)"
+                errorMessage = error.localizedDescription
             }
             isPurchasing = false
+        }
+    }
+    
+    private func restorePurchases() {
+        isRestoring = true
+        errorMessage = nil
+        
+        Task {
+            do {
+                try await iapManager.restorePurchases()
+                errorMessage = nil
+            } catch {
+                errorMessage = error.localizedDescription
+            }
+            isRestoring = false
         }
     }
     
@@ -124,9 +150,9 @@ struct SubscriptionView: View {
         if iapManager.isPremiumUser {
             return "Subscribed"
         } else if iapManager.isInTrialPeriod {
-            return "Subscribe Now ($5.99/year)"
+            return "Subscribe Now"
         } else {
-            return "Subscribe ($5.99/year)"
+            return "Subscribe"
         }
     }
 }

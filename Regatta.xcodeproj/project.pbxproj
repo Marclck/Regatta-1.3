@@ -14,6 +14,8 @@
 		1D04D3362CF3DD91006A9B82 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 1D04D3352CF3DD91006A9B82 /* Assets.xcassets */; };
 		1D04D33A2CF3DD91006A9B82 /* RegattaWidgetExtensionExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = 1D04D32D2CF3DD90006A9B82 /* RegattaWidgetExtensionExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		1D1D830F2D3727C9003C8CAA /* SubscriptionOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1D830E2D3727C9003C8CAA /* SubscriptionOverlay.swift */; };
+		1D1D83112D386A72003C8CAA /* Astrolabe Countdown.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */; };
+		1D1D83122D386A72003C8CAA /* Astrolabe Countdown.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */; };
 		1D2E53F42D17014A00C669D4 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */; };
 		1D2E53F52D17014A00C669D4 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */; };
 		1D2E53F62D17014A00C669D4 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */; };
@@ -205,6 +207,7 @@
 		1D04D3372CF3DD91006A9B82 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		1D0B5B492CED2E2000DC4BE5 /* RegattaWatch Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RegattaWatch Watch App.entitlements"; sourceTree = "<group>"; };
 		1D1D830E2D3727C9003C8CAA /* SubscriptionOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionOverlay.swift; sourceTree = "<group>"; };
+		1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Astrolabe Countdown.storekit"; sourceTree = "<group>"; };
 		1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		1D2E53F92D17159600C669D4 /* TabBarContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarContentView.swift; sourceTree = "<group>"; };
 		1D2E53FE2D1715AD00C669D4 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -509,6 +512,7 @@
 				1D4384672D186D10000DE437 /* IAPManager.swift */,
 				1D43846C2D186D43000DE437 /* PremiumAlertView.swift */,
 				1D4384712D18725D000DE437 /* SubscriptionView.swift */,
+				1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -781,6 +785,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D1D83112D386A72003C8CAA /* Astrolabe Countdown.storekit in Resources */,
 				1D69FE9D2CE967AB001C178A /* Preview Assets.xcassets in Resources */,
 				1D69FE9A2CE967AB001C178A /* Assets.xcassets in Resources */,
 			);
@@ -804,6 +809,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1D1D83122D386A72003C8CAA /* Astrolabe Countdown.storekit in Resources */,
 				1D69FECD2CE967F9001C178A /* Preview Assets.xcassets in Resources */,
 				1D69FECA2CE967F9001C178A /* Assets.xcassets in Resources */,
 			);
@@ -1226,7 +1232,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.heart.astrolabe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1262,7 +1268,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0;
+				MARKETING_VERSION = 1.1;
 				PRODUCT_BUNDLE_IDENTIFIER = com.heart.astrolabe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";

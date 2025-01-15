@@ -54,9 +54,9 @@ struct MainInfoView: View {
                                 .foregroundColor(.yellow)
                             VStack(alignment: .leading) {
                                 Text("Astrolabe Pro")
-                                    .font(.system(.body, design: .monospaced))
+                                    .font(.system(.body, design: .monospaced, weight: .bold))
                                     .foregroundColor(.cyan)
-                                Text(iapManager.isPremiumUser ? "Active" : "7-day free trial, $5.99/year after") //update!!
+                                Text(iapManager.isPremiumUser ? "Active" : "7-day free trial, annual payment after") //update!!
                                     .font(.system(.caption, design: .monospaced))
                                     .foregroundColor(.secondary)
                             }

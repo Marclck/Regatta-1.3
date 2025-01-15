@@ -1,0 +1,104 @@
+{
+  "identifier" : "C42C16F9",
+  "nonRenewingSubscriptions" : [
+
+  ],
+  "products" : [
+
+  ],
+  "settings" : {
+    "_applicationInternalID" : "6739977285",
+    "_developerTeamID" : "RV5P86366B",
+    "_failTransactionsEnabled" : false,
+    "_lastSynchronizedDate" : 758671992.81712306,
+    "_locale" : "en_US",
+    "_storefront" : "USA",
+    "_storeKitErrors" : [
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Load Products"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Purchase"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Verification"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Store Sync"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Subscription Status"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "App Transaction"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Manage Subscriptions Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Refund Request Sheet"
+      },
+      {
+        "current" : null,
+        "enabled" : false,
+        "name" : "Offer Code Redeem Sheet"
+      }
+    ]
+  },
+  "subscriptionGroups" : [
+    {
+      "id" : "21621682",
+      "localizations" : [
+
+      ],
+      "name" : "Astrolabe Pro",
+      "subscriptions" : [
+        {
+          "adHocOffers" : [
+
+          ],
+          "codeOffers" : [
+
+          ],
+          "displayPrice" : "6.99",
+          "familyShareable" : false,
+          "groupNumber" : 1,
+          "internalID" : "6740566540",
+          "introductoryOffer" : null,
+          "localizations" : [
+            {
+              "description" : "Annual app access after free trial period",
+              "displayName" : "Astrolabe Pro Access (Annual)",
+              "locale" : "en_GB"
+            }
+          ],
+          "productID" : "Astrolabe_pro_access_annual_599",
+          "recurringSubscriptionPeriod" : "P1Y",
+          "referenceName" : "Annual Subscription",
+          "subscriptionGroupID" : "21621682",
+          "type" : "RecurringSubscription"
+        }
+      ]
+    }
+  ],
+  "version" : {
+    "major" : 3,
+    "minor" : 0
+  }
+}
