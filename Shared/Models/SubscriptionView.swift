@@ -62,33 +62,39 @@ struct SubscriptionView: View {
             }
             
             Section {
-                if isPurchasing || isRestoring {
-                    HStack {
-                        Spacer()
-                        ProgressView()
-                        Spacer()
-                    }
-                } else {
-                    Button(action: {
-                        purchaseSubscription()
-                    }) {
+                VStack {
+                    if isPurchasing || isRestoring {
                         HStack {
                             Spacer()
-                            Text(buttonText)
-                                .bold()
+                            ProgressView()
                             Spacer()
                         }
-                    }
-                    .disabled(iapManager.isPremiumUser)
-                    
-                    Button(action: {
-                        restorePurchases()
-                    }) {
-                        HStack {
-                            Spacer()
-                            Text("Restore Purchases")
-                                .foregroundColor(.secondary)
-                            Spacer()
+                    } else {
+                        Button(action: {
+                            purchaseSubscription()
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text(buttonText)
+                                    .bold()
+                                if !iapManager.isPremiumUser {
+                                    Text("\(iapManager.localizedPrice)/year")
+                                        .bold()
+                                }
+                                Spacer()
+                            }
+                        }
+                        .disabled(iapManager.isPremiumUser)
+                        
+                        Button(action: {
+                            restorePurchases()
+                        }) {
+                            HStack {
+                                Spacer()
+                                Text("Restore Purchases")
+                                    .foregroundColor(.secondary)
+                                Spacer()
+                            }
                         }
                     }
                 }
@@ -106,10 +112,18 @@ struct SubscriptionView: View {
                         .font(.subheadline)
                         .bold()
                     
-                    Text("• Subscription automatically renews unless cancelled")
+                    Text("• Subscription automatically renews every year unless cancelled")
                     Text("• Cancel anytime through your Apple ID settings")
                     Text("• Payment will be charged to your Apple ID account")
                     Text("• Any unused portion of a free trial will be forfeited when purchasing a subscription")
+                    
+                    Link("Terms of Use (EULA)", destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
+                        .foregroundColor(.blue)
+                        .padding(.top, 4)
+                    
+                    Link("Privacy Policy", destination: URL(string: "https://astrolabe-countdown.apphq.online/privacy")!)
+                        .foregroundColor(.blue)
+                        .padding(.top, 2)
                 }
                 .font(.caption)
                 .foregroundColor(.secondary)
@@ -150,9 +164,9 @@ struct SubscriptionView: View {
         if iapManager.isPremiumUser {
             return "Subscribed"
         } else if iapManager.isInTrialPeriod {
-            return "Subscribe Now"
+            return "Subscribe to Astrolabe Pro"
         } else {
-            return "Subscribe"
+            return "Subscribe to Astrolabe Pro"
         }
     }
 }

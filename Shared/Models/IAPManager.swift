@@ -45,6 +45,10 @@ class IAPManager: ObservableObject {
     @Published var isInTrialPeriod = false
     @Published var trialTimeRemaining: TimeInterval = 0
     
+    var localizedPrice: String {
+        subscriptions.first?.displayPrice ?? "$6.99"
+    }
+    
     private var trialTimer: Timer?
     private var updateListenerTask: Task<Void, Error>? = nil
     

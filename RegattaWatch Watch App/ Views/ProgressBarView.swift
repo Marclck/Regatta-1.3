@@ -23,7 +23,7 @@ struct WatchProgressBarView: View {
             ZStack {
                     // Background track - wrapping around screen edges
                     RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
-                        .stroke(Color.blue.opacity(0.3), lineWidth: 25)
+                        .stroke(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.3), lineWidth: 25)
                         .frame(width: barWidth, height: barHeight)
                         .position(x: frame.midX, y: frame.midY)
 
