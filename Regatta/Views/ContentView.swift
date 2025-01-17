@@ -11,7 +11,6 @@ struct ContentView: View {
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
     @EnvironmentObject var colorManager: ColorManager
 
-
     var body: some View {
         TabView {
             // Journal Tab
@@ -26,13 +25,6 @@ struct ContentView: View {
                 .tabItem {
                     Label("Info", systemImage: "timer.circle.fill")
                 }
-            
-            // settings
-//            SettingsView()
-//                .environmentObject(colorManager)  // Add explicitly
-//                .tabItem {
-//                    Label("Settings", systemImage: "gear.circle.fill")
-//                }
         }
     }
 }
@@ -41,12 +33,14 @@ struct ContentView: View {
 struct MainInfoView: View {
     @StateObject private var timerState = TimerState()
     @ObservedObject private var iapManager = IAPManager.shared
-
+    
+    // URLs for legal links
+    private let privacyPolicyURL = URL(string: "https://astrolabe-countdown.apphq.online/privacy")!
+    private let termsOfUseURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
     
     var body: some View {
         NavigationView {
             List {
-                
                 Section("App Access") {
                     NavigationLink(destination: SubscriptionView()) {
                         HStack {
@@ -56,7 +50,7 @@ struct MainInfoView: View {
                                 Text("Astrolabe Pro")
                                     .font(.system(.body, design: .monospaced, weight: .bold))
                                     .foregroundColor(.cyan)
-                                Text(iapManager.isPremiumUser ? "Active" : "7-day free trial, annual payment after") //update!!
+                                Text(iapManager.isPremiumUser ? "Active" : "7-day free trial, annual payment after")
                                     .font(.system(.caption, design: .monospaced))
                                     .foregroundColor(.secondary)
                             }
@@ -88,7 +82,6 @@ struct MainInfoView: View {
                         Text("Designed for Apple Watch Ultra with iPhone companion app")
                     }
                     .font(.system(.body, design: .monospaced))
-                    
                 }
                 
                 Section("How to Use") {
@@ -127,7 +120,6 @@ struct MainInfoView: View {
                         Text("Add complication to your watch face for quick timer access")
                     }
                     .font(.system(.body, design: .monospaced))
-
                 }
                 
                 Section("Features") {
@@ -157,10 +149,15 @@ struct MainInfoView: View {
                             .italic()
                             .foregroundColor(.secondary)
                         
-//                        Link("contact | support | suggestion",
-//                             destination: URL(string: "mailto:normalappco@gmail.com")!)
-//                            .font(.system(.caption, design: .monospaced))
-//                            .foregroundColor(.secondary)
+                        HStack(spacing: 15) {
+                            Link("Privacy Policy", destination: privacyPolicyURL)
+                                .font(.system(.caption, design: .monospaced))
+                                .foregroundColor(.secondary)
+                            
+                            Link("Terms of Use", destination: termsOfUseURL)
+                                .font(.system(.caption, design: .monospaced))
+                                .foregroundColor(.secondary)
+                        }
                     }
                     .frame(maxWidth: .infinity)
                     .listRowBackground(Color.clear)
@@ -185,11 +182,9 @@ struct MainInfoView: View {
     MainInfoView()
 }
 
-// Preview
 #Preview {
     ContentView()
         .environmentObject(ColorManager())
-
 }
 
 //struct ContentView: View {

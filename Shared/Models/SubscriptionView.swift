@@ -31,6 +31,9 @@ struct SubscriptionView: View {
     @State private var isRestoring = false
     @State private var errorMessage: String?
     
+    private let privacyPolicyURL = URL(string: "https://astrolabe-countdown.apphq.online/privacy")!
+    private let termsOfUseURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
+    
     var body: some View {
         List {
             Section {
@@ -116,19 +119,34 @@ struct SubscriptionView: View {
                     Text("• Cancel anytime through your Apple ID settings")
                     Text("• Payment will be charged to your Apple ID account")
                     Text("• Any unused portion of a free trial will be forfeited when purchasing a subscription")
+                }
+                .font(.caption)
+                .foregroundColor(.secondary)
+            }
+            
+            Section {
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Legal")
+                        .font(.subheadline)
+                        .bold()
                     
-                    Link("Terms of Use (EULA)", destination: URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!)
-                        .foregroundColor(.blue)
-                        .padding(.top, 4)
+                    HStack {
+                        Image(systemName: "doc.text")
+                            .foregroundColor(.blue)
+                        Link("Terms of Use (EULA)", destination: termsOfUseURL)
+                    }
                     
-                    Link("Privacy Policy", destination: URL(string: "https://astrolabe-countdown.apphq.online/privacy")!)
-                        .foregroundColor(.blue)
-                        .padding(.top, 2)
+                    HStack {
+                        Image(systemName: "lock.shield")
+                            .foregroundColor(.blue)
+                        Link("Privacy Policy", destination: privacyPolicyURL)
+                    }
                 }
                 .font(.caption)
                 .foregroundColor(.secondary)
             }
         }
+        .navigationTitle("Astrolabe Pro")
     }
     
     private func purchaseSubscription() {
