@@ -110,16 +110,29 @@ struct MainInfoView: View {
                     .font(.system(.body, design: .monospaced))
                     
                     HStack {
-                        Image(systemName: "6.circle.fill")
+                        Image(systemName: "5.circle.fill")
                         Text("Stop the timer to record your race; session stopped before stopwatch started will not be recorded")
                     }
                     .font(.system(.body, design: .monospaced))
                     
                     HStack {
-                        Image(systemName: "5.circle.fill")
+                        Image(systemName: "6.circle.fill")
                         Text("Add complication to your watch face for quick timer access")
                     }
                     .font(.system(.body, design: .monospaced))
+                    
+                    HStack {
+                        Image(systemName: "7.circle.fill")
+                        Text("Long press your Apple Watch screen for customization options")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                    
+                    HStack {
+                        Image(systemName: "8.circle.fill")
+                        Text("Check race information by tapping the current time on the watch screen")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                    
                 }
                 
                 Section("Features") {
