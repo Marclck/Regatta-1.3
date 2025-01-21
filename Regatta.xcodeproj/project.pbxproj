@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1D00ADD62D3F06AF001AC542 /* SpeedDisplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D00ADD52D3F06AF001AC542 /* SpeedDisplayView.swift */; };
+		1D00ADD82D3F06E4001AC542 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D00ADD72D3F06E4001AC542 /* LocationManager.swift */; };
+		1D00ADD92D3F0D7F001AC542 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D00ADD72D3F06E4001AC542 /* LocationManager.swift */; };
+		1D00ADDA2D3F0D85001AC542 /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D00ADD72D3F06E4001AC542 /* LocationManager.swift */; };
+		1D00ADDC2D3F0DB1001AC542 /* LocationStatusView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D00ADDB2D3F0DB1001AC542 /* LocationStatusView.swift */; };
 		1D04D32E2CF3DD90006A9B82 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D63A9832CEE920B00A372DA /* WidgetKit.framework */; };
 		1D04D32F2CF3DD90006A9B82 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D63A9852CEE920B00A372DA /* SwiftUI.framework */; };
 		1D04D3322CF3DD90006A9B82 /* RegattaWidgetExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D04D3312CF3DD90006A9B82 /* RegattaWidgetExtension.swift */; };
@@ -200,6 +205,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		1D00ADD52D3F06AF001AC542 /* SpeedDisplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedDisplayView.swift; sourceTree = "<group>"; };
+		1D00ADD72D3F06E4001AC542 /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
+		1D00ADDB2D3F0DB1001AC542 /* LocationStatusView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationStatusView.swift; sourceTree = "<group>"; };
 		1D04D32D2CF3DD90006A9B82 /* RegattaWidgetExtensionExtension.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = RegattaWidgetExtensionExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		1D04D3312CF3DD90006A9B82 /* RegattaWidgetExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegattaWidgetExtension.swift; sourceTree = "<group>"; };
 		1D04D3332CF3DD90006A9B82 /* AppIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppIntent.swift; sourceTree = "<group>"; };
@@ -513,6 +521,7 @@
 				1D43846C2D186D43000DE437 /* PremiumAlertView.swift */,
 				1D4384712D18725D000DE437 /* SubscriptionView.swift */,
 				1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */,
+				1D00ADD72D3F06E4001AC542 /* LocationManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -558,6 +567,8 @@
 				1D3DC5682D0280D600252F1F /* AltRaceView.swift */,
 				1DB44CB72D0744C70035B2F2 /* SettingsView.swift */,
 				1D1D830E2D3727C9003C8CAA /* SubscriptionOverlay.swift */,
+				1D00ADD52D3F06AF001AC542 /* SpeedDisplayView.swift */,
+				1D00ADDB2D3F0DB1001AC542 /* LocationStatusView.swift */,
 			);
 			path = " Views";
 			sourceTree = "<group>";
@@ -848,6 +859,7 @@
 				1DD9DBD92CF6844F00D1E608 /* LineChartManager.swift in Sources */,
 				1D2E54162D17161200C669D4 /* TabScrollContentView.swift in Sources */,
 				1DC4B32E2CF676B900A8CC30 /* SharedDefaults.swift in Sources */,
+				1D00ADDA2D3F0D85001AC542 /* LocationManager.swift in Sources */,
 				1D2E53F72D17014A00C669D4 /* WatchSessionManager.swift in Sources */,
 				1D2E54072D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
 				1D5E481D2CFBC909004813A4 /* JournalManager.swift in Sources */,
@@ -866,6 +878,7 @@
 				1D69FEF92CE968FB001C178A /* ScreenEdgePath.swift in Sources */,
 				1D4384682D186D10000DE437 /* IAPManager.swift in Sources */,
 				1D2E54132D17161200C669D4 /* TabScrollContentView.swift in Sources */,
+				1D00ADD92D3F0D7F001AC542 /* LocationManager.swift in Sources */,
 				1D69FF012CE969E5001C178A /* TimeDisplayView.swift in Sources */,
 				1D2E54092D1715E800C669D4 /* TabButtonStyle.swift in Sources */,
 				1DC4B32B2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */,
@@ -936,6 +949,7 @@
 				1D43846A2D186D10000DE437 /* IAPManager.swift in Sources */,
 				1DD9DBD82CF6844E00D1E608 /* LineChartManager.swift in Sources */,
 				1D2E54062D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
+				1D00ADDC2D3F0DB1001AC542 /* LocationStatusView.swift in Sources */,
 				1DE3D0692CF3052A00B4056F /* StartCountdownIntent.swift in Sources */,
 				1D2E54012D1715AD00C669D4 /* TabBarView.swift in Sources */,
 				1DBD85E22CF142A50028E391 /* PersistentTimerManager.swift in Sources */,
@@ -952,6 +966,7 @@
 				1D69FF072CE96A32001C178A /* CurrentTimeView.swift in Sources */,
 				1D768D752CFD1AE800DB4EE5 /* SecondProgressBarView.swift in Sources */,
 				1D2E54152D17161200C669D4 /* TabScrollContentView.swift in Sources */,
+				1D00ADD62D3F06AF001AC542 /* SpeedDisplayView.swift in Sources */,
 				1D1D830F2D3727C9003C8CAA /* SubscriptionOverlay.swift in Sources */,
 				1D69FF052CE96A26001C178A /* ProgressBarView.swift in Sources */,
 				1D2E53FC2D17159600C669D4 /* TabBarContentView.swift in Sources */,
@@ -970,6 +985,7 @@
 				1DC4B32C2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */,
 				1DE3D0672CF2FCAD00B4056F /* WatchNotificationManager.swift in Sources */,
 				1D5E481C2CFBC907004813A4 /* JournalManager.swift in Sources */,
+				1D00ADD82D3F06E4001AC542 /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

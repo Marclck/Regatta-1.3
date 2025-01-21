@@ -47,6 +47,7 @@ struct ContentView: View {
     @EnvironmentObject var colorManager: ColorManager
     @EnvironmentObject var settings: AppSettings
     @StateObject private var iapManager = IAPManager.shared
+    @StateObject private var locationManager = LocationManager()
     @State private var refreshToggle = false  // Add at top with other state variables
     private let impactGenerator = WKHapticType.click
 
@@ -134,55 +135,77 @@ struct ContentView: View {
     
 struct TimerView: View {
     @ObservedObject var timerState: WatchTimerState
+    @StateObject private var locationManager = LocationManager()
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        ZStack {
-            Color.black.edgesIgnoringSafeArea(.all)
-            
-            GeometryReader { geometry in
-                let centerY = geometry.size.height/2
-                ZStack {
+        GeometryReader { geometry in
+            ZStack {
+                Color.black.edgesIgnoringSafeArea(.all)
                 
-                    
-                    // Progress bar and separators
-                    WatchProgressBarView(timerState: timerState)
-                    
-                    // Content
-                    VStack(spacing: 0) {
+                GeometryReader { geometry in
+                    let centerY = geometry.size.height/2
+                    ZStack {
                         
-                        CurrentTimeView(timerState: timerState)
-                            .padding(.top, -10)
-                            .offset(y:-10)
-                                                
-                        Spacer()
-                            .frame(height: 0) // Space after current time
-                                                
-                        TimeDisplayView(timerState: timerState)
-                            .frame(height: 150)  // Fixed height for picker
-                            .position(x: geometry.size.width/2, y: centerY/2+10)
                         
-                        Spacer()
-                            .frame(height: 0) // Adjust this value to control space between picker and buttons
+                        // Progress bar and separators
+                        WatchProgressBarView(timerState: timerState)
                         
-                        if isUltraWatch {
-                            ButtonsView(timerState: timerState)
-                                .padding(.bottom, -10) // this control the position of the buttons to match numbers in timer and picker
-                                .background(OverlayPlayerForTimeRemove())
-                                .offset(y:5)
-                        } else {
-                            ButtonsView(timerState: timerState)
-                                .padding(.bottom, -10) // this control the position of the buttons to match numbers in timer and picker
-                                .background(OverlayPlayerForTimeRemove())
-                                .offset(y:0)
+                        // Content
+                        VStack(spacing: 0) {
+                             
+                            HStack {
+                                
+                                // Speed display layer
+                                SpeedDisplayView(locationManager: locationManager,
+                                                 timerState: timerState)
+                                .padding(.top, -10)
+                                .offset(x: -5, y:-10)
+                                
+                                CurrentTimeView(timerState: timerState)
+                                    .padding(.top, -10)
+                                    .offset(y:-10)
+                                
+                                // Speed display layer
+                                SpeedDisplayView(locationManager: locationManager,
+                                                 timerState: timerState)
+                                .padding(.top, -10)
+                                .offset(x: 5, y:-10)
+                            }
+                                
+                            Spacer()
+                                .frame(height: 0) // Space after current time
+                            
+                            TimeDisplayView(timerState: timerState)
+                                .frame(height: 150)  // Fixed height for picker
+                                .position(x: geometry.size.width/2, y: centerY/2+10)
+                            
+                            Spacer()
+                                .frame(height: 0) // Adjust this value to control space between picker and buttons
+                            
+                            if isUltraWatch {
+                                ButtonsView(timerState: timerState)
+                                    .padding(.bottom, -10) // this control the position of the buttons to match numbers in timer and picker
+                                    .background(OverlayPlayerForTimeRemove())
+                                    .offset(y:5)
+                            } else {
+                                ButtonsView(timerState: timerState)
+                                    .padding(.bottom, -10) // this control the position of the buttons to match numbers in timer and picker
+                                    .background(OverlayPlayerForTimeRemove())
+                                    .offset(y:0)
+                            }
                         }
+                        .padding(.horizontal, 0)
                     }
-                    .padding(.horizontal, 0)
-                }
-                .onReceive(timer) { _ in
-                    timerState.updateTimer()
+                    .onReceive(timer) { _ in
+                        timerState.updateTimer()
+                    }
                 }
             }
+        }
+        .onAppear {
+            locationManager.requestLocationPermission()
+            locationManager.startUpdatingLocation()
         }
     }
 }
