@@ -8,81 +8,46 @@
 import Foundation
 import SwiftUI
 
-struct SpeedDisplayView<Manager: LocationManagerProtocol, Timer: WatchTimerStateProtocol>: View {
-    @ObservedObject var locationManager: Manager
-    @ObservedObject var timerState: Timer
-    @State private var rotationDegrees: Double = 0
+struct SpeedDisplayView: View {
+    @ObservedObject var locationManager: LocationManager
+    @ObservedObject var timerState: WatchTimerState
     
     var body: some View {
-        
         let displayText = timerState.isRunning
             ? String(format: "%.0f", locationManager.speed * 1.94384)
             : "kn"
         
         Text(displayText)
-                .font(.system(size: 14, design: .monospaced))
-                .foregroundColor(.black)
-                .padding(.horizontal, 4)
-                .padding(.vertical, 4)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(
-                            AngularGradient(
-                                gradient: Gradient(colors: [
-                                    .white,
-                                    Color.white.opacity(0.80),
-                                    .white
-                                ]),
-                                center: .center,
-                                angle: .degrees(rotationDegrees)
-                            )
-                        )
-                )
-                .onAppear {
-                    withAnimation(
-                        .linear(duration: 6)
-                        .repeatForever(autoreverses: false)
-                    ) {
-                        rotationDegrees = 360
-                    }
+            .font(.system(size: 14, design: .monospaced))
+            .foregroundColor(timerState.isRunning ? .black : .white)
+            .padding(.horizontal, 4)
+            .padding(.vertical, 4)
+            .frame(minWidth: 30) // Ensures minimum width of 40 points
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(timerState.isRunning ? Color.white : Color.black)
+                    .stroke(timerState.isRunning ? Color.clear : Color.white, lineWidth: 1)
+            )
+            .onChange(of: timerState.isRunning) { isRunning in
+                if isRunning {
+                    locationManager.startUpdatingLocation()
+                } else {
+                    locationManager.stopUpdatingLocation()
                 }
-                .animation(.easeInOut(duration: 0.5), value: locationManager.speed)
+            }
     }
 }
 
-// MARK: - Protocols
-protocol LocationManagerProtocol: ObservableObject {
-    var speed: Double { get }
-}
-
-protocol WatchTimerStateProtocol: ObservableObject {
-    var isRunning: Bool { get }
-}
-
-extension LocationManager: LocationManagerProtocol {}
-extension WatchTimerState: WatchTimerStateProtocol {}
-
 // MARK: - Preview Helpers
 #if DEBUG
-private class PreviewLocationManager: ObservableObject {
-    @Published var speed: Double = 5.7
-}
-
-private class PreviewTimerState: ObservableObject {
-    @Published var isRunning: Bool = true
-}
-
-extension PreviewLocationManager: LocationManagerProtocol {}
-extension PreviewTimerState: WatchTimerStateProtocol {}
-
 struct PreviewSpeedDisplayView: View {
-    @StateObject private var locationManager = PreviewLocationManager()
-    @StateObject private var timerState = PreviewTimerState()
+    @StateObject private var locationManager = LocationManager()
+    @StateObject private var timerState = WatchTimerState()
     
     var body: some View {
         GeometryReader { geometry in
             ZStack {
-                Color.black // Background to make white text visible
+                Color.black
                 SpeedDisplayView(
                     locationManager: locationManager,
                     timerState: timerState
@@ -94,6 +59,6 @@ struct PreviewSpeedDisplayView: View {
 
 #Preview {
     PreviewSpeedDisplayView()
-        .frame(width: 180, height: 180) // Typical watch dimensions
+        .frame(width: 180, height: 180)
 }
 #endif

@@ -37,28 +37,13 @@ class LocationManager: NSObject, ObservableObject {
         locationManager.showsBackgroundLocationIndicator = true
         #endif
         
-        // Check current authorization status
+        // Only check authorization, don't start updates
         checkLocationAuthorization()
-        
-        // Set up timer for speed updates (2-second intervals)
-        updateTimer = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: true) { [weak self] _ in
-            if let lastSpeed = self?.lastSpeed {
-                self?.speed = lastSpeed
-            }
-        }
     }
     
     private func checkLocationAuthorization() {
-        switch locationManager.authorizationStatus {
-        case .authorizedWhenInUse, .authorizedAlways:
-            startUpdatingLocation()
-        case .notDetermined:
+        if locationManager.authorizationStatus == .notDetermined {
             requestLocationPermission()
-        case .denied, .restricted:
-            isLocationValid = false
-            speed = 0
-        @unknown default:
-            break
         }
     }
     
@@ -74,6 +59,14 @@ class LocationManager: NSObject, ObservableObject {
            locationManager.authorizationStatus == .authorizedAlways {
             print("Starting location updates...")
             locationManager.startUpdatingLocation()
+            
+            // Create timer only when starting updates
+            updateTimer?.invalidate()
+            updateTimer = Timer.scheduledTimer(withTimeInterval: 4.0, repeats: true) { [weak self] _ in
+                if let lastSpeed = self?.lastSpeed {
+                    self?.speed = lastSpeed
+                }
+            }
         } else {
             print("Cannot start location updates - no authorization")
             requestLocationPermission()
@@ -81,8 +74,13 @@ class LocationManager: NSObject, ObservableObject {
     }
     
     func stopUpdatingLocation() {
+        print("Stopping location updates...")
         locationManager.stopUpdatingLocation()
+        updateTimer?.invalidate()
+        updateTimer = nil
         isLocationValid = false
+        speed = 0
+        lastSpeed = 0
     }
     
     deinit {
