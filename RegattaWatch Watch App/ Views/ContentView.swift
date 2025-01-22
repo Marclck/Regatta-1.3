@@ -136,6 +136,7 @@ struct ContentView: View {
 struct TimerView: View {
     @ObservedObject var timerState: WatchTimerState
     @StateObject private var locationManager = LocationManager()
+    @StateObject private var heartRateManager = HeartRateManager()
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
     
     var body: some View {
@@ -154,25 +155,35 @@ struct TimerView: View {
                         // Content
                         VStack(spacing: 0) {
                              
-                            HStack {
-                                
-                                // Speed display layer
-                                SpeedDisplayView(locationManager: locationManager,
-                                                 timerState: timerState)
-                                .padding(.top, -10)
-                                .offset(x: -5, y:-10)
-                                
+                            ZStack {
+                                // Center the CurrentTimeView
                                 CurrentTimeView(timerState: timerState)
                                     .padding(.top, -10)
-                                    .offset(y:-10)
+                                    .offset(y: -10)
                                 
-                                // Speed display layer
-                                SpeedDisplayView(locationManager: locationManager,
-                                                 timerState: timerState)
-                                .padding(.top, -10)
-                                .offset(x: 5, y:-10)
+                                HStack {
+                                    
+                                    
+                                    // Speed display layer
+                                    HeartRateDisplayView(heartRateManager: heartRateManager)
+                                        .padding(.top, -10)
+                                        .offset(x: -5, y: -10)
+                                    
+                                    Spacer().frame(width: 80) // Adjust the width as needed
+
+                                    
+                                    // Speed display layer
+                                    SpeedDisplayView(locationManager: locationManager,
+                                                     timerState: timerState)
+                                    .padding(.top, -10)
+                                    .offset(x: 5, y: -10)
+                                
+                                    
+                                }
+                                .padding(.horizontal) // Ensure proper spacing within the screen
                             }
-                                
+
+                            
                             Spacer()
                                 .frame(height: 0) // Space after current time
                             

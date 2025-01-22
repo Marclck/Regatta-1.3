@@ -26,6 +26,15 @@
     <array>
         <string>physical-therapy</string>
         <string>location</string>
+        <string>workout-processing</string>
+    </array>
+    <key>NSHealthShareUsageDescription</key>
+    <string>We need access to your heart rate data to display it during your races</string>
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>We need access to your heart rate data to display it during your races</string>
+    <key>UIRequiredDeviceCapabilities</key>
+    <array>
+        <string>healthkit</string>
     </array>
 </dict>
 </plist>
