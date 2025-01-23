@@ -47,7 +47,6 @@ struct ContentView: View {
     @EnvironmentObject var colorManager: ColorManager
     @EnvironmentObject var settings: AppSettings
     @StateObject private var iapManager = IAPManager.shared
-    @StateObject private var locationManager = LocationManager()
     @State private var refreshToggle = false
     private let impactGenerator = WKHapticType.click
 
@@ -210,6 +209,8 @@ struct TimerView: View {
         }
     }
 }
+
+
 
 #Preview {
     ContentView()

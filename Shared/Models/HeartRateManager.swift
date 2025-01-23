@@ -25,12 +25,12 @@ class HeartRateManager: NSObject, ObservableObject {
     
     private func setupHealthKit() {
         guard HKHealthStore.isHealthDataAvailable() else {
-            print("HealthKit is not available on this device")
+            print("HealthKit is not available")
             return
         }
         
         guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else {
-            print("Heart rate type is not available")
+            print("Heart rate type not available")
             return
         }
         
@@ -40,21 +40,21 @@ class HeartRateManager: NSObject, ObservableObject {
             DispatchQueue.main.async {
                 if let error = error {
                     self?.error = error
-                    print("Authorization error: \(error.localizedDescription)")
+                    print("HR Authorization error: \(error.localizedDescription)")
                     return
                 }
                 
                 if success {
                     self?.isAuthorized = true
+                    print("HR Authorization success")
                 } else {
-                    print("Authorization denied")
+                    print("HR Authorization denied")
                 }
             }
         }
     }
     
     func startHeartRateQuery() {
-        // Check if 10 seconds have passed since last query
         if let lastQuery = lastQueryTime {
             let timeSinceLastQuery = Date().timeIntervalSince(lastQuery)
             if timeSinceLastQuery < 10 {
@@ -63,15 +63,14 @@ class HeartRateManager: NSObject, ObservableObject {
         }
         
         lastQueryTime = Date()
+        print("Starting new HR query")
         
         guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else { return }
         
-        // Create a predicate for the last 10 seconds
         let endDate = Date()
-        let startDate = endDate.addingTimeInterval(-10)
+        let startDate = endDate.addingTimeInterval(-600)
         let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
         
-        // Query for the most recent heart rate
         let query = HKSampleQuery(
             sampleType: heartRateType,
             predicate: predicate,
@@ -79,16 +78,18 @@ class HeartRateManager: NSObject, ObservableObject {
             sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]
         ) { [weak self] _, samples, error in
             guard let samples = samples as? [HKQuantitySample], let mostRecentSample = samples.first else {
+                print("No HR samples found")
                 return
             }
             
             DispatchQueue.main.async {
                 let heartRate = mostRecentSample.quantity.doubleValue(for: HKUnit(from: "count/min"))
                 self?.heartRate = heartRate
-                print("Updated heart rate: \(heartRate)")
+                print("Updated HR: \(heartRate)")
             }
         }
         
+        heartRateQuery = query  // Store reference to new query
         healthStore.execute(query)
     }
     
@@ -96,6 +97,7 @@ class HeartRateManager: NSObject, ObservableObject {
         if let query = heartRateQuery {
             healthStore.stop(query)
             heartRateQuery = nil
+            print("Stopped HR query")
         }
     }
     

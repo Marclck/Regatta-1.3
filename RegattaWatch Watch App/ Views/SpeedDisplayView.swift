@@ -19,14 +19,13 @@ struct SpeedDisplayView: View {
         
         Text(displayText)
             .font(.system(size: 14, design: .monospaced))
-            .foregroundColor(timerState.isRunning ? .black : .white)
+            .foregroundColor(timerState.isRunning ? Color.white : Color.white.opacity(0.3))
             .padding(.horizontal, 4)
             .padding(.vertical, 4)
             .frame(minWidth: 30) // Ensures minimum width of 40 points
             .background(
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(timerState.isRunning ? Color.white : Color.black)
-                    .stroke(timerState.isRunning ? Color.clear : Color.white, lineWidth: 1)
+                    .fill(timerState.isRunning ? Color.white.opacity(0.5) : Color.white.opacity(0.1))
             )
             .onChange(of: timerState.isRunning) { isRunning in
                 if isRunning {
