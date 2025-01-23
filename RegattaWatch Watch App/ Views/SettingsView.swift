@@ -33,6 +33,13 @@ class AppSettings: ObservableObject {
         }
     }
     
+    @Published var showSpeedInfo: Bool {
+        didSet {
+            UserDefaults.standard.set(showSpeedInfo, forKey: "showSpeedInfo")
+            print("ShowSpeedInfo changed to: \(showSpeedInfo)") // Debug print
+        }
+    }
+    
     @Published var smoothSecond: Bool {
         didSet {
             UserDefaults.standard.set(smoothSecond, forKey: "smoothSecond")
@@ -63,11 +70,12 @@ class AppSettings: ObservableObject {
     
     init() {
         self.teamName = UserDefaults.standard.string(forKey: "teamName") ?? "Ultra"
-        self.showRaceInfo = UserDefaults.standard.bool(forKey: "showRaceInfo")
+        self.showRaceInfo = UserDefaults.standard.object(forKey: "showRaceInfo") as? Bool ?? true
         self.smoothSecond = UserDefaults.standard.bool(forKey: "smoothSecond")
         self.altTeamNameColor = UserDefaults.standard.bool(forKey: "altTeamNameColor")
         self.lightMode = UserDefaults.standard.bool(forKey: "lightMode")
         self.ultraModel = UserDefaults.standard.object(forKey: "ultraModel") as? Bool ?? true
+        self.showSpeedInfo = UserDefaults.standard.object(forKey: "showSpeedInfo") as? Bool ?? true
         UserDefaults.standard.synchronize()  // Force save
     }
 }
@@ -159,6 +167,9 @@ struct SettingsView: View {
                 // Race Info Toggle
                 Toggle("Race Info", isOn: $settings.showRaceInfo)
                 
+                // Speed Info Toggle
+                Toggle("Speed Info", isOn: $settings.showSpeedInfo)
+                
                 // Smooth Second Toggle
                 Toggle("Smooth Second Movement", isOn: $settings.smoothSecond)
                 
@@ -167,7 +178,6 @@ struct SettingsView: View {
                 
                 Toggle("Light Mode", isOn: $settings.lightMode)
 
-                
                 Text("Restart the app for the changes to take effect. Double press digital crown and swipe left to close the app.")
                     .font(.caption2)
             }

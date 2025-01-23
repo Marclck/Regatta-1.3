@@ -12,6 +12,7 @@ import Combine
 class HeartRateManager: NSObject, ObservableObject {
     private let healthStore = HKHealthStore()
     private var heartRateQuery: HKQuery?
+    private var lastQueryTime: Date?
     
     @Published var heartRate: Double = 0
     @Published var isAuthorized: Bool = false
@@ -23,19 +24,16 @@ class HeartRateManager: NSObject, ObservableObject {
     }
     
     private func setupHealthKit() {
-        // Check if HealthKit is available on this device
         guard HKHealthStore.isHealthDataAvailable() else {
             print("HealthKit is not available on this device")
             return
         }
         
-        // Define the heart rate type we want to read
         guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else {
             print("Heart rate type is not available")
             return
         }
         
-        // Request authorization
         let typesToRead: Set = [heartRateType]
         
         healthStore.requestAuthorization(toShare: nil, read: typesToRead) { [weak self] success, error in
@@ -48,7 +46,6 @@ class HeartRateManager: NSObject, ObservableObject {
                 
                 if success {
                     self?.isAuthorized = true
-                    self?.startHeartRateQuery()
                 } else {
                     print("Authorization denied")
                 }
@@ -57,40 +54,42 @@ class HeartRateManager: NSObject, ObservableObject {
     }
     
     func startHeartRateQuery() {
-        // Define the heart rate type
+        // Check if 10 seconds have passed since last query
+        if let lastQuery = lastQueryTime {
+            let timeSinceLastQuery = Date().timeIntervalSince(lastQuery)
+            if timeSinceLastQuery < 10 {
+                return
+            }
+        }
+        
+        lastQueryTime = Date()
+        
         guard let heartRateType = HKQuantityType.quantityType(forIdentifier: .heartRate) else { return }
         
-        // Query to observe heart rate data
-        let query = HKAnchoredObjectQuery(
-            type: heartRateType,
-            predicate: nil,
-            anchor: nil,
-            limit: HKObjectQueryNoLimit
-        ) { [weak self] query, samples, deletedObjects, anchor, error in
-            self?.processHeartRateSamples(samples)
-        }
+        // Create a predicate for the last 10 seconds
+        let endDate = Date()
+        let startDate = endDate.addingTimeInterval(-10)
+        let predicate = HKQuery.predicateForSamples(withStart: startDate, end: endDate, options: .strictEndDate)
         
-        // Update handler for continuous monitoring
-        query.updateHandler = { [weak self] query, samples, deletedObjects, anchor, error in
-            self?.processHeartRateSamples(samples)
-        }
-        
-        // Execute the query
-        healthStore.execute(query)
-        heartRateQuery = query
-    }
-    
-    private func processHeartRateSamples(_ samples: [HKSample]?) {
-        guard let samples = samples as? [HKQuantitySample] else { return }
-        
-        DispatchQueue.main.async { [weak self] in
-            // Get the latest heart rate reading
-            if let mostRecentSample = samples.last {
+        // Query for the most recent heart rate
+        let query = HKSampleQuery(
+            sampleType: heartRateType,
+            predicate: predicate,
+            limit: 1,
+            sortDescriptors: [NSSortDescriptor(key: HKSampleSortIdentifierStartDate, ascending: false)]
+        ) { [weak self] _, samples, error in
+            guard let samples = samples as? [HKQuantitySample], let mostRecentSample = samples.first else {
+                return
+            }
+            
+            DispatchQueue.main.async {
                 let heartRate = mostRecentSample.quantity.doubleValue(for: HKUnit(from: "count/min"))
                 self?.heartRate = heartRate
                 print("Updated heart rate: \(heartRate)")
             }
         }
+        
+        healthStore.execute(query)
     }
     
     func stopHeartRateQuery() {
@@ -104,6 +103,3 @@ class HeartRateManager: NSObject, ObservableObject {
         stopHeartRateQuery()
     }
 }
-
-// MARK: - Protocol Conformance
-extension HeartRateManager: HeartRateManagerProtocol {}
