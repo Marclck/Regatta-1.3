@@ -34,13 +34,9 @@ struct HeartRateView: View {
                     hrManager.startHeartRateQuery()
                 }
             }
-            .onChange(of: timerState.isRunning) { isRunning in
-                print("Timer state changed to: \(isRunning)")
-                if isRunning {
-                    hrManager.startHeartRateQuery()
-                } else {
-                    hrManager.stopHeartRateQuery()
-                }
+            .onChange(of: timerState.isRunning) { _, isRunning in
+               print("Timer state changed to: \(isRunning)")
+               isRunning ? hrManager.startHeartRateQuery() : hrManager.stopHeartRateQuery()
             }
     }
 }

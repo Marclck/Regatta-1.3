@@ -133,83 +133,87 @@ struct ContentView: View {
 }
 
 struct TimerView: View {
-    @ObservedObject var timerState: WatchTimerState
-    @StateObject private var locationManager = LocationManager()
-    @StateObject private var heartRateManager = HeartRateManager()
-    @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
-    @EnvironmentObject var settings: AppSettings
-    
-    var body: some View {
-        GeometryReader { geometry in
-            ZStack {
-                Color.black.edgesIgnoringSafeArea(.all)
-                
-                GeometryReader { geometry in
-                    let centerY = geometry.size.height/2
-                    ZStack {
-                        // Progress bar and separators
-                        WatchProgressBarView(timerState: timerState)
-                        
-                        // Content
-                        VStack(spacing: 0) {
-                            ZStack {
-                                // Center the CurrentTimeView
-                                CurrentTimeView(timerState: timerState)
-                                    .padding(.top, -10)
-                                    .offset(y: -10)
-                                
-                                if settings.showSpeedInfo {
-                                    HStack {
-                                        // Speed display layer
-                                        HeartRateView(timerState: timerState)
-                                            .padding(.top, -10)
-                                            .offset(x: -5, y: -10)
-                                        
-                                        Spacer().frame(width: 70)
-                                        
-                                        // Speed display layer
-                                        SpeedDisplayView(locationManager: locationManager,
-                                                         timerState: timerState)
-                                            .padding(.top, -10)
-                                            .offset(x: 5, y: -10)
-                                    }
-                                    .padding(.horizontal)
-                                }
-                            }
+   @ObservedObject var timerState: WatchTimerState
+   @StateObject private var locationManager = LocationManager()
+   @StateObject private var heartRateManager = HeartRateManager()
+   @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
+   @EnvironmentObject var settings: AppSettings
+   
+   var body: some View {
+       GeometryReader { geometry in
+           ZStack {
+               Color.black.edgesIgnoringSafeArea(.all)
+               
+               GeometryReader { geometry in
+                   let centerY = geometry.size.height/2
+                   ZStack {
+                       WatchProgressBarView(timerState: timerState)
+                       
+                       VStack(spacing: 0) {
+                           ZStack {
+                               CurrentTimeView(timerState: timerState)
+                                   .padding(.top, -10)
+                                   .offset(y: -10)
+                               
+                               if settings.showSpeedInfo {
+                                   HStack {
+                                       HeartRateView(timerState: timerState)
+                                           .padding(.top, -10)
+                                           .offset(x: -5, y: -10)
+                                       
+                                       Spacer().frame(width: 70)
+                                       
+                                       SpeedDisplayView(locationManager: locationManager,
+                                                      timerState: timerState)
+                                           .padding(.top, -10)
+                                           .offset(x: 5, y: -10)
+                                   }
+                                   .padding(.horizontal)
+                               }
+                           }
 
-                            Spacer()
-                                .frame(height: 0)
-                            
-                            TimeDisplayView(timerState: timerState)
-                                .frame(height: 150)
-                                .position(x: geometry.size.width/2, y: centerY/2+10)
-                            
-                            Spacer()
-                                .frame(height: 0)
-                            
-                            if isUltraWatch {
-                                ButtonsView(timerState: timerState)
-                                    .padding(.bottom, -10)
-                                    .background(OverlayPlayerForTimeRemove())
-                                    .offset(y:5)
-                            } else {
-                                ButtonsView(timerState: timerState)
-                                    .padding(.bottom, -10)
-                                    .background(OverlayPlayerForTimeRemove())
-                                    .offset(y:0)
-                            }
-                        }
-                        .padding(.horizontal, 0)
-                    }
-                    .onReceive(timer) { _ in
-                        timerState.updateTimer()
-                    }
-                }
-            }
-        }
-    }
+                           Spacer()
+                               .frame(height: 0)
+                           
+                           TimeDisplayView(timerState: timerState)
+                               .frame(height: 150)
+                               .position(x: geometry.size.width/2, y: centerY/2+10)
+                           
+                           Spacer()
+                               .frame(height: 0)
+                           
+                           if isUltraWatch {
+                               ButtonsView(timerState: timerState)
+                                   .padding(.bottom, -10)
+                                   .background(OverlayPlayerForTimeRemove())
+                                   .offset(y:5)
+                           } else {
+                               ButtonsView(timerState: timerState)
+                                   .padding(.bottom, -10)
+                                   .background(OverlayPlayerForTimeRemove())
+                                   .offset(y:0)
+                           }
+                       }
+                       .padding(.horizontal, 0)
+                   }
+                   .onReceive(timer) { _ in
+                       timerState.updateTimer()
+                   }
+               }
+           }
+       }
+       .onAppear {
+           if locationManager.isLocationValid {
+               locationManager.stopUpdatingLocation()
+           }
+           heartRateManager.stopHeartRateQuery()
+       }
+       .onDisappear {
+           locationManager.stopUpdatingLocation()
+           heartRateManager.stopHeartRateQuery()
+       }
+   }
 }
-
 
 
 #Preview {

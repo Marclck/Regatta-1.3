@@ -27,12 +27,11 @@ struct SpeedDisplayView: View {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(timerState.isRunning ? Color.white.opacity(0.5) : Color.white.opacity(0.1))
             )
-            .onChange(of: timerState.isRunning) { isRunning in
-                if isRunning {
-                    locationManager.startUpdatingLocation()
-                } else {
-                    locationManager.stopUpdatingLocation()
-                }
+            .onAppear {
+                locationManager.stopUpdatingLocation()  // Ensure stopped on initial load
+            }
+            .onChange(of: timerState.isRunning) { _, isRunning in
+                isRunning ? locationManager.startUpdatingLocation() : locationManager.stopUpdatingLocation()
             }
     }
 }

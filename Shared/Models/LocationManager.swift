@@ -12,12 +12,14 @@ import Combine
 class LocationManager: NSObject, ObservableObject {
     private var locationManager = CLLocationManager()
     private var updateTimer: Timer?
+    private var isActive = false
     
     @Published var speed: Double = 0.0
     @Published var authorizationStatus: CLAuthorizationStatus = .notDetermined
     @Published var lastLocation: CLLocation?
     @Published var locationError: Error?
     @Published var isLocationValid: Bool = false
+    var isMonitoring: Bool { isLocationValid }  // add this
     
     private var lastSpeed: Double = 0.0
     private var isInitialized = false
@@ -44,17 +46,17 @@ class LocationManager: NSObject, ObservableObject {
     }
     
     func startUpdatingLocation() {
-        // Initialize permissions only on first start
         if !isInitialized {
             isInitialized = true
             if locationManager.authorizationStatus == .notDetermined {
                 requestLocationPermission()
-                return // Wait for authorization callback before starting
+                return
             }
         }
         
         if locationManager.authorizationStatus == .authorizedWhenInUse ||
            locationManager.authorizationStatus == .authorizedAlways {
+            isActive = true
             print("Starting location updates...")
             locationManager.startUpdatingLocation()
             
@@ -69,6 +71,7 @@ class LocationManager: NSObject, ObservableObject {
     
     func stopUpdatingLocation() {
         print("Stopping location updates...")
+        isActive = false
         locationManager.stopUpdatingLocation()
         updateTimer?.invalidate()
         updateTimer = nil
@@ -76,25 +79,23 @@ class LocationManager: NSObject, ObservableObject {
         speed = 0
         lastSpeed = 0
     }
-    
-    deinit {
-        updateTimer?.invalidate()
-    }
 }
 
-// MARK: - CLLocationManagerDelegate
 extension LocationManager: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
-        guard let location = locations.last else { return }
-        
-        lastLocation = location
-        isLocationValid = true
-        
-        lastSpeed = location.speed >= 0 ? location.speed : 0
-        print("Location update received. Speed: \(lastSpeed)")
-    }
+            guard isActive, let location = locations.last else { return }
+            
+            lastLocation = location
+            isLocationValid = true
+            
+            lastSpeed = location.speed >= 0 ? location.speed : 0
+            print("Location update received. Speed: \(lastSpeed)")
+        }
+    
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
+        guard isActive else { return }
+        
         locationError = error
         isLocationValid = false
         print("Location error: \(error.localizedDescription)")
@@ -104,13 +105,8 @@ extension LocationManager: CLLocationManagerDelegate {
         DispatchQueue.main.async {
             print("Location authorization status changed: \(status)")
             self.authorizationStatus = status
-            
-            if status == .authorizedWhenInUse || status == .authorizedAlways {
-                // Only start updates if this was triggered by our initial request
-                if !self.isInitialized {
-                    self.startUpdatingLocation()
-                }
-            } else if status == .denied || status == .restricted {
+                
+            if status == .denied || status == .restricted {
                 self.stopUpdatingLocation()
                 self.speed = 0
             }
