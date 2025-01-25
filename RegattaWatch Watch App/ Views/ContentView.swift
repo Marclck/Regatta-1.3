@@ -202,16 +202,6 @@ struct TimerView: View {
                }
            }
        }
-       .onAppear {
-           if locationManager.isLocationValid {
-               locationManager.stopUpdatingLocation()
-           }
-           heartRateManager.stopHeartRateQuery()
-       }
-       .onDisappear {
-           locationManager.stopUpdatingLocation()
-           heartRateManager.stopHeartRateQuery()
-       }
    }
 }
 

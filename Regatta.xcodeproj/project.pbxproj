@@ -574,8 +574,8 @@
 				1D3DC5682D0280D600252F1F /* AltRaceView.swift */,
 				1DB44CB72D0744C70035B2F2 /* SettingsView.swift */,
 				1D1D830E2D3727C9003C8CAA /* SubscriptionOverlay.swift */,
-				1D00ADD52D3F06AF001AC542 /* SpeedDisplayView.swift */,
 				1D00ADDB2D3F0DB1001AC542 /* LocationStatusView.swift */,
+				1D00ADD52D3F06AF001AC542 /* SpeedDisplayView.swift */,
 				1D64AA052D42F4EE00F1BC04 /* HeartRateView.swift */,
 			);
 			path = " Views";

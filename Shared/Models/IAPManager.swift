@@ -38,7 +38,7 @@ enum IAPError: Error, LocalizedError {
 class IAPManager: ObservableObject {
     static let shared = IAPManager()
     private let premiumFeatureID = "Astrolabe_pro_access_annual_599"
-    private let trialDuration: TimeInterval = 200 * 24 * 60 * 60 // 7 days in seconds
+    private let trialDuration: TimeInterval = 200 * 24 * 60 * 60 // 7 days in seconds !!!
     
     @Published private(set) var subscriptions: [Product] = []
     @Published var isPremiumUser = false

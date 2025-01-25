@@ -12,6 +12,14 @@ struct SpeedDisplayView: View {
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var timerState: WatchTimerState
     
+    private func handleLocationState() {
+        if !timerState.isRunning {
+            locationManager.stopUpdatingLocation()
+        } else {
+            locationManager.startUpdatingLocation()
+        }
+    }
+    
     var body: some View {
         let displayText = timerState.isRunning
             ? String(format: "%.0f", locationManager.speed * 1.94384)
@@ -28,10 +36,13 @@ struct SpeedDisplayView: View {
                     .fill(timerState.isRunning ? Color.white.opacity(0.5) : Color.white.opacity(0.1))
             )
             .onAppear {
-                locationManager.stopUpdatingLocation()  // Ensure stopped on initial load
+                handleLocationState()
             }
-            .onChange(of: timerState.isRunning) { _, isRunning in
-                isRunning ? locationManager.startUpdatingLocation() : locationManager.stopUpdatingLocation()
+            .onChange(of: timerState.isRunning) { _, _ in
+                handleLocationState()
+            }
+            .onDisappear {
+                locationManager.stopUpdatingLocation()
             }
     }
 }

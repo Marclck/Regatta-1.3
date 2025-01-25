@@ -17,6 +17,19 @@ struct HeartRateView: View {
    
    @State private var timer: Timer?
    
+    private func handleTimerState() {
+        if !timerState.isRunning {
+            timer?.invalidate()
+            timer = nil
+            hrManager.stopHeartRateQuery()
+        } else {
+            hrManager.startHeartRateQuery()
+            timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
+                hrManager.startHeartRateQuery()
+            }
+        }
+    }
+   
    var body: some View {
        Text(timerState.isRunning ? "\(Int(hrManager.heartRate))" : "HR")
            .font(.system(size: 14, design: .monospaced))
@@ -29,19 +42,10 @@ struct HeartRateView: View {
                    .fill(timerState.isRunning ? Color(hex: ColorTheme.racingRed.rawValue) : Color(hex: ColorTheme.racingRed.rawValue).opacity(0.3))
            )
            .onAppear {
-               hrManager.stopHeartRateQuery()
+               handleTimerState()
            }
-           .onChange(of: timerState.isRunning) { _, isRunning in
-               if isRunning {
-                   hrManager.startHeartRateQuery()
-                   timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
-                       hrManager.startHeartRateQuery()
-                   }
-               } else {
-                   timer?.invalidate()
-                   timer = nil
-                   hrManager.stopHeartRateQuery()
-               }
+           .onChange(of: timerState.isRunning) { _, _ in
+               handleTimerState()
            }
            .onDisappear {
                timer?.invalidate()
