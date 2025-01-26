@@ -30,7 +30,7 @@ struct SpeedDisplayView: View {
             .foregroundColor(timerState.isRunning ? Color.white : Color.white.opacity(0.3))
             .padding(.horizontal, 4)
             .padding(.vertical, 4)
-            .frame(minWidth: 30) // Ensures minimum width of 40 points
+            .frame(minWidth: 36) // Ensures minimum width of 40 points
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(timerState.isRunning ? Color.white.opacity(0.5) : Color.white.opacity(0.1))
@@ -41,8 +41,17 @@ struct SpeedDisplayView: View {
             .onChange(of: timerState.isRunning) { _, _ in
                 handleLocationState()
             }
+            .onChange(of: locationManager.speed) { _, speed in
+                if timerState.isRunning {
+                    JournalManager.shared.addDataPoint(
+                        heartRate: nil,
+                        speed: speed * 1.94384,  // Convert m/s to knots
+                        location: locationManager.lastLocation
+                    )
+                }
+            }
             .onDisappear {
-                locationManager.stopUpdatingLocation()
+//                locationManager.stopUpdatingLocation()
             }
     }
 }

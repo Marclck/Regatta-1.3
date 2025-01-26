@@ -27,9 +27,9 @@ class LocationManager: NSObject, ObservableObject {
    override init() {
        super.init()
        locationManager.delegate = self
-       locationManager.desiredAccuracy = kCLLocationAccuracyNearestTenMeters
-       locationManager.activityType = .otherNavigation
-       locationManager.distanceFilter = 5
+       locationManager.desiredAccuracy = kCLLocationAccuracyBestForNavigation
+       locationManager.activityType = .fitness
+       locationManager.distanceFilter = 1
        locationManager.allowsBackgroundLocationUpdates = true
        
        #if os(iOS)
@@ -84,21 +84,20 @@ extension LocationManager: CLLocationManagerDelegate {
    func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
        guard isActive, let location = locations.last else { return }
        
-       // Filter out speeds below 0.5 m/s (roughly 1 knot)
-       guard location.speed >= 0.5 else {
+       // Update last location regardless of speed for pin placement
+       lastLocation = location
+       
+       // Check accuracy for valid state
+       isLocationValid = location.horizontalAccuracy <= 20  // More stringent accuracy requirement
+       
+       // Update speed only if moving
+       if location.speed >= 0.5 {  // Still filter speed updates
+           lastSpeed = location.speed
+           print("Location update received. Speed: \(lastSpeed) m/s, Accuracy: \(location.horizontalAccuracy)m")
+       } else {
            lastSpeed = 0
            speed = 0
-           return
        }
-       
-       // Check horizontal accuracy
-       guard location.horizontalAccuracy <= 20 else { return }  // Only accept accuracy within 20 meters
-       
-       lastLocation = location
-       isLocationValid = true
-       
-       lastSpeed = location.speed
-       print("Location update received. Speed: \(lastSpeed) m/s, Accuracy: \(location.horizontalAccuracy)m")
    }
    
    func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {

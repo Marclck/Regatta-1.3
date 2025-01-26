@@ -6,6 +6,20 @@
 //
 
 import Foundation
+import CoreLocation
+
+struct DataPoint: Codable {
+    let timestamp: Date
+    let heartRate: Int?
+    let speed: Double?  // in knots
+    let location: LocationData?
+}
+
+struct LocationData: Codable {
+    let latitude: Double
+    let longitude: Double
+    let accuracy: Double
+}
 
 struct RaceSession: Codable {
     var id: String { date.timeIntervalSince1970.description }
@@ -14,14 +28,26 @@ struct RaceSession: Codable {
     let countdownDuration: Int
     let raceStartTime: Date?
     let raceDuration: TimeInterval?
-    let timeZoneOffset: Int  // Store the timezone offset in seconds
+    let timeZoneOffset: Int
+    var dataPoints: [DataPoint]
+    let leftPoint: LocationData?  // Added
+    let rightPoint: LocationData?  // Added
     
-    init(date: Date, countdownDuration: Int, raceStartTime: Date?, raceDuration: TimeInterval?) {
+    init(date: Date,
+         countdownDuration: Int,
+         raceStartTime: Date?,
+         raceDuration: TimeInterval?,
+         dataPoints: [DataPoint] = [],
+         leftPoint: LocationData? = nil,
+         rightPoint: LocationData? = nil) {
         self.date = date
         self.countdownDuration = countdownDuration
         self.raceStartTime = raceStartTime
         self.raceDuration = raceDuration
         self.timeZoneOffset = TimeZone.current.secondsFromGMT()
+        self.dataPoints = dataPoints
+        self.leftPoint = leftPoint
+        self.rightPoint = rightPoint
     }
     
     var formattedStartTime: String {
@@ -84,6 +110,8 @@ struct RaceSession: Codable {
 class JournalManager: ObservableObject {
     static let shared = JournalManager()
     
+    private var sessionDataPoints: [DataPoint] = []
+    
     @Published private(set) var currentSession: RaceSession?
     @Published private(set) var allSessions: [RaceSession] = [] {
         didSet {
@@ -98,7 +126,7 @@ class JournalManager: ObservableObject {
         
     private let defaults = SharedDefaults.shared
     
-    private init() {        
+    private init() {
         print("🔵 SharedDefaults keys available:")
         print(defaults.dictionaryRepresentation().keys)
         loadSessions()
@@ -111,7 +139,8 @@ class JournalManager: ObservableObject {
             date: Date(),
             countdownDuration: countdownMinutes,
             raceStartTime: nil,
-            raceDuration: nil
+            raceDuration: nil,
+            dataPoints: sessionDataPoints  // Add this line
         )
         currentSession = newSession
         saveCurrentSession()
@@ -125,7 +154,8 @@ class JournalManager: ObservableObject {
             date: session.date,
             countdownDuration: session.countdownDuration,
             raceStartTime: Date(),
-            raceDuration: nil
+            raceDuration: nil,
+            dataPoints: sessionDataPoints  // Add this line
         )
         currentSession = updatedSession
         saveCurrentSession()
@@ -133,23 +163,76 @@ class JournalManager: ObservableObject {
     }
     
     // Record final time when cancelled
+    private struct StoredPoint: Codable {
+        let coordinate: CLLocationCoordinate2D
+        let timestamp: Date
+        
+        enum CodingKeys: String, CodingKey {
+            case latitude = "lat"
+            case longitude = "lon"
+            case timestamp
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(coordinate.latitude, forKey: .latitude)
+            try container.encode(coordinate.longitude, forKey: .longitude)
+            try container.encode(timestamp, forKey: .timestamp)
+        }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let lat = try container.decode(Double.self, forKey: .latitude)
+            let lon = try container.decode(Double.self, forKey: .longitude)
+            let timestamp = try container.decode(Date.self, forKey: .timestamp)
+            
+            self.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            self.timestamp = timestamp
+        }
+    }
+
     func recordSessionEnd(totalTime: TimeInterval) {
         guard let session = currentSession else {
             print("📓 No current session to record")
             return
         }
         
+        // Get start line points from UserDefaults
+        var leftPoint: LocationData? = nil
+        var rightPoint: LocationData? = nil
+        
+        if let leftData = UserDefaults.standard.data(forKey: "leftPoint"),
+           let leftLocation = try? JSONDecoder().decode(StoredPoint.self, from: leftData) {
+            leftPoint = LocationData(
+                latitude: leftLocation.coordinate.latitude,
+                longitude: leftLocation.coordinate.longitude,
+                accuracy: 0
+            )
+        }
+        
+        if let rightData = UserDefaults.standard.data(forKey: "rightPoint"),
+           let rightLocation = try? JSONDecoder().decode(StoredPoint.self, from: rightData) {
+            rightPoint = LocationData(
+                latitude: rightLocation.coordinate.latitude,
+                longitude: rightLocation.coordinate.longitude,
+                accuracy: 0
+            )
+        }
+        
         let finalSession = RaceSession(
             date: session.date,
             countdownDuration: session.countdownDuration,
             raceStartTime: session.raceStartTime,
-            raceDuration: totalTime
+            raceDuration: totalTime,
+            dataPoints: sessionDataPoints,
+            leftPoint: leftPoint,
+            rightPoint: rightPoint
         )
         
         print("📓 Recording session with duration: \(totalTime)")
+        print("📓 Start line points - Left: \(String(describing: leftPoint)), Right: \(String(describing: rightPoint))")
         
-        // Load existing sessions first to avoid overwriting
-        loadSessions()  // Add this line
+        loadSessions()
         allSessions.append(finalSession)
         currentSession = nil
         
@@ -157,7 +240,6 @@ class JournalManager: ObservableObject {
         saveSessions()
         clearCurrentSession()
         
-        // Force UI update
         objectWillChange.send()
     }
     
@@ -165,10 +247,30 @@ class JournalManager: ObservableObject {
     func cancelSession() {
         currentSession = nil
         clearCurrentSession()
+        sessionDataPoints.removeAll()
         print("session cancelled.")
     }
     
-
+    func addDataPoint(heartRate: Int?, speed: Double?, location: CLLocation?) {
+        guard let session = currentSession, session.raceStartTime != nil else { return }
+        
+        let locationData = location.map { loc in
+            LocationData(
+                latitude: loc.coordinate.latitude,
+                longitude: loc.coordinate.longitude,
+                accuracy: loc.horizontalAccuracy
+            )
+        }
+        
+        let dataPoint = DataPoint(
+            timestamp: Date(),
+            heartRate: heartRate,
+            speed: speed,  // Already in knots from SpeedDisplayView
+            location: locationData
+        )
+        
+        sessionDataPoints.append(dataPoint)
+    }
     
     // MARK: - Data Persistence
     

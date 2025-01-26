@@ -41,9 +41,9 @@ struct OverlayPlayerForTimeRemove: View {
 }
 
 struct ContentView: View {
-    
     @State private var showSettings = false
     @State private var showPremiumAlert = false
+    @State private var showStartLine = false
     @EnvironmentObject var colorManager: ColorManager
     @EnvironmentObject var settings: AppSettings
     @StateObject private var iapManager = IAPManager.shared
@@ -67,26 +67,28 @@ struct ContentView: View {
                     AltRaceView(timerState: timerState)
                 }
             } else {
-                TimerView(timerState: timerState)
+                TimerView(timerState: timerState, showStartLine: $showStartLine)
             }
             
-            // Toggle overlay
-            GeometryReader { geometry in
-                Color.clear
-                    .frame(width: 80, height: 40)
-                    .contentShape(Rectangle())
-                    .position(x: geometry.size.width/2, y: geometry.size.height/2 - 90)
-                    .onTapGesture {
-                        print("!! watchface toggled")
-                        WKInterfaceDevice.current().play(impactGenerator)
+            // Toggle overlay - only show when not in start line mode
+            if !showStartLine {
+                GeometryReader { geometry in
+                    Color.clear
+                        .frame(width: 80, height: 40)
+                        .contentShape(Rectangle())
+                        .position(x: geometry.size.width/2, y: geometry.size.height/2 - 90)
+                        .onTapGesture {
+                            print("!! watchface toggled")
+                            WKInterfaceDevice.current().play(impactGenerator)
 
-                        withAnimation {
-                            showingWatchFace.toggle()
+                            withAnimation {
+                                showingWatchFace.toggle()
+                            }
                         }
-                    }
+                }
             }
         }
-        .id(viewID) // Force entire view refresh
+        .id(viewID)
         .onChange(of: settings.teamName) { _, newValue in
             if lastTeamName != newValue {
                 viewID = UUID()
@@ -111,7 +113,6 @@ struct ContentView: View {
             lastSpeedInfoState = settings.showSpeedInfo
             printWatchModel()
         }
-        
         .sheet(isPresented: $showSettings, onDismiss: {
             withAnimation {
                 refreshToggle.toggle()
@@ -135,8 +136,9 @@ struct ContentView: View {
 struct TimerView: View {
    @ObservedObject var timerState: WatchTimerState
    @StateObject private var locationManager = LocationManager()
-   @StateObject private var heartRateManager = HeartRateManager()
+   @StateObject private var startLineManager = StartLineManager()
    @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
+   @Binding var showStartLine: Bool
    @EnvironmentObject var settings: AppSettings
    
    var body: some View {
@@ -151,22 +153,47 @@ struct TimerView: View {
                        
                        VStack(spacing: 0) {
                            ZStack {
-                               CurrentTimeView(timerState: timerState)
-                                   .padding(.top, -10)
-                                   .offset(y: -10)
+                               if !showStartLine {
+                                   CurrentTimeView(timerState: timerState)
+                                       .padding(.top, -10)
+                                       .offset(y: -10)
+                               }
                                
                                if settings.showSpeedInfo {
                                    HStack {
-                                       HeartRateView(timerState: timerState)
-                                           .padding(.top, -10)
-                                           .offset(x: -5, y: -10)
+                                       DistanceDisplayView(
+                                           locationManager: locationManager,
+                                           timerState: timerState,
+                                           startLineManager: startLineManager,
+                                           isCheckmark: $showStartLine
+                                       )
+                                       .padding(.top, -10)
+                                       .offset(x: -5, y: -10)
                                        
-                                       Spacer().frame(width: 70)
                                        
-                                       SpeedDisplayView(locationManager: locationManager,
-                                                      timerState: timerState)
+                                       if !showStartLine {
+
+                                           Spacer().frame(width: 70)
+
+                                           SpeedDisplayView(
+                                               locationManager: locationManager,
+                                               timerState: timerState
+                                           )
                                            .padding(.top, -10)
                                            .offset(x: 5, y: -10)
+                                       }
+                                       
+                                       if showStartLine {
+                                           
+                                           Spacer().frame(width: 3)
+
+                                           StartLineView(
+                                               locationManager: locationManager,
+                                               startLineManager: startLineManager
+                                           )
+                                           .padding(.top, -10)
+                                           .offset(x: 5, y: -10)
+                                       }
                                    }
                                    .padding(.horizontal)
                                }

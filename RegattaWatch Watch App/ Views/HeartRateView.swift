@@ -26,6 +26,13 @@ struct HeartRateView: View {
             hrManager.startHeartRateQuery()
             timer = Timer.scheduledTimer(withTimeInterval: 10, repeats: true) { _ in
                 hrManager.startHeartRateQuery()
+                if hrManager.heartRate > 0 {  // Only record if we have a valid heart rate
+                    JournalManager.shared.addDataPoint(
+                        heartRate: Int(hrManager.heartRate),
+                        speed: nil,
+                        location: nil
+                    )
+                }
             }
         }
     }
