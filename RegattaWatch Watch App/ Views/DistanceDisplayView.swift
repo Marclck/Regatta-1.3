@@ -29,11 +29,15 @@ struct DistanceDisplayView: View {
             return "-"
         }
         
-        if distance > 999 {
+        if distance > 99_000 {  // Over 99km
             return "FAR"
+        } else if distance >= 10_000 {  // 10km to 99km
+            return String(format: "%.0fk", distance / 1000)
+        } else if distance >= 1_000 {  // 1km to 9.9km
+            return String(format: "%.1fk", distance / 1000)
+        } else {
+            return String(format: "%.0f", distance)
         }
-        
-        return String(format: "%.0f", distance)
     }
     
     var body: some View {
@@ -55,17 +59,37 @@ struct DistanceDisplayView: View {
                 locationManager.stopUpdatingLocation()
             }
         }) {
-            Text(isCheckmark ? "✔️" : getDisplayText())
-                .font(.system(size: 14, design: .monospaced))
-                .foregroundColor(timerState.isRunning ? Color.white : Color.white.opacity(0.3))
+            Group {
+                if isCheckmark {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 14, weight: .bold))
+                } else {
+                    Text(getDisplayText())
+                        .font(.system(size: 14, design: .monospaced))
+                }
+            }
+            .foregroundColor(isCheckmark ? Color.black : timerState.isRunning ? Color.white : Color.white.opacity(0.3))
                 .padding(.horizontal, 4)
-                .padding(.vertical, 4)
+                .padding(.vertical, isCheckmark ? 5.2 : 4)
                 .frame(minWidth: 36)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(timerState.isRunning ?
-                              (isCheckmark ? Color.white.opacity(0.5) : Color.white.opacity(0.5))
-                             : Color.white.opacity(0.1))
+                        .fill(
+                            isCheckmark ?
+                            LinearGradient(
+                                colors: [Color.white, Color.white],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ).opacity(0.5) :
+                            LinearGradient(
+                                colors: [
+                                    startLineManager.leftButtonState == .green ? Color.green : Color.white,
+                                    startLineManager.rightButtonState == .green ? Color.green : Color.white
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ).opacity(timerState.isRunning ? 0.5 : 0.1)
+                        )
                 )
         }
         .buttonStyle(.plain)

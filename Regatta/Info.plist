@@ -2,27 +2,41 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>CFBundleIdentifier</key>
-    <string></string>
+    <key>CFBundleDocumentTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleTypeName</key>
+            <string>MKDirectionsRequest</string>
+            <key>LSItemContentTypes</key>
+            <array>
+                <string>com.apple.maps.directionsrequest</string>
+            </array>
+        </dict>
+    </array>
+    <key>MKDirectionsApplicationSupportedModes</key>
+    <array>
+        <string>MKDirectionsModeFerry</string>
+    </array>
     <key>NSUserActivityTypes</key>
     <array>
         <string>StartCountdownIntent</string>
     </array>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Your location is used to track your speed during races</string>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Your location is used to track your speed during races, including when the app is in the background</string>
     <key>UIBackgroundModes</key>
     <array>
         <string>location</string>
     </array>
-    <key>NSHealthShareUsageDescription</key>
-    <string>We need access to your heart rate data to display it during your races</string>
-    <key>NSHealthUpdateUsageDescription</key>
-    <string>We need access to your heart rate data to display it during your races</string>
-    <key>UIRequiredDeviceCapabilities</key>
+    <!-- Added Location Permission Keys -->
+    <key>NSLocationWhenInUseUsageDescription</key>
+    <string>Location access is needed to show your position relative to the start line and record race tracking data.</string>
+    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+    <string>Location access is needed to show your position relative to the start line and record race tracking data even when the app is in the background.</string>
+    <key>NSLocationUsageDescription</key>
+    <string>Location access is needed to show your position relative to the start line and record race tracking data.</string>
+    <!-- Added Map Services Keys -->
+    <key>MKDirectionsApplicationSupportedModes</key>
     <array>
-        <string>healthkit</string>
+        <string>MKDirectionsModeFerry</string>
+        <string>MKDirectionsModeOther</string>
     </array>
 </dict>
 </plist>

@@ -23,28 +23,99 @@ struct JournalView: View {
         }
     }
     
+    // Get the most recent start line points
+    private var mostRecentStartLine: (left: LocationData?, right: LocationData?) {
+        guard let latestSession = sessionStore.sessions.max(by: { $0.date < $1.date }) else {
+            return (nil, nil)
+        }
+        return (latestSession.leftPoint, latestSession.rightPoint)
+    }
+    
     var body: some View {
         NavigationView {
-            Group {
-                if sessionStore.isLoading {
-                    ProgressView("Loading sessions...")
-                } else if sessionStore.sessions.isEmpty {
-                    VStack {
-                        Text("No race sessions recorded yet")
-                            .font(.system(.body, design: .monospaced))
-                            .foregroundColor(.gray)
-                        
-                        Text("Complete a race to see it here")
-                            .font(.system(.caption, design: .monospaced))
-                            .foregroundColor(.gray)
-                            .padding(.top, 4)
-                    }
-                } else {
-                    List {
-                        ForEach(groupedSessions().keys.sorted(by: >), id: \.self) { date in
-                            Section(header: Text(date)) {
-                                ForEach(groupedSessions()[date]!.sorted(by: { $0.date > $1.date }), id: \.date) { session in
-                                    SessionRowView(session: session)
+            VStack(spacing: 0) {
+                // Start Line Map
+                if mostRecentStartLine.left != nil || mostRecentStartLine.right != nil {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        HStack {
+                                            Text("Current Race Start Line")
+                                                .font(.system(.headline, design: .monospaced))
+                                            
+                                            Spacer()
+                                            
+                                            Button(action: {
+                                                // Trigger session refresh
+                                                Task { @MainActor in
+                                                    sessionStore.refreshSessions()
+                                                }
+                                            }) {
+                                                Text("Refresh")
+                                                    .font(.system(.subheadline, design: .monospaced))
+                                                    .foregroundColor(.blue)
+                                            }
+                                        }
+                                        .padding(.horizontal)
+                                        .padding(.top, 8)
+                                        
+                                        StartLineMapView(
+                                            leftPoint: mostRecentStartLine.left,
+                                            rightPoint: mostRecentStartLine.right
+                                        )
+                                        .padding(.top, 4)
+                                        
+                                        HStack {
+                                            // Left coordinate
+                                            if let left = mostRecentStartLine.left {
+                                                HStack(spacing: 4) {
+                                                    Image(systemName: "triangle.fill")
+                                                        .foregroundColor(.green)
+                                                        .font(.system(size: 12))
+                                                    Text(String(format: "(%.4f, %.4f)", left.latitude, left.longitude))
+                                                        .font(.system(size: 12, design: .monospaced))
+                                                        .foregroundColor(.secondary)
+                                                }
+                                            }
+                                            
+                                            Spacer()
+                                            
+                                            // Right coordinate
+                                            if let right = mostRecentStartLine.right {
+                                                HStack(spacing: 4) {
+                                                    Text(String(format: "(%.4f, %.4f)", right.latitude, right.longitude))
+                                                        .font(.system(size: 12, design: .monospaced))
+                                                        .foregroundColor(.secondary)
+                                                    Image(systemName: "square.fill")
+                                                        .foregroundColor(.green)
+                                                        .font(.system(size: 12))
+                                                }
+                                            }
+                                        }
+                                        .padding(.horizontal)
+                                    }
+                                }
+                
+                // Session List
+                Group {
+                    if sessionStore.isLoading {
+                        ProgressView("Loading sessions...")
+                    } else if sessionStore.sessions.isEmpty {
+                        VStack {
+                            Text("No race sessions recorded yet")
+                                .font(.system(.body, design: .monospaced))
+                                .foregroundColor(.gray)
+                            
+                            Text("Complete a race to see it here")
+                                .font(.system(.caption, design: .monospaced))
+                                .foregroundColor(.gray)
+                                .padding(.top, 4)
+                        }
+                    } else {
+                        List {
+                            ForEach(groupedSessions().keys.sorted(by: >), id: \.self) { date in
+                                Section(header: Text(date)) {
+                                    ForEach(groupedSessions()[date]!.sorted(by: { $0.date > $1.date }), id: \.date) { session in
+                                        SessionRowView(session: session)
+                                    }
                                 }
                             }
                         }
@@ -111,25 +182,25 @@ struct SessionRowView: View {
     }
     
     private var maxSpeedDisplay: String {
-        raceStats.topSpeed.map { String(format: "Max: %.0f kn", $0) } ?? "Max: N/A"
+        raceStats.topSpeed.map { String(format: "Max Speed: %.0f kn", $0) } ?? "Max Speed: N/A"
     }
     
     private var avgSpeedDisplay: String {
-        raceStats.avgSpeed.map { String(format: "Avg: %.1f kn", $0) } ?? "Avg: N/A"
+        raceStats.avgSpeed.map { String(format: "Avg Speed: %.1f kn", $0) } ?? "Avg Speed: N/A"
     }
     
     private var leftCoordinate: String {
         if let left = session.leftPoint {
-            return String(format: "L(%.2f,%.2f)", left.latitude, left.longitude)
+            return String(format: "(%.2f,%.2f)", left.latitude, left.longitude)
         }
-        return "L(--)"
+        return "(--)"
     }
     
     private var rightCoordinate: String {
         if let right = session.rightPoint {
-            return String(format: "R(%.2f,%.2f)", right.latitude, right.longitude)
+            return String(format: "(%.2f,%.2f)", right.latitude, right.longitude)
         }
-        return "R(--)"
+        return "(--)"
     }
     
     var body: some View {
@@ -156,9 +227,15 @@ struct SessionRowView: View {
             .foregroundColor(.secondary)
             
             HStack {
+                Image(systemName: "triangle.fill")
+                    .foregroundColor(.green)
+                    .font(.system(size: 12))
                 Text(leftCoordinate)
                 Spacer()
                 Text(rightCoordinate)
+                Image(systemName: "square.fill")
+                    .foregroundColor(.green)
+                    .font(.system(size: 12))
             }
             .font(.system(.caption, design: .monospaced))
             .foregroundColor(.secondary)

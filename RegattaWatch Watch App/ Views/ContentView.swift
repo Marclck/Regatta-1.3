@@ -153,50 +153,54 @@ struct TimerView: View {
                        
                        VStack(spacing: 0) {
                            ZStack {
-                               if !showStartLine {
                                    CurrentTimeView(timerState: timerState)
                                        .padding(.top, -10)
                                        .offset(y: -10)
-                               }
                                
+                               
+                               
+                               /*
                                if settings.showSpeedInfo {
-                                   HStack {
-                                       DistanceDisplayView(
-                                           locationManager: locationManager,
-                                           timerState: timerState,
-                                           startLineManager: startLineManager,
-                                           isCheckmark: $showStartLine
-                                       )
-                                       .padding(.top, -10)
-                                       .offset(x: -5, y: -10)
-                                       
-                                       
-                                       if !showStartLine {
-
-                                           Spacer().frame(width: 70)
-
-                                           SpeedDisplayView(
-                                               locationManager: locationManager,
-                                               timerState: timerState
+                                   if !timerState.isRunning {
+                                       HStack {
+                                           DistanceDisplayView(
+                                            locationManager: locationManager,
+                                            timerState: timerState,
+                                            startLineManager: startLineManager,
+                                            isCheckmark: $showStartLine
                                            )
                                            .padding(.top, -10)
-                                           .offset(x: 5, y: -10)
-                                       }
-                                       
-                                       if showStartLine {
+                                           .offset(x: -5, y: -10)
                                            
-                                           Spacer().frame(width: 3)
-
-                                           StartLineView(
-                                               locationManager: locationManager,
-                                               startLineManager: startLineManager
+                                           
+                                           //                                       if !showStartLine {
+                                           
+                                           Spacer().frame(width: 70)
+                                           
+                                           SpeedDisplayView(
+                                            locationManager: locationManager,
+                                            timerState: timerState
                                            )
                                            .padding(.top, -10)
                                            .offset(x: 5, y: -10)
+                                           //                                     }
+                                           //
+                                           //                                     if showStartLine {
+                                           //
+                                           //                                     Spacer().frame(width: 3)
+                                           //
+                                           //                                         StartLineView(
+                                           //                                           locationManager: locationManager,
+                                           //                                         startLineManager: startLineManager
+                                           //                                   )
+                                           //                                 .padding(.top, -10)
+                                           //                               .offset(x: 5, y: -10)
+                                           //                         }
                                        }
+                                       .padding(.horizontal)
                                    }
-                                   .padding(.horizontal)
                                }
+                               */
                            }
 
                            Spacer()
@@ -222,6 +226,37 @@ struct TimerView: View {
                            }
                        }
                        .padding(.horizontal, 0)
+                       
+                       
+                       if settings.showSpeedInfo {
+                           SpeedInfoView(
+                               locationManager: locationManager,
+                               timerState: timerState,
+                               startLineManager: startLineManager,
+                               isCheckmark: $showStartLine
+                           )
+                           .offset(y: timerState.isRunning ? -48 : -71)
+                           .animation(.spring(response: 0.5, dampingFraction: 0.8), value: timerState.isRunning)
+                       }
+                       
+                       ZStack {
+
+                           if showStartLine {
+
+                               Rectangle()
+                                   .fill(Color.black)
+                                   .frame(height: 40)
+                                   .frame(maxWidth: 110)
+                                   .offset(x: 22.5, y: -81)
+                               
+                               StartLineView(
+                                locationManager: locationManager,
+                                startLineManager: startLineManager
+                               )
+                               .padding(.top, -10)
+                               .offset(x: 22.5, y: -81)
+                           }
+                       }
                    }
                    .onReceive(timer) { _ in
                        timerState.updateTimer()

@@ -26,7 +26,7 @@ struct StartLineView: View {
                 ZStack {
                     Rectangle()
                         .fill(Color.green.opacity(0.5))
-                        .frame(height: 24)
+                        .frame(height: 26)
                         .frame(maxWidth: 84)
                     
                     Text("START")
@@ -37,14 +37,37 @@ struct StartLineView: View {
                         
                         Circle()
                             .fill(Color.black)
-                            .frame(width: 24, height:24)
+                            .frame(width: 26, height:26)
                         
                         Spacer().frame(width: 55)
 
                         Circle()
                             .fill(Color.black)
-                            .frame(width: 24, height:24)
+                            .frame(width: 26, height:26)
                         
+                    }
+                }
+            } else {
+                ZStack {
+                    Rectangle()
+                        .fill(Color.white.opacity(0.1))
+                        .frame(height: 26)
+                        .frame(maxWidth: 84)
+                    
+                    Text("± \(Int(locationManager.lastLocation?.horizontalAccuracy ?? 0))m")
+                        .font(.system(size: 12, design: .monospaced))
+                        .foregroundColor(.white)
+                    
+                    HStack {
+                        Circle()
+                            .fill(Color.black)
+                            .frame(width: 26, height:26)
+                        
+                        Spacer().frame(width: 55)
+
+                        Circle()
+                            .fill(Color.black)
+                            .frame(width: 26, height:26)
                     }
                 }
             }
@@ -57,7 +80,7 @@ struct StartLineView: View {
                     getButtonImage(state: startLineManager.leftButtonState, isLeft: true)
                         .font(.system(size: 16))
                         .foregroundColor(getButtonColor(state: startLineManager.leftButtonState))
-                        .frame(width: 24, height: 24)
+                        .frame(width: 26, height: 26)
                         .background(getButtonColor(state: startLineManager.leftButtonState).opacity(0.5))
                         .clipShape(Circle())
                         .overlay(
@@ -77,7 +100,7 @@ struct StartLineView: View {
                     getButtonImage(state: startLineManager.rightButtonState, isLeft: false)
                         .font(.system(size: 16))
                         .foregroundColor(getButtonColor(state: startLineManager.rightButtonState))
-                        .frame(width: 24, height: 24)
+                        .frame(width: 26, height: 26)
                         .background(getButtonColor(state: startLineManager.rightButtonState).opacity(0.5))
                         .clipShape(Circle())
                         .overlay(

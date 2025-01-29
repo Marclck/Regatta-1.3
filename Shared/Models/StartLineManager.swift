@@ -18,39 +18,41 @@ class StartLineManager: ObservableObject {
     @Published var currentDistance: Double?
     @Published var leftButtonState: ButtonState = .white
     @Published var rightButtonState: ButtonState = .white
+    @Published private var leftButtonRedTimer: Timer?
+    @Published private var rightButtonRedTimer: Timer?
     
     struct LocationPoint: Codable {
-            let coordinate: CLLocationCoordinate2D
-            let timestamp: Date
-            
-            enum CodingKeys: String, CodingKey {
-                case latitude = "lat"
-                case longitude = "lon"
-                case timestamp
-            }
-            
-            init(location: CLLocation) {
-                self.coordinate = location.coordinate
-                self.timestamp = location.timestamp
-            }
-            
-            func encode(to encoder: Encoder) throws {
-                var container = encoder.container(keyedBy: CodingKeys.self)
-                try container.encode(coordinate.latitude, forKey: .latitude)
-                try container.encode(coordinate.longitude, forKey: .longitude)
-                try container.encode(timestamp, forKey: .timestamp)
-            }
-            
-            init(from decoder: Decoder) throws {
-                let container = try decoder.container(keyedBy: CodingKeys.self)
-                let lat = try container.decode(Double.self, forKey: .latitude)
-                let lon = try container.decode(Double.self, forKey: .longitude)
-                let timestamp = try container.decode(Date.self, forKey: .timestamp)
-                
-                self.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
-                self.timestamp = timestamp
-            }
+        let coordinate: CLLocationCoordinate2D
+        let timestamp: Date
+        
+        enum CodingKeys: String, CodingKey {
+            case latitude = "lat"
+            case longitude = "lon"
+            case timestamp
         }
+        
+        init(location: CLLocation) {
+            self.coordinate = location.coordinate
+            self.timestamp = location.timestamp
+        }
+        
+        func encode(to encoder: Encoder) throws {
+            var container = encoder.container(keyedBy: CodingKeys.self)
+            try container.encode(coordinate.latitude, forKey: .latitude)
+            try container.encode(coordinate.longitude, forKey: .longitude)
+            try container.encode(timestamp, forKey: .timestamp)
+        }
+        
+        init(from decoder: Decoder) throws {
+            let container = try decoder.container(keyedBy: CodingKeys.self)
+            let lat = try container.decode(Double.self, forKey: .latitude)
+            let lon = try container.decode(Double.self, forKey: .longitude)
+            let timestamp = try container.decode(Date.self, forKey: .timestamp)
+            
+            self.coordinate = CLLocationCoordinate2D(latitude: lat, longitude: lon)
+            self.timestamp = timestamp
+        }
+    }
     
     enum ButtonState {
         case white
@@ -62,6 +64,11 @@ class StartLineManager: ObservableObject {
     init() {
         loadStoredLocations()
         setupPeriodicCleanup()
+    }
+    
+    deinit {
+        leftButtonRedTimer?.invalidate()
+        rightButtonRedTimer?.invalidate()
     }
     
     private func loadStoredLocations() {
@@ -110,72 +117,98 @@ class StartLineManager: ObservableObject {
     }
     
     func handleLeftButtonPress(currentLocation: CLLocation?) {
-            print("📌 Left button pressed. Current state: \(leftButtonState)")
-            print("📍 Location available: \(currentLocation != nil)")
-            if let location = currentLocation {
-                print("📍 Location accuracy: \(location.horizontalAccuracy)m")
-            }
-            
-            switch leftButtonState {
-            case .white:
-                if let location = currentLocation {
-                    if location.horizontalAccuracy <= 20.0 {  // Changed to 10 meters
-                        print("✅ Storing left point")
-                        storeLeftPoint(location)
-                        leftButtonState = .green
-                    } else {
-                        print("❌ Location accuracy insufficient: \(location.horizontalAccuracy)m")
-                    }
-                } else {
-                    print("❌ No location available")
-                }
-            case .green:
-                print("🔄 Changing left button to red")
-                leftButtonState = .red
-            case .red:
-                print("🗑️ Clearing left point")
-                leftPoint = nil
-                defaults.removeObject(forKey: "leftPoint")
-                leftButtonState = .white
-            case .disabled:
-                print("⚠️ Button disabled")
-                break
-            }
+        print("📌 Left button pressed. Current state: \(leftButtonState)")
+        print("📍 Location available: \(currentLocation != nil)")
+        if let location = currentLocation {
+            print("📍 Location accuracy: \(location.horizontalAccuracy)m")
         }
         
-        func handleRightButtonPress(currentLocation: CLLocation?) {
-            print("📌 Right button pressed. Current state: \(rightButtonState)")
-            print("📍 Location available: \(currentLocation != nil)")
+        switch leftButtonState {
+        case .white:
             if let location = currentLocation {
-                print("📍 Location accuracy: \(location.horizontalAccuracy)m")
-            }
-            
-            switch rightButtonState {
-            case .white:
-                if let location = currentLocation {
-                    if location.horizontalAccuracy <= 20.0 {  // Changed to 10 meters
-                        print("✅ Storing right point")
-                        storeRightPoint(location)
-                        rightButtonState = .green
-                    } else {
-                        print("❌ Location accuracy insufficient: \(location.horizontalAccuracy)m")
-                    }
+                if location.horizontalAccuracy <= 20.0 {
+                    print("✅ Storing left point")
+                    storeLeftPoint(location)
+                    leftButtonState = .green
                 } else {
-                    print("❌ No location available")
+                    print("❌ Location accuracy insufficient: \(location.horizontalAccuracy)m")
                 }
-            case .green:
-                print("🔄 Changing right button to red")
-                rightButtonState = .red
-            case .red:
-                print("🗑️ Clearing right point")
-                rightPoint = nil
-                defaults.removeObject(forKey: "rightPoint")
-                rightButtonState = .white
-            case .disabled:
-                print("⚠️ Button disabled")
-                break
+            } else {
+                print("❌ No location available")
             }
+        case .green:
+            print("🔄 Changing left button to red")
+            leftButtonState = .red
+            // Cancel existing timer if any
+            leftButtonRedTimer?.invalidate()
+            // Create new timer to rollback to green
+            leftButtonRedTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
+                DispatchQueue.main.async {
+                    print("⏰ Rolling back left button to green")
+                    self?.leftButtonState = .green
+                    self?.leftButtonRedTimer = nil
+                }
+            }
+        case .red:
+            print("🗑️ Clearing left point")
+            leftPoint = nil
+            defaults.removeObject(forKey: "leftPoint")
+            leftButtonState = .white
+            // Cancel the rollback timer if exists
+            leftButtonRedTimer?.invalidate()
+            leftButtonRedTimer = nil
+        case .disabled:
+            print("⚠️ Button disabled")
+            break
         }
+    }
+    
+    func handleRightButtonPress(currentLocation: CLLocation?) {
+        print("📌 Right button pressed. Current state: \(rightButtonState)")
+        print("📍 Location available: \(currentLocation != nil)")
+        if let location = currentLocation {
+            print("📍 Location accuracy: \(location.horizontalAccuracy)m")
+        }
+        
+        switch rightButtonState {
+        case .white:
+            if let location = currentLocation {
+                if location.horizontalAccuracy <= 20.0 {
+                    print("✅ Storing right point")
+                    storeRightPoint(location)
+                    rightButtonState = .green
+                } else {
+                    print("❌ Location accuracy insufficient: \(location.horizontalAccuracy)m")
+                }
+            } else {
+                print("❌ No location available")
+            }
+        case .green:
+            print("🔄 Changing right button to red")
+            rightButtonState = .red
+            // Cancel existing timer if any
+            rightButtonRedTimer?.invalidate()
+            // Create new timer to rollback to green
+            rightButtonRedTimer = Timer.scheduledTimer(withTimeInterval: 3.0, repeats: false) { [weak self] _ in
+                DispatchQueue.main.async {
+                    print("⏰ Rolling back right button to green")
+                    self?.rightButtonState = .green
+                    self?.rightButtonRedTimer = nil
+                }
+            }
+        case .red:
+            print("🗑️ Clearing right point")
+            rightPoint = nil
+            defaults.removeObject(forKey: "rightPoint")
+            rightButtonState = .white
+            // Cancel the rollback timer if exists
+            rightButtonRedTimer?.invalidate()
+            rightButtonRedTimer = nil
+        case .disabled:
+            print("⚠️ Button disabled")
+            break
+        }
+    }
     
     private func storeLeftPoint(_ location: CLLocation) {
         print("💾 Storing left point at: \(location.coordinate)")
@@ -188,7 +221,7 @@ class StartLineManager: ObservableObject {
             print("❌ Failed to encode left point")
         }
     }
-
+    
     private func storeRightPoint(_ location: CLLocation) {
         print("💾 Storing right point at: \(location.coordinate)")
         let point = LocationPoint(location: location)
@@ -202,94 +235,94 @@ class StartLineManager: ObservableObject {
     }
     
     func updateDistance(currentLocation: CLLocation) {
-            print("🔄 Starting distance calculation...")
-            print("📍 Current location: \(currentLocation.coordinate)")
-            print("📏 Current accuracy: \(currentLocation.horizontalAccuracy)m")
-            
-            guard currentLocation.horizontalAccuracy <= 30.0 else {
-                print("❌ Accuracy check failed: \(currentLocation.horizontalAccuracy)m > 30.0m")
-                currentDistance = nil
-                return
-            }
-            
-            if let left = leftPoint?.coordinate, let right = rightPoint?.coordinate {
-                print("✅ Both points available")
-                print("📌 Left point: \(left)")
-                print("📌 Right point: \(right)")
-                
-                // Calculate distance to line segment
-                let distance = distanceToLineSegment(
-                    point: currentLocation.coordinate,
-                    lineStart: left,
-                    lineEnd: right
-                )
-                print("📏 Calculated distance: \(distance)m")
-                currentDistance = distance
-                
-            } else if let point = leftPoint?.coordinate ?? rightPoint?.coordinate {
-                print("ℹ️ Single point available")
-                print("📌 Reference point: \(point)")
-                
-                // Calculate direct distance to single point
-                let distance = currentLocation.coordinate.distance(to: point)
-                print("📏 Calculated direct distance: \(distance)m")
-                currentDistance = distance
-                
-            } else {
-                print("❌ No points available for distance calculation")
-                currentDistance = nil
-            }
-            
-            print("🏁 Final distance value: \(String(describing: currentDistance))m")
+        print("🔄 Starting distance calculation...")
+        print("📍 Current location: \(currentLocation.coordinate)")
+        print("📏 Current accuracy: \(currentLocation.horizontalAccuracy)m")
+        
+        guard currentLocation.horizontalAccuracy <= 30.0 else {
+            print("❌ Accuracy check failed: \(currentLocation.horizontalAccuracy)m > 30.0m")
+            currentDistance = nil
+            return
         }
         
-    private func distanceToLineSegment(
-            point: CLLocationCoordinate2D,
-            lineStart: CLLocationCoordinate2D,
-            lineEnd: CLLocationCoordinate2D
-        ) -> Double {
-            print("📐 Calculating line segment distance...")
-            let a = point.distance(to: lineStart)
-            let b = point.distance(to: lineEnd)
-            let c = lineStart.distance(to: lineEnd)
+        if let left = leftPoint?.coordinate, let right = rightPoint?.coordinate {
+            print("✅ Both points available")
+            print("📌 Left point: \(left)")
+            print("📌 Right point: \(right)")
             
-            print("📏 Distances:")
-            print("   To start point (a): \(a)m")
-            print("   To end point (b): \(b)m")
-            print("   Line length (c): \(c)m")
+            // Calculate distance to line segment
+            let distance = distanceToLineSegment(
+                point: currentLocation.coordinate,
+                lineStart: left,
+                lineEnd: right
+            )
+            print("📏 Calculated distance: \(distance)m")
+            currentDistance = distance
             
-            // Guard against zero line length
-            guard c > 0.1 else {  // If points are very close together
-                print("⚠️ Line length too small, using direct distance")
-                return min(a, b)
-            }
+        } else if let point = leftPoint?.coordinate ?? rightPoint?.coordinate {
+            print("ℹ️ Single point available")
+            print("📌 Reference point: \(point)")
             
-            // If angle is obtuse, use distance to closest endpoint
-            if (a * a > b * b + c * c) {
-                print("📐 Obtuse angle at end point, using distance to end: \(b)m")
-                return b
-            }
-            if (b * b > a * a + c * c) {
-                print("📐 Obtuse angle at start point, using distance to start: \(a)m")
-                return a
-            }
+            // Calculate direct distance to single point
+            let distance = currentLocation.coordinate.distance(to: point)
+            print("📏 Calculated direct distance: \(distance)m")
+            currentDistance = distance
             
-            // Calculate perpendicular distance using Heron's formula
-            let s = (a + b + c) / 2
-            print("   Semi-perimeter (s): \(s)m")
-            
-            // Guard against negative values under sqrt
-            let underSqrt = s * (s - a) * (s - b) * (s - c)
-            guard underSqrt > 0 else {
-                print("⚠️ Invalid triangle, using closest point distance")
-                return min(a, b)
-            }
-            
-            let area = sqrt(underSqrt)
-            let distance = 2 * area / c
-            print("📐 Area: \(area)m², Perpendicular distance: \(distance)m")
-            return distance
+        } else {
+            print("❌ No points available for distance calculation")
+            currentDistance = nil
         }
+        
+        print("🏁 Final distance value: \(String(describing: currentDistance))m")
+    }
+    
+    private func distanceToLineSegment(
+        point: CLLocationCoordinate2D,
+        lineStart: CLLocationCoordinate2D,
+        lineEnd: CLLocationCoordinate2D
+    ) -> Double {
+        print("📐 Calculating line segment distance...")
+        let a = point.distance(to: lineStart)
+        let b = point.distance(to: lineEnd)
+        let c = lineStart.distance(to: lineEnd)
+        
+        print("📏 Distances:")
+        print("   To start point (a): \(a)m")
+        print("   To end point (b): \(b)m")
+        print("   Line length (c): \(c)m")
+        
+        // Guard against zero line length
+        guard c > 0.1 else {  // If points are very close together
+            print("⚠️ Line length too small, using direct distance")
+            return min(a, b)
+        }
+        
+        // If angle is obtuse, use distance to closest endpoint
+        if (a * a > b * b + c * c) {
+            print("📐 Obtuse angle at end point, using distance to end: \(b)m")
+            return b
+        }
+        if (b * b > a * a + c * c) {
+            print("📐 Obtuse angle at start point, using distance to start: \(a)m")
+            return a
+        }
+        
+        // Calculate perpendicular distance using Heron's formula
+        let s = (a + b + c) / 2
+        print("   Semi-perimeter (s): \(s)m")
+        
+        // Guard against negative values under sqrt
+        let underSqrt = s * (s - a) * (s - b) * (s - c)
+        guard underSqrt > 0 else {
+            print("⚠️ Invalid triangle, using closest point distance")
+            return min(a, b)
+        }
+        
+        let area = sqrt(underSqrt)
+        let distance = 2 * area / c
+        print("📐 Area: \(area)m², Perpendicular distance: \(distance)m")
+        return distance
+    }
 }
 
 extension CLLocationCoordinate2D {

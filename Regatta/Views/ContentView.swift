@@ -135,6 +135,109 @@ struct MainInfoView: View {
                     
                 }
                 
+                Section("Start Line Features") {
+                                    HStack {
+                                        Image(systemName: "ruler")
+                                        Text("DtL (Distance to Line) shows distance to the start line")
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                    
+                                    HStack {
+                                        Image(systemName: "location.circle.fill")
+                                        Text("Records GPS points for your start line ends")
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                    
+                                    HStack {
+                                        Image(systemName: "arrow.triangle.turn.up.right.circle.fill")
+                                        Text("Shows perpendicular distance when crossing line")
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                }
+                                
+                                Section("Setting Up Start Line") {
+                                    HStack {
+                                        Image(systemName: "1.circle.fill")
+                                        Text("Press DtL button to activate GPS mode (shows ✔️)")
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                    
+                                    HStack {
+                                        Image(systemName: "2.circle.fill")
+                                        VStack(alignment: .leading) {
+                                            Text("Place start line markers:")
+                                            HStack {
+                                                Image(systemName: "triangle.fill")
+                                                    .foregroundColor(.blue)
+                                                Text("Pin mark")
+                                            }
+                                            HStack {
+                                                Image(systemName: "square.fill")
+                                                    .foregroundColor(.blue)
+                                                Text("Committee boat")
+                                            }
+                                        }
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                    
+                                    HStack {
+                                        Image(systemName: "3.circle.fill")
+                                        Text("Press button at each end of line when positioned")
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                    
+                                    HStack {
+                                        Image(systemName: "4.circle.fill")
+                                        Text("Green button = point stored, Red = press to delete")
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                    
+                                    HStack {
+                                        Image(systemName: "5.circle.fill")
+                                        Text("When both points are set, line appears between them")
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                    
+                                    HStack {
+                                        Image(systemName: "6.circle.fill")
+                                        Text("Starting line data is stored for 24h and will be deleted automatically")
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                    
+                                    HStack {
+                                        Image(systemName: "6.circle.fill")
+                                        Text("When only one point is set, DtL is calculated against the point")
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                    
+                                }
+                                
+                                Section("Distance Display") {
+                                    HStack {
+                                        Image(systemName: "minus.circle.fill")
+                                        Text("'-' shows when GPS signal is weak")
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                    
+                                    HStack {
+                                        Image(systemName: "arrow.up.and.down.circle.fill")
+                                        Text("Shows meters to line/point when in range (<999m)")
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                    
+                                    HStack {
+                                        Image(systemName: "exclamationmark.circle.fill")
+                                        Text("'FAR' shows when >999m from line")
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                    
+                                    HStack {
+                                        Image(systemName: "d.circle.fill")
+                                        Text("'DtL' shows when timer not running")
+                                    }
+                                    .font(.system(.body, design: .monospaced))
+                                }
+                
                 Section("Features") {
                     HStack {
                         Image(systemName: "bell.fill")
