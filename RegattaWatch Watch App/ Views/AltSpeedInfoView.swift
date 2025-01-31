@@ -1,8 +1,8 @@
 //
-//  SpeedInfoView.swift
+//  AltSpeedInfoView.swift
 //  RegattaWatch Watch App
 //
-//  Created by Chikai Lai on 29/01/2025.
+//  Created by Chikai Lai on 30/01/2025.
 //
 
 import Foundation
@@ -10,7 +10,7 @@ import SwiftUI
 import CoreLocation
 import WatchKit
 
-struct SpeedInfoView: View {
+struct AltSpeedInfoView: View {
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var timerState: WatchTimerState
     @ObservedObject var startLineManager: StartLineManager
@@ -46,7 +46,8 @@ struct SpeedInfoView: View {
         if !timerState.isRunning {
             return "kn"
         }
-        return String(format: "%.0f", locationManager.speed * 1.94384)
+        let speedInKnots = locationManager.speed * 1.94384
+        return speedInKnots <= 0 ? "-" : String(format: "%.0f", speedInKnots)
     }
     
     private func getCardinalDirection(_ degrees: Double) -> String {
@@ -63,13 +64,12 @@ struct SpeedInfoView: View {
         guard locationManager.isLocationValid,
               let location = locationManager.lastLocation,
               location.course >= 0 else {
-            return "-"
+            return "COURSE"
         }
         
         let cardinal = getCardinalDirection(location.course)
         return String(format: "%@%.0f°", cardinal, location.course)
     }
-    
     
     private var distanceButton: some View {
         Button(action: {
@@ -78,9 +78,8 @@ struct SpeedInfoView: View {
             
             if isCheckmark {
                 locationManager.startUpdatingLocation()
-                // Set timer to turn off after 10 seconds
                 DispatchQueue.main.asyncAfter(deadline: .now() + 120) {
-                    if isCheckmark { // Check if still in checkmark state
+                    if isCheckmark {
                         isCheckmark = false
                         locationManager.stopUpdatingLocation()
                         WKInterfaceDevice.current().play(.click)
@@ -93,16 +92,16 @@ struct SpeedInfoView: View {
             Group {
                 if isCheckmark {
                     Image(systemName: "checkmark")
-                        .font(.system(size: 14, weight: .bold))
+                        .font(.system(size: timerState.isRunning ? 20 : 14, weight: .bold))
                 } else {
                     Text(getDistanceText())
-                        .font(.system(size: 14, design: .monospaced))
+                        .font(.system(size: timerState.isRunning ? 20 : 14, design: .monospaced))
                 }
             }
             .foregroundColor(isCheckmark ? Color.black : timerState.isRunning ? Color.white : Color.white.opacity(0.3))
             .padding(.horizontal, 4)
             .padding(.vertical, isCheckmark ? 5.2 : 4)
-            .frame(minWidth: 36)
+            .frame(minWidth: timerState.isRunning ? 55 : 36)
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(
@@ -112,92 +111,48 @@ struct SpeedInfoView: View {
                             startPoint: .leading,
                             endPoint: .trailing
                         ).opacity(0.5) :
-                        LinearGradient(
-                            colors: [
-                                startLineManager.leftButtonState == .green ? Color.green : Color.white,
-                                startLineManager.rightButtonState == .green ? Color.green : Color.white
-                            ],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        ).opacity(timerState.isRunning ? 0.5 : 0.1)
+                            LinearGradient(
+                                colors: [
+                                    startLineManager.leftButtonState == .green ? Color.green : Color.white,
+                                    startLineManager.rightButtonState == .green ? Color.green : Color.white
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ).opacity(timerState.isRunning ? 0.05 : 0.1)
                     )
             )
         }
         .buttonStyle(.plain)
-        .matchedGeometryEffect(id: "distance", in: animation)
+//        .matchedGeometryEffect(id: "distance", in: animation)
     }
     
-    @ViewBuilder
-    private var compactView: some View {
-        HStack {
-            distanceButton
-                .padding(.top, -10)
-                .offset(x: -5, y: -10)
-            
-            Spacer().frame(width: 70)
-            
-            // Speed Display
-            Text(getSpeedText())
-                .font(.system(size: 14, design: .monospaced))
-                .foregroundColor(timerState.isRunning ? Color.white : Color.white.opacity(0.3))
-                .padding(.horizontal, 4)
-                .padding(.vertical, 4)
-                .frame(minWidth: 36)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.white.opacity(timerState.isRunning ? 0.5 : 0.1))
-                )
-                .matchedGeometryEffect(id: "speed", in: animation)
-                .padding(.top, -10)
-                .offset(x: 5, y: -10)
-        }
-        .padding(.horizontal)
+    private var courseDisplay: some View {
+        Text(getCourseText())
+            .font(.system(size: timerState.isRunning ? 12  : 12, design: .monospaced))
+            .foregroundColor(timerState.isRunning ? Color.white : Color.white.opacity(0.3))
+            .padding(.horizontal, 4)
+            .padding(.vertical, 4)
+            .frame(minWidth: timerState.isRunning ? 55 : 36)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.white.opacity(timerState.isRunning ? 0.05 : 0.1))
+            )
+//            .matchedGeometryEffect(id: "course", in: animation)
+            .opacity(timerState.isRunning ? 1 : 0)
     }
     
-    @ViewBuilder
-    private var expandedView: some View {
-        HStack(alignment: .center) {
-            // Distance Display
-            Text(getDistanceText())
-                .font(.zenithBeta(size: 20, weight: .medium))
-                .foregroundColor(.white)
-                .frame(minWidth: 55, maxWidth: 55, minHeight: 10, maxHeight: 10)
-                .padding(.vertical, 10)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.white.opacity(0))
-                )
-                .matchedGeometryEffect(id: "distance", in: animation)
-            
-            /*
-            Spacer().frame(width: 3)
-            
-            // Course Direction Display
-            Text(getCourseText())
-                .font(.zenithBeta(size: 20, weight: .medium))
-                .foregroundColor(.white)
-                .frame(minWidth: 55, maxWidth: 55, minHeight: 10, maxHeight: 10)
-                .padding(.vertical, 10)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.white.opacity(0.5))
-                )
-            */
-             
-            Spacer().frame(width: 10)
-            
-            // Speed Display
-            Text(getSpeedText())
-                .font(.zenithBeta(size: 20, weight: .medium))
-                .foregroundColor(.white)
-                .frame(minWidth: 55, maxWidth: 55, minHeight: 10, maxHeight: 10)
-                .padding(.vertical, 10)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.white.opacity(0))
-                )
-                .matchedGeometryEffect(id: "speed", in: animation)
-        }
+    private var speedDisplay: some View {
+        Text(getSpeedText())
+            .font(.system(size: timerState.isRunning ? 20 : 14, design: .monospaced))
+            .foregroundColor(timerState.isRunning ? Color.white : Color.white.opacity(0.3))
+            .padding(.horizontal, 4)
+            .padding(.vertical, 4)
+            .frame(minWidth: timerState.isRunning ? 55 : 36)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.white.opacity(timerState.isRunning ? 0.05 : 0.1))
+            )
+            .matchedGeometryEffect(id: "speed", in: animation)
     }
     
     private func handleLocationState() {
@@ -209,21 +164,24 @@ struct SpeedInfoView: View {
     }
     
     var body: some View {
-        Group {
+        VStack {
+            HStack(alignment: .center, spacing: timerState.isRunning ? 10 : 70) {
+                distanceButton
+                    .offset(x: timerState.isRunning ? 0 : -5, y: timerState.isRunning ? 0 : -20)
+                    .animation(.spring(response: 0.4, dampingFraction: 0.8), value: timerState.isRunning)
+                
+                speedDisplay
+                    .offset(x: timerState.isRunning ? 0 : 5, y: timerState.isRunning ? 0 : -20)
+                    .animation(.spring(response: 0.5, dampingFraction: 0.8), value: timerState.isRunning)
+            }
+            
             if timerState.isRunning {
-                expandedView
-                    .transition(.asymmetric(
-                        insertion: .opacity.combined(with: .move(edge: .top)),
-                        removal: .opacity.combined(with: .move(edge: .bottom))
-                    ))
-            } else {
-                compactView
-                    .transition(.asymmetric(
-                        insertion: .opacity.combined(with: .move(edge: .bottom)),
-                        removal: .opacity.combined(with: .move(edge: .top))
-                    ))
+                courseDisplay
+                    .offset(y:40)
+                    .animation(.spring(dampingFraction: 0.8), value: timerState.isRunning)
             }
         }
+        .padding(.horizontal)
         .onAppear {
             handleLocationState()
         }
@@ -234,7 +192,7 @@ struct SpeedInfoView: View {
             if timerState.isRunning {
                 JournalManager.shared.addDataPoint(
                     heartRate: nil,
-                    speed: speed * 1.94384,  // Convert m/s to knots
+                    speed: speed * 1.94384,
                     location: locationManager.lastLocation
                 )
             }
@@ -254,7 +212,7 @@ struct SpeedInfoView: View {
 
 // MARK: - Preview Helpers
 #if DEBUG
-struct PreviewSpeedInfoView: View {
+struct PreviewAltSpeedInfoView: View {
     @StateObject private var locationManager = LocationManager()
     @StateObject private var timerState = WatchTimerState()
     @StateObject private var startLineManager = StartLineManager()
@@ -264,7 +222,7 @@ struct PreviewSpeedInfoView: View {
         GeometryReader { geometry in
             ZStack {
                 Color.black
-                SpeedInfoView(
+                AltSpeedInfoView(
                     locationManager: locationManager,
                     timerState: timerState,
                     startLineManager: startLineManager,
@@ -276,7 +234,7 @@ struct PreviewSpeedInfoView: View {
 }
 
 #Preview {
-    PreviewSpeedInfoView()
+    PreviewAltSpeedInfoView()
         .frame(width: 180, height: 180)
 }
 #endif

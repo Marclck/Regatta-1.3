@@ -9,34 +9,41 @@ import Foundation
 import SwiftUI
 
 struct CurrentTimeView: View {
-    @ObservedObject var timerState: WatchTimerState  // Add this property
+    @ObservedObject var timerState: WatchTimerState
     @EnvironmentObject var colorManager: ColorManager
-
-
+    
     @State private var currentTime = Date()
-    let timer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    @State private var lastUpdateTime: TimeInterval = 0
     
     var body: some View {
         Text(timeString(from: currentTime))
             .font(.system(size: 14, design: .monospaced))
             .foregroundColor(.black)
-            .padding(.horizontal, 10) // Add horizontal padding inside the background
-                        .padding(.vertical, 4)    // Add vertical padding inside the background
-                        .background(
-                            RoundedRectangle(cornerRadius: 8)
-                                .fill(backgroundColor) // Semi-transparent black background
-                            )
-            .onReceive(timer) { input in
-                currentTime = input
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(backgroundColor)
+            )
+            .onChange(of: timerState.currentTime) { _ in
+                let now = Date().timeIntervalSince1970
+                if now - lastUpdateTime >= 1.0 {
+                    currentTime = Date()
+                    lastUpdateTime = now
+                }
+            }
+            .onAppear {
+                // Initialize current time and last update time when view appears
+                currentTime = Date()
+                lastUpdateTime = Date().timeIntervalSince1970
             }
     }
-                          
-    private var backgroundColor: Color {
-            timerState.mode == .countdown && timerState.currentTime <= 60
-                ? Color.orange.opacity(1)
-                : Color(hex: colorManager.selectedTheme.rawValue).opacity(1)
-        }
     
+    private var backgroundColor: Color {
+        timerState.mode == .countdown && timerState.currentTime <= 60
+            ? Color.orange.opacity(1)
+            : Color(hex: colorManager.selectedTheme.rawValue).opacity(1)
+    }
     
     private func timeString(from date: Date) -> String {
         let formatter = DateFormatter()

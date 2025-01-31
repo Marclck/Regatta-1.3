@@ -229,14 +229,13 @@ struct TimerView: View {
                        
                        
                        if settings.showSpeedInfo {
-                           SpeedInfoView(
+                           AltSpeedInfoView(
                                locationManager: locationManager,
                                timerState: timerState,
                                startLineManager: startLineManager,
                                isCheckmark: $showStartLine
                            )
-                           .offset(y: timerState.isRunning ? -48 : -71)
-                           .animation(.spring(response: 0.5, dampingFraction: 0.8), value: timerState.isRunning)
+                           .offset(y: timerState.isRunning ? -35 : -66)
                        }
                        
                        ZStack {
@@ -247,14 +246,14 @@ struct TimerView: View {
                                    .fill(Color.black)
                                    .frame(height: 40)
                                    .frame(maxWidth: 110)
-                                   .offset(x: 22.5, y: -81)
+                                   .offset(x: timerState.isRunning ? 0 : 22.5, y: -90)
                                
                                StartLineView(
                                 locationManager: locationManager,
                                 startLineManager: startLineManager
                                )
                                .padding(.top, -10)
-                               .offset(x: 22.5, y: -81)
+                               .offset(x: timerState.isRunning ? 0 : 22.5, y: -81)
                            }
                        }
                    }

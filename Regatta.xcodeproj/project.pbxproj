@@ -21,6 +21,9 @@
 		1D1D830F2D3727C9003C8CAA /* SubscriptionOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1D830E2D3727C9003C8CAA /* SubscriptionOverlay.swift */; };
 		1D1D83112D386A72003C8CAA /* Astrolabe Countdown.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */; };
 		1D1D83122D386A72003C8CAA /* Astrolabe Countdown.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */; };
+		1D2D25D72D4C2C4000DF0CE2 /* RaceSessionMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D25D62D4C2C4000DF0CE2 /* RaceSessionMapView.swift */; };
+		1D2D25D92D4C47CE00DF0CE2 /* AltSpeedInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D25D82D4C47CE00DF0CE2 /* AltSpeedInfoView.swift */; };
+		1D2D25DB2D4CED2C00DF0CE2 /* CourseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D25DA2D4CED2C00DF0CE2 /* CourseTracker.swift */; };
 		1D2E53F42D17014A00C669D4 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */; };
 		1D2E53F52D17014A00C669D4 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */; };
 		1D2E53F62D17014A00C669D4 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */; };
@@ -227,6 +230,9 @@
 		1D0B5B492CED2E2000DC4BE5 /* RegattaWatch Watch App.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = "RegattaWatch Watch App.entitlements"; sourceTree = "<group>"; };
 		1D1D830E2D3727C9003C8CAA /* SubscriptionOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionOverlay.swift; sourceTree = "<group>"; };
 		1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */ = {isa = PBXFileReference; lastKnownFileType = text; path = "Astrolabe Countdown.storekit"; sourceTree = "<group>"; };
+		1D2D25D62D4C2C4000DF0CE2 /* RaceSessionMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceSessionMapView.swift; sourceTree = "<group>"; };
+		1D2D25D82D4C47CE00DF0CE2 /* AltSpeedInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltSpeedInfoView.swift; sourceTree = "<group>"; };
+		1D2D25DA2D4CED2C00DF0CE2 /* CourseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTracker.swift; sourceTree = "<group>"; };
 		1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		1D2E53F92D17159600C669D4 /* TabBarContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarContentView.swift; sourceTree = "<group>"; };
 		1D2E53FE2D1715AD00C669D4 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
@@ -544,6 +550,7 @@
 				1D00ADD72D3F06E4001AC542 /* LocationManager.swift */,
 				1D9EE6112D405B8E008B4B29 /* HeartRateManager.swift */,
 				1D64AA0A2D464D3800F1BC04 /* StartLineManager.swift */,
+				1D2D25DA2D4CED2C00DF0CE2 /* CourseTracker.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -569,6 +576,7 @@
 				1D412E142D025A2C0062C639 /* ColorThemeView.swift */,
 				1D412E192D025A430062C639 /* SettingsView.swift */,
 				1D90CF882D46C3B500357553 /* StartLineMapView.swift */,
+				1D2D25D62D4C2C4000DF0CE2 /* RaceSessionMapView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -596,6 +604,7 @@
 				1D00ADD52D3F06AF001AC542 /* SpeedDisplayView.swift */,
 				1D64AA082D464D1500F1BC04 /* DistanceDisplayView.swift */,
 				1D90CF8C2D4AA6A500357553 /* SpeedInfoView.swift */,
+				1D2D25D82D4C47CE00DF0CE2 /* AltSpeedInfoView.swift */,
 			);
 			path = " Views";
 			sourceTree = "<group>";
@@ -924,6 +933,7 @@
 				1D69FE982CE967AA001C178A /* Item.swift in Sources */,
 				1D43846D2D186D43000DE437 /* PremiumAlertView.swift in Sources */,
 				1D69FEFB2CE96905001C178A /* SeparatorMark.swift in Sources */,
+				1D2D25D72D4C2C4000DF0CE2 /* RaceSessionMapView.swift in Sources */,
 				1D69FEFF2CE969D9001C178A /* CurrentTimeView.swift in Sources */,
 				1D2E540E2D1715FE00C669D4 /* TabItemModel.swift in Sources */,
 				1D90CF8B2D46C57C00357553 /* LocationHelper.swift in Sources */,
@@ -989,6 +999,7 @@
 				1DBD85E22CF142A50028E391 /* PersistentTimerManager.swift in Sources */,
 				1D64AA092D464D1500F1BC04 /* DistanceDisplayView.swift in Sources */,
 				1D768D772CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift in Sources */,
+				1D2D25DB2D4CED2C00DF0CE2 /* CourseTracker.swift in Sources */,
 				1D69FF0B2CE96A44001C178A /* ButtonsView.swift in Sources */,
 				1D768D732CFD1AA800DB4EE5 /* WatchFaceView.swift in Sources */,
 				1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */,
@@ -1000,6 +1011,7 @@
 				1D69FEC82CE967F7001C178A /* ContentView.swift in Sources */,
 				1D69FF072CE96A32001C178A /* CurrentTimeView.swift in Sources */,
 				1D768D752CFD1AE800DB4EE5 /* SecondProgressBarView.swift in Sources */,
+				1D2D25D92D4C47CE00DF0CE2 /* AltSpeedInfoView.swift in Sources */,
 				1D2E54152D17161200C669D4 /* TabScrollContentView.swift in Sources */,
 				1D00ADD62D3F06AF001AC542 /* SpeedDisplayView.swift in Sources */,
 				1D1D830F2D3727C9003C8CAA /* SubscriptionOverlay.swift in Sources */,
