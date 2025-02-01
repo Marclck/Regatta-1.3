@@ -33,6 +33,8 @@ struct ContentView: View {
 struct MainInfoView: View {
     @StateObject private var timerState = TimerState()
     @ObservedObject private var iapManager = IAPManager.shared
+    @State private var showingWatchSettings = false
+    @State private var showingSpeedTools = false
     
     // URLs for legal links
     private let privacyPolicyURL = URL(string: "https://astrolabe-countdown.apphq.online/privacy")!
@@ -84,7 +86,7 @@ struct MainInfoView: View {
                     .font(.system(.body, design: .monospaced))
                 }
                 
-                Section("How to Use") {
+                Section("Basic Info") {
                     HStack {
                         Image(systemName: "1.circle.fill")
                         Text("Open the Watch app")
@@ -93,7 +95,7 @@ struct MainInfoView: View {
                     
                     HStack {
                         Image(systemName: "2.circle.fill")
-                        Text("Set countdown duration (1-30 minutes)")
+                        Text("Set countdown duration (0-30 minutes)")
                     }
                     .font(.system(.body, design: .monospaced))
                     
@@ -133,110 +135,43 @@ struct MainInfoView: View {
                     }
                     .font(.system(.body, design: .monospaced))
                     
+                    HStack {
+                        Image(systemName: "9.circle.fill")
+                        Text("Set Return to Clock to 1 hour in your Watch Settings app")
+                    }
+                    .font(.system(.body, design: .monospaced))
+                    
                 }
                 
-                Section("Start Line Features") {
-                                    HStack {
-                                        Image(systemName: "ruler")
-                                        Text("DtL (Distance to Line) shows distance to the start line")
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                    
-                                    HStack {
-                                        Image(systemName: "location.circle.fill")
-                                        Text("Records GPS points for your start line ends")
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                    
-                                    HStack {
-                                        Image(systemName: "arrow.triangle.turn.up.right.circle.fill")
-                                        Text("Shows perpendicular distance when crossing line")
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                }
-                                
-                                Section("Setting Up Start Line") {
-                                    HStack {
-                                        Image(systemName: "1.circle.fill")
-                                        Text("Press DtL button to activate GPS mode (shows ✔️)")
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                    
-                                    HStack {
-                                        Image(systemName: "2.circle.fill")
-                                        VStack(alignment: .leading) {
-                                            Text("Place start line markers:")
-                                            HStack {
-                                                Image(systemName: "triangle.fill")
-                                                    .foregroundColor(.blue)
-                                                Text("Pin mark")
-                                            }
-                                            HStack {
-                                                Image(systemName: "square.fill")
-                                                    .foregroundColor(.blue)
-                                                Text("Committee boat")
-                                            }
-                                        }
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                    
-                                    HStack {
-                                        Image(systemName: "3.circle.fill")
-                                        Text("Press button at each end of line when positioned")
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                    
-                                    HStack {
-                                        Image(systemName: "4.circle.fill")
-                                        Text("Green button = point stored, Red = press to delete")
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                    
-                                    HStack {
-                                        Image(systemName: "5.circle.fill")
-                                        Text("When both points are set, line appears between them")
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                    
-                                    HStack {
-                                        Image(systemName: "6.circle.fill")
-                                        Text("Starting line data is stored for 24h and will be deleted automatically")
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                    
-                                    HStack {
-                                        Image(systemName: "6.circle.fill")
-                                        Text("When only one point is set, DtL is calculated against the point")
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                    
-                                }
-                                
-                                Section("Distance Display") {
-                                    HStack {
-                                        Image(systemName: "minus.circle.fill")
-                                        Text("'-' shows when GPS signal is weak")
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                    
-                                    HStack {
-                                        Image(systemName: "arrow.up.and.down.circle.fill")
-                                        Text("Shows meters to line/point when in range (<999m)")
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                    
-                                    HStack {
-                                        Image(systemName: "exclamationmark.circle.fill")
-                                        Text("'FAR' shows when >999m from line")
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                    
-                                    HStack {
-                                        Image(systemName: "d.circle.fill")
-                                        Text("'DtL' shows when timer not running")
-                                    }
-                                    .font(.system(.body, design: .monospaced))
-                                }
+                Section("Advance Settings") {
+                    Button(action: {
+                        showingWatchSettings = true
+                    }) {
+                        HStack {
+                            Image(systemName: "gearshape.fill")
+                            Text("Watch Settings Guide")
+                                .font(.system(.body, design: .monospaced))
+                        }
+                    }
+                    .sheet(isPresented: $showingWatchSettings) {
+                        WatchSettingsInfo()
+                    }
+                    
+                    Button(action: {
+                        showingSpeedTools = true
+                    }) {
+                        HStack {
+                            Image(systemName: "speedometer")
+                            Text("Speed Tools Guide")
+                                .font(.system(.body, design: .monospaced))
+                        }
+                    }
+                    .sheet(isPresented: $showingSpeedTools) {
+                        SpeedToolInfo()
+                    }
+                    
+                }
+            
                 
                 Section("Features") {
                     HStack {

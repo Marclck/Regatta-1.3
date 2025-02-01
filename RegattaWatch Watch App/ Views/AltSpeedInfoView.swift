@@ -10,10 +10,54 @@ import SwiftUI
 import CoreLocation
 import WatchKit
 
+struct CourseDeviationView: View {
+    let deviation: Double
+    let maxDeviation: Double = 30.0
+    let stepsPerSide = 3
+    
+    private func getCircleFill(_ position: Int, isPositive: Bool) -> Double {
+        let stepSize = maxDeviation / Double(stepsPerSide)
+        let relevantDeviation = isPositive ? deviation : -deviation
+        let threshold = Double(position + 1) * stepSize
+        let previousThreshold = Double(position) * stepSize
+        
+        if relevantDeviation <= previousThreshold { return 0.2 }  // Unfilled
+        if relevantDeviation >= threshold { return 0.8 }  // Fully filled
+        
+        // Partially filled
+        return 0.1 + (0.4 * (relevantDeviation - previousThreshold) / stepSize)
+    }
+    
+    var body: some View {
+        HStack(spacing: 4) {
+            // Negative deviation indicators
+            ForEach((0..<stepsPerSide).reversed(), id: \.self) { index in
+                Circle()
+                    .fill(Color.white)
+                    .opacity(getCircleFill(index, isPositive: false))
+                    .frame(width: 10, height: 10)
+            }
+            
+            // Course display spacer
+            Spacer()
+                .frame(width: 55)
+            
+            // Positive deviation indicators
+            ForEach(0..<stepsPerSide, id: \.self) { index in
+                Circle()
+                    .fill(Color.white)
+                    .opacity(getCircleFill(index, isPositive: true))
+                    .frame(width: 10, height: 10)
+            }
+        }
+    }
+}
+
 struct AltSpeedInfoView: View {
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var timerState: WatchTimerState
     @ObservedObject var startLineManager: StartLineManager
+    @StateObject private var courseTracker = CourseTracker()
     @Binding var isCheckmark: Bool
     
     @Namespace private var animation
@@ -95,7 +139,9 @@ struct AltSpeedInfoView: View {
                         .font(.system(size: timerState.isRunning ? 20 : 14, weight: .bold))
                 } else {
                     Text(getDistanceText())
-                        .font(.system(size: timerState.isRunning ? 20 : 14, design: .monospaced))
+                        .font( timerState.isRunning ?
+                            .zenithBeta(size: 24, weight: .medium):
+                                .system(size:14, design: .monospaced))
                 }
             }
             .foregroundColor(isCheckmark ? Color.black : timerState.isRunning ? Color.white : Color.white.opacity(0.3))
@@ -123,27 +169,35 @@ struct AltSpeedInfoView: View {
             )
         }
         .buttonStyle(.plain)
-//        .matchedGeometryEffect(id: "distance", in: animation)
     }
     
     private var courseDisplay: some View {
-        Text(getCourseText())
-            .font(.system(size: timerState.isRunning ? 12  : 12, design: .monospaced))
-            .foregroundColor(timerState.isRunning ? Color.white : Color.white.opacity(0.3))
-            .padding(.horizontal, 4)
-            .padding(.vertical, 4)
-            .frame(minWidth: timerState.isRunning ? 55 : 36)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(Color.white.opacity(timerState.isRunning ? 0.05 : 0.1))
-            )
-//            .matchedGeometryEffect(id: "course", in: animation)
-            .opacity(timerState.isRunning ? 1 : 0)
+        ZStack {
+            Text(getCourseText())
+                .font(.system(size: timerState.isRunning ? 12 : 12, design: .monospaced))
+                .foregroundColor(timerState.isRunning ? Color.white : Color.white.opacity(0.3))
+                .padding(.horizontal, 4)
+                .padding(.vertical, 4)
+                .frame(minWidth: timerState.isRunning ? 55 : 36)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.white.opacity(timerState.isRunning ? 0.05 : 0.1))
+                )
+            
+//            if courseTracker.isLocked {
+                CourseDeviationView(deviation: courseTracker.currentDeviation)
+                    .frame(width: 100)
+                    .transition(.opacity)
+//            }
+        }
+        .opacity(timerState.isRunning ? 1 : 0)
     }
     
     private var speedDisplay: some View {
         Text(getSpeedText())
-            .font(.system(size: timerState.isRunning ? 20 : 14, design: .monospaced))
+            .font( timerState.isRunning ?
+                .zenithBeta(size: 2, weight: .medium):
+                    .system(size:14, design: .monospaced))
             .foregroundColor(timerState.isRunning ? Color.white : Color.white.opacity(0.3))
             .padding(.horizontal, 4)
             .padding(.vertical, 4)
@@ -158,6 +212,7 @@ struct AltSpeedInfoView: View {
     private func handleLocationState() {
         if !timerState.isRunning {
             locationManager.stopUpdatingLocation()
+            courseTracker.resetLock()
         } else {
             locationManager.startUpdatingLocation()
         }
@@ -168,7 +223,7 @@ struct AltSpeedInfoView: View {
             HStack(alignment: .center, spacing: timerState.isRunning ? 10 : 70) {
                 distanceButton
                     .offset(x: timerState.isRunning ? 0 : -5, y: timerState.isRunning ? 0 : -20)
-                    .animation(.spring(response: 0.4, dampingFraction: 0.8), value: timerState.isRunning)
+                    .animation(.spring(response: 0.2, dampingFraction: 0.8), value: timerState.isRunning)
                 
                 speedDisplay
                     .offset(x: timerState.isRunning ? 0 : 5, y: timerState.isRunning ? 0 : -20)
@@ -177,7 +232,7 @@ struct AltSpeedInfoView: View {
             
             if timerState.isRunning {
                 courseDisplay
-                    .offset(y:40)
+                    .offset(y: 40)
                     .animation(.spring(dampingFraction: 0.8), value: timerState.isRunning)
             }
         }
@@ -197,9 +252,12 @@ struct AltSpeedInfoView: View {
                 )
             }
         }
-        .onChange(of: locationManager.lastLocation) { _ in
+        .onChange(of: locationManager.lastLocation) { _, _ in
             if timerState.isRunning, let location = locationManager.lastLocation {
                 startLineManager.updateDistance(currentLocation: location)
+                if location.course >= 0 {
+                    courseTracker.updateCourse(location.course)
+                }
             }
         }
         .onDisappear {

@@ -24,7 +24,7 @@ struct TimeDisplayView: View {
                     }                
                 ))
                 {
-                    ForEach(1...30, id: \.self) { minute in
+                    ForEach(0...30, id: \.self) { minute in
                         Text("\(String(format: "%02d:00", minute))")
                             .font(.zenithBeta(size: 38, weight: .medium)) //36 b4 adjustment
                             .scaleEffect(x:1, y:1)

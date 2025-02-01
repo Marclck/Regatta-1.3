@@ -7,6 +7,7 @@
 
 import Foundation
 import SwiftUI
+import CoreLocation
 
 class AppSettings: ObservableObject {
     // Timer interval in seconds (1.0 when smooth is off, 0.01 when on)
@@ -22,35 +23,35 @@ class AppSettings: ObservableObject {
     @Published var teamName: String {
         didSet {
             UserDefaults.standard.set(teamName, forKey: "teamName")
-            print("Team name changed to: \(teamName)") // Debug print
+            print("Team name changed to: \(teamName)")
         }
     }
     
     @Published var showRaceInfo: Bool {
         didSet {
             UserDefaults.standard.set(showRaceInfo, forKey: "showRaceInfo")
-            print("ShowRaceInfo changed to: \(showRaceInfo)") // Debug print
+            print("ShowRaceInfo changed to: \(showRaceInfo)")
         }
     }
     
     @Published var showSpeedInfo: Bool {
         didSet {
             UserDefaults.standard.set(showSpeedInfo, forKey: "showSpeedInfo")
-            print("ShowSpeedInfo changed to: \(showSpeedInfo)") // Debug print
+            print("ShowSpeedInfo changed to: \(showSpeedInfo)")
         }
     }
     
     @Published var smoothSecond: Bool {
         didSet {
             UserDefaults.standard.set(smoothSecond, forKey: "smoothSecond")
-            print("SmoothSecond changed to: \(smoothSecond)") // Debug print
+            print("SmoothSecond changed to: \(smoothSecond)")
         }
     }
     
     @Published var altTeamNameColor: Bool {
         didSet {
             UserDefaults.standard.set(altTeamNameColor, forKey: "altTeamNameColor")
-            print("AltTeamNameColor changed to: \(altTeamNameColor)") // Debug print
+            print("AltTeamNameColor changed to: \(altTeamNameColor)")
         }
     }
     
@@ -75,30 +76,80 @@ class AppSettings: ObservableObject {
         self.altTeamNameColor = UserDefaults.standard.bool(forKey: "altTeamNameColor")
         self.lightMode = UserDefaults.standard.bool(forKey: "lightMode")
         self.ultraModel = UserDefaults.standard.object(forKey: "ultraModel") as? Bool ?? true
-        self.showSpeedInfo = UserDefaults.standard.object(forKey: "showSpeedInfo") as? Bool ?? true
-        UserDefaults.standard.synchronize()  // Force save
+        self.showSpeedInfo = UserDefaults.standard.object(forKey: "showSpeedInfo") as? Bool ?? false  // Default to false
+        UserDefaults.standard.synchronize()
+    }
+}
+
+struct SpeedInfoToggle: View {
+    @EnvironmentObject var settings: AppSettings
+    @StateObject private var locationManager = LocationManager()
+    @State private var showingPermissionAlert = false
+    
+    var body: some View {
+        Toggle("Speed Info", isOn: Binding(
+            get: { settings.showSpeedInfo },
+            set: { newValue in
+                if newValue {
+                    // User is trying to turn it on
+                    if locationManager.authorizationStatus == .authorizedWhenInUse ||
+                       locationManager.authorizationStatus == .authorizedAlways {
+                        // Permission already granted, allow toggle
+                        settings.showSpeedInfo = true
+                    } else {
+                        // Need to request permission
+                        showingPermissionAlert = true
+                        // Don't set showSpeedInfo to true yet
+                    }
+                } else {
+                    // User is turning it off, always allow
+                    settings.showSpeedInfo = false
+                }
+            }
+        ))
+        .alert(
+            "Location Access Required",
+            isPresented: $showingPermissionAlert,
+            actions: {
+                Button("Not Now", role: .cancel) {
+                    settings.showSpeedInfo = false  // Ensure toggle stays off
+                }
+                Button("Enable") {
+                    locationManager.requestLocationPermission()
+                }
+            },
+            message: {
+                Text("Speed Info needs location access to show speed and distance while the features are active.")
+            }
+        )
+        .onChange(of: locationManager.authorizationStatus) { _, newStatus in
+            if newStatus == .authorizedWhenInUse || newStatus == .authorizedAlways {
+                // Permission was granted, enable the feature
+                settings.showSpeedInfo = true
+            } else if newStatus == .denied || newStatus == .restricted {
+                // Permission was denied, ensure feature is disabled
+                settings.showSpeedInfo = false
+            }
+        }
     }
 }
 
 struct SettingsView: View {
     @EnvironmentObject var colorManager: ColorManager
-    @StateObject private var settings = AppSettings()
+    @EnvironmentObject var settings: AppSettings
     @Binding var showSettings: Bool
     @State private var showThemePicker = false
     @State private var showTeamNameEdit = false
-    @State private var refreshToggle = false  // Add at top with other state variables
+    @State private var refreshToggle = false
     
     var body: some View {
         VStack(spacing: 0) {
-            // Compact header
             Text("Settings")
                 .font(.system(size: 17, weight: .semibold))
                 .padding(.horizontal)
                 .padding(.vertical, 8)
             
-            // Settings content
             List {
-                // Theme Color Button
                 Button(action: {
                     showThemePicker.toggle()
                 }) {
@@ -132,7 +183,6 @@ struct SettingsView: View {
                     }
                 }
                 
-                // Team Name Button
                 Button(action: {
                     showTeamNameEdit.toggle()
                 }) {
@@ -164,16 +214,12 @@ struct SettingsView: View {
                 
                 Toggle("Ultra Model", isOn: $settings.ultraModel)
                 
-                // Race Info Toggle
                 Toggle("Race Info", isOn: $settings.showRaceInfo)
                 
-                // Speed Info Toggle
-                Toggle("Speed Info", isOn: $settings.showSpeedInfo)
+                SpeedInfoToggle()
                 
-                // Smooth Second Toggle
                 Toggle("Smooth Second Movement", isOn: $settings.smoothSecond)
                 
-                // Alt Team Name Color Toggle
                 Toggle("Alt Team Name Color", isOn: $settings.altTeamNameColor)
                 
                 Toggle("Light Mode", isOn: $settings.lightMode)
@@ -185,9 +231,8 @@ struct SettingsView: View {
     }
 }
 
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        SettingsView(showSettings: .constant(true))
-            .environmentObject(ColorManager())
-    }
+#Preview {
+    SettingsView(showSettings: .constant(true))
+        .environmentObject(ColorManager())
+        .environmentObject(AppSettings())
 }
