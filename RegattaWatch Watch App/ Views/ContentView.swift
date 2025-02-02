@@ -108,6 +108,11 @@ struct ContentView: View {
             }
         }
         .onAppear {
+            if !iapManager.canAccessPremiumFeatures() {
+                // Reset all settings to defaults if premium not accessible
+                settings.resetToDefaults()
+                viewID = UUID() // Force view refresh
+            }
             lastTeamName = settings.teamName
             lastRaceInfoState = settings.showRaceInfo
             lastSpeedInfoState = settings.showSpeedInfo
@@ -118,6 +123,9 @@ struct ContentView: View {
                 refreshToggle.toggle()
             }
         }) {
+            if !iapManager.canAccessPremiumFeatures() {
+                SubscriptionOverlay()
+            }
             SettingsView(showSettings: $showSettings)
         }
         .sheet(isPresented: $showPremiumAlert) {

@@ -26,10 +26,11 @@ struct WatchRegattaApp: App {
                 ContentView()
                     .environmentObject(colorManager)
                     .environmentObject(settings)
-                
+                /*
                 if !iapManager.canAccessPremiumFeatures() {
                     SubscriptionOverlay()
                 }
+                */
             }
             .environmentObject(iapManager)
         }

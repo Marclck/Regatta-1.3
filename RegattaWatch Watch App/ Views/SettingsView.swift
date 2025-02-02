@@ -95,7 +95,7 @@ struct SpeedInfoToggle: View {
     @State private var showingPermissionAlert = false
     
     var body: some View {
-        Toggle("Speed Info", isOn: Binding(
+        Toggle("Dashboard", isOn: Binding(
             get: { settings.showSpeedInfo },
             set: { newValue in
                 if newValue {
@@ -157,89 +157,136 @@ struct SettingsView: View {
                 .padding(.horizontal)
                 .padding(.vertical, 8)
             
+            Text("Restart app after change")
+                .font(.system(size: 14))
+                .foregroundColor(.white.opacity(0.4))
+                .offset(y:-10)
+            
             List {
-                Button(action: {
-                    showThemePicker.toggle()
-                }) {
-                    HStack {
-                        Text("Theme Color")
-                        Spacer()
-                        Circle()
-                            .fill(Color(hex: colorManager.selectedTheme.rawValue))
-                            .frame(width: 16, height: 16)
-                    }
+
+                Section ("ULTRA features") {
+                    Toggle("ProControl", isOn: $settings.useProButtons)
+                        .font(.system(size: 17, weight: .bold))
+                        .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
+                                        
+                    SpeedInfoToggle()
+                        .font(.system(size: 17, weight: .bold))
+                        .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
                 }
-                .sheet(isPresented: $showThemePicker) {
-                    List {
-                        ForEach(ColorTheme.allCases, id: \.self) { theme in
-                            Button(action: {
-                                colorManager.selectedTheme = theme
-                                showThemePicker = false
-                            }) {
-                                HStack {
-                                    Circle()
-                                        .fill(Color(hex: theme.rawValue))
-                                        .frame(width: 20, height: 20)
-                                    Text(theme.name)
-                                    Spacer()
-                                    if colorManager.selectedTheme == theme {
-                                        Image(systemName: "checkmark")
+                .font(.system(size: 17, weight: .bold))
+                .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.9))
+                
+                Section ("PRO features") {
+                    Button(action: {
+                        showThemePicker.toggle()
+                    }) {
+                        HStack {
+                            Text("Theme Color")
+                            Spacer()
+                            Circle()
+                                .fill(Color(hex: colorManager.selectedTheme.rawValue))
+                                .frame(width: 16, height: 16)
+                        }
+                    }
+                    .sheet(isPresented: $showThemePicker) {
+                        List {
+                            ForEach(ColorTheme.allCases, id: \.self) { theme in
+                                Button(action: {
+                                    colorManager.selectedTheme = theme
+                                    showThemePicker = false
+                                }) {
+                                    HStack {
+                                        Circle()
+                                            .fill(Color(hex: theme.rawValue))
+                                            .frame(width: 20, height: 20)
+                                        Text(theme.name)
+                                        Spacer()
+                                        if colorManager.selectedTheme == theme {
+                                            Image(systemName: "checkmark")
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-                
-                Button(action: {
-                    showTeamNameEdit.toggle()
-                }) {
-                    HStack {
-                        Text("Team Name")
-                        Spacer()
-                        Text(settings.teamName)
-                            .foregroundColor(.gray)
-                    }
-                }
-                .sheet(isPresented: $showTeamNameEdit) {
-                    List {
-                        Section {
-                            TextField("Team Name", text: $settings.teamName)
-                                .onChange(of: settings.teamName) { _, newValue in
-                                    settings.teamName = String(newValue.prefix(14))
-                                }
-                            Text("\(14 - settings.teamName.count) characters remaining")
-                                .font(.caption2)
+                    
+                    Button(action: {
+                        showTeamNameEdit.toggle()
+                    }) {
+                        HStack {
+                            Text("Team Name")
+                            Spacer()
+                            Text(settings.teamName)
+                                .foregroundColor(.gray)
                         }
-                        
-                        Button("Reset to Default") {
-                            settings.teamName = "RACE!"
-                            showTeamNameEdit = false
-                        }
-                        .foregroundColor(.red)
                     }
+                    .sheet(isPresented: $showTeamNameEdit) {
+                        List {
+                            Section {
+                                TextField("Team Name", text: $settings.teamName)
+                                    .onChange(of: settings.teamName) { _, newValue in
+                                        settings.teamName = String(newValue.prefix(14))
+                                    }
+                                Text("\(14 - settings.teamName.count) characters remaining")
+                                    .font(.caption2)
+                            }
+                            
+                            Button("Reset to Default") {
+                                settings.teamName = "RACE!"
+                                showTeamNameEdit = false
+                            }
+                            .foregroundColor(.red)
+                        }
+                    }
+                    
+                    Toggle("Ultra Model", isOn: $settings.ultraModel)
+                    
+                    Toggle("Race Info", isOn: $settings.showRaceInfo)
+                    
+                    Toggle("Smooth Second Movement", isOn: $settings.smoothSecond)
+                    
+                    Toggle("Alt Team Name Color", isOn: $settings.altTeamNameColor)
+                    
+                    Toggle("Light Mode", isOn: $settings.lightMode)
+                    
+                    Text("Restart the app for the changes to take effect. Double press digital crown and swipe left to close the app.")
+                        .font(.caption2)
                 }
-                
-                Toggle("Ultra Model", isOn: $settings.ultraModel)
-                                  
-                 Toggle("Race Info", isOn: $settings.showRaceInfo)
-                 
-                Toggle("Pro Buttons", isOn: $settings.useProButtons)
-                
-                 SpeedInfoToggle()
-                 
-                 Toggle("Smooth Second Movement", isOn: $settings.smoothSecond)
-                 
-                 Toggle("Alt Team Name Color", isOn: $settings.altTeamNameColor)
-                 
-                 Toggle("Light Mode", isOn: $settings.lightMode)
+                .font(.system(size: 17, weight: .bold))
+                .foregroundColor(.white.opacity(0.9))
 
-                 Text("Restart the app for the changes to take effect. Double press digital crown and swipe left to close the app.")
-                     .font(.caption2)
-             }
+            }
          }
      }
  }
+
+extension AppSettings {
+    func resetToDefaults() {
+        // Reset all settings to their default values
+        teamName = "Ultra"
+        showRaceInfo = true
+        showSpeedInfo = false
+        smoothSecond = false
+        altTeamNameColor = false
+        lightMode = false
+        ultraModel = true
+        useProButtons = false
+        
+        // Reset theme color to Cambridge Blue via SharedDefaults
+        SharedDefaults.saveTheme(.cambridgeBlue)
+        
+        // Save defaults to UserDefaults
+        UserDefaults.standard.set("RACE!", forKey: "teamName")
+        UserDefaults.standard.set(true, forKey: "showRaceInfo")
+        UserDefaults.standard.set(false, forKey: "showSpeedInfo")
+        UserDefaults.standard.set(false, forKey: "smoothSecond")
+        UserDefaults.standard.set(false, forKey: "altTeamNameColor")
+        UserDefaults.standard.set(false, forKey: "lightMode")
+        UserDefaults.standard.set(true, forKey: "ultraModel")
+        UserDefaults.standard.set(false, forKey: "useProButtons")
+        UserDefaults.standard.synchronize()
+    }
+}
 
 #Preview {
     SettingsView(showSettings: .constant(true))

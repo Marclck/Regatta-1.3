@@ -43,6 +43,28 @@ class WatchTimerState: ObservableObject {
         }
     }
     
+    // Add the new resetAndRestartStopwatch function
+    func resetAndRestartStopwatch() {
+        if mode == .stopwatch && isRunning {
+            // Record the previous session
+            journalManager.recordSessionEnd(totalTime: currentTime)
+            let finishTime = persistentTimer.getCurrentTime()
+            SharedDefaults.setLastFinishTime(finishTime)
+            
+            // Reset stopwatch
+            currentTime = 0
+            lastStopwatchMinute = 0
+            
+            // Start new session
+            persistentTimer.resetTimer()
+            persistentTimer.startCountdown(minutes: 0) // Start with 0 minutes for stopwatch
+            mode = .stopwatch
+            isRunning = true
+            
+            // Clear any existing finish time
+            SharedDefaults.setLastFinishTime(0)
+        }
+    }
     
     // Add these properties to track last haptic times
     private var lastMinuteHaptic: Int = 0
@@ -130,7 +152,40 @@ class WatchTimerState: ObservableObject {
         WKInterfaceDevice.current().play(.start)
     }
 
-   
+    func adjustMinutes(_ minutes: Int) {
+        // Preserve current running state
+        let wasRunning = isRunning
+        if wasRunning {
+            pauseTimer()
+        }
+        
+        // In countdown mode, formattedTime shows currentTime + 1, so we need to account for this
+        // Get the actual displayed seconds from formattedTime
+        let displayedComponents = formattedTime.split(separator: ":")
+        let displayedSeconds = Int(displayedComponents[1]) ?? 0
+        let fractionalPart = currentTime.truncatingRemainder(dividingBy: 1)
+        
+        // Calculate new time preserving the displayed seconds
+        let newTime = Double(minutes * 60 + displayedSeconds) - 1 + fractionalPart
+        
+        // Update timer state
+        selectedMinutes = minutes
+        currentTime = newTime
+        
+        // Update persistent timer with the exact time including seconds
+        persistentTimer.startAmount = newTime
+        persistentTimer.startTime = Date()
+        persistentTimer.isTimerRunning = true
+        persistentTimer.isInStopwatchMode = false
+        persistentTimer.stopwatchStartTime = nil
+        
+        // Resume if was running
+        if wasRunning {
+            resumeTimer()
+        }
+    }
+    
+    
     func updateTimer() {
         guard isRunning else { return }
         
