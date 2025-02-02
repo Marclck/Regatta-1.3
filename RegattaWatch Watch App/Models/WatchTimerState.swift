@@ -117,6 +117,19 @@ class WatchTimerState: ObservableObject {
         }
         isRunning = true
     }
+    
+    func startFromMinutes(_ minutes: Int) {
+        selectedMinutes = minutes
+        mode = .countdown
+        currentTime = Double(minutes * 60)
+        isConfirmed = true
+        isRunning = true
+        UserDefaults.standard.set(minutes, forKey: "lastUsedTime")
+        SharedDefaults.setLastUsedTime(minutes)
+        persistentTimer.startCountdown(minutes: minutes)
+        WKInterfaceDevice.current().play(.start)
+    }
+
    
     func updateTimer() {
         guard isRunning else { return }

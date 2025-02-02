@@ -69,6 +69,13 @@ class AppSettings: ObservableObject {
         }
     }
     
+    @Published var useProButtons: Bool {
+        didSet {
+            UserDefaults.standard.set(useProButtons, forKey: "useProButtons")
+            print("UseProButtons changed to: \(useProButtons)")
+        }
+    }
+    
     init() {
         self.teamName = UserDefaults.standard.string(forKey: "teamName") ?? "Ultra"
         self.showRaceInfo = UserDefaults.standard.object(forKey: "showRaceInfo") as? Bool ?? true
@@ -76,7 +83,8 @@ class AppSettings: ObservableObject {
         self.altTeamNameColor = UserDefaults.standard.bool(forKey: "altTeamNameColor")
         self.lightMode = UserDefaults.standard.bool(forKey: "lightMode")
         self.ultraModel = UserDefaults.standard.object(forKey: "ultraModel") as? Bool ?? true
-        self.showSpeedInfo = UserDefaults.standard.object(forKey: "showSpeedInfo") as? Bool ?? false  // Default to false
+        self.showSpeedInfo = UserDefaults.standard.object(forKey: "showSpeedInfo") as? Bool ?? false
+        self.useProButtons = UserDefaults.standard.bool(forKey: "useProButtons") // Default to false
         UserDefaults.standard.synchronize()
     }
 }
@@ -213,23 +221,25 @@ struct SettingsView: View {
                 }
                 
                 Toggle("Ultra Model", isOn: $settings.ultraModel)
+                                  
+                 Toggle("Race Info", isOn: $settings.showRaceInfo)
+                 
+                Toggle("Pro Buttons", isOn: $settings.useProButtons)
                 
-                Toggle("Race Info", isOn: $settings.showRaceInfo)
-                
-                SpeedInfoToggle()
-                
-                Toggle("Smooth Second Movement", isOn: $settings.smoothSecond)
-                
-                Toggle("Alt Team Name Color", isOn: $settings.altTeamNameColor)
-                
-                Toggle("Light Mode", isOn: $settings.lightMode)
+                 SpeedInfoToggle()
+                 
+                 Toggle("Smooth Second Movement", isOn: $settings.smoothSecond)
+                 
+                 Toggle("Alt Team Name Color", isOn: $settings.altTeamNameColor)
+                 
+                 Toggle("Light Mode", isOn: $settings.lightMode)
 
-                Text("Restart the app for the changes to take effect. Double press digital crown and swipe left to close the app.")
-                    .font(.caption2)
-            }
-        }
-    }
-}
+                 Text("Restart the app for the changes to take effect. Double press digital crown and swipe left to close the app.")
+                     .font(.caption2)
+             }
+         }
+     }
+ }
 
 #Preview {
     SettingsView(showSettings: .constant(true))

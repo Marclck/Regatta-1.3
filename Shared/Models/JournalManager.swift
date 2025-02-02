@@ -282,17 +282,23 @@ class JournalManager: ObservableObject {
     }
     
     func saveSessions() {
-        SharedDefaults.saveSessionsToContainer(self.allSessions)
-        
-        #if os(watchOS)
-        guard !allSessions.isEmpty else {
-            print("📓 No sessions to transfer")
-            return
+            // Keep only the last 10 sessions
+            if allSessions.count > 10 {
+                allSessions = Array(allSessions.suffix(10))
+                print("📓 Trimmed sessions to last 10, new count: \(allSessions.count)")
+            }
+            
+            SharedDefaults.saveSessionsToContainer(self.allSessions)
+            
+            #if os(watchOS)
+            guard !allSessions.isEmpty else {
+                print("📓 No sessions to transfer")
+                return
+            }
+            // Send to iOS
+            WatchSessionManager.shared.transferSessions(self.allSessions)
+            #endif
         }
-        // Send to iOS
-        WatchSessionManager.shared.transferSessions(self.allSessions)
-        #endif
-    }
     
     private func loadCurrentSession() {
         guard let data = defaults.data(forKey: currentSessionKey),
@@ -303,12 +309,13 @@ class JournalManager: ObservableObject {
     }
     
     private func loadSessions() {
-        print("📓 Loading sessions from shared container")
-        if let sessions = SharedDefaults.loadSessionsFromContainer() {
-            allSessions = sessions
-            print("📓 Loaded \(sessions.count) sessions successfully")
+            print("📓 Loading sessions from shared container")
+            if let sessions = SharedDefaults.loadSessionsFromContainer() {
+                // Ensure we only keep last 10 sessions even when loading
+                allSessions = Array(sessions.suffix(10))
+                print("📓 Loaded \(allSessions.count) sessions successfully")
+            }
         }
-    }
     
     private func clearCurrentSession() {
         defaults.removeObject(forKey: currentSessionKey)

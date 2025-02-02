@@ -140,7 +140,7 @@ struct AltSpeedInfoView: View {
                 } else {
                     Text(getDistanceText())
                         .font( timerState.isRunning ?
-                            .zenithBeta(size: 24, weight: .medium):
+                            .zenithBeta(size: 20, weight: .medium):
                                 .system(size:14, design: .monospaced))
                 }
             }
@@ -196,7 +196,7 @@ struct AltSpeedInfoView: View {
     private var speedDisplay: some View {
         Text(getSpeedText())
             .font( timerState.isRunning ?
-                .zenithBeta(size: 2, weight: .medium):
+                .zenithBeta(size: 20, weight: .medium):
                     .system(size:14, design: .monospaced))
             .foregroundColor(timerState.isRunning ? Color.white : Color.white.opacity(0.3))
             .padding(.horizontal, 4)

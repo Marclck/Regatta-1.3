@@ -214,15 +214,29 @@ struct TimerView: View {
                                .frame(height: 0)
                            
                            if isUltraWatch {
-                               ButtonsView(timerState: timerState)
-                                   .padding(.bottom, -10)
-                                   .background(OverlayPlayerForTimeRemove())
-                                   .offset(y:5)
+                               if settings.useProButtons {
+                                   ProButtonsView(timerState: timerState)
+                                       .padding(.bottom, -10)
+                                       .background(OverlayPlayerForTimeRemove())
+                                       .offset(y:5)
+                               } else {
+                                   ButtonsView(timerState: timerState)
+                                       .padding(.bottom, -10)
+                                       .background(OverlayPlayerForTimeRemove())
+                                       .offset(y:5)
+                               }
                            } else {
-                               ButtonsView(timerState: timerState)
-                                   .padding(.bottom, -10)
-                                   .background(OverlayPlayerForTimeRemove())
-                                   .offset(y:0)
+                               if settings.useProButtons {
+                                   ProButtonsView(timerState: timerState)
+                                       .padding(.bottom, -10)
+                                       .background(OverlayPlayerForTimeRemove())
+                                       .offset(y:0)
+                               } else {
+                                   ButtonsView(timerState: timerState)
+                                       .padding(.bottom, -10)
+                                       .background(OverlayPlayerForTimeRemove())
+                                       .offset(y:0)
+                               }
                            }
                        }
                        .padding(.horizontal, 0)
