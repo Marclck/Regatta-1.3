@@ -1320,7 +1320,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.heart.astrolabe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1362,7 +1362,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.heart.astrolabe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1467,15 +1467,18 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RegattaWatch-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Astrolabe;
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "Background timer operation requires workout session tracking.\n";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need this permission to keep the timer running in the background";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "We need access to your heart rate data to display it during your races";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need access to your heart rate data to display it during your races";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is used to track your speed during races, including when the app is in the background";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your speed during races";
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = healthkit;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.heart.astrolabe;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.heart.astrolabe.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1504,15 +1507,18 @@
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RegattaWatch-Watch-App-Info.plist";
 				INFOPLIST_KEY_CFBundleDisplayName = Astrolabe;
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "Background timer operation requires workout session tracking.\n";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need this permission to keep the timer running in the background";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "We need access to your heart rate data to display it during your races";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need access to your heart rate data to display it during your races";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is used to track your speed during races, including when the app is in the background";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your speed during races";
+				INFOPLIST_KEY_UIRequiredDeviceCapabilities = healthkit;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.heart.astrolabe;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.2;
+				MARKETING_VERSION = 1.3;
 				PRODUCT_BUNDLE_IDENTIFIER = com.heart.astrolabe.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
