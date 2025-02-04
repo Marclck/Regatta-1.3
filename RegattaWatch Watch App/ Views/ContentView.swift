@@ -31,12 +31,12 @@ func printWatchModel() {
 
 struct OverlayPlayerForTimeRemove: View {
     var body: some View {
-        VideoPlayer(player: nil,videoOverlay: { })
-        .focusable(false)
-        .disabled(true)
-        .opacity(0)
-        .allowsHitTesting(false)
-        .accessibilityHidden(true)
+        VideoPlayer(player: nil, videoOverlay: { })
+            .focusable(false)
+            .disabled(true)
+            .opacity(0)
+            .allowsHitTesting(false)
+            .accessibilityHidden(true)
     }
 }
 
@@ -80,7 +80,6 @@ struct ContentView: View {
                         .onTapGesture {
                             print("!! watchface toggled")
                             WKInterfaceDevice.current().play(impactGenerator)
-
                             withAnimation {
                                 showingWatchFace.toggle()
                             }
@@ -108,10 +107,10 @@ struct ContentView: View {
             }
         }
         .onAppear {
-            if !iapManager.canAccessPremiumFeatures() {
-                // Reset all settings to defaults if premium not accessible
+            // Only need Pro tier features or higher to access premium features
+            if !iapManager.canAccessFeatures(minimumTier: .pro) {
                 settings.resetToDefaults()
-                viewID = UUID() // Force view refresh
+                viewID = UUID()
             }
             lastTeamName = settings.teamName
             lastRaceInfoState = settings.showRaceInfo
@@ -123,7 +122,7 @@ struct ContentView: View {
                 refreshToggle.toggle()
             }
         }) {
-            if !iapManager.canAccessPremiumFeatures() {
+            if !iapManager.canAccessFeatures(minimumTier: .pro) {
                 SubscriptionOverlay()
             }
             SettingsView(showSettings: $showSettings)
@@ -134,160 +133,114 @@ struct ContentView: View {
         .gesture(
             LongPressGesture(minimumDuration: 1.0)
                 .onEnded { _ in
-                     WKInterfaceDevice.current().play(impactGenerator)
-                     showSettings = true
-                 }
+                    WKInterfaceDevice.current().play(impactGenerator)
+                    showSettings = true
+                }
         )
     }
 }
 
 struct TimerView: View {
-   @ObservedObject var timerState: WatchTimerState
-   @StateObject private var locationManager = LocationManager()
-   @StateObject private var startLineManager = StartLineManager()
-   @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
-   @Binding var showStartLine: Bool
-   @EnvironmentObject var settings: AppSettings
-   
-   var body: some View {
-       GeometryReader { geometry in
-           ZStack {
-               Color.black.edgesIgnoringSafeArea(.all)
-               
-               GeometryReader { geometry in
-                   let centerY = geometry.size.height/2
-                   ZStack {
-                       WatchProgressBarView(timerState: timerState)
-                       
-                       VStack(spacing: 0) {
-                           ZStack {
-                                   CurrentTimeView(timerState: timerState)
-                                       .padding(.top, -10)
-                                       .offset(y: -10)
-                               
-                               
-                               
-                               /*
-                               if settings.showSpeedInfo {
-                                   if !timerState.isRunning {
-                                       HStack {
-                                           DistanceDisplayView(
-                                            locationManager: locationManager,
-                                            timerState: timerState,
-                                            startLineManager: startLineManager,
-                                            isCheckmark: $showStartLine
-                                           )
-                                           .padding(.top, -10)
-                                           .offset(x: -5, y: -10)
-                                           
-                                           
-                                           //                                       if !showStartLine {
-                                           
-                                           Spacer().frame(width: 70)
-                                           
-                                           SpeedDisplayView(
-                                            locationManager: locationManager,
-                                            timerState: timerState
-                                           )
-                                           .padding(.top, -10)
-                                           .offset(x: 5, y: -10)
-                                           //                                     }
-                                           //
-                                           //                                     if showStartLine {
-                                           //
-                                           //                                     Spacer().frame(width: 3)
-                                           //
-                                           //                                         StartLineView(
-                                           //                                           locationManager: locationManager,
-                                           //                                         startLineManager: startLineManager
-                                           //                                   )
-                                           //                                 .padding(.top, -10)
-                                           //                               .offset(x: 5, y: -10)
-                                           //                         }
-                                       }
-                                       .padding(.horizontal)
-                                   }
-                               }
-                               */
-                           }
-
-                           Spacer()
-                               .frame(height: 0)
-                           
-                           TimeDisplayView(timerState: timerState)
-                               .frame(height: 150)
-                               .position(x: geometry.size.width/2, y: centerY/2+10)
-                           
-                           Spacer()
-                               .frame(height: 0)
-                           
-                           if isUltraWatch {
-                               if settings.useProButtons {
-                                   ProButtonsView(timerState: timerState)
-                                       .padding(.bottom, -10)
-                                       .background(OverlayPlayerForTimeRemove())
-                                       .offset(y:5)
-                               } else {
-                                   ButtonsView(timerState: timerState)
-                                       .padding(.bottom, -10)
-                                       .background(OverlayPlayerForTimeRemove())
-                                       .offset(y:5)
-                               }
-                           } else {
-                               if settings.useProButtons {
-                                   ProButtonsView(timerState: timerState)
-                                       .padding(.bottom, -10)
-                                       .background(OverlayPlayerForTimeRemove())
-                                       .offset(y:0)
-                               } else {
-                                   ButtonsView(timerState: timerState)
-                                       .padding(.bottom, -10)
-                                       .background(OverlayPlayerForTimeRemove())
-                                       .offset(y:0)
-                               }
-                           }
-                       }
-                       .padding(.horizontal, 0)
-                       
-                       
-                       if settings.showSpeedInfo {
-                           AltSpeedInfoView(
-                               locationManager: locationManager,
-                               timerState: timerState,
-                               startLineManager: startLineManager,
-                               isCheckmark: $showStartLine
-                           )
-                           .offset(y: timerState.isRunning ? -35 : -66)
-                       }
-                       
-                       ZStack {
-
-                           if showStartLine {
-
-                               Rectangle()
-                                   .fill(Color.black)
-                                   .frame(height: 40)
-                                   .frame(maxWidth: 110)
-                                   .offset(x: timerState.isRunning ? 0 : 22.5, y: -90)
-                               
-                               StartLineView(
+    @ObservedObject var timerState: WatchTimerState
+    @StateObject private var locationManager = LocationManager()
+    @StateObject private var startLineManager = StartLineManager()
+    @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
+    @Binding var showStartLine: Bool
+    @EnvironmentObject var settings: AppSettings
+    @ObservedObject private var iapManager = IAPManager.shared
+    
+    var body: some View {
+        GeometryReader { geometry in
+            ZStack {
+                Color.black.edgesIgnoringSafeArea(.all)
+                
+                GeometryReader { geometry in
+                    let centerY = geometry.size.height/2
+                    ZStack {
+                        WatchProgressBarView(timerState: timerState)
+                        
+                        VStack(spacing: 0) {
+                            ZStack {
+                                CurrentTimeView(timerState: timerState)
+                                    .padding(.top, -10)
+                                    .offset(y: -10)
+                            }
+                            
+                            Spacer()
+                                .frame(height: 0)
+                            
+                            TimeDisplayView(timerState: timerState)
+                                .frame(height: 150)
+                                .position(x: geometry.size.width/2, y: centerY/2+10)
+                            
+                            Spacer()
+                                .frame(height: 0)
+                            
+                            if isUltraWatch {
+                                // Only use pro buttons if user has any subscription (Pro or Ultra)
+                                if settings.useProButtons && iapManager.canAccessFeatures(minimumTier: .pro) {
+                                    ProButtonsView(timerState: timerState)
+                                        .padding(.bottom, -10)
+                                        .background(OverlayPlayerForTimeRemove())
+                                        .offset(y: 5)
+                                } else {
+                                    ButtonsView(timerState: timerState)
+                                        .padding(.bottom, -10)
+                                        .background(OverlayPlayerForTimeRemove())
+                                        .offset(y: 5)
+                                }
+                            } else {
+                                if settings.useProButtons && iapManager.canAccessFeatures(minimumTier: .pro) {
+                                    ProButtonsView(timerState: timerState)
+                                        .padding(.bottom, -10)
+                                        .background(OverlayPlayerForTimeRemove())
+                                        .offset(y: 0)
+                                } else {
+                                    ButtonsView(timerState: timerState)
+                                        .padding(.bottom, -10)
+                                        .background(OverlayPlayerForTimeRemove())
+                                        .offset(y: 0)
+                                }
+                            }
+                        }
+                        .padding(.horizontal, 0)
+                        
+                        // Show speed info if user has any subscription (Pro or Ultra)
+                        if settings.showSpeedInfo && iapManager.canAccessFeatures(minimumTier: .pro) {
+                            AltSpeedInfoView(
                                 locationManager: locationManager,
-                                startLineManager: startLineManager
-                               )
-                               .padding(.top, -10)
-                               .offset(x: timerState.isRunning ? 0 : 22.5, y: -81)
-                           }
-                       }
-                   }
-                   .onReceive(timer) { _ in
-                       timerState.updateTimer()
-                   }
-               }
-           }
-       }
-   }
+                                timerState: timerState,
+                                startLineManager: startLineManager,
+                                isCheckmark: $showStartLine
+                            )
+                            .offset(y: timerState.isRunning ? -35 : -66)
+                        }
+                        
+                        ZStack {
+                            if showStartLine {
+                                Rectangle()
+                                    .fill(Color.black)
+                                    .frame(height: 40)
+                                    .frame(maxWidth: 110)
+                                    .offset(x: timerState.isRunning ? 0 : 22.5, y: -90)
+                                
+                                StartLineView(
+                                    locationManager: locationManager,
+                                    startLineManager: startLineManager
+                                )
+                                .padding(.top, -10)
+                                .offset(x: timerState.isRunning ? 0 : 22.5, y: -81)
+                            }
+                        }
+                    }
+                    .onReceive(timer) { _ in
+                        timerState.updateTimer()
+                    }
+                }
+            }
+        }
+    }
 }
-
 
 #Preview {
     ContentView()

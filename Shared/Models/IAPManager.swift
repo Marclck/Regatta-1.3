@@ -9,6 +9,12 @@ import Foundation
 import StoreKit
 import UserNotifications
 
+enum SubscriptionTier {
+    case none
+    case pro
+    case ultra
+}
+
 enum IAPError: Error, LocalizedError {
     case productNotFound
     case userCancelled
@@ -37,16 +43,21 @@ enum IAPError: Error, LocalizedError {
 
 class IAPManager: ObservableObject {
     static let shared = IAPManager()
-    private let premiumFeatureID = "Astrolabe_pro_access_annual_599"
-    private let trialDuration: TimeInterval = 7 * 24 * 60 * 60 // 7 days in seconds !!!
+    private let proFeatureID = "Astrolabe_pro_access_annual_599"
+    private let ultraFeatureID = "Astrolabe_ultra_access_annual_1499"
+    private let trialDuration: TimeInterval = 700 * 24 * 60 * 60 // 7 days in seconds
     
     @Published private(set) var subscriptions: [Product] = []
-    @Published var isPremiumUser = false
+    @Published private(set) var currentTier: SubscriptionTier = .none
     @Published var isInTrialPeriod = false
     @Published var trialTimeRemaining: TimeInterval = 0
     
-    var localizedPrice: String {
-        subscriptions.first?.displayPrice ?? "$6.99"
+    var proPrice: String {
+        subscriptions.first { $0.id == proFeatureID }?.displayPrice ?? "$6.99"
+    }
+    
+    var ultraPrice: String {
+        subscriptions.first { $0.id == ultraFeatureID }?.displayPrice ?? "$14.99"
     }
     
     private var trialTimer: Timer?
@@ -85,7 +96,7 @@ class IAPManager: ObservableObject {
     @MainActor
     private func requestProducts() async {
         do {
-            subscriptions = try await Product.products(for: [premiumFeatureID])
+            subscriptions = try await Product.products(for: [proFeatureID, ultraFeatureID])
         } catch {
             print("Failed product request: \(error)")
         }
@@ -130,18 +141,15 @@ class IAPManager: ObservableObject {
     private func scheduleTrialReminders(startDate: Date) {
         let center = UNUserNotificationCenter.current()
         
-        // Request permission
         center.requestAuthorization(options: [.alert, .sound]) { granted, error in
             guard granted else { return }
             
-            // Remove any existing notifications
             center.removeAllPendingNotificationRequests()
             
-            // Schedule reminders
             let reminders = [
-                (days: 5, message: "5 days left in your Astrolabe Pro trial!"),
-                (days: 3, message: "Only 3 days remaining in your trial - Subscribe now to keep access"),
-                (days: 1, message: "Last day of your trial - Don't lose access to Astrolabe Pro")
+                (days: 5, message: "5 days left in your Astrolabe trial! Upgrade to Pro or Ultra to keep access."),
+                (days: 3, message: "Only 3 days remaining in your trial - Subscribe now to unlock all features"),
+                (days: 1, message: "Last day of your trial - Don't lose access to Astrolabe")
             ]
             
             for reminder in reminders {
@@ -190,13 +198,21 @@ class IAPManager: ObservableObject {
     
     @MainActor
     private func updateCustomerProductStatus() async {
-        var hasActiveSubscription = false
+        var activeTier: SubscriptionTier = .none
         
         for await result in Transaction.currentEntitlements {
             do {
                 let transaction = try checkVerified(result)
-                if transaction.productID == premiumFeatureID {
-                    hasActiveSubscription = true
+                switch transaction.productID {
+                case ultraFeatureID:
+                    activeTier = .ultra
+                case proFeatureID:
+                    // Only set to pro if we haven't found an ultra subscription
+                    if activeTier != .ultra {
+                        activeTier = .pro
+                    }
+                default:
+                    break
                 }
                 await transaction.finish()
             } catch {
@@ -204,8 +220,8 @@ class IAPManager: ObservableObject {
             }
         }
         
-        isPremiumUser = hasActiveSubscription
-        if hasActiveSubscription {
+        currentTier = activeTier
+        if activeTier != .none {
             isInTrialPeriod = false
             trialTimer?.invalidate()
             UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
@@ -222,13 +238,11 @@ class IAPManager: ObservableObject {
         print("Starting purchase restoration")
         var hasRestoredPurchases = false
         
-        // Check all the user's previous purchases
         for await result in Transaction.currentEntitlements {
             if case .verified(let transaction) = result {
-                if transaction.productID == premiumFeatureID {
+                if transaction.productID == proFeatureID || transaction.productID == ultraFeatureID {
                     print("Found previous purchase, restoring...")
                     hasRestoredPurchases = true
-                    isPremiumUser = true
                     isInTrialPeriod = false
                     trialTimer?.invalidate()
                     UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
@@ -241,6 +255,8 @@ class IAPManager: ObservableObject {
             print("No previous purchases found")
             throw IAPError.noRestoredPurchases
         }
+        
+        await updateCustomerProductStatus()
     }
     
     private func checkVerified<T>(_ result: VerificationResult<T>) throws -> T {
@@ -253,8 +269,11 @@ class IAPManager: ObservableObject {
     }
     
     @MainActor
-    func purchasePremium() async throws {
-        guard let product = subscriptions.first else {
+    func purchaseSubscription(tier: SubscriptionTier) async throws {
+        guard tier != .none else { return }
+        
+        let productId = tier == .ultra ? ultraFeatureID : proFeatureID
+        guard let product = subscriptions.first(where: { $0.id == productId }) else {
             throw IAPError.productNotFound
         }
         
@@ -263,11 +282,11 @@ class IAPManager: ObservableObject {
         switch result {
         case .success(let verificationResult):
             if case .verified(let transaction) = verificationResult {
-                isPremiumUser = true
                 isInTrialPeriod = false
                 trialTimer?.invalidate()
                 UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
                 await transaction.finish()
+                await updateCustomerProductStatus()
             }
         case .userCancelled:
             throw IAPError.userCancelled
@@ -278,8 +297,19 @@ class IAPManager: ObservableObject {
         }
     }
     
-    func canAccessPremiumFeatures() -> Bool {
-        return isPremiumUser || isInTrialPeriod
+    func canAccessFeatures(minimumTier: SubscriptionTier) -> Bool {
+        switch (currentTier, minimumTier) {
+        case (.ultra, _):
+            return true
+        case (.pro, .pro), (.pro, .none):
+            return true
+        case (.none, .none):
+            return true
+        case (_, _) where isInTrialPeriod:
+            return true
+        default:
+            return false
+        }
     }
     
     func formatTimeRemaining() -> String {

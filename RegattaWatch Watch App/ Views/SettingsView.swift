@@ -157,24 +157,26 @@ struct SettingsView: View {
                 .padding(.horizontal)
                 .padding(.vertical, 8)
             
+            /*
             Text("Restart app after change")
                 .font(.system(size: 14))
                 .foregroundColor(.white.opacity(0.4))
                 .offset(y:-10)
+            */
             
             List {
 
                 Section ("ULTRA features") {
                     Toggle("ProControl", isOn: $settings.useProButtons)
-                        .font(.system(size: 17, weight: .bold))
+                        .font(.system(size: 17))
                         .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
                                         
                     SpeedInfoToggle()
-                        .font(.system(size: 17, weight: .bold))
+                        .font(.system(size: 17))
                         .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
                 }
                 .font(.system(size: 17, weight: .bold))
-                .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.9))
+                .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(1))
                 
                 Section ("PRO features") {
                     Button(action: {
@@ -252,8 +254,8 @@ struct SettingsView: View {
                     Text("Restart the app for the changes to take effect. Double press digital crown and swipe left to close the app.")
                         .font(.caption2)
                 }
-                .font(.system(size: 17, weight: .bold))
-                .foregroundColor(.white.opacity(0.9))
+                .font(.system(size: 17))
+                .foregroundColor(.white.opacity(1))
 
             }
          }
@@ -263,7 +265,7 @@ struct SettingsView: View {
 extension AppSettings {
     func resetToDefaults() {
         // Reset all settings to their default values
-        teamName = "Ultra"
+        teamName = "RACE!"
         showRaceInfo = true
         showSpeedInfo = false
         smoothSecond = false
