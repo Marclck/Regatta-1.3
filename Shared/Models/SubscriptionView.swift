@@ -112,7 +112,6 @@ struct FeatureCard: View {
                 
                 Text(title)
                     .font(.system(size: 24, weight: .bold))
-                    .foregroundColor(.black)
             }
             
             AnyView(content())

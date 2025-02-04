@@ -40,11 +40,47 @@ struct OverlayPlayerForTimeRemove: View {
     }
 }
 
+extension UserDefaults {
+    static let lastIAPCheckDateKey = "lastIAPCheckDate"
+    
+    static func getLastIAPCheckDate() -> Date? {
+        return UserDefaults.standard.object(forKey: lastIAPCheckDateKey) as? Date
+    }
+    
+    static func setLastIAPCheckDate(_ date: Date) {
+        UserDefaults.standard.set(date, forKey: lastIAPCheckDateKey)
+    }
+}
+
+extension ContentView {
+    func shouldPerformIAPCheck() -> Bool {
+        if let lastCheckDate = UserDefaults.getLastIAPCheckDate() {
+            let calendar = Calendar.current
+            if let nextCheckDate = calendar.date(byAdding: .day, value: 1, to: lastCheckDate) {
+                return Date() >= nextCheckDate
+            }
+        }
+        return true // If no last check date, perform check
+    }
+    
+    func performDelayedIAPCheck() {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) { [self] in
+                if !iapManager.canAccessFeatures(minimumTier: .pro) {
+                    settings.resetToDefaults(colorManager)
+                    viewID = UUID()
+                }
+                // Update the last check date
+                UserDefaults.setLastIAPCheckDate(Date())
+            }
+        }
+}
+
 struct ContentView: View {
     @State private var showSettings = false
     @State private var showPremiumAlert = false
     @State private var showStartLine = false
     @EnvironmentObject var colorManager: ColorManager
+    @State private var lastTheme: ColorTheme = .cambridgeBlue  // Add this state var
     @EnvironmentObject var settings: AppSettings
     @StateObject private var iapManager = IAPManager.shared
     @State private var refreshToggle = false
@@ -88,35 +124,42 @@ struct ContentView: View {
             }
         }
         .id(viewID)
-        .onChange(of: settings.teamName) { _, newValue in
-            if lastTeamName != newValue {
-                viewID = UUID()
-                lastTeamName = newValue
-            }
-        }
-        .onChange(of: settings.showRaceInfo) { _, newValue in
-            if lastRaceInfoState != newValue {
-                viewID = UUID()
-                lastRaceInfoState = newValue
-            }
-        }
-        .onChange(of: settings.showSpeedInfo) { _, newValue in
-            if lastSpeedInfoState != newValue {
-                viewID = UUID()
-                lastSpeedInfoState = newValue
-            }
-        }
-        .onAppear {
-            // Only need Pro tier features or higher to access premium features
-            if !iapManager.canAccessFeatures(minimumTier: .pro) {
-                settings.resetToDefaults()
-                viewID = UUID()
-            }
-            lastTeamName = settings.teamName
-            lastRaceInfoState = settings.showRaceInfo
-            lastSpeedInfoState = settings.showSpeedInfo
-            printWatchModel()
-        }
+               .onChange(of: settings.teamName) { _, newValue in
+                   if lastTeamName != newValue {
+                       viewID = UUID()
+                       lastTeamName = newValue
+                   }
+               }
+               .onChange(of: settings.showRaceInfo) { _, newValue in
+                   if lastRaceInfoState != newValue {
+                       viewID = UUID()
+                       lastRaceInfoState = newValue
+                   }
+               }
+               .onChange(of: colorManager.selectedTheme) { _, newValue in
+                   if lastTheme != newValue {
+                       viewID = UUID()
+                       lastTheme = newValue
+                   }
+               }
+               .onChange(of: settings.showSpeedInfo) { _, newValue in
+                   if lastSpeedInfoState != newValue {
+                       viewID = UUID()
+                       lastSpeedInfoState = newValue
+                   }
+               }
+               .onAppear {
+                   lastTeamName = settings.teamName
+                   lastRaceInfoState = settings.showRaceInfo
+                   lastSpeedInfoState = settings.showSpeedInfo
+                   lastTheme = colorManager.selectedTheme  // Add this line
+                   printWatchModel()
+                   
+                   // Only perform IAP check once per day
+                   if shouldPerformIAPCheck() {
+                       performDelayedIAPCheck()
+                   }
+               }
         .sheet(isPresented: $showSettings, onDismiss: {
             withAnimation {
                 refreshToggle.toggle()

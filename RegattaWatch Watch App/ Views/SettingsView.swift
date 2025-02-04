@@ -91,6 +91,7 @@ class AppSettings: ObservableObject {
 
 struct SpeedInfoToggle: View {
     @EnvironmentObject var settings: AppSettings
+    @ObservedObject private var iapManager = IAPManager.shared
     @StateObject private var locationManager = LocationManager()
     @State private var showingPermissionAlert = false
     
@@ -102,12 +103,12 @@ struct SpeedInfoToggle: View {
                     // User is trying to turn it on
                     if locationManager.authorizationStatus == .authorizedWhenInUse ||
                        locationManager.authorizationStatus == .authorizedAlways {
-                        // Permission already granted, allow toggle
-                        settings.showSpeedInfo = true
+                        // Permission already granted, respect user's toggle choice
+                        settings.showSpeedInfo = newValue
                     } else {
                         // Need to request permission
                         showingPermissionAlert = true
-                        // Don't set showSpeedInfo to true yet
+                        // Don't set showSpeedInfo yet
                     }
                 } else {
                     // User is turning it off, always allow
@@ -132,8 +133,9 @@ struct SpeedInfoToggle: View {
         )
         .onChange(of: locationManager.authorizationStatus) { _, newStatus in
             if newStatus == .authorizedWhenInUse || newStatus == .authorizedAlways {
-                // Permission was granted, enable the feature
-                settings.showSpeedInfo = true
+                // Permission was granted, but don't automatically enable the feature
+                // Let the user decide if they want it on or off
+                // Do nothing here
             } else if newStatus == .denied || newStatus == .restricted {
                 // Permission was denied, ensure feature is disabled
                 settings.showSpeedInfo = false
@@ -145,6 +147,7 @@ struct SpeedInfoToggle: View {
 struct SettingsView: View {
     @EnvironmentObject var colorManager: ColorManager
     @EnvironmentObject var settings: AppSettings
+    @ObservedObject private var iapManager = IAPManager.shared
     @Binding var showSettings: Bool
     @State private var showThemePicker = false
     @State private var showTeamNameEdit = false
@@ -170,10 +173,23 @@ struct SettingsView: View {
                     Toggle("ProControl", isOn: $settings.useProButtons)
                         .font(.system(size: 17))
                         .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
-                                        
+                        .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
+
                     SpeedInfoToggle()
                         .font(.system(size: 17))
                         .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
+                        .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
+                    
+                    if !iapManager.canAccessFeatures(minimumTier: .ultra) {
+                        Text("Requires Ultra subscription")
+                            .font(.caption2)
+                            .foregroundColor(.gray)
+                    } else {
+                        Text("Dashboard uses GPS during sessions")
+                            .font(.caption2)
+                            .foregroundColor(.gray)
+                    }
+                    
                 }
                 .font(.system(size: 17, weight: .bold))
                 .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(1))
@@ -263,7 +279,7 @@ struct SettingsView: View {
  }
 
 extension AppSettings {
-    func resetToDefaults() {
+    func resetToDefaults(_ colorManager: ColorManager) {
         // Reset all settings to their default values
         teamName = "RACE!"
         showRaceInfo = true
@@ -275,7 +291,7 @@ extension AppSettings {
         useProButtons = false
         
         // Reset theme color to Cambridge Blue via SharedDefaults
-        SharedDefaults.saveTheme(.cambridgeBlue)
+        colorManager.selectedTheme = .cambridgeBlue
         
         // Save defaults to UserDefaults
         UserDefaults.standard.set("RACE!", forKey: "teamName")

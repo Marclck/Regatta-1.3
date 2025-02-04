@@ -10,6 +10,10 @@ import SwiftUI
 struct ContentView: View {
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
     @EnvironmentObject var colorManager: ColorManager
+    @AppStorage("lastVersionSeen") private var lastVersionSeen: String = ""
+    @State private var showingUpdateModal = false
+    
+    private let currentVersion = "1.3"
 
     var body: some View {
         TabView {
@@ -24,6 +28,94 @@ struct ContentView: View {
                 .tabItem {
                     Label("Info", systemImage: "timer.circle.fill")
                 }
+        }
+        .onAppear {
+            if lastVersionSeen != currentVersion {
+                showingUpdateModal = true
+            }
+        }
+        .sheet(isPresented: $showingUpdateModal) {
+            NavigationView {
+                ScrollView {
+                    VersionUpdatePopup()
+                }
+                .navigationTitle("What's New")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button(action: {
+                            showingUpdateModal = false
+                            lastVersionSeen = currentVersion
+                        }) {
+                            Image(systemName: "xmark.circle.fill")
+                                .foregroundColor(.gray)
+                        }
+                    }
+                }
+            }
+            .background(.ultraThinMaterial)
+        }
+    }
+}
+
+struct VersionUpdatePopup: View {
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            VStack(alignment: .leading, spacing: 8) {
+                Text("Version 1.3")
+                    .font(.system(size: 16, weight: .bold))
+                
+                
+                Text("Users can now access watch app for free")
+                    .font(.system(size: 24, weight: .bold))
+                
+                Text("Introducing ULTRA features")
+                    .font(.system(size: 24, weight: .bold))
+                    .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                
+                Image("covershot")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 8)
+                
+                VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("ProControl")
+                            .font(.system(size: 22, weight: .bold))
+                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.9))
+                        
+                        FeatureRow(icon: "bolt", text: "QuickStart: start a 5-min countdown immediately upon gun signal")
+                        FeatureRow(icon: "bolt.ring.closed", text: "GunSync: countdown rounded up or down to closest minute")
+                        FeatureRow(icon: "arrow.counterclockwise", text: "Restart: restart the stopwatch after two taps")
+                        FeatureRow(icon: "timelapse", text: "Timelapse: double tap timer to change countdown minutes")
+                    }
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Dashboard")
+                            .font(.system(size: 22, weight: .bold))
+                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.9))
+                        
+                        FeatureRow(icon: "square.fill.and.line.vertical.and.square.fill", text: "Distance to Startline using dual band GPS")
+                        FeatureRow(icon: "dots.and.line.vertical.and.cursorarrow.rectangle", text: "Shift Tracking within 30 degrees")
+                        FeatureRow(icon: "gauge.open.with.lines.needle.33percent", text: "Speedometer in knots")
+                    }
+                }
+            }
+        }
+        .padding(20)
+        .background(Color.black.opacity(0.05))
+        .cornerRadius(12)
+        .padding()
+    }
+}
+
+private var versionHistorySection: some View {
+    NavigationLink(destination: VersionHistoryView(isModal: false)) {
+        HStack {
+            Image(systemName: "clock.arrow.circlepath")
+            Text("Version History")
+                .font(.system(.body, design: .monospaced))
         }
     }
 }
@@ -142,7 +234,9 @@ struct MainInfoView: View {
                     featuresSection
                 }
                 
-                Section {
+                Section() {
+                    versionHistorySection
+                    
                     footerSection
                 }
             }

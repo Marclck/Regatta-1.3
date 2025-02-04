@@ -126,6 +126,7 @@
 		1D90CF8D2D4AA6A500357553 /* SpeedInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D90CF8C2D4AA6A500357553 /* SpeedInfoView.swift */; };
 		1D922ABA2D0C9407004FA716 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E052D02442A0062C639 /* ColorManager.swift */; };
 		1D9778692CF67949007D861B /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B3272CF5454F00A8CC30 /* FontManager.swift */; };
+		1D99BD552D52D21500342520 /* VersionHistoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D99BD542D52D21500342520 /* VersionHistoryView.swift */; };
 		1D9EE6122D405B8E008B4B29 /* HeartRateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9EE6112D405B8E008B4B29 /* HeartRateManager.swift */; };
 		1D9EE6132D405B8F008B4B29 /* HeartRateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9EE6112D405B8E008B4B29 /* HeartRateManager.swift */; };
 		1D9EE6142D405B8F008B4B29 /* HeartRateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9EE6112D405B8E008B4B29 /* HeartRateManager.swift */; };
@@ -301,6 +302,7 @@
 		1D90CF882D46C3B500357553 /* StartLineMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartLineMapView.swift; sourceTree = "<group>"; };
 		1D90CF8A2D46C57C00357553 /* LocationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHelper.swift; sourceTree = "<group>"; };
 		1D90CF8C2D4AA6A500357553 /* SpeedInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedInfoView.swift; sourceTree = "<group>"; };
+		1D99BD542D52D21500342520 /* VersionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionHistoryView.swift; sourceTree = "<group>"; };
 		1D9EE6112D405B8E008B4B29 /* HeartRateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateManager.swift; sourceTree = "<group>"; };
 		1DB44CB72D0744C70035B2F2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastMinuteSeparatorView.swift; sourceTree = "<group>"; };
@@ -585,6 +587,7 @@
 				1D2D25D62D4C2C4000DF0CE2 /* RaceSessionMapView.swift */,
 				1D43496E2D4D0B7000D0B8E8 /* WatchSettingsInfoView.swift */,
 				1D4349702D4D10F000D0B8E8 /* SpeedToolsInfoView.swift */,
+				1D99BD542D52D21500342520 /* VersionHistoryView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -950,6 +953,7 @@
 				1D69FE942CE967AA001C178A /* RegattaApp.swift in Sources */,
 				1DC4B3282CF5454F00A8CC30 /* FontManager.swift in Sources */,
 				1D412E062D02442A0062C639 /* ColorManager.swift in Sources */,
+				1D99BD552D52D21500342520 /* VersionHistoryView.swift in Sources */,
 				1D4349712D4D10F000D0B8E8 /* SpeedToolsInfoView.swift in Sources */,
 				1D2E53FF2D1715AD00C669D4 /* TabBarView.swift in Sources */,
 				1D90CF892D46C3B500357553 /* StartLineMapView.swift in Sources */,

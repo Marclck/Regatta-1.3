@@ -45,7 +45,7 @@ class IAPManager: ObservableObject {
     static let shared = IAPManager()
     private let proFeatureID = "Astrolabe_pro_access_annual_599"
     private let ultraFeatureID = "Astrolabe_ultra_access_annual_1499"
-    private let trialDuration: TimeInterval = 700 * 24 * 60 * 60 // 7 days in seconds
+    private let trialDuration: TimeInterval = 900 * 24 * 60 * 60 // 7 days in seconds
     
     @Published private(set) var subscriptions: [Product] = []
     @Published private(set) var currentTier: SubscriptionTier = .none
@@ -107,6 +107,7 @@ class IAPManager: ObservableObject {
             guard let self = self else { return }
             let defaults = UserDefaults.standard
             let trialStartDate = defaults.object(forKey: "trialStartDate") as? Date
+            let hasShownTrialEndNotification = defaults.bool(forKey: "hasShownTrialEndNotification")
             
             if let startDate = trialStartDate {
                 let timeElapsed = Date().timeIntervalSince(startDate)
@@ -118,6 +119,27 @@ class IAPManager: ObservableObject {
                 } else {
                     self.isInTrialPeriod = false
                     self.trialTimeRemaining = 0
+                    
+                    // Check if user has already seen end notification
+                    if !hasShownTrialEndNotification {
+                        // Schedule end-of-trial notification
+                        let center = UNUserNotificationCenter.current()
+                        let content = UNMutableNotificationContent()
+                        content.title = "Trial Period Ended"
+                        content.body = "Free users can now access the app with basic features."
+                        content.sound = .default
+                        
+                        let request = UNNotificationRequest(
+                            identifier: "trial-end-notification",
+                            content: content,
+                            trigger: nil  // Show immediately
+                        )
+                        
+                        center.add(request)
+                        
+                        // Mark notification as shown
+                        defaults.set(true, forKey: "hasShownTrialEndNotification")
+                    }
                 }
             } else {
                 self.startTrial()
@@ -149,7 +171,7 @@ class IAPManager: ObservableObject {
             let reminders = [
                 (days: 5, message: "5 days left in your Astrolabe trial! Upgrade to Pro or Ultra to keep access."),
                 (days: 3, message: "Only 3 days remaining in your trial - Subscribe now to unlock all features"),
-                (days: 1, message: "Last day of your trial - Don't lose access to Astrolabe")
+                (days: 1, message: "Last day of your trial - Your settings will be reset to default")
             ]
             
             for reminder in reminders {
@@ -300,12 +322,16 @@ class IAPManager: ObservableObject {
     func canAccessFeatures(minimumTier: SubscriptionTier) -> Bool {
         switch (currentTier, minimumTier) {
         case (.ultra, _):
+            // Ultra subscription can access everything
             return true
         case (.pro, .pro), (.pro, .none):
+            // Pro subscription can access Pro and free features
             return true
         case (.none, .none):
+            // Free features are always accessible
             return true
-        case (_, _) where isInTrialPeriod:
+        case (.none, _) where isInTrialPeriod:
+            // During trial, users can access both Pro and Ultra features
             return true
         default:
             return false

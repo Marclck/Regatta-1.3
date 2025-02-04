@@ -14,6 +14,7 @@ struct CurrentTimeView: View {
     
     @State private var currentTime = Date()
     @State private var lastUpdateTime: TimeInterval = 0
+    @State private var timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     
     var body: some View {
         Text(timeString(from: currentTime))
@@ -32,8 +33,10 @@ struct CurrentTimeView: View {
                     lastUpdateTime = now
                 }
             }
+            .onReceive(timer) { _ in
+                currentTime = Date()
+            }
             .onAppear {
-                // Initialize current time and last update time when view appears
                 currentTime = Date()
                 lastUpdateTime = Date().timeIntervalSince1970
             }
