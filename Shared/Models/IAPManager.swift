@@ -45,7 +45,7 @@ class IAPManager: ObservableObject {
     static let shared = IAPManager()
     private let proFeatureID = "Astrolabe_pro_access_annual_599"
     private let ultraFeatureID = "Astrolabe_ultra_access_annual_1499"
-    private let trialDuration: TimeInterval = 900 * 24 * 60 * 60 // 7 days in seconds
+    private let trialDuration: TimeInterval = 7 * 24 * 60 * 60 // 7 days in seconds
     
     @Published private(set) var subscriptions: [Product] = []
     @Published private(set) var currentTier: SubscriptionTier = .none
