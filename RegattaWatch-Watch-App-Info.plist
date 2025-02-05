@@ -2,19 +2,21 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-    <key>NSUserActivityTypes</key>
-    <array>
-        <string>StartCountdownIntent</string>
-    </array>
-    <key>WKAppBundleIdentifier</key>
-    <string>com.heart.astrolabe.watchkitapp</string>
-    <key>WKApplication</key>
-    <true/>
-    <key>WKBackgroundModes</key>
-    <array>
-        <string>physical-therapy-processing</string>
-        <string>location</string>
-        <string>workout-processing</string>
-    </array>
+	<key>NSUserActivityTypes</key>
+	<array>
+		<string>StartCountdownIntent</string>
+	</array>
+	<key>UIBackgroundModes</key>
+	<array>
+		<string>location</string>
+	</array>
+	<key>WKAppBundleIdentifier</key>
+	<string>com.heart.astrolabe.watchkitapp</string>
+	<key>WKApplication</key>
+	<true/>
+	<key>WKBackgroundModes</key>
+	<array>
+		<string>workout-processing</string>
+	</array>
 </dict>
 </plist>

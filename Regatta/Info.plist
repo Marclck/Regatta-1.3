@@ -13,10 +13,6 @@
             </array>
         </dict>
     </array>
-    <key>MKDirectionsApplicationSupportedModes</key>
-    <array>
-        <string>MKDirectionsModeFerry</string>
-    </array>
     <key>NSUserActivityTypes</key>
     <array>
         <string>StartCountdownIntent</string>
@@ -25,14 +21,17 @@
     <array>
         <string>location</string>
     </array>
-    <!-- Added Location Permission Keys -->
+    <key>UIRequiredDeviceCapabilities</key>
+    <array>
+        <string>healthkit</string>
+        <string>location-services</string>
+    </array>
     <key>NSLocationWhenInUseUsageDescription</key>
     <string>Location access is needed to show your position relative to the start line and record race tracking data.</string>
     <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
     <string>Location access is needed to show your position relative to the start line and record race tracking data even when the app is in the background.</string>
     <key>NSLocationUsageDescription</key>
     <string>Location access is needed to show your position relative to the start line and record race tracking data.</string>
-    <!-- Added Map Services Keys -->
     <key>MKDirectionsApplicationSupportedModes</key>
     <array>
         <string>MKDirectionsModeFerry</string>
