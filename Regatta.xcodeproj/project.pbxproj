@@ -1299,7 +1299,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Regatta/Regatta.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Regatta/Preview Content\"";
 				DEVELOPMENT_TEAM = RV5P86366B;
 				ENABLE_PREVIEWS = YES;
@@ -1307,11 +1307,11 @@
 				INFOPLIST_FILE = Regatta/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Astrolabe;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "We need access to your heart rate data to display it during your races";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need access to your heart rate data to display it during your races";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location access is needed to show your position relative to the start line and record race tracking data even when the app is in the background.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Your health data is used to record your workout during races";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Your health data is updated to record your workout during races";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is used to track your position during races";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is needed to show your position relative to the start line and record race tracking data.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is needed to show your position relative to the start line and record race tracking data.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your position during races";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1341,7 +1341,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Regatta/Regatta.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"Regatta/Preview Content\"";
 				DEVELOPMENT_TEAM = RV5P86366B;
 				ENABLE_PREVIEWS = YES;
@@ -1349,11 +1349,11 @@
 				INFOPLIST_FILE = Regatta/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = Astrolabe;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
-				INFOPLIST_KEY_NSHealthShareUsageDescription = "We need access to your heart rate data to display it during your races";
-				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need access to your heart rate data to display it during your races";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location access is needed to show your position relative to the start line and record race tracking data even when the app is in the background.";
+				INFOPLIST_KEY_NSHealthShareUsageDescription = "Your health data is used to record your workout during races";
+				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "Your health data is updated to record your workout during races";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is used to track your position during races";
 				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is needed to show your position relative to the start line and record race tracking data.";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is needed to show your position relative to the start line and record race tracking data.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your position during races";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -1460,7 +1460,7 @@
 				CODE_SIGN_ENTITLEMENTS = "RegattaWatch Watch App/RegattaWatch Watch App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"RegattaWatch Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = RV5P86366B;
 				ENABLE_PREVIEWS = YES;
@@ -1499,7 +1499,7 @@
 				CODE_SIGN_ENTITLEMENTS = "RegattaWatch Watch App/RegattaWatch Watch App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 3;
 				DEVELOPMENT_ASSET_PATHS = "\"RegattaWatch Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = RV5P86366B;
 				ENABLE_PREVIEWS = YES;
