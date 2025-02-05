@@ -11,7 +11,16 @@
             <array>
                 <string>com.apple.maps.directionsrequest</string>
             </array>
+            <key>LSHandlerRank</key>
+            <string>Alternate</string>
         </dict>
+    </array>
+    <key>LSSupportsOpeningDocumentsInPlace</key>
+    <true/>
+    <key>MKDirectionsApplicationSupportedModes</key>
+    <array>
+        <string>MKDirectionsModeFerry</string>
+        <string>MKDirectionsModeOther</string>
     </array>
     <key>NSUserActivityTypes</key>
     <array>
@@ -20,22 +29,6 @@
     <key>UIBackgroundModes</key>
     <array>
         <string>location</string>
-    </array>
-    <key>UIRequiredDeviceCapabilities</key>
-    <array>
-        <string>healthkit</string>
-        <string>location-services</string>
-    </array>
-    <key>NSLocationWhenInUseUsageDescription</key>
-    <string>Location access is needed to show your position relative to the start line and record race tracking data.</string>
-    <key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-    <string>Location access is needed to show your position relative to the start line and record race tracking data even when the app is in the background.</string>
-    <key>NSLocationUsageDescription</key>
-    <string>Location access is needed to show your position relative to the start line and record race tracking data.</string>
-    <key>MKDirectionsApplicationSupportedModes</key>
-    <array>
-        <string>MKDirectionsModeFerry</string>
-        <string>MKDirectionsModeOther</string>
     </array>
 </dict>
 </plist>

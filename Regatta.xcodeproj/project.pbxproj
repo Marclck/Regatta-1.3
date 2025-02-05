@@ -1309,12 +1309,12 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "We need access to your heart rate data to display it during your races";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need access to your heart rate data to display it during your races";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is used to track your speed during races, including when the app is in the background";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your speed during races";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location access is needed to show your position relative to the start line and record race tracking data even when the app is in the background.";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is needed to show your position relative to the start line and record race tracking data.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is needed to show your position relative to the start line and record race tracking data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UIRequiredDeviceCapabilities = healthkit;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1351,12 +1351,12 @@
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.utilities";
 				INFOPLIST_KEY_NSHealthShareUsageDescription = "We need access to your heart rate data to display it during your races";
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need access to your heart rate data to display it during your races";
-				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is used to track your speed during races, including when the app is in the background";
-				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your speed during races";
+				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Location access is needed to show your position relative to the start line and record race tracking data even when the app is in the background.";
+				INFOPLIST_KEY_NSLocationUsageDescription = "Location access is needed to show your position relative to the start line and record race tracking data.";
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Location access is needed to show your position relative to the start line and record race tracking data.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
-				INFOPLIST_KEY_UIRequiredDeviceCapabilities = healthkit;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -1471,7 +1471,6 @@
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need access to your heart rate data to display it during your races";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is used to track your speed during races, including when the app is in the background";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your speed during races";
-				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "healthkit location-services";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.heart.astrolabe;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1511,7 +1510,6 @@
 				INFOPLIST_KEY_NSHealthUpdateUsageDescription = "We need access to your heart rate data to display it during your races";
 				INFOPLIST_KEY_NSLocationAlwaysAndWhenInUseUsageDescription = "Your location is used to track your speed during races, including when the app is in the background";
 				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "Your location is used to track your speed during races";
-				INFOPLIST_KEY_UIRequiredDeviceCapabilities = "healthkit location-services";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				INFOPLIST_KEY_WKCompanionAppBundleIdentifier = com.heart.astrolabe;
 				LD_RUNPATH_SEARCH_PATHS = (
