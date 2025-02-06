@@ -64,15 +64,24 @@ extension ContentView {
     }
     
     func performDelayedIAPCheck() {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) { [self] in
-                if !iapManager.canAccessFeatures(minimumTier: .pro) {
-                    settings.resetToDefaults(colorManager)
-                    viewID = UUID()
-                }
-                // Update the last check date
-                UserDefaults.setLastIAPCheckDate(Date())
+        DispatchQueue.main.asyncAfter(deadline: .now() + 30.0) { [self] in
+            // First check if user can access Pro features
+            if !iapManager.canAccessFeatures(minimumTier: .pro) {
+                settings.resetToDefaults(colorManager)
+                viewID = UUID()
             }
+            // Then check if user can access Ultra features
+            else if !iapManager.canAccessFeatures(minimumTier: .ultra) {
+                // Only reset ultra-specific features
+                settings.showSpeedInfo = false
+                settings.useProButtons = false
+                viewID = UUID()
+            }
+            
+            // Update the last check date
+            UserDefaults.setLastIAPCheckDate(Date())
         }
+    }
 }
 
 struct ContentView: View {

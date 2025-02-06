@@ -279,18 +279,22 @@ struct SettingsView: View {
  }
 
 extension AppSettings {
-    func resetToDefaults(_ colorManager: ColorManager) {
+    func resetToDefaults(_ colorManager: ColorManager, forTier tier: SubscriptionTier = .none) {
         // Reset all settings to their default values
         teamName = "RACE!"
         showRaceInfo = true
-        showSpeedInfo = false
         smoothSecond = false
         altTeamNameColor = false
         lightMode = false
         ultraModel = true
-        useProButtons = false
         
-        // Reset theme color to Cambridge Blue via SharedDefaults
+        // Reset ultra features if tier is not ultra
+        if tier != .ultra {
+            showSpeedInfo = false
+            useProButtons = false
+        }
+        
+        // Reset theme color to Cambridge Blue
         colorManager.selectedTheme = .cambridgeBlue
         
         // Save defaults to UserDefaults
