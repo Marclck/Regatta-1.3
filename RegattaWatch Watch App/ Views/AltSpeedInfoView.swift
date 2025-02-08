@@ -91,7 +91,7 @@ struct AltSpeedInfoView: View {
             return "kn"
         }
         let speedInKnots = locationManager.speed * 1.94384
-        return speedInKnots <= 0 ? "-" : String(format: "%.0f", speedInKnots)
+        return speedInKnots <= 0 ? "-" : String(format: "%.1f", speedInKnots)
     }
     
     private func getCardinalDirection(_ degrees: Double) -> String {
@@ -118,19 +118,19 @@ struct AltSpeedInfoView: View {
     private var distanceButton: some View {
         Button(action: {
             isCheckmark.toggle()
-            WKInterfaceDevice.current().play(.click)
-            
             if isCheckmark {
                 locationManager.startUpdatingLocation()
+                // Auto-stop after 120 seconds
                 DispatchQueue.main.asyncAfter(deadline: .now() + 120) {
-                    if isCheckmark {
+                    if isCheckmark && !timerState.isRunning {  // Added timer check
                         isCheckmark = false
                         locationManager.stopUpdatingLocation()
-                        WKInterfaceDevice.current().play(.click)
                     }
                 }
             } else {
-                locationManager.stopUpdatingLocation()
+                if !timerState.isRunning {  // Added timer check
+                    locationManager.stopUpdatingLocation()
+                }
             }
         }) {
             Group {
@@ -261,7 +261,7 @@ struct AltSpeedInfoView: View {
             }
         }
         .onDisappear {
-            if isCheckmark {
+            if isCheckmark && !timerState.isRunning {
                 locationManager.stopUpdatingLocation()
             }
         }
