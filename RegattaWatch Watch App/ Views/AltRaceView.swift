@@ -124,7 +124,10 @@ struct AltRaceView: View {
                     // Tappable area for cruise info
                     GeometryReader { proxy in
                         Color.clear
-                            .frame(width: geometry.size.width - 30, height: 160)
+                            .frame(
+                                width: geometry.size.width - 30,
+                                height: showCruiseInfo ? 70 : 160
+                            )
 //                            .border(Color.green.opacity(0.3), width: 1)
                             .contentShape(Rectangle())
                             .position(x: geometry.size.width/2, y: geometry.size.height/2+5)

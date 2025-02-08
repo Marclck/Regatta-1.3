@@ -207,7 +207,7 @@ struct CruiseInfoView: View {
         .padding(.horizontal)
         .onAppear {
             locationManager.startUpdatingLocation()
-            resetTracking()
+//            resetTracking()
         }
         .onChange(of: locationManager.speed) { _, speed in
             JournalManager.shared.addDataPoint(
