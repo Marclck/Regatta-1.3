@@ -84,6 +84,13 @@ struct AltRaceView: View {
                                 currentTime = input
                             }
                             
+                            HStack(spacing: 5) {
+                                WindSpeedView()
+                                CompassView()
+                                BarometerView()
+                            }
+                            .offset(y:15)
+                            
                         }
                         
                         if !showCruiseInfo {

@@ -56,39 +56,52 @@ struct CruiseDeviationView: View {
 
 struct CruiseInfoView: View {
     @EnvironmentObject var settings: AppSettings
+    @EnvironmentObject var colorManager: ColorManager
     @ObservedObject var locationManager: LocationManager
     @StateObject private var courseTracker = CourseTracker()
-    
-    // State variables for distance tracking
-    @State private var isTracking = true
+    @StateObject private var lastReadingManager = LastReadingManager()
+    @State private var isConfirmingReset: Bool = false
+
     @State private var totalDistance: CLLocationDistance = 0
     @State private var lastLocation: CLLocation?
     
     @Namespace private var animation
     
     private func getDistanceText() -> String {
-        if !isTracking {
-            return ""  // Empty string since we'll use Image instead
+        if !locationManager.isMonitoring {
+            let lastDistance = lastReadingManager.distance
+            if lastDistance == 0 {
+                return "-"
+            }
+            
+            if lastDistance > 99_000 {  // Over 99km
+                return "FAR"
+            } else if lastDistance >= 10_000 {  // 10km to 99km
+                return String(format: "%.0fk", lastDistance / 1000)
+            } else if lastDistance >= 1_000 {  // 1km to 9.9km
+                return String(format: "%.1fk", lastDistance / 1000)
+            } else {
+                return String(format: "%.0f", lastDistance)
+            }
         }
         
         if totalDistance == 0 {
             return "-"
         }
         
-        let distance = totalDistance
-        if distance > 99_000 {  // Over 99km
+        if totalDistance > 99_000 {  // Over 99km
             return "FAR"
-        } else if distance >= 10_000 {  // 10km to 99km
-            return String(format: "%.0fk", distance / 1000)
-        } else if distance >= 1_000 {  // 1km to 9.9km
-            return String(format: "%.1fk", distance / 1000)
+        } else if totalDistance >= 10_000 {  // 10km to 99km
+            return String(format: "%.0fk", totalDistance / 1000)
+        } else if totalDistance >= 1_000 {  // 1km to 9.9km
+            return String(format: "%.1fk", totalDistance / 1000)
         } else {
-            return String(format: "%.0f", distance)
+            return String(format: "%.0f", totalDistance)
         }
     }
     
     private func updateDistance(newLocation: CLLocation) {
-        guard isTracking else { return }
+        guard locationManager.isMonitoring else { return }
         
         if let lastLoc = lastLocation {
             let increment = newLocation.distance(from: lastLoc)
@@ -103,10 +116,15 @@ struct CruiseInfoView: View {
     private func resetTracking() {
         totalDistance = 0
         lastLocation = nil
-        isTracking = true
+        lastReadingManager.resetDistance()
     }
     
     private func getSpeedText() -> String {
+        if !locationManager.isMonitoring {
+            let lastSpeed = lastReadingManager.speed
+            return lastSpeed <= 0 ? "-" : String(format: "%.1f", lastSpeed)
+        }
+        
         let speedInKnots = locationManager.speed * 1.94384
         return speedInKnots <= 0 ? "-" : String(format: "%.1f", speedInKnots)
     }
@@ -118,34 +136,47 @@ struct CruiseInfoView: View {
     }
     
     private func getCourseText() -> String {
-        guard locationManager.isLocationValid,
-              let location = locationManager.lastLocation,
-              location.course >= 0 else {
-            return "COURSE"
+            if !locationManager.isMonitoring {
+                // Check if we have default values indicating no stored reading
+                if lastReadingManager.course == 0 && lastReadingManager.cardinalDirection == "N" {
+                    return "COURSE"
+                }
+                return String(format: "%@%.0f°", lastReadingManager.cardinalDirection, lastReadingManager.course)
+            }
+            
+            guard locationManager.isLocationValid,
+                  let location = locationManager.lastLocation,
+                  location.course >= 0 else {
+                return "COURSE"
+            }
+            
+            let cardinal = getCardinalDirection(location.course)
+            return String(format: "%@%.0f°", cardinal, location.course)
         }
-        
-        let cardinal = getCardinalDirection(location.course)
-        return String(format: "%@%.0f°", cardinal, location.course)
-    }
     
     private var distanceButton: some View {
         Button(action: {
-            if isTracking {
-                isTracking = false
-            } else {
+            WKInterfaceDevice.current().play(.click)
+            if isConfirmingReset {
                 resetTracking()
+                isConfirmingReset = false
+            } else {
+                isConfirmingReset = true
+                // Add haptic feedback
+//                WKInterfaceDevice.current().play(.notification)
             }
         }) {
             Group {
-                if !isTracking {
+                if isConfirmingReset {
                     Image(systemName: "arrow.counterclockwise")
-                        .font(.system(size: 24, weight: .heavy))
+                        .font(.system(size: 20, weight: .heavy))
                         .symbolVariant(.fill)
                         .foregroundColor(.orange)
                 } else {
                     Text(getDistanceText())
-                        .font(.zenithBeta(size: 24, weight: .medium))
-                        .foregroundColor(settings.lightMode ? .black : .white)
+                        .font(.zenithBeta(size: 20, weight: .medium))
+                        .foregroundColor(locationManager.isMonitoring ?
+                                         Color(hex: colorManager.selectedTheme.rawValue) : (settings.lightMode ? .black : .white))
                 }
             }
             .padding(.horizontal, 4)
@@ -153,7 +184,11 @@ struct CruiseInfoView: View {
             .frame(minWidth: 55)
             .background(
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05))
+                    .fill(isConfirmingReset ?
+                          Color.orange.opacity(0.2) :
+                          (locationManager.isMonitoring ?
+                           Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
+                           (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05))))
             )
         }
         .buttonStyle(.plain)
@@ -179,36 +214,52 @@ struct CruiseInfoView: View {
     }
     
     private var speedDisplay: some View {
-        Text(getSpeedText())
-            .font(.zenithBeta(size: 24, weight: .medium))
-            .foregroundColor(settings.lightMode ? .black : .white)
-            .padding(.horizontal, 4)
-            .padding(.vertical, 4)
-            .frame(minWidth: 55)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05))
-            )
-            .matchedGeometryEffect(id: "speed", in: animation)
+        Button(action: {
+            WKInterfaceDevice.current().play(.click)
+            if locationManager.isMonitoring {
+                // Save current readings before stopping
+                if let location = locationManager.lastLocation {
+                    lastReadingManager.saveReading(
+                        speed: locationManager.speed * 1.94384,
+                        distance: totalDistance,
+                        course: location.course,
+                        direction: getCardinalDirection(location.course)
+                    )
+                }
+                locationManager.stopUpdatingLocation()
+            } else {
+                locationManager.startUpdatingLocation()
+            }
+        }) {
+            Text(getSpeedText())
+                .font(.zenithBeta(size: 20, weight: .medium))
+                .foregroundColor(locationManager.isMonitoring ?
+                                 Color(hex: colorManager.selectedTheme.rawValue) : (settings.lightMode ? .black : .white))
+                .padding(.horizontal, 4)
+                .padding(.vertical, 4)
+                .frame(minWidth: 55)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(locationManager.isMonitoring ?
+                             Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
+                             (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05)))
+                )
+        }
+        .buttonStyle(.plain)
+        .matchedGeometryEffect(id: "speed", in: animation)
     }
     
     var body: some View {
         VStack {
             HStack(alignment: .center, spacing: 10) {
                 distanceButton
-                    .offset(y: 0)
                 speedDisplay
-                    .offset(y: 0)
             }
             
             courseDisplay
                 .offset(y: 40)
         }
         .padding(.horizontal)
-        .onAppear {
-            locationManager.startUpdatingLocation()
-//            resetTracking()
-        }
         .onChange(of: locationManager.speed) { _, speed in
             JournalManager.shared.addDataPoint(
                 heartRate: nil,
@@ -225,8 +276,17 @@ struct CruiseInfoView: View {
             }
         }
         .onDisappear {
-            locationManager.stopUpdatingLocation()
-            isTracking = false
+            if locationManager.isMonitoring {
+                if let location = locationManager.lastLocation {
+                    lastReadingManager.saveReading(
+                        speed: locationManager.speed * 1.94384,
+                        distance: totalDistance,
+                        course: location.course,
+                        direction: getCardinalDirection(location.course)
+                    )
+                }
+                locationManager.stopUpdatingLocation()
+            }
         }
     }
 }
