@@ -76,6 +76,13 @@ class AppSettings: ObservableObject {
         }
     }
     
+    @Published var showCruiser: Bool {
+        didSet {
+            UserDefaults.standard.set(showCruiser, forKey: "showCruiser")
+            print("ShowCruiser changed to: \(showCruiser)")
+        }
+    }
+    
     init() {
         self.teamName = UserDefaults.standard.string(forKey: "teamName") ?? "Ultra"
         self.showRaceInfo = UserDefaults.standard.object(forKey: "showRaceInfo") as? Bool ?? true
@@ -85,6 +92,7 @@ class AppSettings: ObservableObject {
         self.ultraModel = UserDefaults.standard.object(forKey: "ultraModel") as? Bool ?? true
         self.showSpeedInfo = UserDefaults.standard.object(forKey: "showSpeedInfo") as? Bool ?? false
         self.useProButtons = UserDefaults.standard.bool(forKey: "useProButtons") // Default to false
+        self.showCruiser = UserDefaults.standard.object(forKey: "showCruiser") as? Bool ?? false
         UserDefaults.standard.synchronize()
     }
 }
@@ -180,14 +188,19 @@ struct SettingsView: View {
                         .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
                         .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
                     
+                    Toggle("CruiseR", isOn: $settings.showCruiser)
+                        .font(.system(size: 17))
+                        .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
+                        .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
+                    
                     if !iapManager.canAccessFeatures(minimumTier: .ultra) {
                         Text("Requires Ultra subscription")
                             .font(.caption2)
                             .foregroundColor(.gray)
                     } else {
-                        Text("Dashboard uses GPS during sessions")
+                        Text("Dashboard and CruiseR use GPS. Stop timer in Dashboard or turn off GPS by pressing speed display in CruiseR to stop GPS update.")
                             .font(.caption2)
-                            .foregroundColor(.gray)
+                            .foregroundColor(.white)
                     }
                     
                 }
@@ -291,6 +304,7 @@ extension AppSettings {
         // Reset ultra features if tier is not ultra
         if tier != .ultra {
             showSpeedInfo = false
+            showCruiser = false
             useProButtons = false
         }
         
@@ -301,6 +315,7 @@ extension AppSettings {
         UserDefaults.standard.set("RACE!", forKey: "teamName")
         UserDefaults.standard.set(true, forKey: "showRaceInfo")
         UserDefaults.standard.set(false, forKey: "showSpeedInfo")
+        UserDefaults.standard.set(false, forKey: "showCruiser")
         UserDefaults.standard.set(false, forKey: "smoothSecond")
         UserDefaults.standard.set(false, forKey: "altTeamNameColor")
         UserDefaults.standard.set(false, forKey: "lightMode")

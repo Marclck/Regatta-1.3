@@ -169,23 +169,23 @@ struct CruiseInfoView: View {
     }
     
     private func getCourseText() -> String {
-            if !locationManager.isMonitoring {
-                // Check if we have default values indicating no stored reading
-                if lastReadingManager.course == 0 && lastReadingManager.cardinalDirection == "N" {
-                    return "COURSE"
-                }
-                return String(format: "%@%.0f°", lastReadingManager.cardinalDirection, lastReadingManager.course)
-            }
-            
-            guard locationManager.isLocationValid,
-                  let location = locationManager.lastLocation,
-                  location.course >= 0 else {
+        if !locationManager.isMonitoring {
+            // Check if we have default or invalid values
+            if lastReadingManager.course <= 0 || lastReadingManager.cardinalDirection.isEmpty {
                 return "COURSE"
             }
-            
-            let cardinal = getCardinalDirection(location.course)
-            return String(format: "%@%.0f°", cardinal, location.course)
+            return String(format: "%@%.0f°", lastReadingManager.cardinalDirection, lastReadingManager.course)
         }
+        
+        guard locationManager.isLocationValid,
+              let location = locationManager.lastLocation,
+              location.course >= 0 else {
+            return "COURSE"
+        }
+        
+        let cardinal = getCardinalDirection(location.course)
+        return String(format: "%@%.0f°", cardinal, location.course)
+    }
     
     private var distanceButton: some View {
         Button(action: {
@@ -353,5 +353,24 @@ struct PreviewCruiseInfoView: View {
 #Preview {
     PreviewCruiseInfoView()
         .frame(width: 180, height: 180)
+}
+#endif
+
+#if DEBUG
+struct PreviewCruiseDeviationView: View {
+    @StateObject private var settings = AppSettings()
+    
+    var body: some View {
+        ZStack {
+            Color(settings.lightMode ? .white : .black)
+            CruiseDeviationView(deviation: 5)
+                .environmentObject(settings)
+        }
+    }
+}
+
+#Preview("Deviation -15°") {
+    PreviewCruiseDeviationView()
+        .frame(width: 180, height: 50)
 }
 #endif

@@ -63,7 +63,7 @@ struct WatchFaceView: View {
                         Spacer()
                             .frame(height: 10)
                         
-                        if showCruiseInfo {
+                        if settings.showCruiser && showCruiseInfo {
                             Spacer()
                                 .frame(height: 30)
                             
@@ -148,7 +148,7 @@ struct WatchFaceView: View {
                     }
                     .padding(.horizontal, 0)
                     
-                    if showCruiseInfo {
+                    if settings.showCruiser && showCruiseInfo {
                         CruiseInfoView(
                             locationManager: locationManager
                         )
@@ -161,14 +161,16 @@ struct WatchFaceView: View {
                         Color.clear
                             .frame(
                                 width: geometry.size.width - 30,
-                                height: showCruiseInfo ? 70 : 160
+                                height: (settings.showCruiser && showCruiseInfo) ? 70 : 160
                             )
                             .contentShape(Rectangle())
                             .position(x: geometry.size.width/2, y: geometry.size.height/2+5)
                             .onTapGesture {
-                                WKInterfaceDevice.current().play(.click)
-                                withAnimation(.easeInOut(duration: 0.3)) {
-                                    showCruiseInfo.toggle()
+                                if settings.showCruiser {  // Only allow toggling if feature is enabled
+                                    WKInterfaceDevice.current().play(.click)
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        showCruiseInfo.toggle()
+                                    }
                                 }
                             }
                     }

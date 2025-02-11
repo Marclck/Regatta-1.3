@@ -52,7 +52,7 @@ class IAPManager: ObservableObject {
     private let proFeatureID = "Astrolabe_pro_access_annual_599"
     private let ultraFeatureID = "Astrolabe_ultra_access_annual_1499"
     private let trialDuration: TimeInterval = 700 * 24 * 60 * 60 // 7 days in seconds
-    private let proUltraTrialDuration: TimeInterval = 7 * 24 * 60 * 60 // 7 days
+    private let proUltraTrialDuration: TimeInterval = 700 * 24 * 60 * 60 // 7 days
     
     // Keychain keys
     private let trialStartDateKey = "trialStartDate"

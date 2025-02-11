@@ -55,8 +55,8 @@ struct AltRaceView: View {
                         Spacer()
                             .frame(height: 10)
                         
-                        if showCruiseInfo {
-                            
+                        if settings.showCruiser && showCruiseInfo {
+
                             Spacer()
                                 .frame(height: 30)
                             
@@ -91,9 +91,7 @@ struct AltRaceView: View {
                             }
                             .offset(y:settings.ultraModel ? 15 : 10)
                             
-                        }
-                        
-                        if !showCruiseInfo {
+                        } else {
                             // Show current time
                             VStack(spacing: -10) {
                                 Text(hourString(from: currentTime))
@@ -133,15 +131,17 @@ struct AltRaceView: View {
                         Color.clear
                             .frame(
                                 width: geometry.size.width - 30,
-                                height: showCruiseInfo ? 70 : 160
+                                height: (settings.showCruiser && showCruiseInfo) ? 70 : 160
                             )
 //                            .border(Color.green.opacity(0.3), width: 1)
                             .contentShape(Rectangle())
                             .position(x: geometry.size.width/2, y: geometry.size.height/2+5)
                             .onTapGesture {
-                                WKInterfaceDevice.current().play(.click)
-                                withAnimation(.easeInOut(duration: 0.3)) {
-                                    showCruiseInfo.toggle()
+                                if settings.showCruiser {  // Only allow toggling if feature is enabled
+                                    WKInterfaceDevice.current().play(.click)
+                                    withAnimation(.easeInOut(duration: 0.3)) {
+                                        showCruiseInfo.toggle()
+                                    }
                                 }
                             }
                     }

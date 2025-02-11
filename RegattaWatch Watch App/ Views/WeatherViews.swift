@@ -136,64 +136,114 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 }
 // MARK: - Pressure Manager
 class PressureManager: ObservableObject {
-    @Published var currentPressure: Double = 1013.25  // Standard atmospheric pressure
+    @Published var currentPressure: Double = 0
     @Published var pressureTrend: PressureTrend = .stable
+    @Published var isAvailable: Bool = false
+    
     private var historicalReadings: [(pressure: Double, timestamp: Date)] = []
+    private var altimeter = CMAltimeter()
     private var timer: Timer?
+    private let maxReadings = 6  // Keep last 6 readings (1 hour of data)
+    private let trendThreshold = 1.0  // 1 hPa threshold for trend
+    private let updateInterval: TimeInterval = 600  // 10 minutes
     
     enum PressureTrend {
         case rising, falling, stable
     }
     
     init() {
-        startUpdates()
+        setupAltimeter()
+    }
+    
+    private func setupAltimeter() {
+        isAvailable = CMAltimeter.isRelativeAltitudeAvailable()
+        
+        if isAvailable {
+            startUpdates()
+        }
     }
     
     func startUpdates() {
-        updatePressure()
-        timer = Timer.scheduledTimer(withTimeInterval: 600, repeats: true) { [weak self] _ in
-            self?.updatePressure()
+        guard isAvailable else { return }
+        
+        // Schedule regular updates
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: updateInterval, repeats: true) { [weak self] _ in
+            self?.requestPressureUpdate()
+        }
+        
+        // Request initial update immediately
+        requestPressureUpdate()
+    }
+    
+    private func requestPressureUpdate() {
+        altimeter.startRelativeAltitudeUpdates(to: .main) { [weak self] data, error in
+            guard let self = self,
+                  let data = data else {
+                if let error = error {
+                    print("Pressure update error: \(error.localizedDescription)")
+                }
+                return
+            }
+            
+            // Convert kPa to hPa (multiply by 10)
+            let pressureHPa = data.pressure.doubleValue * 10
+            
+            // Add new reading
+            let now = Date()
+            self.addReading(pressure: pressureHPa, timestamp: now)
+            
+            // Stop updates until next scheduled time
+            self.altimeter.stopRelativeAltitudeUpdates()
         }
     }
     
-    private func updatePressure() {
-        // In a real implementation, we would get this from the device
-        // For now, simulate with realistic values
-        let altimeter = CMAltimeter()
-        if CMAltimeter.isRelativeAltitudeAvailable() {
-            altimeter.startRelativeAltitudeUpdates(to: .main) { [weak self] data, error in
-                guard let data = data, let self = self else { return }
-                let pressure = data.pressure.doubleValue * 10  // Convert to hPa
-                self.historicalReadings.append((pressure, Date()))
-                self.currentPressure = pressure
-                self.updateTrend()
-            }
+    private func addReading(pressure: Double, timestamp: Date) {
+        // Remove readings older than 1 hour
+        historicalReadings = historicalReadings.filter {
+            timestamp.timeIntervalSince($0.timestamp) <= 3600
         }
+        
+        // Add new reading
+        historicalReadings.append((pressure: pressure, timestamp: timestamp))
+        
+        // Keep only last 6 readings
+        if historicalReadings.count > maxReadings {
+            historicalReadings.removeFirst()
+        }
+        
+        // Update current pressure and trend
+        currentPressure = pressure
+        updateTrend()
     }
     
     private func updateTrend() {
-        // Keep only last 3 hours of readings
-        let threeHoursAgo = Date().addingTimeInterval(-3 * 60 * 60)
-        historicalReadings = historicalReadings.filter { $0.timestamp > threeHoursAgo }
-        
-        guard let oldestReading = historicalReadings.first?.pressure,
-              let latestReading = historicalReadings.last?.pressure else {
+        guard let oldestReading = historicalReadings.first else {
             pressureTrend = .stable
             return
         }
         
-        let change = latestReading - oldestReading
-        if change > 2 {
-            pressureTrend = .rising
-        } else if change < -2 {
-            pressureTrend = .falling
-        } else {
+        // Check if there's a gap longer than update interval + 1 minute tolerance
+        let maxGap = updateInterval + 60
+        if Date().timeIntervalSince(oldestReading.timestamp) > maxGap {
+            // Clear history if there's a significant gap
+            historicalReadings.removeAll()
+            historicalReadings.append((pressure: currentPressure, timestamp: Date()))
             pressureTrend = .stable
+            return
+        }
+        
+        let change = currentPressure - oldestReading.pressure
+        if abs(change) <= trendThreshold {
+            pressureTrend = .stable
+        } else {
+            pressureTrend = change > 0 ? .rising : .falling
         }
     }
     
     deinit {
         timer?.invalidate()
+        altimeter.stopRelativeAltitudeUpdates()
     }
 }
 
@@ -369,28 +419,30 @@ struct BarometerView: View {
                 // Temperature Fill Layer
                 Rectangle()
                     .fill(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.1))
-                    .frame(width: 50, height: isLuminanceReduced ? 0 : 50 * fillPercentage)
+                    .frame(width: 50, height: isLuminanceReduced ? 0 : 50 * fillPercentage, alignment: .bottom)
                     .frame(width: 50, height: 50, alignment: .bottom)
-                .clipShape(Circle())
-                .animation(.spring(response: 2.0, dampingFraction: 0.8), value: fillPercentage)
-                .animation(.spring(response: 2.0, dampingFraction: 0.8), value: isLuminanceReduced)
+                    .clipShape(Circle())
+                    .animation(.spring(response: 1.8, dampingFraction: 0.8), value: fillPercentage)
+                    .animation(.spring(response: 1.8, dampingFraction: 0.8), value: isLuminanceReduced)
             }
             
-            if showingPressure {
+            if showingPressure /*&& pressureManager.isAvailable*/ {
                 // Pressure Display
                 VStack(spacing: 0) {
                     Text(trendSymbol)
                         .font(.system(size: 10))
                         .foregroundColor(settings.lightMode ? .black : .white)
+                        .offset(y:-2)
                     
                     Text(String(format: "%.0f", pressureManager.currentPressure))
-                        .font(.zenithBeta(size: 16, weight: .medium))
+                        .font(.zenithBeta(size: 18, weight: .medium))
                         .foregroundColor(settings.lightMode ? .black : .white)
+                        .offset(y:-2)
                     
                     Text("hPa")
                         .font(.zenithBeta(size: 10, weight: .medium))
-                        .foregroundColor(settings.lightMode ? .black.opacity(0.5) : .white.opacity(0.5))
-                        .offset(y:-3)
+                        .foregroundColor(settings.lightMode ? .black : .white)
+                        .offset(y:-4)
                 }
             } else {
                 // Temperature Display
@@ -414,9 +466,11 @@ struct BarometerView: View {
             }
         }
         .onTapGesture {
-            WKInterfaceDevice.current().play(.click)
-            withAnimation(.easeInOut(duration: 0.2)) {
-                showingPressure.toggle()
+//            if pressureManager.isAvailable {
+                WKInterfaceDevice.current().play(.click)
+                withAnimation(.easeInOut(duration: 0.2)) {
+                    showingPressure.toggle()
+//                }
             }
         }
     }

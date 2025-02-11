@@ -122,7 +122,10 @@ struct FeatureCard: View {
         .frame(maxWidth: .infinity, alignment: .leading)
         .background(Color.black.opacity(0.05))
         .cornerRadius(12)
-
+        .overlay(
+            RoundedRectangle(cornerRadius: 12)
+                .stroke(Color.gray, lineWidth: 1)
+            )
     }
 }
 
