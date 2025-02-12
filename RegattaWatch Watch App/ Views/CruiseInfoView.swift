@@ -82,7 +82,9 @@ struct CruiseInfoView: View {
     @StateObject private var lastReadingManager = LastReadingManager()
     @State private var isConfirmingReset: Bool = false
     @State private var resetTimer: Timer?
-
+    @State private var showGPSOffMessage = false
+    @State private var showGPSOnMessage = false
+    
     @State private var totalDistance: CLLocationDistance = 0
     @State private var lastLocation: CLLocation?
     
@@ -209,8 +211,13 @@ struct CruiseInfoView: View {
                 } else {
                     Text(getDistanceText())
                         .font(.zenithBeta(size: 20, weight: .medium))
-                        .foregroundColor(locationManager.isMonitoring ?
-                                         Color(hex: colorManager.selectedTheme.rawValue) : (settings.lightMode ? .black : .white))
+                        .foregroundColor(
+                            (showGPSOffMessage || showGPSOnMessage) ?
+                                (showGPSOffMessage ? .orange : Color(hex: colorManager.selectedTheme.rawValue)) :
+                                (locationManager.isMonitoring ?
+                                    Color(hex: colorManager.selectedTheme.rawValue) :
+                                    (settings.lightMode ? .black : .white))
+                        )
                 }
             }
             .padding(.horizontal, 4)
@@ -218,14 +225,21 @@ struct CruiseInfoView: View {
             .frame(minWidth: 55)
             .background(
                 RoundedRectangle(cornerRadius: 8)
-                    .fill(isConfirmingReset ?
-                          Color.orange.opacity(0.2) :
-                          (locationManager.isMonitoring ?
-                           Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
-                           (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05))))
+                    .fill(
+                        isConfirmingReset ? Color.orange.opacity(0.2) :
+                            (showGPSOffMessage || showGPSOnMessage) ?
+                                (showGPSOffMessage ?
+                                    Color.orange.opacity(0.4) :
+                                    Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4)) :
+                                (locationManager.isMonitoring ?
+                                    Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
+                                    (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05)))
+                    )
             )
         }
         .buttonStyle(.plain)
+        .animation(.easeInOut(duration: 0.2), value: showGPSOffMessage)
+        .animation(.easeInOut(duration: 0.2), value: showGPSOnMessage)
     }
     
     private var courseDisplay: some View {
@@ -259,29 +273,68 @@ struct CruiseInfoView: View {
                         distance: totalDistance,
                         course: location.course,
                         direction: getCardinalDirection(location.course),
-                        deviation: courseTracker.currentDeviation  // Add current deviation
+                        deviation: courseTracker.currentDeviation
                     )
                 }
                 locationManager.stopUpdatingLocation()
+                showGPSOffMessage = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    showGPSOffMessage = false
+                }
             } else {
                 locationManager.startUpdatingLocation()
+                showGPSOnMessage = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    showGPSOnMessage = false
+                }
             }
         }) {
-            Text(getSpeedText())
-                .font(.zenithBeta(size: 20, weight: .medium))
-                .foregroundColor(locationManager.isMonitoring ?
-                                 Color(hex: colorManager.selectedTheme.rawValue) : (settings.lightMode ? .black : .white))
-                .padding(.horizontal, 4)
-                .padding(.vertical, 4)
+            if showGPSOffMessage {
+                VStack(spacing: -2) {
+                    Text("GPS")
+                    Text("OFF")
+                }
+                .font(.zenithBeta(size: 14, weight: .medium))
+                .scaleEffect(y: 0.9)
+                .foregroundColor(.orange)
                 .frame(minWidth: 55)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(locationManager.isMonitoring ?
-                             Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
-                             (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05)))
+                        .fill(Color.orange.opacity(0.4))
                 )
+            } else if showGPSOnMessage {
+                VStack(spacing: -2) {
+                    Text("GPS")
+                    Text("ON")
+                }
+                .font(.zenithBeta(size: 14, weight: .medium))
+                .scaleEffect(y: 0.9)
+                .foregroundColor(Color(hex: colorManager.selectedTheme.rawValue))
+                .frame(minWidth: 55)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4))
+                )
+            } else {
+                Text(getSpeedText())
+                    .font(.zenithBeta(size: 20, weight: .medium))
+                    .foregroundColor(locationManager.isMonitoring ?
+                        Color(hex: colorManager.selectedTheme.rawValue) :
+                        (settings.lightMode ? .black : .white))
+                    .padding(.horizontal, 4)
+                    .padding(.vertical, 4)
+                    .frame(minWidth: 55)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(locationManager.isMonitoring ?
+                                Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
+                                (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05)))
+                    )
+            }
         }
         .buttonStyle(.plain)
+        .animation(.easeInOut(duration: 0.2), value: showGPSOffMessage)
+        .animation(.easeInOut(duration: 0.2), value: showGPSOnMessage)
         .matchedGeometryEffect(id: "speed", in: animation)
     }
     
@@ -290,6 +343,10 @@ struct CruiseInfoView: View {
             HStack(alignment: .center, spacing: 10) {
                 distanceButton
                 speedDisplay
+            }
+            if showGPSOffMessage || showGPSOnMessage {
+                Spacer().frame(height:5)
+
             }
             
             courseDisplay
@@ -363,7 +420,7 @@ struct PreviewCruiseDeviationView: View {
     var body: some View {
         ZStack {
             Color(settings.lightMode ? .white : .black)
-            CruiseDeviationView(deviation: 5)
+            CruiseDeviationView(deviation: -18)
                 .environmentObject(settings)
         }
     }

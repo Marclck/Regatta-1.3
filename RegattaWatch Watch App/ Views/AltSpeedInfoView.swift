@@ -15,27 +15,47 @@ struct CourseDeviationView: View {
     let maxDeviation: Double = 30.0
     let stepsPerSide = 3
     
-    private func getCircleFill(_ position: Int, isPositive: Bool) -> Double {
+    private func getRectWidth(_ position: Int, isPositive: Bool) -> Double {
+        // Return 0 if this side shouldn't be filled
+        if (isPositive && deviation < 0) || (!isPositive && deviation > 0) {
+            return 0
+        }
+        
         let stepSize = maxDeviation / Double(stepsPerSide)
-        let relevantDeviation = isPositive ? deviation : -deviation
-        let threshold = Double(position + 1) * stepSize
-        let previousThreshold = Double(position) * stepSize
+        let relevantDeviation = abs(deviation)
+        let startThreshold = Double(position) * stepSize
+        let endThreshold = Double(position + 1) * stepSize
         
-        if relevantDeviation <= previousThreshold { return 0.2 }  // Unfilled
-        if relevantDeviation >= threshold { return 0.8 }  // Fully filled
+        if relevantDeviation <= startThreshold { return 0 }  // Not reached this circle yet
+        if relevantDeviation >= endThreshold { return 10 }   // Fully filled this circle
         
-        // Partially filled
-        return 0.1 + (0.4 * (relevantDeviation - previousThreshold) / stepSize)
+        // Partially filling this circle
+        return 10 * (relevantDeviation - startThreshold) / stepSize
+    }
+    
+    private func getCircleContent(position: Int, isPositive: Bool) -> some View {
+        ZStack {
+            // Background circle
+            Circle()
+                .fill(Color.white)
+                .opacity(0.2)
+                .frame(width: 10, height: 10)
+            
+            // Fill rectangle
+            Rectangle()
+                .fill(Color.white)
+                .opacity(0.8)
+                .frame(width: getRectWidth(position, isPositive: isPositive), height: 10)
+                .frame(width: 10, alignment: isPositive ? .leading : .trailing)
+                .clipShape(Circle())
+        }
     }
     
     var body: some View {
         HStack(spacing: 4) {
             // Negative deviation indicators
             ForEach((0..<stepsPerSide).reversed(), id: \.self) { index in
-                Circle()
-                    .fill(Color.white)
-                    .opacity(getCircleFill(index, isPositive: false))
-                    .frame(width: 10, height: 10)
+                getCircleContent(position: index, isPositive: false)
             }
             
             // Course display spacer
@@ -44,12 +64,10 @@ struct CourseDeviationView: View {
             
             // Positive deviation indicators
             ForEach(0..<stepsPerSide, id: \.self) { index in
-                Circle()
-                    .fill(Color.white)
-                    .opacity(getCircleFill(index, isPositive: true))
-                    .frame(width: 10, height: 10)
+                getCircleContent(position: index, isPositive: true)
             }
         }
+        .animation(.spring(response: 1.2, dampingFraction: 0.8), value: deviation)
     }
 }
 
@@ -64,7 +82,9 @@ struct AltSpeedInfoView: View {
     @State private var isGPSEnabled = true
     @State private var showGPSOnMessage = false
     @State private var isGPSForcedOn = false // True when distance button forces GPS on
-    
+    @State private var showGPSOrangeColor = false
+    @State private var showGPSOffMessage = false  // Added this state
+
     @Namespace private var animation
     
     // MARK: - Helper Functions
@@ -81,13 +101,22 @@ struct AltSpeedInfoView: View {
                 }
             } else {
                 locationManager.stopUpdatingLocation()
+                showGPSOrangeColor = true
+                showGPSOffMessage = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    showGPSOrangeColor = false
+                }
             }
         }
     }
     
     private func forceGPSOn() {
+        if showGPSOrangeColor {
+            showGPSOrangeColor = false
+        }
         isGPSEnabled = true
         isGPSForcedOn = true
+        showGPSOffMessage = false
         locationManager.startUpdatingLocation()
         WKInterfaceDevice.current().play(.click)
     }
@@ -112,13 +141,17 @@ struct AltSpeedInfoView: View {
                 }
                 .font(.zenithBeta(size: 14, weight: .medium))
                 .scaleEffect(y:0.9)
-                .foregroundColor(.orange)
+                .foregroundColor(showGPSOrangeColor ? .orange : .white.opacity(0.3))
                 .frame(minWidth: timerState.isRunning ? 55 : 36)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.orange.opacity(0.4))
+                        .fill(showGPSOrangeColor ?
+                            Color.orange.opacity(0.4) :
+                            Color.white.opacity(timerState.isRunning ? 0.05 : 0.2))
                 )
+                
             } else if showGPSOnMessage {
+                
                 // Temporary GPS ON message
                 VStack(spacing: -2) {
                     Text("GPS")
@@ -132,15 +165,16 @@ struct AltSpeedInfoView: View {
                     RoundedRectangle(cornerRadius: 8)
                         .fill(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4))
                 )
+
             } else {
                 // Speed display
                 Text(getSpeedText())
-                    .font( timerState.isRunning ?
+                    .font(timerState.isRunning ?
                         .zenithBeta(size: 20, weight: .medium):
                             .zenithBeta(size: 14, weight: .medium))
-                   .foregroundColor(timerState.isRunning ? .white : .white.opacity(0.5))
-                   .padding(.vertical, 4)
-                   .padding(.horizontal, 4)
+                    .foregroundColor(timerState.isRunning ? .white : .white.opacity(0.5))
+                    .padding(.vertical, 4)
+                    .padding(.horizontal, 4)
                     .frame(minWidth: timerState.isRunning ? 55 : 36)
                     .background(
                         RoundedRectangle(cornerRadius: 8)
@@ -150,7 +184,7 @@ struct AltSpeedInfoView: View {
         }
         .buttonStyle(.plain)
         .disabled(!timerState.isRunning || isGPSForcedOn)
-        .animation(.easeInOut(duration: 0.2), value: isGPSEnabled)
+        .animation(.easeInOut(duration: 0.2), value: showGPSOrangeColor)
         .animation(.easeInOut(duration: 0.2), value: showGPSOnMessage)
     }
     
@@ -187,7 +221,10 @@ struct AltSpeedInfoView: View {
                                 .zenithBeta(size: 14, weight: .medium))
                 }
             }
-            .foregroundColor(isCheckmark ? Color.black : !isGPSEnabled ? .orange : (timerState.isRunning ? .white : .white.opacity(0.3)))
+            .foregroundColor(isCheckmark ? Color.black :
+                            showGPSOrangeColor ? .orange :
+                            !isGPSEnabled ? .white.opacity(0.3) :
+                            (timerState.isRunning ? .white : .white.opacity(0.3)))
             .padding(.horizontal, 4)
             .padding(.vertical, isCheckmark ? 5.2 : 4)
             .frame(minWidth: timerState.isRunning ? 55 : 36)
@@ -200,7 +237,7 @@ struct AltSpeedInfoView: View {
                             startPoint: .leading,
                             endPoint: .trailing
                         ).opacity(0.5) :
-                            !isGPSEnabled ?
+                            showGPSOrangeColor ?
                             LinearGradient(
                                 colors: [Color.orange, Color.orange],
                                 startPoint: .leading,
@@ -218,6 +255,7 @@ struct AltSpeedInfoView: View {
             )
         }
         .buttonStyle(.plain)
+        .animation(.easeInOut(duration: 0.2), value: showGPSOrangeColor)
     }
     
     private func getDistanceText() -> String {
@@ -334,6 +372,10 @@ struct AltSpeedInfoView: View {
                     .animation(.spring(response: 0.5, dampingFraction: 0.8), value: timerState.isRunning)
             }
             
+            if !isGPSEnabled || showGPSOnMessage {
+                Spacer().frame(height:5)
+            }
+            
             if timerState.isRunning {
                 courseDisplay
                     .offset(y: 40)
@@ -399,5 +441,22 @@ struct PreviewAltSpeedInfoView: View {
 #Preview {
     PreviewAltSpeedInfoView()
         .frame(width: 180, height: 180)
+}
+#endif
+
+// MARK: - Preview
+#if DEBUG
+struct PreviewCourseDeviationView: View {
+    var body: some View {
+        ZStack {
+            Color.black
+            CourseDeviationView(deviation: -15)
+        }
+    }
+}
+
+#Preview("Deviation -15°") {
+    PreviewCourseDeviationView()
+        .frame(width: 180, height: 50)
 }
 #endif
