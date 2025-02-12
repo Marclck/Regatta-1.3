@@ -144,10 +144,18 @@ struct SubscriptionView: View {
         ScrollView {
             VStack(spacing: 24) {
                 // Trial Section
-                if iapManager.isInTrialPeriod {
+                if iapManager.currentTier == .none && iapManager.isInTrialPeriod {
                     Text("Free Trial - \(iapManager.formatTimeRemaining())")
                         .font(.system(.body, design: .monospaced, weight: .bold))
                         .foregroundColor(.green)
+                        .padding(.top)
+                }
+                
+                // Pro Ultra Trial Section - Only show for Pro subscribers during active trial
+                if iapManager.currentTier == .pro && iapManager.isInProUltraTrial {
+                    Text("Ultra Trial - \(iapManager.formatProUltraTrialTimeRemaining())")
+                        .font(.system(.body, design: .monospaced, weight: .bold))
+                        .foregroundColor(.orange)
                         .padding(.top)
                 }
                 

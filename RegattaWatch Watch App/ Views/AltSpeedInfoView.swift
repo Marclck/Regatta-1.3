@@ -58,9 +58,167 @@ struct AltSpeedInfoView: View {
     @ObservedObject var timerState: WatchTimerState
     @ObservedObject var startLineManager: StartLineManager
     @StateObject private var courseTracker = CourseTracker()
+    @EnvironmentObject var colorManager: ColorManager
     @Binding var isCheckmark: Bool
     
+    @State private var isGPSEnabled = true
+    @State private var showGPSOnMessage = false
+    @State private var isGPSForcedOn = false // True when distance button forces GPS on
+    
     @Namespace private var animation
+    
+    // MARK: - Helper Functions
+    private func toggleGPS() {
+        if !isGPSForcedOn {
+            isGPSEnabled.toggle()
+            WKInterfaceDevice.current().play(.click)
+            
+            if isGPSEnabled {
+                locationManager.startUpdatingLocation()
+                showGPSOnMessage = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                    showGPSOnMessage = false
+                }
+            } else {
+                locationManager.stopUpdatingLocation()
+            }
+        }
+    }
+    
+    private func forceGPSOn() {
+        isGPSEnabled = true
+        isGPSForcedOn = true
+        locationManager.startUpdatingLocation()
+        WKInterfaceDevice.current().play(.click)
+    }
+    
+    private func releaseGPSForce() {
+        isGPSForcedOn = false
+        // Don't change GPS state here - it should return to its previous state
+    }
+    
+    // MARK: - View Components
+    private var speedButton: some View {
+        Button(action: {
+            if timerState.isRunning {
+                toggleGPS()
+            }
+        }) {
+            if !isGPSEnabled {
+                // GPS OFF state
+                VStack(spacing: -2) {
+                    Text("GPS")
+                    Text("OFF")
+                }
+                .font(.zenithBeta(size: 14, weight: .medium))
+                .scaleEffect(y:0.9)
+                .foregroundColor(.orange)
+                .frame(minWidth: timerState.isRunning ? 55 : 36)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color.orange.opacity(0.4))
+                )
+            } else if showGPSOnMessage {
+                // Temporary GPS ON message
+                VStack(spacing: -2) {
+                    Text("GPS")
+                    Text("ON")
+                }
+                .font(.zenithBeta(size: 14, weight: .medium))
+                .scaleEffect(y:0.9)
+                .foregroundColor(Color(hex: colorManager.selectedTheme.rawValue))
+                .frame(minWidth: timerState.isRunning ? 55 : 36)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4))
+                )
+            } else {
+                // Speed display
+                Text(getSpeedText())
+                    .font( timerState.isRunning ?
+                        .zenithBeta(size: 20, weight: .medium):
+                            .zenithBeta(size: 14, weight: .medium))
+                   .foregroundColor(timerState.isRunning ? .white : .white.opacity(0.5))
+                   .padding(.vertical, 4)
+                   .padding(.horizontal, 4)
+                    .frame(minWidth: timerState.isRunning ? 55 : 36)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(Color.white.opacity(timerState.isRunning ? 0.05 : 0.2))
+                    )
+            }
+        }
+        .buttonStyle(.plain)
+        .disabled(!timerState.isRunning || isGPSForcedOn)
+        .animation(.easeInOut(duration: 0.2), value: isGPSEnabled)
+        .animation(.easeInOut(duration: 0.2), value: showGPSOnMessage)
+    }
+    
+    private var distanceButton: some View {
+        Button(action: {
+            isCheckmark.toggle()
+            if isCheckmark {
+                forceGPSOn()
+                // Auto-stop after 120 seconds
+                DispatchQueue.main.asyncAfter(deadline: .now() + 120) {
+                    if isCheckmark && !timerState.isRunning {
+                        isCheckmark = false
+                        releaseGPSForce()
+                        if !isGPSEnabled {
+                            locationManager.stopUpdatingLocation()
+                        }
+                    }
+                }
+            } else {
+                releaseGPSForce()
+                if !timerState.isRunning {
+                    locationManager.stopUpdatingLocation()
+                }
+            }
+        }) {
+            Group {
+                if isCheckmark {
+                    Image(systemName: "checkmark")
+                        .font(.system(size: timerState.isRunning ? 20 : 14, weight: .bold))
+                } else {
+                    Text(getDistanceText())
+                        .font(timerState.isRunning ?
+                            .zenithBeta(size: 20, weight: .medium):
+                                .zenithBeta(size: 14, weight: .medium))
+                }
+            }
+            .foregroundColor(isCheckmark ? Color.black : !isGPSEnabled ? .orange : (timerState.isRunning ? .white : .white.opacity(0.3)))
+            .padding(.horizontal, 4)
+            .padding(.vertical, isCheckmark ? 5.2 : 4)
+            .frame(minWidth: timerState.isRunning ? 55 : 36)
+            .background(
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(
+                        isCheckmark ?
+                        LinearGradient(
+                            colors: [Color.white, Color.white],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        ).opacity(0.5) :
+                            !isGPSEnabled ?
+                            LinearGradient(
+                                colors: [Color.orange, Color.orange],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ).opacity(0.4) :
+                            LinearGradient(
+                                colors: [
+                                    startLineManager.leftButtonState == .green ? Color.green : Color.white,
+                                    startLineManager.rightButtonState == .green ? Color.green : Color.white
+                                ],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            ).opacity(timerState.isRunning ? 0.05 : 0.1)
+                    )
+            )
+        }
+        .buttonStyle(.plain)
+    }
     
     private func getDistanceText() -> String {
         if !timerState.isRunning {
@@ -115,61 +273,7 @@ struct AltSpeedInfoView: View {
         return String(format: "%@%.0f°", cardinal, location.course)
     }
     
-    private var distanceButton: some View {
-        Button(action: {
-            isCheckmark.toggle()
-            if isCheckmark {
-                locationManager.startUpdatingLocation()
-                // Auto-stop after 120 seconds
-                DispatchQueue.main.asyncAfter(deadline: .now() + 120) {
-                    if isCheckmark && !timerState.isRunning {  // Added timer check
-                        isCheckmark = false
-                        locationManager.stopUpdatingLocation()
-                    }
-                }
-            } else {
-                if !timerState.isRunning {  // Added timer check
-                    locationManager.stopUpdatingLocation()
-                }
-            }
-        }) {
-            Group {
-                if isCheckmark {
-                    Image(systemName: "checkmark")
-                        .font(.system(size: timerState.isRunning ? 20 : 14, weight: .bold))
-                } else {
-                    Text(getDistanceText())
-                        .font( timerState.isRunning ?
-                            .zenithBeta(size: 20, weight: .medium):
-                                .system(size:14, design: .monospaced))
-                }
-            }
-            .foregroundColor(isCheckmark ? Color.black : timerState.isRunning ? Color.white : Color.white.opacity(0.3))
-            .padding(.horizontal, 4)
-            .padding(.vertical, isCheckmark ? 5.2 : 4)
-            .frame(minWidth: timerState.isRunning ? 55 : 36)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(
-                        isCheckmark ?
-                        LinearGradient(
-                            colors: [Color.white, Color.white],
-                            startPoint: .leading,
-                            endPoint: .trailing
-                        ).opacity(0.5) :
-                            LinearGradient(
-                                colors: [
-                                    startLineManager.leftButtonState == .green ? Color.green : Color.white,
-                                    startLineManager.rightButtonState == .green ? Color.green : Color.white
-                                ],
-                                startPoint: .leading,
-                                endPoint: .trailing
-                            ).opacity(timerState.isRunning ? 0.05 : 0.1)
-                    )
-            )
-        }
-        .buttonStyle(.plain)
-    }
+
     
     private var courseDisplay: some View {
         ZStack {
@@ -197,8 +301,8 @@ struct AltSpeedInfoView: View {
         Text(getSpeedText())
             .font( timerState.isRunning ?
                 .zenithBeta(size: 20, weight: .medium):
-                    .system(size:14, design: .monospaced))
-            .foregroundColor(timerState.isRunning ? Color.white : Color.white.opacity(0.3))
+                    .zenithBeta(size: 14, weight: .medium))
+            .foregroundColor(timerState.isRunning ? Color.white : Color.white.opacity(0.5))
             .padding(.horizontal, 4)
             .padding(.vertical, 4)
             .frame(minWidth: timerState.isRunning ? 55 : 36)
@@ -223,9 +327,9 @@ struct AltSpeedInfoView: View {
             HStack(alignment: .center, spacing: timerState.isRunning ? 10 : 70) {
                 distanceButton
                     .offset(x: timerState.isRunning ? 0 : -5, y: timerState.isRunning ? 0 : -20)
-                    .animation(.spring(response: 0.2, dampingFraction: 0.8), value: timerState.isRunning)
+                    .animation(.spring(response: 0.5, dampingFraction: 0.8), value: timerState.isRunning)
                 
-                speedDisplay
+                speedButton
                     .offset(x: timerState.isRunning ? 0 : 5, y: timerState.isRunning ? 0 : -20)
                     .animation(.spring(response: 0.5, dampingFraction: 0.8), value: timerState.isRunning)
             }
@@ -244,7 +348,7 @@ struct AltSpeedInfoView: View {
             handleLocationState()
         }
         .onChange(of: locationManager.speed) { _, speed in
-            if timerState.isRunning {
+            if timerState.isRunning && isGPSEnabled {
                 JournalManager.shared.addDataPoint(
                     heartRate: nil,
                     speed: speed * 1.94384,
@@ -253,7 +357,8 @@ struct AltSpeedInfoView: View {
             }
         }
         .onChange(of: locationManager.lastLocation) { _, _ in
-            if timerState.isRunning, let location = locationManager.lastLocation {
+            if timerState.isRunning && isGPSEnabled,
+               let location = locationManager.lastLocation {
                 startLineManager.updateDistance(currentLocation: location)
                 if location.course >= 0 {
                     courseTracker.updateCourse(location.course)

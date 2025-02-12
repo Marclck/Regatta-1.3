@@ -17,7 +17,7 @@ class CourseTracker: ObservableObject {
     
     // Constants
     private let lockThreshold: Double = 6.0  // degrees
-    private let lockDuration: TimeInterval = 5.0  // seconds
+    private let lockDuration: TimeInterval = 2.0  // seconds
     private let maxDeviation: Double = 30.0  // degrees
     
     // Course history tracking
