@@ -20,7 +20,7 @@ struct WatchFaceView: View {
     @State private var currentTime = Date()
     let timeTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    @State private var showCruiseInfo = false
+    @State private var showCruiseInfo = true
     
     private var isUltraWatch: Bool {
         #if os(watchOS)

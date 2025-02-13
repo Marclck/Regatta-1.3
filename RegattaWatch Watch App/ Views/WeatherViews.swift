@@ -300,12 +300,41 @@ struct WindSpeedView: View {
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var colorManager: ColorManager
     @StateObject private var weatherManager = WeatherManager()
+    @StateObject private var compassManager = CompassManager()
+    @Environment(\.isLuminanceReduced) var isLuminanceReduced
+    
+    private func getWindPosition(windDirection: Double, deviceHeading: Double) -> CGPoint {
+        // Calculate position based on wind source direction relative to device heading
+        let angleInDegrees = 270 - (windDirection + deviceHeading)
+        let angle = angleInDegrees * .pi / 180
+        
+        let x = -20 * cos(angle)  // Negate x to fix horizontal inversion
+        let y = -20 * sin(angle)
+        
+        return CGPoint(x: x, y: y)
+    }
     
     var body: some View {
         ZStack {
             Circle()
-                .fill(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.1))
+                .fill(settings.lightMode ? Color(hex: colorManager.selectedTheme.rawValue).opacity(0.1) : Color(hex: colorManager.selectedTheme.rawValue).opacity(0.3))
                 .frame(width: 50, height: 50)
+            
+            if !isLuminanceReduced {
+                // Wind direction triangle
+                let position = getWindPosition(windDirection: weatherManager.windDirection,
+                                            deviceHeading: compassManager.heading)
+                
+                // Use triangle pointed inward
+                Image(systemName: "circle.fill")
+                    .font(.system(size: 5))
+                    .foregroundColor(settings.lightMode ? .black : .white)
+                    // Rotate triangle to point towards center based on its position
+//                    .rotationEffect(.degrees((weatherManager.windDirection - compassManager.heading) + 180))
+                    .offset(x: position.x, y: position.y)
+                    .animation(.linear(duration: 0.1), value: weatherManager.windDirection)
+                    .animation(.linear(duration: 0.1), value: compassManager.heading)
+            }
             
             VStack(spacing: 0) {
                 Image(systemName: "flag.fill")
@@ -314,16 +343,23 @@ struct WindSpeedView: View {
                     .foregroundColor(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4))
                     .offset(y:1)
                 
-                Text(String(format: "%.0f", $weatherManager.windSpeed.wrappedValue))
+                Text(String(format: "%.0f", weatherManager.windSpeed))
                     .font(.zenithBeta(size: 22, weight: .medium))
                     .foregroundColor(settings.lightMode ? .black : .white)
                     .offset(y:-1)
                 
-                Text($weatherManager.cardinalDirection.wrappedValue)
+                Text(weatherManager.cardinalDirection)
                     .font(.zenithBeta(size: 10, weight: .medium))
                     .foregroundColor(settings.lightMode ? .black : .white)
                     .offset(y:-4.5)
             }
+        }
+        .clipShape(Circle())  // Keep triangle within bounds
+        .onAppear {
+            compassManager.startUpdates()
+        }
+        .onDisappear {
+            compassManager.stopUpdates()
         }
     }
 }
@@ -418,7 +454,7 @@ struct BarometerView: View {
             if !showingPressure {
                 // Temperature Fill Layer
                 Rectangle()
-                    .fill(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.1))
+                    .fill(settings.lightMode ? Color(hex: colorManager.selectedTheme.rawValue).opacity(0.1) : Color(hex: colorManager.selectedTheme.rawValue).opacity(0.3))
                     .frame(width: 50, height: isLuminanceReduced ? 0 : 50 * fillPercentage, alignment: .bottom)
                     .frame(width: 50, height: 50, alignment: .bottom)
                     .clipShape(Circle())

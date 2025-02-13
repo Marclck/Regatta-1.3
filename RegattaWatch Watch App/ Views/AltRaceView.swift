@@ -20,7 +20,7 @@ struct AltRaceView: View {
     @State private var currentTime = Date()
     let timeTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
     
-    @State private var showCruiseInfo = false
+    @State private var showCruiseInfo = true
     
     var body: some View {
         ZStack {
@@ -118,7 +118,7 @@ struct AltRaceView: View {
                     .padding(.horizontal, 0)
                         
                     
-                    if showCruiseInfo {
+                    if settings.showCruiser && showCruiseInfo {
                         CruiseInfoView(
                             locationManager: locationManager
                         )
