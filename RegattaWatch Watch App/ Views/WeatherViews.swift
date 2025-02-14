@@ -305,11 +305,11 @@ struct WindSpeedView: View {
     
     private func getWindPosition(windDirection: Double, deviceHeading: Double) -> CGPoint {
         // Calculate position based on wind source direction relative to device heading
-        let angleInDegrees = 270 - (windDirection + deviceHeading)
+        let angleInDegrees = 270 - deviceHeading + windDirection
         let angle = angleInDegrees * .pi / 180
         
-        let x = -20 * cos(angle)  // Negate x to fix horizontal inversion
-        let y = -20 * sin(angle)
+        let x = 20 * cos(angle)  // Negate x to fix horizontal inversion
+        let y = 20 * sin(angle)
         
         return CGPoint(x: x, y: y)
     }
@@ -317,7 +317,7 @@ struct WindSpeedView: View {
     var body: some View {
         ZStack {
             Circle()
-                .fill(settings.lightMode ? Color(hex: colorManager.selectedTheme.rawValue).opacity(0.1) : Color(hex: colorManager.selectedTheme.rawValue).opacity(0.3))
+                .fill(settings.lightMode ? Color(hex: colorManager.selectedTheme.rawValue).opacity(0.3) : Color(hex: colorManager.selectedTheme.rawValue).opacity(0.3))
                 .frame(width: 50, height: 50)
             
             if !isLuminanceReduced {
@@ -340,7 +340,7 @@ struct WindSpeedView: View {
                 Image(systemName: "flag.fill")
                     .font(.system(size: 8, weight: .heavy))
                     .symbolVariant(.fill)
-                    .foregroundColor(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4))
+                    .foregroundColor(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.5))
                     .offset(y:1)
                 
                 Text(String(format: "%.0f", weatherManager.windSpeed))
@@ -397,7 +397,7 @@ struct CompassView: View {
                     Text(String(format: "%.0f", compassManager.heading))
                         .font(.zenithBeta(size: 22, weight: .medium))
                         .foregroundColor(settings.lightMode ? .black : .white)
-                        .offset(y: 3)
+                        .offset(y: 3.5)
                     
                     Text(compassManager.cardinalDirection)
                         .font(.zenithBeta(size: 10, weight: .medium))
@@ -453,13 +453,24 @@ struct BarometerView: View {
             
             if !showingPressure {
                 // Temperature Fill Layer
-                Rectangle()
-                    .fill(settings.lightMode ? Color(hex: colorManager.selectedTheme.rawValue).opacity(0.1) : Color(hex: colorManager.selectedTheme.rawValue).opacity(0.3))
-                    .frame(width: 50, height: isLuminanceReduced ? 0 : 50 * fillPercentage, alignment: .bottom)
-                    .frame(width: 50, height: 50, alignment: .bottom)
-                    .clipShape(Circle())
-                    .animation(.spring(response: 1.8, dampingFraction: 0.8), value: fillPercentage)
-                    .animation(.spring(response: 1.8, dampingFraction: 0.8), value: isLuminanceReduced)
+                ZStack {
+                    
+                    Rectangle() //match background
+                        .fill(settings.lightMode ? .white : .black)
+                        .frame(width: 50, height: isLuminanceReduced ? 0 : 50 * fillPercentage, alignment: .bottom)
+                        .frame(width: 50, height: 50, alignment: .bottom)
+                        .clipShape(Circle())
+                        .animation(.spring(response: 1.8, dampingFraction: 0.8), value: fillPercentage)
+                        .animation(.spring(response: 1.8, dampingFraction: 0.8), value: isLuminanceReduced)
+                    
+                    Rectangle()
+                        .fill(settings.lightMode ? Color(hex: colorManager.selectedTheme.rawValue) : Color(hex: colorManager.selectedTheme.rawValue).opacity(0.6))
+                        .frame(width: 50, height: isLuminanceReduced ? 0 : 50 * fillPercentage, alignment: .bottom)
+                        .frame(width: 50, height: 50, alignment: .bottom)
+                        .clipShape(Circle())
+                        .animation(.spring(response: 1.8, dampingFraction: 0.8), value: fillPercentage)
+                        .animation(.spring(response: 1.8, dampingFraction: 0.8), value: isLuminanceReduced)
+                }
             }
             
             if showingPressure /*&& pressureManager.isAvailable*/ {
@@ -486,7 +497,7 @@ struct BarometerView: View {
                     Image(systemName: weatherManager.condition)
                         .font(.system(size: 8, weight: .heavy))
                         .symbolVariant(.fill)
-                        .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(0.4))
+                        .foregroundColor(settings.lightMode ? .black.opacity(0.4) : .white.opacity(0.4))
                         .offset(y:1)
                     
                     Text(String(format: "%.0f", weatherManager.currentTemp))

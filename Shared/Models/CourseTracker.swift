@@ -17,7 +17,7 @@ class CourseTracker: ObservableObject {
     
     // Constants
     private let lockThreshold: Double = 6.0  // degrees
-    private let lockDuration: TimeInterval = 2.0  // seconds
+    private let lockDuration: TimeInterval = 6.0  // seconds
     private let maxDeviation: Double = 30.0  // degrees
     
     // Course history tracking
@@ -50,7 +50,7 @@ class CourseTracker: ObservableObject {
     
     private func checkForLock() {
         // Need at least 5 seconds of data
-        guard courseHistory.count >= 5 else { return }
+        guard courseHistory.count >= 3 else { return }
         
         // Calculate max variation in current history
         let courses = courseHistory.map { $0.course }

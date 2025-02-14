@@ -323,7 +323,7 @@ struct AltSpeedInfoView: View {
                 .frame(minWidth: timerState.isRunning ? 55 : 36)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(Color.white.opacity(timerState.isRunning ? 0.05 : 0.1))
+                        .fill(courseTracker.isLocked ? Color(hex: colorManager.selectedTheme.rawValue).opacity(0.3) : Color.white.opacity(timerState.isRunning ? 0.05 : 0.1))
                 )
             
 //            if courseTracker.isLocked {

@@ -252,8 +252,9 @@ struct CruiseInfoView: View {
                 .frame(minWidth: 55)
                 .background(
                     RoundedRectangle(cornerRadius: 8)
-                        .fill(settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05))
+                        .fill(courseTracker.isLocked ? Color(hex: colorManager.selectedTheme.rawValue).opacity(0.3) : settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05))
                 )
+                
             
             CruiseDeviationView(deviation: locationManager.isMonitoring ?
                                courseTracker.currentDeviation : lastReadingManager.deviation)  // Use stored deviation when not monitoring
