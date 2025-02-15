@@ -13,6 +13,64 @@ struct SpeedToolInfo: View {
     
     var body: some View {
         List {
+            Section(" ") {
+                
+                HStack(spacing: 8) {
+                    Text("ProControl\nDashboard")
+                        .font(.system(.title, weight: .bold))
+                        .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                    
+                    VStack(spacing: 16) {
+                        Text("ULTRA")
+                            .font(.system(size: 12, weight: .bold))
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.2))
+                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                            .cornerRadius(4)
+                        Text("ULTRA")
+                            .font(.system(size: 12, weight: .bold))
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.2))
+                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                            .cornerRadius(4)
+                    }
+                }
+                                
+                VStack(alignment: .leading, spacing: 8) {
+                    Text("Advanced time control and information during racing timer. \nLong press on Watch App Screen to access menu.")
+                        .font(.system(.body, weight: .bold))
+                        .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                }
+                
+                Image("Timer")
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                    .listRowInsets(EdgeInsets())
+            }
+            
+            Section {
+                Image("onboarding-timer1")  // Replace with your actual image asset name
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                    .listRowInsets(EdgeInsets())
+                
+                Image("onboarding-timer2")  // Replace with your actual image asset name
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                    .listRowInsets(EdgeInsets())
+                
+                Image("onboarding-timer3")  // Replace with your actual image asset name
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(maxWidth: .infinity)
+                    .listRowInsets(EdgeInsets())
+
+            }
             
             Section("Speed Display") {
                 VStack(alignment: .leading, spacing: 8) {
@@ -101,5 +159,29 @@ struct SpeedToolInfo: View {
             .listRowInsets(EdgeInsets())
             */
         }
+        .toolbar {
+            ToolbarItem(placement: .principal) {
+                
+                    HStack(spacing: 8) {
+                        Text("Dashboard & ProControl")
+                            .font(.system(.title, weight: .bold))
+                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                        
+                        Text("ULTRA")
+                            .font(.system(size: 12, weight: .bold))
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.2))
+                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                            .cornerRadius(4)
+                    }
+            }
+        }
+    }
+}
+
+#Preview {
+    NavigationView {
+        SpeedToolInfo()
     }
 }

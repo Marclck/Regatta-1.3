@@ -66,7 +66,7 @@ struct VersionUpdatePopup: View {
                     .font(.system(size: 16, weight: .bold))
                 
                 
-                Text("Users can now access watch app for free")
+                Text("One-time Full ULTRA Access Option N ow Available \nUsers can now access watch app for free")
                     .font(.system(size: 24, weight: .bold))
                 
                 Text("Introducing ULTRA features")
@@ -100,6 +100,18 @@ struct VersionUpdatePopup: View {
                         FeatureRow(icon: "dots.and.line.vertical.and.cursorarrow.rectangle", text: "Shift Tracking within 30 degrees")
                         FeatureRow(icon: "gauge.open.with.lines.needle.33percent", text: "Speedometer in knots")
                     }
+                    
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("CruiseR")
+                            .font(.system(size: 22, weight: .bold))
+                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.9))
+                        
+                        FeatureRow(icon: "gauge.with.needle", text: "Speed Tracking: SOG display with GPS toggle for precise speed monitoring")
+                        FeatureRow(icon: "wind", text: "Wind Analysis: Real-time wind speed and directional indicators with compass bearing")
+                        FeatureRow(icon: "location.north.line", text: "Course Monitor: Deviation tracking with North reference and 10° indicators")
+                        FeatureRow(icon: "thermometer.medium", text: "Weather Station: Integrated weather data and barometric pressure readings")
+                        FeatureRow(icon: "point.topleft.down.curvedto.point.bottomright.up", text: "Journey Stats: Distance traveled with continuous tracking")
+                    }
                 }
             }
         }
@@ -125,19 +137,20 @@ struct MainInfoView: View {
     @ObservedObject private var iapManager = IAPManager.shared
     @State private var showingWatchSettings = false
     @State private var showingSpeedTools = false
-    
+    @State private var showingCruiser = false
+
     private let privacyPolicyURL = URL(string: "https://astrolabe-countdown.apphq.online/privacy")!
     private let termsOfUseURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
     
     private var subscriptionStatusText: String {
         if iapManager.currentTier == .ultra {
-            return "Ultra Plan Active"
+            return "ULTRA Plan Active"
         } else if iapManager.currentTier == .pro {
-            return "Pro Plan Active"
+            return "PRO Plan Active"
         } else if iapManager.isInTrialPeriod {
-            return "7-day free trial active.\nUpgrade to Pro or Ultra for full access."
+            return "7-day free trial active.\nUpgrade to PRO or ULTRA for full access."
         } else {
-            return "7-day free trial available.\nPro and Ultra plans available."
+            return "7-day free trial available.\nPRO and ULTRA plans available."
         }
     }
     
@@ -166,34 +179,65 @@ struct MainInfoView: View {
     var body: some View {
         NavigationView {
             List {
-                Section("App Access") {
+                Section("Feature Access") {
                     NavigationLink(destination: SubscriptionView()) {
                         HStack {
                             Image(systemName: subscriptionIcon)
                                 .foregroundColor(subscriptionColor)
                             VStack(alignment: .leading) {
                                 if iapManager.currentTier == .ultra {
-                                    Text("Ultra subscription")
-                                        .font(.system(.body, design: .monospaced, weight: .bold))
-                                        .foregroundColor(.orange)
+                                    HStack{
+                                        Text("ULTRA")
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 4)
+                                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                                            .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.2))
+                                            .cornerRadius(8)
+
+
+                                        Text("Features")
+                                    }
+                                        .font(.system(.body, weight: .bold))
                                 } else {
-                                    Text("Pro & Ultra subscription")
-                                        .font(.system(.body, design: .monospaced, weight: .bold))
-                                        .foregroundColor(.cyan)
+                                    HStack{
+                                        Text("ULTRA")
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 4)
+                                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                                            .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.2))
+                                            .cornerRadius(8)
+                                        
+                                        Text("&")
+
+                                        Text("PRO")
+                                            .padding(.horizontal, 8)
+                                            .padding(.vertical, 4)
+                                            .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
+                                            .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.2))
+                                            .cornerRadius(8)
+
+
+                                        Text("Features")
+                                    }
+                                        .font(.system(.body, weight: .bold))
                                 }
                                 
                                 Text(subscriptionStatusText)
-                                    .font(.system(.caption, design: .monospaced))
+                                    .font(.system(.body, weight: .bold))
                                     .foregroundColor(.secondary)
                                 
                                 if iapManager.isInTrialPeriod {
                                     Text(iapManager.formatTimeRemaining())
-                                        .font(.system(.caption, design: .monospaced))
+                                        .font(.system(.body, weight: .bold))
                                         .foregroundColor(.green)
                                 }
                             }
                         }
                     }
+                }
+                
+                Section("Long Press on Watch Screen to Access Settings Menu") {
+                    advancedSettingsSection
                 }
                 
                 Section("What is Astrolabe?") {
@@ -225,10 +269,7 @@ struct MainInfoView: View {
                 Section("Basic Info") {
                     basicInfoSection
                 }
-                
-                Section("Advanced Settings") {
-                    advancedSettingsSection
-                }
+
                 
                 Section("Features") {
                     featuresSection
@@ -268,26 +309,68 @@ struct MainInfoView: View {
     
     private var advancedSettingsSection: some View {
         Group {
-            Button(action: { showingWatchSettings = true }) {
-                HStack {
-                    Image(systemName: "gearshape.fill")
-                    Text("Watch Settings Guide")
-                        .font(.system(.body, design: .monospaced))
-                }
-            }
-            .sheet(isPresented: $showingWatchSettings) {
-                WatchSettingsInfo()
-            }
             
             Button(action: { showingSpeedTools = true }) {
                 HStack {
                     Image(systemName: "speedometer")
-                    Text("Speed Tools Guide")
-                        .font(.system(.body, design: .monospaced))
+                        .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                    Text("ProControl & Dashboard")
+                        .font(.system(.body, weight: .bold))
+                        .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                    
+                    Text("ULTRA")
+                        .font(.system(size: 12, weight: .bold))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.2))
+                        .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                        .cornerRadius(8)
                 }
             }
             .sheet(isPresented: $showingSpeedTools) {
                 SpeedToolInfo()
+            }
+            
+            Button(action: { showingCruiser = true }) {
+                HStack {
+                    Image(systemName: "location.north.line")
+                        .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                        .scaleEffect(x:1.1)
+                    
+                    Text(" CruiseR")
+                        .font(.system(.body, weight: .bold))
+                        .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                    
+                    Text("ULTRA")
+                        .font(.system(size: 12, weight: .bold))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.2))
+                        .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                        .cornerRadius(8)
+                }
+            }
+            .sheet(isPresented: $showingCruiser) {
+                CruiseRInfoView()
+            }
+            
+            Button(action: { showingWatchSettings = true }) {
+                HStack {
+                    Image(systemName: "gearshape.fill")
+                    Text("Watch Settings Guide")
+                        .font(.system(.body, weight: .bold))
+                    
+                    Text("PRO")
+                        .font(.system(size: 12, weight: .bold))
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.2))
+                        .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
+                        .cornerRadius(8)
+                }
+            }
+            .sheet(isPresented: $showingWatchSettings) {
+                WatchSettingsInfo()
             }
         }
     }

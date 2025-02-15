@@ -13,7 +13,12 @@ struct WatchSettingsInfo: View {
     
     var body: some View {
         List {
-            Section("Display Options") {
+            Section("Settings") {
+                    Text("Settings are available for Pro and Ultra users. \nLong press on watch screen to access settings menu")
+                        .font(.system(.body, weight: .bold))
+            }
+                
+                Section("Display Options") {
                 VStack(alignment: .leading, spacing: 8) {
                     Text("Ultra Model")
                         .font(.system(.body, weight: .bold))
@@ -74,5 +79,11 @@ struct WatchSettingsInfo: View {
             .listRowInsets(EdgeInsets())
               */
         }
+    }
+}
+
+#Preview {
+    NavigationView {
+        WatchSettingsInfo()
     }
 }

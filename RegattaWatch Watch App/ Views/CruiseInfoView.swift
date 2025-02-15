@@ -106,7 +106,7 @@ struct CruiseInfoView: View {
         if !locationManager.isMonitoring {
             let lastDistance = lastReadingManager.distance
             if lastDistance == 0 {
-                return "-"
+                return "9"
             }
             
             if lastDistance > 99_000 {  // Over 99km
@@ -157,7 +157,7 @@ struct CruiseInfoView: View {
     private func getSpeedText() -> String {
         if !locationManager.isMonitoring {
             let lastSpeed = lastReadingManager.speed
-            return lastSpeed <= 0 ? "-" : String(format: "%.1f", lastSpeed)
+            return lastSpeed <= 0 ? "41" : String(format: "%.1f", lastSpeed)
         }
         
         let speedInKnots = locationManager.speed * 1.94384

@@ -51,6 +51,8 @@ class IAPManager: ObservableObject {
     static let shared = IAPManager()
     private let proFeatureID = "Astrolabe_pro_access_annual_599"
     private let ultraFeatureID = "Astrolabe_ultra_access_annual_1499"
+    private let ultraOneTimeID = "Astrolabe_ultra_access_onetime_1999"
+
     private let trialDuration: TimeInterval = 700 * 24 * 60 * 60 // 7 days in seconds
     private let proUltraTrialDuration: TimeInterval = 700 * 24 * 60 * 60 // 7 days
     
@@ -66,13 +68,18 @@ class IAPManager: ObservableObject {
     @Published var trialTimeRemaining: TimeInterval = 0
     @Published var proUltraTrialTimeRemaining: TimeInterval = 0
     @Published private(set) var isProUltraTrialAvailable: Bool = false
-    
+    @Published private(set) var hasUltraOneTimePurchase = false
+
     var proPrice: String {
         subscriptions.first { $0.id == proFeatureID }?.displayPrice ?? "$6.99"
     }
     
     var ultraPrice: String {
         subscriptions.first { $0.id == ultraFeatureID }?.displayPrice ?? "$14.99"
+    }
+    
+    var ultraOneTimePrice: String {
+        subscriptions.first { $0.id == ultraOneTimeID }?.displayPrice ?? "$19.99"
     }
     
     private var trialTimer: Timer?
@@ -335,7 +342,12 @@ class IAPManager: ObservableObject {
     
     // MARK: - Feature Access
     
+    // Update canAccessFeatures to include one-time purchase
     func canAccessFeatures(minimumTier: SubscriptionTier) -> Bool {
+        if hasUltraOneTimePurchase {
+            return true
+        }
+        
         switch (currentTier, minimumTier) {
         case (.ultra, _):
             return true
@@ -354,6 +366,32 @@ class IAPManager: ObservableObject {
     
     // MARK: - Purchase Management
         
+        @MainActor
+        func purchaseOneTime() async throws {
+            guard let product = subscriptions.first(where: { $0.id == ultraOneTimeID }) else {
+                throw IAPError.productNotFound
+            }
+            
+            let result = try await product.purchase()
+            
+            switch result {
+            case .success(let verificationResult):
+                if case .verified(let transaction) = verificationResult {
+                    isInTrialPeriod = false
+                    trialTimer?.invalidate()
+                    UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
+                    await transaction.finish()
+                    await updateCustomerProductStatus()
+                }
+            case .userCancelled:
+                throw IAPError.userCancelled
+            case .pending:
+                throw IAPError.pending
+            @unknown default:
+                throw IAPError.unknown
+            }
+        }
+    
         @MainActor
         func purchaseSubscription(tier: SubscriptionTier) async throws {
             guard tier != .none else { return }
@@ -389,40 +427,54 @@ class IAPManager: ObservableObject {
             }
         }
         
+        // Update requestProducts to include one-time purchase
         @MainActor
         private func requestProducts() async {
             do {
-                subscriptions = try await Product.products(for: [proFeatureID, ultraFeatureID])
+                subscriptions = try await Product.products(for: [proFeatureID, ultraFeatureID, ultraOneTimeID])
             } catch {
                 print("Failed product request: \(error)")
             }
         }
+    
+        // Add method to check if user has lifetime access
+        var hasLifetimeAccess: Bool {
+            hasUltraOneTimePurchase
+        }
         
-        @MainActor
-        private func updateCustomerProductStatus() async {
-            var activeTier: SubscriptionTier = .none
-            
-            for await result in Transaction.currentEntitlements {
-                do {
-                    let transaction = try checkVerified(result)
-                    switch transaction.productID {
-                    case ultraFeatureID:
+    // Update updateCustomerProductStatus to check for one-time purchase
+    @MainActor
+    private func updateCustomerProductStatus() async {
+        var activeTier: SubscriptionTier = .none
+        var hasLifetime = false
+        
+        for await result in Transaction.currentEntitlements {
+            do {
+                let transaction = try checkVerified(result)
+                switch transaction.productID {
+                case ultraOneTimeID:
+                    hasLifetime = true
+                    activeTier = .ultra
+                case ultraFeatureID:
+                    if !hasLifetime {
                         activeTier = .ultra
-                    case proFeatureID:
-                        if activeTier != .ultra {
-                            activeTier = .pro
-                        }
-                    default:
-                        break
                     }
-                    await transaction.finish()
-                } catch {
-                    print("Failed updating product status: \(error)")
+                case proFeatureID:
+                    if activeTier != .ultra && !hasLifetime {
+                        activeTier = .pro
+                    }
+                default:
+                    break
+                }
+                await transaction.finish()
+            } catch {
+                print("Failed updating product status: \(error)")
                 }
             }
             
+            hasUltraOneTimePurchase = hasLifetime
             currentTier = activeTier
-            if activeTier != .none {
+            if activeTier != .none || hasLifetime {
                 isInTrialPeriod = false
                 trialTimer?.invalidate()
                 UNUserNotificationCenter.current().removeAllPendingNotificationRequests()
