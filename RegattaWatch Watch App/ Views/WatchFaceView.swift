@@ -69,23 +69,24 @@ struct WatchFaceView: View {
                             
                             HStack(spacing: 0) {
                                 Text(hourString(from: currentTime))
-                                    .font(.zenithBeta(size: 38, weight: .medium))
+                                    .font(.zenithBeta(size: 38))
                                     .foregroundColor(settings.lightMode ? .black : .white)
                                     .offset(y:-48.5)
                                 
                                 Text(":")
-                                    .font(.zenithBeta(size: 38, weight: .medium))
+                                    .font(.zenithBeta(size: 38))
                                     .foregroundColor(settings.lightMode ? .black : .white)
                                     .offset(y:-53)
                                 
                                 Text(minuteString(from: currentTime))
-                                    .font(.zenithBeta(size: 38, weight: .medium))
+                                    .font(.zenithBeta(size: 38))
                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
                                     .offset(y:-48.5)
                             }
                             .font(.zenithBeta(size: 84, weight: .medium))
                             .frame(width: 150, height: 60)
                             .position(x: geometry.size.width/2, y: centerY/2+25)
+                            .scaleEffect(x:1.4, y:1.1)
                             .onReceive(timeTimer) { input in
                                 currentTime = input
                             }

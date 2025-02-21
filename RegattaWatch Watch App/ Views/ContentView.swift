@@ -53,6 +53,18 @@ extension UserDefaults {
 }
 
 extension ContentView {
+    func shouldShowPromo() -> Bool {
+        if let lastShowDate = UserDefaults.getLastPromoShowDate() {
+            let calendar = Calendar.current
+            if let nextShowDate = calendar.date(byAdding: .day, value: 7, to: lastShowDate) {
+                return Date() >= nextShowDate
+            }
+        }
+        return true // If no last show date, show promo
+    }
+}
+
+extension ContentView {
     func shouldPerformIAPCheck() -> Bool {
         if let lastCheckDate = UserDefaults.getLastIAPCheckDate() {
             let calendar = Calendar.current
@@ -103,7 +115,8 @@ struct ContentView: View {
     
     @StateObject private var timerState = WatchTimerState()
     @State private var showingWatchFace = false
-    
+    @State private var showWeeklyPromo = false
+
     var body: some View {
         ZStack {
             if showingWatchFace {
@@ -176,6 +189,7 @@ struct ContentView: View {
                        performDelayedIAPCheck()
                    }
                }
+        
         .sheet(isPresented: $showSettings, onDismiss: {
             withAnimation {
                 refreshToggle.toggle()
@@ -198,7 +212,17 @@ struct ContentView: View {
                     WKInterfaceDevice.current().play(impactGenerator)
                     showSettings = true
                 }
+        
         )
+        .sheet(isPresented: $showWeeklyPromo) {
+            WeeklyPromoView(isPresented: $showWeeklyPromo)
+        }
+        .onAppear {
+            // Add this to your existing onAppear
+            if shouldShowPromo() {
+                showWeeklyPromo = true
+            }
+        }
     }
 }
 
