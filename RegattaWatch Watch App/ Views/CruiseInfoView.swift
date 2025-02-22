@@ -84,11 +84,110 @@ struct CruiseInfoView: View {
     @State private var resetTimer: Timer?
     @State private var showGPSOffMessage = false
     @State private var showGPSOnMessage = false
+    @State private var flashingTackCount: Bool = false
+    @State private var flashingTopSpeed: Bool = false
+    @State private var topSpeed: Double = 0
     
     @State private var totalDistance: CLLocationDistance = 0
     @State private var lastLocation: CLLocation?
     
     @Namespace private var animation
+    
+    private func formatTackCount(_ count: Int) -> String {
+        if count >= 1000 {
+            return String(format: "%.0fk", Double(count) / 1000)
+        }
+        return "\(count)"
+    }
+    
+    private func getTackText() -> String {
+        if !locationManager.isMonitoring {
+            let lastTackCount = lastReadingManager.tackCount
+            if lastTackCount == 0 {
+                return "TACK"
+            }
+            if lastTackCount >= 1000 {
+                return String(format: "%.0fk", Double(lastTackCount) / 1000)
+            }
+            return String(format: "%d", lastTackCount)
+        }
+        
+        let currentTackCount = courseTracker.tackCount
+        if currentTackCount == 0 {
+            return "TACK"
+        }
+        if currentTackCount >= 1000 {
+            return String(format: "%.0fk", Double(currentTackCount) / 1000)
+        }
+        return String(format: "%d", currentTackCount)
+    }
+
+    private func getTopSpeedText() -> String {
+        if !locationManager.isMonitoring {
+            let lastTopSpeed = lastReadingManager.topSpeed
+            if lastTopSpeed == 0 {
+                return "MAX"
+            }
+            return String(format: "%.1f", lastTopSpeed)
+        }
+        
+        if topSpeed == 0 {
+            return "MAX"
+        }
+        return String(format: "%.1f", topSpeed)
+    }
+
+    private var meterView: some View {
+        HStack(alignment: .center, spacing: 80) {
+            // Tack Count Display
+            Text(getTackText())
+                .font(getTackText().contains("TACK") ? .zenithBeta(size: 12, weight: .medium) : .zenithBeta(size: 13, weight: .medium))
+                .multilineTextAlignment(.center)
+                .lineSpacing(-2)
+                .scaleEffect(getTackText().contains("TACK") ? CGSize(width: 1, height: 1) : CGSize(width: 1, height: 1))
+                .foregroundColor(flashingTackCount ?
+                    Color(hex: colorManager.selectedTheme.rawValue) :
+                    (locationManager.isMonitoring ?
+                        Color(hex: colorManager.selectedTheme.rawValue) :
+                        (settings.lightMode ? .black : .white)))
+                .padding(.horizontal, 2)
+                .padding(.vertical, 4)
+                .frame(minWidth: 40, minHeight: 26.5)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(flashingTackCount ?
+                            Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4) :
+                            (locationManager.isMonitoring ?
+                                Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
+                                (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05))))
+                )
+
+            // Top Speed Display
+            Text(getTopSpeedText())
+                .font(getTopSpeedText().contains("MAX") ? .zenithBeta(size: 12, weight: .medium) : .zenithBeta(size: 13, weight: .medium))
+                .multilineTextAlignment(.center)
+                .lineSpacing(-2)
+                .scaleEffect(getTackText().contains("MAX") ? CGSize(width: 1, height: 1) : CGSize(width: 1, height: 1))
+                .foregroundColor(flashingTopSpeed ?
+                    Color(hex: colorManager.selectedTheme.rawValue) :
+                    (locationManager.isMonitoring ?
+                        Color(hex: colorManager.selectedTheme.rawValue) :
+                        (settings.lightMode ? .black : .white)))
+                .padding(.horizontal, 2)
+                .padding(.vertical, 4)
+                .frame(minWidth: 40, minHeight: 26.5)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(flashingTopSpeed ?
+                            Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4) :
+                            (locationManager.isMonitoring ?
+                                Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
+                                (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05))))
+                )
+        }
+    }
+    
+
     
     private func startResetTimer() {
         // Cancel existing timer if any
@@ -151,7 +250,9 @@ struct CruiseInfoView: View {
     private func resetTracking() {
         totalDistance = 0
         lastLocation = nil
-        lastReadingManager.resetDistance()
+        topSpeed = 0
+        courseTracker.resetTackCount()
+        lastReadingManager.resetDistance()  // Updated to use existing method
     }
     
     private func getSpeedText() -> String {
@@ -274,7 +375,8 @@ struct CruiseInfoView: View {
                         distance: totalDistance,
                         course: location.course,
                         direction: getCardinalDirection(location.course),
-                        deviation: courseTracker.currentDeviation
+                        deviation: courseTracker.currentDeviation,
+                        tackCount: courseTracker.tackCount  // Add this
                     )
                 }
                 locationManager.stopUpdatingLocation()
@@ -340,24 +442,44 @@ struct CruiseInfoView: View {
     }
     
     var body: some View {
-        VStack {
-            HStack(alignment: .center, spacing: 10) {
-                distanceButton
-                speedDisplay
-            }
-            if showGPSOffMessage || showGPSOnMessage {
-                Spacer().frame(height:5)
-
-            }
+        
+        ZStack {
             
-            courseDisplay
-                .offset(y: 40)
+            meterView
+                .offset(y: -51)
+            
+            VStack {
+                
+                HStack(alignment: .center, spacing: 10) {
+                    distanceButton
+                    speedDisplay
+                }
+                
+                if showGPSOffMessage || showGPSOnMessage {
+                    Spacer().frame(height: 5)
+                }
+                
+                courseDisplay
+                    .offset(y: 40)
+            }
         }
         .padding(.horizontal)
         .onChange(of: locationManager.speed) { _, speed in
+            let speedInKnots = speed * 1.94384
+            // Update top speed if accuracy is good enough
+            if locationManager.lastLocation?.horizontalAccuracy ?? 100 <= 3.0 {
+                if speedInKnots > topSpeed {
+                    topSpeed = speedInKnots
+                    flashingTopSpeed = true
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                        flashingTopSpeed = false
+                    }
+                }
+            }
+            
             JournalManager.shared.addDataPoint(
                 heartRate: nil,
-                speed: speed * 1.94384,
+                speed: speedInKnots,
                 location: locationManager.lastLocation
             )
         }
@@ -380,7 +502,8 @@ struct CruiseInfoView: View {
                         distance: totalDistance,
                         course: location.course,
                         direction: getCardinalDirection(location.course),
-                        deviation: courseTracker.currentDeviation
+                        deviation: courseTracker.currentDeviation,
+                        tackCount: courseTracker.tackCount  // Add this
                     )
                 }
                 locationManager.stopUpdatingLocation()

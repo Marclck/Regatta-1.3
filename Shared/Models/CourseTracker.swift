@@ -14,6 +14,7 @@ class CourseTracker: ObservableObject {
     @Published var lockedCourse: Double?
     @Published var currentDeviation: Double = 0
     @Published var isLocked: Bool = false
+    @Published var tackCount: Int = 0
     
     // Constants
     private let lockThreshold: Double = 6.0  // degrees
@@ -22,7 +23,7 @@ class CourseTracker: ObservableObject {
     
     // Course history tracking
     private var courseHistory: [(timestamp: Date, course: Double)] = []
-    private var lockTimer: Timer?
+    private var previousCourse: Double?
     
     func updateCourse(_ newCourse: Double) {
         // Add new course to history
@@ -31,6 +32,15 @@ class CourseTracker: ObservableObject {
         
         // Remove old entries (older than lockDuration)
         courseHistory = courseHistory.filter { now.timeIntervalSince($0.timestamp) <= lockDuration }
+        
+        // Check for tack
+        if let lastCourse = previousCourse {
+            let courseChange = abs(angleDifference(newCourse, lastCourse))
+            if courseChange >= maxDeviation { // Changed from tackAngleThreshold to maxDeviation
+                tackCount += 1
+            }
+        }
+        previousCourse = newCourse
         
         if isLocked {
             // Calculate deviation from locked course
@@ -79,6 +89,11 @@ class CourseTracker: ObservableObject {
         isLocked = false
         currentDeviation = 0
         courseHistory.removeAll()
+    }
+    
+    func resetTackCount() {
+        tackCount = 0
+        previousCourse = nil
     }
     
     private func angleDifference(_ angle1: Double, _ angle2: Double) -> Double {

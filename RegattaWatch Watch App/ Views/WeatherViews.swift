@@ -81,8 +81,11 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                     self.lowTemp = weather.dailyForecast[0].lowTemperature.converted(to: .celsius).value
                     self.highTemp = weather.dailyForecast[0].highTemperature.converted(to: .celsius).value
                     
-                    // Set condition icon based on weather condition
-                    self.condition = self.getConditionIcon(weather.currentWeather.condition)
+                    // Check if it's daytime
+                    let isDaylight = weather.currentWeather.isDaylight
+                    
+                    // Set condition icon based on weather condition and daylight
+                    self.condition = self.getConditionIcon(weather.currentWeather.condition, daylight: isDaylight)
                     
                     self.isLoading = false
                     self.error = nil
@@ -98,18 +101,18 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
     
-    private func getConditionIcon(_ condition: WeatherCondition) -> String {
+    private func getConditionIcon(_ condition: WeatherCondition, daylight: Bool = true) -> String {
         switch condition {
         case .clear:
-            return "sun.max.fill"
+            return daylight ? "sun.max.fill" : "moon.stars.fill"
         case .cloudy, .mostlyCloudy:
             return "cloud.fill"
         case .partlyCloudy:
-            return "cloud.sun.fill"
+            return daylight ? "cloud.sun.fill" : "cloud.moon.fill"
         case .rain:
             return "cloud.rain.fill"
         default:
-            return "sun.max.fill"
+            return daylight ? "sun.max.fill" : "moon.stars.fill"
         }
     }
     
