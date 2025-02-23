@@ -340,7 +340,7 @@ struct WindSpeedView: View {
             }
             
             VStack(spacing: 0) {
-                Image(systemName: "flag.fill")
+                Image(systemName: "wind")
                     .font(.system(size: 8, weight: .heavy))
                     .symbolVariant(.fill)
                     .foregroundColor(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.5))

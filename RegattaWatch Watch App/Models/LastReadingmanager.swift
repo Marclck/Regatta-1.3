@@ -40,15 +40,15 @@ class LastReadingManager: ObservableObject {
         topSpeed = defaults.double(forKey: topSpeedKey)     // Added
     }
     
-    func saveReading(speed: Double, distance: Double, course: Double, direction: String, deviation: Double, tackCount: Int) {
+    func saveReading(speed: Double, distance: Double, course: Double, direction: String, deviation: Double, tackCount: Int, topSpeed: Double) {  // Add topSpeed parameter
             self.speed = speed
             self.distance = distance
             self.course = course
             self.cardinalDirection = direction
             self.deviation = deviation
             self.tackCount = tackCount  // Now using the passed tackCount value
-            self.topSpeed = max(topSpeed, speed)  // Update topSpeed only if new speed is higher
-            
+            self.topSpeed = topSpeed  // Save the passed topSpeed
+
             defaults.set(speed, forKey: speedKey)
             defaults.set(distance, forKey: distanceKey)
             defaults.set(course, forKey: courseKey)

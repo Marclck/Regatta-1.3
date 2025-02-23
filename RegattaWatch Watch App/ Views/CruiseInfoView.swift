@@ -11,6 +11,7 @@ import CoreLocation
 import WatchKit
 
 struct CruiseDeviationView: View {
+    @StateObject private var colorManager = ColorManager()  // Add this
     @EnvironmentObject var settings: AppSettings
     let deviation: Double
     let maxDeviation: Double = 30.0
@@ -46,8 +47,8 @@ struct CruiseDeviationView: View {
             
             // Fill rectangle
             Rectangle()
-                .fill(fillColor)
-                .opacity(0.8)
+                .fill(Color(hex: colorManager.selectedTheme.rawValue))
+                .opacity(1)
                 .frame(width: getRectWidth(position, isPositive: isPositive), height: 10)
                 .frame(width: 10, alignment: isPositive ? .leading : .trailing)
                 .clipShape(Circle())
@@ -140,50 +141,84 @@ struct CruiseInfoView: View {
     private var meterView: some View {
         HStack(alignment: .center, spacing: 80) {
             // Tack Count Display
-            Text(getTackText())
-                .font(getTackText().contains("TACK") ? .zenithBeta(size: 12, weight: .medium) : .zenithBeta(size: 13, weight: .medium))
-                .multilineTextAlignment(.center)
-                .lineSpacing(-2)
-                .scaleEffect(getTackText().contains("TACK") ? CGSize(width: 1, height: 1) : CGSize(width: 1, height: 1))
-                .foregroundColor(flashingTackCount ?
-                    Color(hex: colorManager.selectedTheme.rawValue) :
-                    (locationManager.isMonitoring ?
-                        Color(hex: colorManager.selectedTheme.rawValue) :
-                        (settings.lightMode ? .black : .white)))
-                .padding(.horizontal, 2)
-                .padding(.vertical, 4)
-                .frame(minWidth: 40, minHeight: 26.5)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(flashingTackCount ?
-                            Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4) :
-                            (locationManager.isMonitoring ?
-                                Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
-                                (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05))))
-                )
+            ZStack {
+                Text(getTackText())
+                    .font(getTackText().contains("TACK") ? .zenithBeta(size: 12, weight: .medium) : .zenithBeta(size: 13, weight: .medium))
+                    .multilineTextAlignment(.center)
+                    .offset(y:2)
+                    .lineSpacing(-2)
+                    .scaleEffect(getTackText().contains("TACK") ? CGSize(width: 1, height: 1) : CGSize(width: 1, height: 1))
+                    .foregroundColor(flashingTackCount ?
+                                     Color(hex: colorManager.selectedTheme.rawValue) :
+                                        (locationManager.isMonitoring ?
+                                         Color(hex: colorManager.selectedTheme.rawValue) :
+                                            (settings.lightMode ? .black : .white)))
+                    .padding(.horizontal, 2)
+                    .padding(.vertical, 4)
+                    .frame(minWidth: 40, minHeight: 26.5)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(flashingTackCount ?
+                                  Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4) :
+                                    (locationManager.isMonitoring ?
+                                     Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
+                                        (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05))))
+                    )
+                
+                RulerView(numberOfSegments: 9, width: 25)
+                    .offset(x:-2.8, y:-9)
+
+                
+                Circle()
+                    .frame(width: 4, height: 4)
+                    .foregroundColor(.red)
+                    .offset(x: locationManager.isMonitoring ?
+                        (15 * courseTracker.currentDeviation / 30) :
+                        (15 * lastReadingManager.deviation / 30),
+                        y:-9) //+/- 15
+                    .animation(.spring(response: 0.3, dampingFraction: 0.7), value: locationManager.isMonitoring ? courseTracker.currentDeviation : lastReadingManager.deviation)
+
+            }
 
             // Top Speed Display
-            Text(getTopSpeedText())
-                .font(getTopSpeedText().contains("MAX") ? .zenithBeta(size: 12, weight: .medium) : .zenithBeta(size: 13, weight: .medium))
-                .multilineTextAlignment(.center)
-                .lineSpacing(-2)
-                .scaleEffect(getTackText().contains("MAX") ? CGSize(width: 1, height: 1) : CGSize(width: 1, height: 1))
-                .foregroundColor(flashingTopSpeed ?
-                    Color(hex: colorManager.selectedTheme.rawValue) :
-                    (locationManager.isMonitoring ?
-                        Color(hex: colorManager.selectedTheme.rawValue) :
-                        (settings.lightMode ? .black : .white)))
-                .padding(.horizontal, 2)
-                .padding(.vertical, 4)
-                .frame(minWidth: 40, minHeight: 26.5)
-                .background(
-                    RoundedRectangle(cornerRadius: 8)
-                        .fill(flashingTopSpeed ?
-                            Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4) :
-                            (locationManager.isMonitoring ?
-                                Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
-                                (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05))))
-                )
+            ZStack {
+                Text(getTopSpeedText())
+                    .font(getTopSpeedText().contains("MAX") ? .zenithBeta(size: 12, weight: .medium) : .zenithBeta(size: 13, weight: .medium))
+                    .multilineTextAlignment(.center)
+                    .offset(y:2)
+                    .lineSpacing(-2)
+                    .scaleEffect(getTackText().contains("MAX") ? CGSize(width: 1, height: 1) : CGSize(width: 1, height: 1))
+                    .foregroundColor(flashingTopSpeed ?
+                                     Color(hex: colorManager.selectedTheme.rawValue) :
+                                        (locationManager.isMonitoring ?
+                                         Color(hex: colorManager.selectedTheme.rawValue) :
+                                            (settings.lightMode ? .black : .white)))
+                    .padding(.horizontal, 2)
+                    .padding(.vertical, 4)
+                    .frame(minWidth: 40, minHeight: 26.5)
+                    .background(
+                        RoundedRectangle(cornerRadius: 8)
+                            .fill(flashingTopSpeed ?
+                                  Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4) :
+                                    (locationManager.isMonitoring ?
+                                     Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
+                                        (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.05))))
+                    )
+                
+                RulerView(numberOfSegments: 9, width: 25)
+                    .offset(x:-2.8, y:-9)
+                
+                Circle()
+                    .frame(width: 4, height: 4)
+                    .foregroundColor(.red)
+                    .offset(x: locationManager.isMonitoring ?
+                        (-15 + (30 * (locationManager.speed) / (topSpeed > 0 ? topSpeed : locationManager.speed))) :
+                        (-15 + (30 * lastReadingManager.speed / (lastReadingManager.topSpeed > 0 ? lastReadingManager.topSpeed : lastReadingManager.speed))),
+                        y:-9)
+                    .animation(.spring(response: 0.3, dampingFraction: 0.7), value: locationManager.isMonitoring ? courseTracker.currentDeviation : lastReadingManager.deviation)
+
+            }
+                
         }
     }
     
@@ -376,7 +411,8 @@ struct CruiseInfoView: View {
                         course: location.course,
                         direction: getCardinalDirection(location.course),
                         deviation: courseTracker.currentDeviation,
-                        tackCount: courseTracker.tackCount  // Add this
+                        tackCount: courseTracker.tackCount,
+                        topSpeed: topSpeed  // Add this parameter to save the current top speed
                     )
                 }
                 locationManager.stopUpdatingLocation()
@@ -503,7 +539,8 @@ struct CruiseInfoView: View {
                         course: location.course,
                         direction: getCardinalDirection(location.course),
                         deviation: courseTracker.currentDeviation,
-                        tackCount: courseTracker.tackCount  // Add this
+                        tackCount: courseTracker.tackCount,  // Add this
+                        topSpeed: topSpeed  // Add this parameter here too
                     )
                 }
                 locationManager.stopUpdatingLocation()
