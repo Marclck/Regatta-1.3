@@ -14,14 +14,20 @@ struct WatchRegattaApp: App {
         // Set up notification handling
         WatchNotificationManager.shared.setupDelegate()
         
-        // Pre-initialize the extended session manager
+        // Initialize but don't start session yet - let it happen after proper initialization
+        print("⌚️ App: Initializing ExtendedSessionManager")
         _ = ExtendedSessionManager.shared
+        
+        // Start session with a slight delay to ensure proper initialization
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            print("⌚️ App: Starting initial extended runtime session")
+            ExtendedSessionManager.shared.startSession()
+        }
     }
   
     @StateObject private var colorManager = ColorManager()
     @StateObject private var settings = AppSettings()
     @StateObject private var iapManager = IAPManager.shared
-
     
     var body: some Scene {
         WindowGroup {
@@ -29,11 +35,6 @@ struct WatchRegattaApp: App {
                 ContentView()
                     .environmentObject(colorManager)
                     .environmentObject(settings)
-                /*
-                if !iapManager.canAccessPremiumFeatures() {
-                    SubscriptionOverlay()
-                }
-                */
             }
             .environmentObject(iapManager)
         }

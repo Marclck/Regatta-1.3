@@ -15,70 +15,251 @@ class ExtendedSessionManager: NSObject, WKExtendedRuntimeSessionDelegate {
     private var updateTimer: Timer?
     private var timerState: WatchTimerState?
     
+    // State tracking
+    private var isStartingSession = false
+    private var lastStartAttempt = Date(timeIntervalSince1970: 0)
+    private let startCooldown: TimeInterval = 3.0
+    private var hasTriggeredHaptic = false
+    
     private override init() {
         super.init()
+        print("⌚️ ExtendedSessionManager: Initialized")
     }
     
-    func startSession(timerState: WatchTimerState) {
-        self.timerState = timerState
-        
-        // If a session is already running, we need to stop it first
-        if let existingSession = extendedSession, existingSession.state == .running {
-            extendedSession?.invalidate()
-            updateTimer?.invalidate()
+    func startSession(timerState: WatchTimerState? = nil) {
+        // Update timerState if provided
+        if let timerState = timerState {
+            self.timerState = timerState
         }
         
-        // Create and start a new extended runtime session
+        // Check if we're already starting a session
+        if isStartingSession {
+            print("⌚️ ExtendedSessionManager: Already in the process of starting a session")
+            return
+        }
+        
+        // Check cooldown period
+        let now = Date()
+        if now.timeIntervalSince(lastStartAttempt) < startCooldown {
+            print("⌚️ ExtendedSessionManager: In cooldown period")
+            return
+        }
+        
+        // Check existing session state
+        if let existingSession = extendedSession {
+            print("⌚️ ExtendedSessionManager: Current session state: \(existingSession.state.rawValue)")
+            
+            // Check for expiration date if available
+            if let expirationDate = existingSession.expirationDate {
+                print("⌚️ ExtendedSessionManager: Session expires at: \(expirationDate)")
+            }
+            
+            // Only create a new session if current one is invalid
+            if existingSession.state != .invalid {
+                print("⌚️ ExtendedSessionManager: Session already exists in valid state")
+                return
+            }
+        }
+        
+        // Create a new session and use start(at:) method for smart alarm behavior
+        isStartingSession = true
+        lastStartAttempt = now
+        hasTriggeredHaptic = false
+        
+        print("⌚️ ExtendedSessionManager: Creating new smart alarm extended runtime session")
         extendedSession = WKExtendedRuntimeSession()
         extendedSession?.delegate = self
-        extendedSession?.start()
         
-        print("⌚️ ExtendedSessionManager: Starting extended runtime session")
+        // Schedule the session to start very soon (in 1 second)
+        // This approach helps avoid the "startSession cannot be called on a scheduled session" error
+        let startDate = Date(timeIntervalSinceNow: 1.0)
+        extendedSession?.start(at: startDate)
+        print("⌚️ ExtendedSessionManager: Scheduled session to start at \(startDate)")
     }
     
     func stopSession() {
-        // Invalidate the session and timer
-        extendedSession?.invalidate()
-        updateTimer?.invalidate()
-        extendedSession = nil
-        updateTimer = nil
+        if let session = extendedSession {
+            print("⌚️ ExtendedSessionManager: Invalidating session")
+            session.invalidate()
+        }
         
-        print("⌚️ ExtendedSessionManager: Stopping extended runtime session")
+        updateTimer?.invalidate()
+        updateTimer = nil
     }
     
     // MARK: - WKExtendedRuntimeSessionDelegate
     
     func extendedRuntimeSessionDidStart(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
-        print("⌚️ ExtendedSessionManager: Extended runtime session started")
+        print("⌚️ ExtendedSessionManager: Session started successfully")
+        isStartingSession = false
         
-        // Create a timer that updates once per second
-        updateTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            self?.updateTimerUI()
+        // Get expiration information if available
+        if let expirationDate = extendedRuntimeSession.expirationDate {
+            let timeRemaining = expirationDate.timeIntervalSinceNow
+            print("⌚️ ExtendedSessionManager: Session will expire in \(timeRemaining) seconds")
         }
+        
+        // Start the update timer
+        startUpdateTimer()
+        
+        // No haptic scheduled at start - we'll only use a single gentle haptic at the end
     }
     
     func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
-        print("⌚️ ExtendedSessionManager: Extended runtime session will expire")
+        print("⌚️ ExtendedSessionManager: Session will expire soon")
+        
+        // Trigger a single gentle haptic as the session is about to expire
+        // Using the session's notifyUser method with the most gentle haptic type
+        extendedRuntimeSession.notifyUser(hapticType: .click) { _ in
+            // Return 0 to prevent repeating
+            return 0
+        }
+        
+        print("⌚️ ExtendedSessionManager: Triggered gentle end-of-session haptic")
+        
+        // Attempt to create a new session before this one expires
+        DispatchQueue.main.async { [weak self] in
+            self?.startSession()
+        }
     }
     
     func extendedRuntimeSession(_ extendedRuntimeSession: WKExtendedRuntimeSession, didInvalidateWith reason: WKExtendedRuntimeSessionInvalidationReason, error: Error?) {
-        print("⌚️ ExtendedSessionManager: Extended runtime session invalidated with reason: \(reason.rawValue)")
+        print("⌚️ ExtendedSessionManager: Session invalidated with reason: \(reason.rawValue)")
+        
+        // Handle standard invalidation reasons
+        switch reason {
+        case .error:
+            print("⌚️ ExtendedSessionManager: Session invalidated due to an error")
+        case .none:
+            print("⌚️ ExtendedSessionManager: Session ended normally")
+        case .sessionInProgress:
+            print("⌚️ ExtendedSessionManager: Session invalidated because another session is in progress")
+        case .expired:
+            print("⌚️ ExtendedSessionManager: Session used all allocated time and expired")
+        case .resignedFrontmost:
+            print("⌚️ ExtendedSessionManager: Session invalidated because app lost frontmost status")
+        case .suppressedBySystem:
+            print("⌚️ ExtendedSessionManager: Session invalidated because system doesn't allow it")
+        @unknown default:
+            print("⌚️ ExtendedSessionManager: Unknown invalidation reason: \(reason.rawValue)")
+        }
+        
+        // Handle the error if present
+        if let error = error as? NSError {
+            if let errorCode = WKExtendedRuntimeSessionErrorCode(rawValue: error.code) {
+                // Handle standard error codes
+                handleStandardErrorCode(errorCode)
+            } else {
+                // Handle other errors
+                print("⌚️ ExtendedSessionManager: Error domain: \(error.domain), code: \(error.code)")
+                print("⌚️ ExtendedSessionManager: \(error.localizedDescription)")
+            }
+        }
         
         // Clean up resources
+        isStartingSession = false
+        hasTriggeredHaptic = false
         updateTimer?.invalidate()
         updateTimer = nil
+        
+        // Attempt to restart based on the invalidation reason
+        switch reason {
+        case .error, .expired, .none:
+            // These are cases where we might want to restart
+            DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
+                print("⌚️ ExtendedSessionManager: Attempting to restart session")
+                self?.startSession()
+            }
+        case .sessionInProgress:
+            // No need to restart if another session is running
+            print("⌚️ ExtendedSessionManager: Not restarting - another session is already running")
+        case .resignedFrontmost, .suppressedBySystem:
+            // Not appropriate to restart in these cases
+            print("⌚️ ExtendedSessionManager: Not restarting due to system conditions")
+        @unknown default:
+            // For unknown reasons, attempt restart with longer delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + 5.0) { [weak self] in
+                print("⌚️ ExtendedSessionManager: Attempting to restart after unknown invalidation")
+                self?.startSession()
+            }
+        }
     }
+    
+    // MARK: - Required Haptic for Smart Alarm
+   
+    /*
+    private func triggerRequiredHaptic() {
+        guard let session = extendedSession, !hasTriggeredHaptic else { return }
+        
+        print("⌚️ ExtendedSessionManager: Triggering required haptic for smart alarm")
+        
+        // Use the session's notifyUser method for smart alarm
+        session.notifyUser(hapticType: .notification) { hapticType in
+            // This is the repeat handler - return time interval for next repeat, or 0 to stop
+            // For our case, we'll just trigger once, so return 0
+            print("⌚️ ExtendedSessionManager: Haptic notification delivered")
+            return 0
+        }
+        
+        hasTriggeredHaptic = true
+    }
+     */
     
     // MARK: - Private Methods
     
-    private func updateTimerUI() {
-        guard let timerState = timerState, timerState.isRunning else { return }
+    private func handleStandardErrorCode(_ errorCode: WKExtendedRuntimeSessionErrorCode) {
+        switch errorCode {
+        case .unknown:
+            print("⌚️ ExtendedSessionManager: Unknown error occurred")
+        case .scheduledTooFarInAdvance:
+            print("⌚️ ExtendedSessionManager: Session scheduled too far in advance")
+        case .mustBeActiveToStartOrSchedule:
+            print("⌚️ ExtendedSessionManager: App must be active to start session")
+        case .notYetStarted:
+            print("⌚️ ExtendedSessionManager: Session invalidated before it started")
+        case .exceededResourceLimits:
+            print("⌚️ ExtendedSessionManager: Session exceeded resource limits")
+        case .barDisabled:
+            print("⌚️ ExtendedSessionManager: Background app refresh is disabled")
+        case .notApprovedToStartSession:
+            print("⌚️ ExtendedSessionManager: App not approved to start session")
+        case .notApprovedToSchedule:
+            print("⌚️ ExtendedSessionManager: App not approved to schedule session")
+        case .mustBeActiveToPrompt:
+            print("⌚️ ExtendedSessionManager: App must be active to prompt")
+        case .unsupportedSessionType:
+            print("⌚️ ExtendedSessionManager: Unsupported session type")
+        @unknown default:
+            print("⌚️ ExtendedSessionManager: New unknown error code")
+        }
+    }
+    
+    private func startUpdateTimer() {
+        // Don't create a timer if one already exists
+        guard updateTimer == nil else { return }
         
+        print("⌚️ ExtendedSessionManager: Starting update timer")
+        
+        // Create a timer that updates once per second
+        updateTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.updateUI()
+        }
+    }
+    
+    private func updateUI() {
         DispatchQueue.main.async {
-            // Update the timer state
-            timerState.updateTimer()
+            // Update timer state if available and running
+            if let timerState = self.timerState, timerState.isRunning {
+                timerState.updateTimer()
+            }
             
-            print("⌚️ ExtendedSessionManager: Updating timer UI during extended runtime session")
+            /*
+            // Play haptic feedback periodically
+            let seconds = Calendar.current.component(.second, from: Date())
+            if seconds % 5 == 0 {
+                WKInterfaceDevice.current().play(.click)
+            }
+             */
         }
     }
 }

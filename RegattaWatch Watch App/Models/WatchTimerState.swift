@@ -22,6 +22,8 @@ class WatchTimerState: ObservableObject {
     private let persistentTimer = PersistentTimerManager()
     private let journalManager = JournalManager.shared
     
+    var lastThirtySecondHaptic = false
+    
     init() {
         
         // Add observer for shortcut notifications
@@ -232,6 +234,17 @@ class WatchTimerState: ObservableObject {
                         print("⌚️ Playing enhanced minute haptic at \(currentTime) seconds")
                     }
                     
+                    // 3. Haptic at 30 seconds remaining
+                    if currentTime <= 30.0 && currentTime > 29.0 && !lastThirtySecondHaptic {
+                        // Play medium strength haptic for 30 second warning
+                        WKInterfaceDevice.current().play(.notification)
+                        print("⌚️ Playing 30-second warning haptic at \(currentTime) seconds")
+                        lastThirtySecondHaptic = true
+                    } else if currentTime < 30.0 {
+                        // Reset the flag when time is under 30 seconds
+                        lastThirtySecondHaptic = false
+                    }
+                    
                     // 3. Haptic at last five seconds
                     if currentTime <= 5.0 {
                         let currentSecond = Int(ceil(currentTime))
@@ -289,7 +302,6 @@ class WatchTimerState: ObservableObject {
         isRunning = false
         WKInterfaceDevice.current().play(.stop)
         persistentTimer.pauseTimer()
-        ExtendedSessionManager.shared.stopSession()
     }
     
     func resumeTimer() {
@@ -355,7 +367,6 @@ class WatchTimerState: ObservableObject {
         currentTime = 0
         isConfirmed = false
         persistentTimer.resetTimer()
-        ExtendedSessionManager.shared.stopSession()
     }
 }
 

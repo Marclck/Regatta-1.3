@@ -323,13 +323,13 @@ struct TimerView: View {
                         timerState.updateTimer()
                     }
                     .onAppear {
-                        // Start session immediately if timer is already running
-                        if timerState.isRunning {
-                            ExtendedSessionManager.shared.startSession(timerState: timerState)
-                        }
+                        // Pass in the timerState but let the manager decide if a new session is needed
+                        ExtendedSessionManager.shared.startSession(timerState: timerState)
+                        print("⌚️ View: Ensured extended runtime session is active")
                     }
                     .onDisappear {
-                        ExtendedSessionManager.shared.stopSession()
+                        ExtendedSessionManager.shared.startSession(timerState: timerState)
+                        print("⌚️ View: Ensured extended runtime session is active")
                     }
                 }
             }

@@ -183,6 +183,19 @@ struct WatchFaceView: View {
                 .onReceive(timer) { _ in
                     timerState.updateTimer()
                 }
+                .onAppear {
+                    // Pass in the timerState but let the manager decide if a new session is needed
+                    ExtendedSessionManager.shared.startSession(timerState: timerState)
+                    print("⌚️ View: Ensured extended runtime session is active")
+                }
+                .onDisappear {
+                    // Original cleanup
+                    timer.upstream.connect().cancel()
+                    timeTimer.upstream.connect().cancel()
+                    
+                    ExtendedSessionManager.shared.startSession(timerState: timerState)
+                    print("⌚️ View: Ensured extended runtime session is active")
+                }
             }
         }
         .onDisappear {
