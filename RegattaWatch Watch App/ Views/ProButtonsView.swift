@@ -13,6 +13,7 @@ struct ProButtonsView: View {
     @EnvironmentObject var colorManager: ColorManager
     @State private var isResetPrimed = false
     @State private var resetTimer: Timer?
+    @EnvironmentObject var settings: AppSettings
 
     var body: some View {
         HStack(spacing: 12) {
@@ -32,7 +33,7 @@ struct ProButtonsView: View {
                     }
                 } else if timerState.mode == .setup {
                     // Quick start 5 minutes
-                    timerState.startFromMinutes(5)
+                    timerState.startFromMinutes(settings.quickStartMinutes)
                 } else {
                     // Stopwatch mode behavior
                     if timerState.isRunning {

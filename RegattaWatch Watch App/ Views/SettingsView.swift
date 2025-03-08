@@ -90,6 +90,13 @@ class AppSettings: ObservableObject {
         }
     }
     
+    @Published var quickStartMinutes: Int {
+        didSet {
+            UserDefaults.standard.set(quickStartMinutes, forKey: "quickStartMinutes")
+            print("QuickStartMinutes changed to: \(quickStartMinutes)")
+        }
+    }
+    
     init() {
         self.teamName = UserDefaults.standard.string(forKey: "teamName") ?? "Ultra"
         self.showRaceInfo = UserDefaults.standard.object(forKey: "showRaceInfo") as? Bool ?? true
@@ -103,6 +110,9 @@ class AppSettings: ObservableObject {
         self.maxBoatSpeed = UserDefaults.standard.double(forKey: "maxBoatSpeed") != 0 ?
             UserDefaults.standard.double(forKey: "maxBoatSpeed") : 50.0
         UserDefaults.standard.synchronize()
+        self.quickStartMinutes = UserDefaults.standard.integer(forKey: "quickStartMinutes") != 0 ?
+            UserDefaults.standard.integer(forKey: "quickStartMinutes") : 5
+
     }
 }
 
@@ -171,6 +181,8 @@ struct SettingsView: View {
     @State private var showMaxSpeedEdit = false
     @State private var refreshToggle = false
     @State private var maxSpeedInput: String = ""
+    @State private var showQuickStartEdit = false
+    @State private var quickStartInput: String = ""
     
     var body: some View {
         VStack(spacing: 0) {
@@ -219,6 +231,42 @@ struct SettingsView: View {
                 .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(1))
                 
                 Section ("") {
+                    Button(action: {
+                        // Initialize the text field with current value
+                        quickStartInput = String(settings.quickStartMinutes)
+                        showQuickStartEdit = true
+                    }) {
+                        HStack {
+                            Text("QuickStart (min)")
+                            Spacer()
+                            Text("\(settings.quickStartMinutes)")
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .sheet(isPresented: $showQuickStartEdit) {
+                        List {
+                            Section {
+                                TextField("Minutes", text: $quickStartInput)
+                                    .onSubmit {
+                                        validateAndUpdateQuickStart()
+                                    }
+                                Text("Enter quick start time (1-30 minutes)")
+                                    .font(.caption2)
+                            }
+                            
+                            Button("Apply") {
+                                validateAndUpdateQuickStart()
+                                showQuickStartEdit = false
+                            }
+                            
+                            Button("Reset to Default") {
+                                settings.quickStartMinutes = 5
+                                showQuickStartEdit = false
+                            }
+                            .foregroundColor(.red)
+                        }
+                    }
+                    
                     Button(action: {
                         // Initialize the text field with current value
                         maxSpeedInput = String(format: "%.1f", settings.maxBoatSpeed)
@@ -353,6 +401,21 @@ struct SettingsView: View {
          }
          // If not numeric, don't update (silently rejected)
      }
+    
+    private func validateAndUpdateQuickStart() {
+        // Check if input is numeric
+        if let minutes = Int(quickStartInput) {
+            // Validate within range (1-30)
+            if minutes > 0 && minutes <= 30 {
+                settings.quickStartMinutes = minutes
+            } else if minutes > 30 {
+                settings.quickStartMinutes = 30 // Clamp to max
+            } else {
+                settings.quickStartMinutes = 1 // Clamp to min
+            }
+        }
+        // If not numeric, don't update (silently rejected)
+    }
  }
 
 extension AppSettings {
@@ -365,6 +428,7 @@ extension AppSettings {
         lightMode = false
         ultraModel = true
         maxBoatSpeed = 50.0
+        quickStartMinutes = 5
         
         // Reset ultra features if tier is not ultra
         if tier != .ultra {
@@ -388,6 +452,8 @@ extension AppSettings {
         UserDefaults.standard.set(false, forKey: "useProButtons")
         UserDefaults.standard.set(50.0, forKey: "maxBoatSpeed")
         UserDefaults.standard.synchronize()
+        UserDefaults.standard.set(5, forKey: "quickStartMinutes")
+
     }
 }
 

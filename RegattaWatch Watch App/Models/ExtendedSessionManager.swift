@@ -19,7 +19,6 @@ class ExtendedSessionManager: NSObject, WKExtendedRuntimeSessionDelegate {
     private var isStartingSession = false
     private var lastStartAttempt = Date(timeIntervalSince1970: 0)
     private let startCooldown: TimeInterval = 3.0
-    private var hasTriggeredHaptic = false
     
     private override init() {
         super.init()
@@ -61,20 +60,17 @@ class ExtendedSessionManager: NSObject, WKExtendedRuntimeSessionDelegate {
             }
         }
         
-        // Create a new session and use start(at:) method for smart alarm behavior
+        // Create a new session and start it immediately
         isStartingSession = true
         lastStartAttempt = now
-        hasTriggeredHaptic = false
         
-        print("⌚️ ExtendedSessionManager: Creating new smart alarm extended runtime session")
+        print("⌚️ ExtendedSessionManager: Creating new extended runtime session")
         extendedSession = WKExtendedRuntimeSession()
         extendedSession?.delegate = self
         
-        // Schedule the session to start very soon (in 1 second)
-        // This approach helps avoid the "startSession cannot be called on a scheduled session" error
-        let startDate = Date(timeIntervalSinceNow: 1.0)
-        extendedSession?.start(at: startDate)
-        print("⌚️ ExtendedSessionManager: Scheduled session to start at \(startDate)")
+        // Use start() instead of start(at:)
+        extendedSession?.start()
+        print("⌚️ ExtendedSessionManager: Started session immediately")
     }
     
     func stopSession() {
@@ -101,21 +97,10 @@ class ExtendedSessionManager: NSObject, WKExtendedRuntimeSessionDelegate {
         
         // Start the update timer
         startUpdateTimer()
-        
-        // No haptic scheduled at start - we'll only use a single gentle haptic at the end
     }
     
     func extendedRuntimeSessionWillExpire(_ extendedRuntimeSession: WKExtendedRuntimeSession) {
         print("⌚️ ExtendedSessionManager: Session will expire soon")
-        
-        // Trigger a single gentle haptic as the session is about to expire
-        // Using the session's notifyUser method with the most gentle haptic type
-        extendedRuntimeSession.notifyUser(hapticType: .click) { _ in
-            // Return 0 to prevent repeating
-            return 0
-        }
-        
-        print("⌚️ ExtendedSessionManager: Triggered gentle end-of-session haptic")
         
         // Attempt to create a new session before this one expires
         DispatchQueue.main.async { [weak self] in
@@ -158,7 +143,6 @@ class ExtendedSessionManager: NSObject, WKExtendedRuntimeSessionDelegate {
         
         // Clean up resources
         isStartingSession = false
-        hasTriggeredHaptic = false
         updateTimer?.invalidate()
         updateTimer = nil
         
@@ -184,26 +168,6 @@ class ExtendedSessionManager: NSObject, WKExtendedRuntimeSessionDelegate {
             }
         }
     }
-    
-    // MARK: - Required Haptic for Smart Alarm
-   
-    /*
-    private func triggerRequiredHaptic() {
-        guard let session = extendedSession, !hasTriggeredHaptic else { return }
-        
-        print("⌚️ ExtendedSessionManager: Triggering required haptic for smart alarm")
-        
-        // Use the session's notifyUser method for smart alarm
-        session.notifyUser(hapticType: .notification) { hapticType in
-            // This is the repeat handler - return time interval for next repeat, or 0 to stop
-            // For our case, we'll just trigger once, so return 0
-            print("⌚️ ExtendedSessionManager: Haptic notification delivered")
-            return 0
-        }
-        
-        hasTriggeredHaptic = true
-    }
-     */
     
     // MARK: - Private Methods
     
@@ -252,14 +216,6 @@ class ExtendedSessionManager: NSObject, WKExtendedRuntimeSessionDelegate {
             if let timerState = self.timerState, timerState.isRunning {
                 timerState.updateTimer()
             }
-            
-            /*
-            // Play haptic feedback periodically
-            let seconds = Calendar.current.component(.second, from: Date())
-            if seconds % 5 == 0 {
-                WKInterfaceDevice.current().play(.click)
-            }
-             */
         }
     }
 }

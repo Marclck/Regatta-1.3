@@ -20,7 +20,7 @@ struct WatchFaceView: View {
     @ObservedObject var timerState: WatchTimerState
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
     @State private var currentTime = Date()
-    let timeTimer = Timer.publish(every: 1, on: .main, in: .common).autoconnect()
+    let timeTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     
     @State private var showCruiseInfo = true
     
