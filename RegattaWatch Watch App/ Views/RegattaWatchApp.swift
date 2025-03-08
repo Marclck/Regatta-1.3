@@ -19,10 +19,10 @@ struct WatchRegattaApp: App {
         _ = ExtendedSessionManager.shared
         
         // Start session with a slight delay to ensure proper initialization
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            print("⌚️ App: Starting initial extended runtime session")
-            ExtendedSessionManager.shared.startSession()
-        }
+//        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+//            print("⌚️ App: Starting initial extended runtime session")
+//            ExtendedSessionManager.shared.startSession()
+//        }
     }
   
     @StateObject private var colorManager = ColorManager()

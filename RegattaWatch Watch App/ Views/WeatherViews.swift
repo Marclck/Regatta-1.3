@@ -22,7 +22,11 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var condition: String = "sun.max.fill" // Default icon
     @Published var isLoading: Bool = false
     @Published var error: String?
-    
+    @Published var nauticalSunrise: Date?
+    @Published var nauticalSunset: Date?
+    @Published var moonPhase: MoonPhase = .new
+
+
     private let weatherService = WeatherService.shared
     private let locationManager = CLLocationManager()
     private var timer: Timer?
@@ -72,11 +76,12 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                 
                 DispatchQueue.main.async { [weak self] in
                     guard let self = self else { return }
+                    
+                    // Existing weather updates
                     self.windSpeed = weather.currentWeather.wind.speed.converted(to: .knots).value
                     self.windDirection = weather.currentWeather.wind.direction.value
                     self.updateCardinalDirection(self.windDirection)
                     
-                    // Update temperature information
                     self.currentTemp = weather.currentWeather.temperature.converted(to: .celsius).value
                     self.lowTemp = weather.dailyForecast[0].lowTemperature.converted(to: .celsius).value
                     self.highTemp = weather.dailyForecast[0].highTemperature.converted(to: .celsius).value
@@ -86,6 +91,12 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                     
                     // Set condition icon based on weather condition and daylight
                     self.condition = self.getConditionIcon(weather.currentWeather.condition, daylight: isDaylight)
+                    
+                    // Add sun/moon data - directly access the properties since they're not optional
+                    let dayWeather = weather.dailyForecast[0]
+                    self.nauticalSunrise = dayWeather.sun.nauticalDawn
+                    self.nauticalSunset = dayWeather.sun.nauticalDusk
+                    self.moonPhase = dayWeather.moon.phase
                     
                     self.isLoading = false
                     self.error = nil
@@ -431,6 +442,8 @@ struct CompassView: View {
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
     @EnvironmentObject var settings: AppSettings
     @StateObject private var compassManager = CompassManager()
+    @StateObject private var weatherManager = WeatherManager()
+    @State private var showingSunMoon: Bool = false
     
     private func getNorthPosition(heading: Double, isReduced: Bool) -> CGPoint {
         if isReduced {
@@ -447,41 +460,57 @@ struct CompassView: View {
     }
     
     var body: some View {
-        ZStack {
-            // Background circle
-            Circle()
-                .fill(settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.1))
-                .frame(width: 50, height: 50)
-            
-            if !isLuminanceReduced {
-                // Normal mode: show heading and cardinal direction
-                VStack(spacing: 0) {
-                    Text(String(format: "%.0f", compassManager.heading))
-                        .font(.zenithBeta(size: 22, weight: .medium))
-                        .foregroundColor(settings.lightMode ? .black : .white)
-                        .offset(y: 3.5)
-                    
-                    Text(compassManager.cardinalDirection)
-                        .font(.zenithBeta(size: 10, weight: .medium))
-                        .foregroundColor(settings.lightMode ? .black : .white)
-                        .offset(y: 0)
-                }
-                .animation(nil, value: isLuminanceReduced) // Prevent text animation
+        Button(action: {
+            WKInterfaceDevice.current().play(.click)
+            withAnimation(.easeInOut(duration: 0.2)) {
+                showingSunMoon.toggle()
             }
-            
-            // Animated red circle
-            let position = getNorthPosition(heading: compassManager.heading, isReduced: isLuminanceReduced)
-            Circle()
-                .fill(Color.red)
-                .frame(width: isLuminanceReduced ? 10 : 5, height: isLuminanceReduced ? 10 : 5)
-                .offset(
-                    x: position.x,
-                    y: position.y
-                )
-                .animation(.spring(response: 0.3, dampingFraction: 0.8), value: isLuminanceReduced)
-                .animation(.linear(duration: 0.1), value: compassManager.heading)
+        }) {
+            ZStack {
+                if !showingSunMoon {
+                    // Standard Compass View
+                    ZStack {
+                        // Background circle
+                        Circle()
+                            .fill(settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.1))
+                            .frame(width: 50, height: 50)
+                        
+                        if !isLuminanceReduced {
+                            // Normal mode: show heading and cardinal direction
+                            VStack(spacing: 0) {
+                                Text(String(format: "%.0f", compassManager.heading))
+                                    .font(.zenithBeta(size: 22, weight: .medium))
+                                    .foregroundColor(settings.lightMode ? .black : .white)
+                                    .offset(y: 3.5)
+                                
+                                Text(compassManager.cardinalDirection)
+                                    .font(.zenithBeta(size: 10, weight: .medium))
+                                    .foregroundColor(settings.lightMode ? .black : .white)
+                                    .offset(y: 0)
+                            }
+                            .animation(nil, value: isLuminanceReduced) // Prevent text animation
+                        }
+                        
+                        // Animated red circle
+                        let position = getNorthPosition(heading: compassManager.heading, isReduced: isLuminanceReduced)
+                        Circle()
+                            .fill(Color.red)
+                            .frame(width: isLuminanceReduced ? 10 : 5, height: isLuminanceReduced ? 10 : 5)
+                            .offset(
+                                x: position.x,
+                                y: position.y
+                            )
+                            .animation(.spring(response: 0.3, dampingFraction: 0.8), value: isLuminanceReduced)
+                            .animation(.linear(duration: 0.1), value: compassManager.heading)
+                    }
+                } else {
+                    // Sun Moon View
+                    SunMoonView()
+                }
+            }
+            .clipShape(Circle())
         }
-        .clipShape(Circle())
+        .buttonStyle(PlainButtonStyle())
         .onAppear {
             compassManager.startUpdates()
         }

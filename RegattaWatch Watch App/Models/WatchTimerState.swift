@@ -278,6 +278,13 @@ class WatchTimerState: ObservableObject {
                     // 4. Double haptic at start of stopwatch
                     playDoubleHaptic()
                     print("⌚️ Playing double haptic at stopwatch start")
+                    
+                    // Stop extended session after the haptic when transitioning to stopwatch mode
+                    DispatchQueue.main.asyncAfter(deadline: .now()) {
+                        ExtendedSessionManager.shared.stopSession()
+                        print("⌚️ WatchTimerState: Stopped extended session after countdown completion")
+                    }
+                    
                 }
             } else if mode == .stopwatch {
                 // Only increment by 0.01 if called from the regular timer, not from the extended session
@@ -302,6 +309,11 @@ class WatchTimerState: ObservableObject {
         isRunning = false
         WKInterfaceDevice.current().play(.stop)
         persistentTimer.pauseTimer()
+        // Stop extended session after the haptic
+        DispatchQueue.main.asyncAfter(deadline: .now()) {
+            ExtendedSessionManager.shared.stopSession()
+            print("⌚️ WatchTimerState: Stopped extended session after when paused")
+        }
     }
     
     func resumeTimer() {
@@ -309,6 +321,7 @@ class WatchTimerState: ObservableObject {
          persistentTimer.resumeTimer()
         WKInterfaceDevice.current().play(.start) //haptic
         ExtendedSessionManager.shared.startSession(timerState: self)
+        
      }
     
     // Helper function for last second multiple haptics

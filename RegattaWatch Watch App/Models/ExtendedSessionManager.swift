@@ -103,9 +103,9 @@ class ExtendedSessionManager: NSObject, WKExtendedRuntimeSessionDelegate {
         print("⌚️ ExtendedSessionManager: Session will expire soon")
         
         // Attempt to create a new session before this one expires
-        DispatchQueue.main.async { [weak self] in
-            self?.startSession()
-        }
+//        DispatchQueue.main.async { [weak self] in
+//            self?.startSession()
+//        }
     }
     
     func extendedRuntimeSession(_ extendedRuntimeSession: WKExtendedRuntimeSession, didInvalidateWith reason: WKExtendedRuntimeSessionInvalidationReason, error: Error?) {
@@ -148,15 +148,15 @@ class ExtendedSessionManager: NSObject, WKExtendedRuntimeSessionDelegate {
         
         // Attempt to restart based on the invalidation reason
         switch reason {
-        case .error, .expired, .none:
+        case .error:
             // These are cases where we might want to restart
             DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) { [weak self] in
                 print("⌚️ ExtendedSessionManager: Attempting to restart session")
                 self?.startSession()
             }
-        case .sessionInProgress:
+        case .sessionInProgress, .expired, .none:
             // No need to restart if another session is running
-            print("⌚️ ExtendedSessionManager: Not restarting - another session is already running")
+            print("⌚️ ExtendedSessionManager: Not restarting - another session is already running or its ending")
         case .resignedFrontmost, .suppressedBySystem:
             // Not appropriate to restart in these cases
             print("⌚️ ExtendedSessionManager: Not restarting due to system conditions")
