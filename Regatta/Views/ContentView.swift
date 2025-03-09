@@ -28,6 +28,7 @@ struct ContentView: View {
                 .tabItem {
                     Label("Info", systemImage: "timer.circle.fill")
                 }
+            
         }
         .onAppear {
             if lastVersionSeen != currentVersion {

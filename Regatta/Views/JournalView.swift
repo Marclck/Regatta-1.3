@@ -36,64 +36,67 @@ struct JournalView: View {
             VStack(spacing: 0) {
                 // Start Line Map
                 if mostRecentStartLine.left != nil || mostRecentStartLine.right != nil {
-                                    VStack(alignment: .leading, spacing: 4) {
-                                        HStack {
-                                            Text("Current Race Start Line")
-                                                .font(.system(.headline, design: .monospaced))
-                                            
-                                            Spacer()
-                                            
-                                            Button(action: {
-                                                // Trigger session refresh
-                                                Task { @MainActor in
-                                                    sessionStore.refreshSessions()
-                                                }
-                                            }) {
-                                                Text("Refresh")
-                                                    .font(.system(.subheadline, design: .monospaced))
-                                                    .foregroundColor(.blue)
-                                            }
-                                        }
-                                        .padding(.horizontal)
-                                        .padding(.top, 8)
-                                        
-                                        StartLineMapView(
-                                            leftPoint: mostRecentStartLine.left,
-                                            rightPoint: mostRecentStartLine.right
-                                        )
-                                        .padding(.top, 4)
-                                        
-                                        HStack {
-                                            // Left coordinate
-                                            if let left = mostRecentStartLine.left {
-                                                HStack(spacing: 4) {
-                                                    Image(systemName: "triangle.fill")
-                                                        .foregroundColor(.green)
-                                                        .font(.system(size: 12))
-                                                    Text(String(format: "(%.4f, %.4f)", left.latitude, left.longitude))
-                                                        .font(.system(size: 12, design: .monospaced))
-                                                        .foregroundColor(.secondary)
-                                                }
-                                            }
-                                            
-                                            Spacer()
-                                            
-                                            // Right coordinate
-                                            if let right = mostRecentStartLine.right {
-                                                HStack(spacing: 4) {
-                                                    Text(String(format: "(%.4f, %.4f)", right.latitude, right.longitude))
-                                                        .font(.system(size: 12, design: .monospaced))
-                                                        .foregroundColor(.secondary)
-                                                    Image(systemName: "square.fill")
-                                                        .foregroundColor(.green)
-                                                        .font(.system(size: 12))
-                                                }
-                                            }
-                                        }
-                                        .padding(.horizontal)
-                                    }
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text("Current Race Start Line")
+                                .font(.system(.headline, design: .monospaced))
+                            
+                            Spacer()
+                            
+                            Button(action: {
+                                // Trigger session refresh
+                                Task { @MainActor in
+                                    sessionStore.refreshSessions()
                                 }
-                
+                            }) {
+                                Text("Refresh")
+                                    .font(.system(.subheadline, design: .monospaced))
+                                    .foregroundColor(.blue)
+                            }
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, 8)
+                        
+                        StartLineMapView(
+                            leftPoint: mostRecentStartLine.left,
+                            rightPoint: mostRecentStartLine.right
+                        )
+                        .padding(.top, 4)
+                        
+                        HStack {
+                            // Left coordinate
+                            if let left = mostRecentStartLine.left {
+                                HStack(spacing: 4) {
+                                    Image(systemName: "triangle.fill")
+                                        .foregroundColor(.green)
+                                        .font(.system(size: 12))
+                                    Text(String(format: "(%.4f, %.4f)", left.latitude, left.longitude))
+                                        .font(.system(size: 12, design: .monospaced))
+                                        .foregroundColor(.secondary)
+                                }
+                            }
+                            
+                            Spacer()
+                            
+                            // Right coordinate
+                            if let right = mostRecentStartLine.right {
+                                HStack(spacing: 4) {
+                                    Text(String(format: "(%.4f, %.4f)", right.latitude, right.longitude))
+                                        .font(.system(size: 12, design: .monospaced))
+                                        .foregroundColor(.secondary)
+                                    Image(systemName: "square.fill")
+                                        .foregroundColor(.green)
+                                        .font(.system(size: 12))
+                                }
+                            }
+                        }
+                        .padding(.horizontal)
+                    }
+                }
+/*
+                // Archive Stats
+                archiveStats(sessionStore: sessionStore)
+*/
                 // Session List
                 Group {
                     if sessionStore.isLoading {
@@ -110,14 +113,34 @@ struct JournalView: View {
                                 .padding(.top, 4)
                         }
                     } else {
-                        List {
-                            ForEach(groupedSessions().keys.sorted(by: >), id: \.self) { date in
-                                Section(header: Text(date)) {
-                                    ForEach(groupedSessions()[date]!.sorted(by: { $0.date > $1.date }), id: \.date) { session in
-                                        SessionRowView(session: session)
+                        VStack {
+                            // Display recent sessions (limited to 10)
+                            List {
+                                ForEach(groupedSessions().keys.sorted(by: >), id: \.self) { date in
+                                    Section(header: Text(date)) {
+                                        ForEach(groupedSessions()[date]!.sorted(by: { $0.date > $1.date }), id: \.date) { session in
+                                            SessionRowView(session: session)
+                                        }
                                     }
                                 }
                             }
+                            
+                            /* // "All Sessions" button
+                            NavigationLink(destination: AllSessionsView()) {
+                                HStack {
+                                    Image(systemName: "arrow.up.doc.fill")
+                                    Text("All Sessions")
+                                        .font(.system(.headline, design: .rounded))
+                                }
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 12)
+                                .background(Color.blue)
+                                .foregroundColor(.white)
+                                .cornerRadius(10)
+                                .padding(.horizontal)
+                                .padding(.bottom, 8)
+                            }
+                             */
                         }
                     }
                 }
@@ -138,11 +161,13 @@ struct JournalView: View {
             print("📱 JournalView: View appeared")
             sessionStore.loadSessions()
         }
+        .withArchiveSupport(sessionStore: sessionStore)
     }
 }
 
 struct SessionRowView: View {
     let session: RaceSession
+    @State private var showMapView = false
     
     private var raceStats: (topSpeed: Double?, avgSpeed: Double?) {
         guard let raceStartTime = session.raceStartTime else {
@@ -204,43 +229,72 @@ struct SessionRowView: View {
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            HStack {
-                Text("\(session.formattedTime()) \(session.timeZoneString())")
-                    .font(.system(.headline))
+        Button(action: {
+            showMapView = true
+        }) {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack {
+                    Text("\(session.formattedTime()) \(session.timeZoneString())")
+                        .font(.system(.headline))
+                    
+                    Spacer()
+                    
+                    Image(systemName: "map")
+                        .foregroundColor(.blue)
+                        .font(.system(size: 16))
+                }
+                
+                HStack {
+                    Text("Countdown: \(session.countdownDuration) min")
+                    Spacer()
+                    Text("Race: \(session.formattedRaceTime)")
+                }
+                .font(.system(.subheadline, design: .monospaced))
+                .foregroundColor(.secondary)
+                
+                HStack {
+                    Text(maxSpeedDisplay)
+                    Spacer()
+                    Text(avgSpeedDisplay)
+                }
+                .font(.system(.caption, design: .monospaced))
+                .foregroundColor(.secondary)
+                
+                HStack {
+                    Image(systemName: "triangle.fill")
+                        .foregroundColor(.green)
+                        .font(.system(size: 12))
+                    Text(leftCoordinate)
+                    Spacer()
+                    Text(rightCoordinate)
+                    Image(systemName: "square.fill")
+                        .foregroundColor(.green)
+                        .font(.system(size: 12))
+                }
+                .font(.system(.caption, design: .monospaced))
+                .foregroundColor(.secondary)
             }
-            
-            HStack {
-                Text("Countdown: \(session.countdownDuration) min")
-                Spacer()
-                Text("Race: \(session.formattedRaceTime)")
-            }
-            .font(.system(.subheadline, design: .monospaced))
-            .foregroundColor(.secondary)
-            
-            HStack {
-                Text(maxSpeedDisplay)
-                Spacer()
-                Text(avgSpeedDisplay)
-            }
-            .font(.system(.caption, design: .monospaced))
-            .foregroundColor(.secondary)
-            
-            HStack {
-                Image(systemName: "triangle.fill")
-                    .foregroundColor(.green)
-                    .font(.system(size: 12))
-                Text(leftCoordinate)
-                Spacer()
-                Text(rightCoordinate)
-                Image(systemName: "square.fill")
-                    .foregroundColor(.green)
-                    .font(.system(size: 12))
-            }
-            .font(.system(.caption, design: .monospaced))
-            .foregroundColor(.secondary)
+            .padding(.vertical, 4)
         }
-        .padding(.vertical, 4)
+        .buttonStyle(PlainButtonStyle())
+        .contentShape(Rectangle())
+        .sheet(isPresented: $showMapView) {
+            NavigationView {
+                ScrollView {
+                    RaceSessionMapView(session: session)
+                        .padding(.vertical)
+                }
+                .navigationTitle("Race Details")
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbar {
+                    ToolbarItem(placement: .navigationBarTrailing) {
+                        Button("Done") {
+                            showMapView = false
+                        }
+                    }
+                }
+            }
+        }
     }
 }
 

@@ -45,6 +45,7 @@ struct RaceSessionMapView: View {
     @State private var position: MapCameraPosition
     @State private var mapSelection: MKMapItem?
     @State private var selectedConfiguration: MapStyleConfiguration
+    @State private var isInteractionEnabled: Bool = true
     
     // Computed stats from SessionRowView
     private var raceStats: (topSpeed: Double?, avgSpeed: Double?) {
@@ -154,15 +155,17 @@ struct RaceSessionMapView: View {
             
             // Map view with no-data overlay if needed
             ZStack {
-                Map(position: $position, selection: $mapSelection) {
-                // Route with speed colors
-                ForEach(0..<validLocationPoints.count - 1, id: \.self) { index in
-                    let start = validLocationPoints[index]
-                    let end = validLocationPoints[index + 1]
-                    
-                    MapPolyline(coordinates: [start.location, end.location])
-                        .stroke(colorForSpeed(start.speed), lineWidth: 3)
-                }
+                Map(position: $position, interactionModes: [.pan, .zoom], selection: $mapSelection) {
+                    // Route with speed colors
+                    if validLocationPoints.count > 1 {
+                        ForEach(0..<validLocationPoints.count - 1, id: \.self) { index in
+                            let start = validLocationPoints[index]
+                            let end = validLocationPoints[index + 1]
+                            
+                            MapPolyline(coordinates: [start.location, end.location])
+                                .stroke(colorForSpeed(start.speed), lineWidth: 3)
+                        }
+                    }
                 
                 // Start line
                 if hasStartLine,
@@ -197,25 +200,67 @@ struct RaceSessionMapView: View {
             }
                 
                 if !hasLocationData {
-                    Color.black.opacity(0.1)
-                    VStack(spacing: 8) {
-                        Image(systemName: "location.slash.fill")
-                            .font(.system(size: 24))
-                            .foregroundColor(.secondary)
-                        Text("GPS Data Not Available")
-                            .font(.system(.headline))
-                            .foregroundColor(.secondary)
+                    ZStack {
+                        Rectangle()
+                            .fill(Color.black.opacity(0.4))
+                            .cornerRadius(12)
+                            .frame(width: 200, height: 80)
+                        
+                        VStack(spacing: 8) {
+                            Image(systemName: "location.slash.fill")
+                                .font(.system(size: 24))
+                                .foregroundColor(.white)
+                            Text("GPS Data Not Available")
+                                .font(.system(.headline))
+                                .foregroundColor(.white)
+                        }
                     }
                 }
             }
             .mapControls {
                 MapCompass()
                 MapScaleView()
+                MapUserLocationButton()
+//                MapPitchToggle()
             }
             .mapStyle(selectedConfiguration.style)
+            .allowsHitTesting(isInteractionEnabled)
             .frame(height: 300)
             .clipShape(RoundedRectangle(cornerRadius: 12))
             .padding(.horizontal)
+/*
+            .overlay(alignment: .topTrailing) {
+                Button(action: {
+                    // Reset the map to the initial region
+                    if !validLocationPoints.isEmpty {
+                        let coordinates = validLocationPoints.map { $0.location }
+                        let minLat = coordinates.map { $0.latitude }.min() ?? 0
+                        let maxLat = coordinates.map { $0.latitude }.max() ?? 0
+                        let minLon = coordinates.map { $0.longitude }.min() ?? 0
+                        let maxLon = coordinates.map { $0.longitude }.max() ?? 0
+                        
+                        let center = CLLocationCoordinate2D(
+                            latitude: (minLat + maxLat) / 2,
+                            longitude: (minLon + maxLon) / 2
+                        )
+                        
+                        let span = MKCoordinateSpan(
+                            latitudeDelta: (maxLat - minLat) * 1.5,
+                            longitudeDelta: (maxLon - minLon) * 1.5
+                        )
+                        
+                        position = .region(MKCoordinateRegion(center: center, span: span))
+                    }
+                }) {
+                    Image(systemName: "arrow.counterclockwise")
+                        .foregroundColor(.white)
+                        .padding(8)
+                        .background(Color.black.opacity(0.6))
+                        .clipShape(Circle())
+                }
+                .padding(12)
+            }
+ */
             
             // Stats and legend section
             VStack(spacing: 12) {

@@ -16,7 +16,11 @@ class iOSSessionStore: ObservableObject {
     @Published private(set) var error: Error?
     
     private let journalManager = JournalManager.shared
+    private let archiveManager = SessionArchiveManager.shared
     private var cancellables = Set<AnyCancellable>()
+    
+    // Flag to track if migration has been performed
+    private var hasMigrated = false
 
     static let shared = iOSSessionStore()
     
@@ -31,8 +35,21 @@ class iOSSessionStore: ObservableObject {
             object: nil
         )
         
+        // Listen for Archive updates
+        NotificationCenter.default.addObserver(
+            self,
+            selector: #selector(refreshSessions),
+            name: Notification.Name("ArchiveUpdated"),
+            object: nil
+        )
+        
         // Setup WatchConnectivity
         _ = WatchSessionManager.shared
+        
+        // Initialize archive support for Watch connectivity
+        #if os(iOS)
+        WatchSessionManagerArchiveSetup.initialize()
+        #endif
         
         // Initial load
         loadSessions()
@@ -53,18 +70,31 @@ class iOSSessionStore: ObservableObject {
                 objectWillChange.send()  // Explicitly notify observers
             }
             
-            if let sessions = SharedDefaults.loadSessionsFromContainer() {
-                print("📱 iOS Store: Loaded \(sessions.count) sessions")
-                await MainActor.run {
-                    self.sessions = sessions
-                    self.objectWillChange.send()  // Explicitly notify observers
-                }
-            } else {
-                print("📱 iOS Store: No sessions found")
-                await MainActor.run {
-                    self.sessions = []
-                    self.objectWillChange.send()  // Explicitly notify observers
-                }
+            // Perform migration if needed (only once per app launch)
+            if !hasMigrated {
+                archiveManager.migrateExistingSessionsToArchive()
+                hasMigrated = true
+            }
+            
+            // Load recent sessions from SharedDefaults
+            let recentSessions = SharedDefaults.loadSessionsFromContainer() ?? []
+            print("📱 iOS Store: Loaded \(recentSessions.count) recent sessions from UserDefaults")
+            
+            // Archive any new sessions received
+            if !recentSessions.isEmpty {
+                archiveManager.saveSessionsToArchive(recentSessions)
+            }
+            
+            // Load all sessions from archive
+            let archivedSessions = archiveManager.loadArchivedSessions()
+            print("📱 iOS Store: Loaded \(archivedSessions.count) sessions from archive")
+            
+            // Sort by date (newest first)
+            let allSessions = archivedSessions.sorted(by: { $0.date > $1.date })
+            
+            await MainActor.run {
+                self.sessions = allSessions
+                self.objectWillChange.send()  // Explicitly notify observers
             }
         }
     }

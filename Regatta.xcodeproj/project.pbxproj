@@ -149,6 +149,14 @@
 		1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */; };
 		1DBD85D82CEFE8290028E391 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D72CEFE8290028E391 /* HapticManager.swift */; };
 		1DBD85E22CF142A50028E391 /* PersistentTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85E12CF142A50028E391 /* PersistentTimerManager.swift */; };
+		1DC321C72D7D934000EE70E1 /* SessionArchiveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC321C62D7D934000EE70E1 /* SessionArchiveManager.swift */; };
+		1DC321C92D7D936400EE70E1 /* WatchSessionManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC321C82D7D936400EE70E1 /* WatchSessionManager+Extensions.swift */; };
+		1DC321CB2D7D938300EE70E1 /* DataMigrationUtility.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC321CA2D7D938300EE70E1 /* DataMigrationUtility.swift */; };
+		1DC321CD2D7D939900EE70E1 /* JournalView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC321CC2D7D939900EE70E1 /* JournalView+Extensions.swift */; };
+		1DC321CE2D7D94A600EE70E1 /* WatchSessionManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC321C82D7D936400EE70E1 /* WatchSessionManager+Extensions.swift */; };
+		1DC321CF2D7D95FC00EE70E1 /* WatchSessionManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC321C82D7D936400EE70E1 /* WatchSessionManager+Extensions.swift */; };
+		1DC321D02D7D95FC00EE70E1 /* WatchSessionManager+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC321C82D7D936400EE70E1 /* WatchSessionManager+Extensions.swift */; };
+		1DC321D22D7D981300EE70E1 /* AllSessionsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC321D12D7D981300EE70E1 /* AllSessionsView.swift */; };
 		1DC4B3282CF5454F00A8CC30 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B3272CF5454F00A8CC30 /* FontManager.swift */; };
 		1DC4B3292CF5454F00A8CC30 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B3272CF5454F00A8CC30 /* FontManager.swift */; };
 		1DC4B32B2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */; };
@@ -335,6 +343,11 @@
 		1DBD85DD2CF133510028E391 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		1DBD85DE2CF133720028E391 /* Regatta.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Regatta.entitlements; sourceTree = "<group>"; };
 		1DBD85E12CF142A50028E391 /* PersistentTimerManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersistentTimerManager.swift; sourceTree = "<group>"; };
+		1DC321C62D7D934000EE70E1 /* SessionArchiveManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionArchiveManager.swift; sourceTree = "<group>"; };
+		1DC321C82D7D936400EE70E1 /* WatchSessionManager+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WatchSessionManager+Extensions.swift"; sourceTree = "<group>"; };
+		1DC321CA2D7D938300EE70E1 /* DataMigrationUtility.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DataMigrationUtility.swift; sourceTree = "<group>"; };
+		1DC321CC2D7D939900EE70E1 /* JournalView+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JournalView+Extensions.swift"; sourceTree = "<group>"; };
+		1DC321D12D7D981300EE70E1 /* AllSessionsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AllSessionsView.swift; sourceTree = "<group>"; };
 		1DC4B3272CF5454F00A8CC30 /* FontManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
 		1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedDefaults.swift; sourceTree = "<group>"; };
 		1DC4B32D2CF6762000A8CC30 /* RegattaWidgetExtensionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RegattaWidgetExtensionExtension.entitlements; sourceTree = "<group>"; };
@@ -433,6 +446,8 @@
 			children = (
 				1D5E48222CFC5DD7004813A4 /* iOSSessionStore.swift */,
 				1D90CF8A2D46C57C00357553 /* LocationHelper.swift */,
+				1DC321C62D7D934000EE70E1 /* SessionArchiveManager.swift */,
+				1DC321CA2D7D938300EE70E1 /* DataMigrationUtility.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -577,6 +592,7 @@
 				1D5E481A2CFBC79C004813A4 /* JournalManager.swift */,
 				1D412E052D02442A0062C639 /* ColorManager.swift */,
 				1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */,
+				1DC321C82D7D936400EE70E1 /* WatchSessionManager+Extensions.swift */,
 				1D4384672D186D10000DE437 /* IAPManager.swift */,
 				1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */,
 				1D43846C2D186D43000DE437 /* PremiumAlertView.swift */,
@@ -608,6 +624,8 @@
 				1D69FF002CE969E5001C178A /* TimeDisplayView.swift */,
 				1D69FF022CE969EF001C178A /* ButtonsView.swift */,
 				1D5E48182CFBC519004813A4 /* JournalView.swift */,
+				1DC321CC2D7D939900EE70E1 /* JournalView+Extensions.swift */,
+				1DC321D12D7D981300EE70E1 /* AllSessionsView.swift */,
 				1D412E142D025A2C0062C639 /* ColorThemeView.swift */,
 				1D412E192D025A430062C639 /* SettingsView.swift */,
 				1D90CF882D46C3B500357553 /* StartLineMapView.swift */,
@@ -953,6 +971,7 @@
 				1D922ABA2D0C9407004FA716 /* ColorManager.swift in Sources */,
 				1D2E541B2D17162700C669D4 /* Tabs.swift in Sources */,
 				1D4384702D186D43000DE437 /* PremiumAlertView.swift in Sources */,
+				1DC321D02D7D95FC00EE70E1 /* WatchSessionManager+Extensions.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -962,6 +981,7 @@
 			files = (
 				1D5E48242CFC6068004813A4 /* JournalManager.swift in Sources */,
 				1D9EE6122D405B8E008B4B29 /* HeartRateManager.swift in Sources */,
+				1DC321CD2D7D939900EE70E1 /* JournalView+Extensions.swift in Sources */,
 				1D69FEF92CE968FB001C178A /* ScreenEdgePath.swift in Sources */,
 				1D4384682D186D10000DE437 /* IAPManager.swift in Sources */,
 				1D2E54132D17161200C669D4 /* TabScrollContentView.swift in Sources */,
@@ -970,6 +990,7 @@
 				1D2E54092D1715E800C669D4 /* TabButtonStyle.swift in Sources */,
 				1D64AA0F2D46BCF700F1BC04 /* StartLineManager.swift in Sources */,
 				1DC4B32B2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */,
+				1DC321CB2D7D938300EE70E1 /* DataMigrationUtility.swift in Sources */,
 				1D69FF032CE969EF001C178A /* ButtonsView.swift in Sources */,
 				1D2E54182D17162700C669D4 /* Tabs.swift in Sources */,
 				1D412E1A2D025A430062C639 /* SettingsView.swift in Sources */,
@@ -980,6 +1001,7 @@
 				1D69FEF72CE968B5001C178A /* TimerState.swift in Sources */,
 				1D5E48192CFBC519004813A4 /* JournalView.swift in Sources */,
 				1DD9DBD62CF6844B00D1E608 /* LineChartManager.swift in Sources */,
+				1DC321C72D7D934000EE70E1 /* SessionArchiveManager.swift in Sources */,
 				1D69FE982CE967AA001C178A /* Item.swift in Sources */,
 				1D43846D2D186D43000DE437 /* PremiumAlertView.swift in Sources */,
 				1D69FEFB2CE96905001C178A /* SeparatorMark.swift in Sources */,
@@ -987,6 +1009,7 @@
 				1D69FEFF2CE969D9001C178A /* CurrentTimeView.swift in Sources */,
 				1D2E540E2D1715FE00C669D4 /* TabItemModel.swift in Sources */,
 				1D90CF8B2D46C57C00357553 /* LocationHelper.swift in Sources */,
+				1DC321C92D7D936400EE70E1 /* WatchSessionManager+Extensions.swift in Sources */,
 				1DE3D06B2CF3108900B4056F /* StartCountdownIntent.swift in Sources */,
 				1D69FE942CE967AA001C178A /* RegattaApp.swift in Sources */,
 				1DC4B3282CF5454F00A8CC30 /* FontManager.swift in Sources */,
@@ -997,6 +1020,7 @@
 				1D90CF892D46C3B500357553 /* StartLineMapView.swift in Sources */,
 				1D412E152D025A2C0062C639 /* ColorThemeView.swift in Sources */,
 				1D0C3DB02D5AB68600C7D9B5 /* KeychainHelper.swift in Sources */,
+				1DC321D22D7D981300EE70E1 /* AllSessionsView.swift in Sources */,
 				1D4384722D18725D000DE437 /* SubscriptionView.swift in Sources */,
 				1D2E54042D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
 				1D5E48232CFC5DD7004813A4 /* iOSSessionStore.swift in Sources */,
@@ -1009,6 +1033,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				1DC321CF2D7D95FC00EE70E1 /* WatchSessionManager+Extensions.swift in Sources */,
 				1DD9DBD52CF683EE00D1E608 /* LineChartManager.swift in Sources */,
 				1D2E54052D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
 				1D2E540A2D1715E800C669D4 /* TabButtonStyle.swift in Sources */,
@@ -1071,6 +1096,7 @@
 				1D88DEAB2D6A9B0E009DC635 /* RulerView.swift in Sources */,
 				1D69FEC82CE967F7001C178A /* ContentView.swift in Sources */,
 				1D69FF072CE96A32001C178A /* CurrentTimeView.swift in Sources */,
+				1DC321CE2D7D94A600EE70E1 /* WatchSessionManager+Extensions.swift in Sources */,
 				1D768D752CFD1AE800DB4EE5 /* SecondProgressBarView.swift in Sources */,
 				1D2D25D92D4C47CE00DF0CE2 /* AltSpeedInfoView.swift in Sources */,
 				1D2E54152D17161200C669D4 /* TabScrollContentView.swift in Sources */,
