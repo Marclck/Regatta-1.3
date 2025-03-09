@@ -194,7 +194,7 @@ struct CruiseInfoView: View {
                 
                 Rectangle()
                     .frame(width: 10, height: 5)
-                    .foregroundColor(.red.opacity(0.3))
+                    .foregroundColor(.red.opacity(settings.lightMode ? 0.3 : 0.5))
                     .offset(x: 11, y: -9)
                 
                 RulerView(numberOfSegments: 9, width: 25)
@@ -255,7 +255,7 @@ struct CruiseInfoView: View {
                     .foregroundColor(isMaxGreaterThanTop ?
                         Color(hex: colorManager.selectedTheme.rawValue) :
                         .red)
-                    .opacity(0.3)
+                    .opacity(settings.lightMode ? 0.3 : 0.5)
                     .offset(x: xOffset, y: -9)
                 
                 RulerView(numberOfSegments: 9, width: 25)

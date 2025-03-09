@@ -11,7 +11,7 @@ import SwiftData
 @main
 struct RegattaApp: App {
     
-    @StateObject private var colorManager = ColorManager()  // Add this
+    @StateObject private var colorManager = ColorManager()
     
     var sharedModelContainer: ModelContainer = {
         let schema = Schema([
@@ -30,7 +30,7 @@ struct RegattaApp: App {
         WindowGroup {
             ContentView()
         }
-        .environmentObject(colorManager)  // Add this
+        .environmentObject(colorManager)
         .modelContainer(sharedModelContainer)
     }
 }
