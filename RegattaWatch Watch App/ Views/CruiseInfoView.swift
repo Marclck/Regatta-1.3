@@ -4,6 +4,7 @@
 //
 //  Created by Chikai Lai on 07/02/2025.
 //
+// this view is created for CruiseR
 
 import Foundation
 import SwiftUI

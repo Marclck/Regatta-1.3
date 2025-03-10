@@ -4,6 +4,7 @@
 //
 //  Created by Chikai Lai on 30/01/2025.
 //
+// this view is created for timer
 
 import Foundation
 import SwiftUI

@@ -221,7 +221,7 @@ struct MoonPhaseView: View {
         ZStack {
             // Moon base circle
             Circle()
-                .fill(.white)
+                .fill(.black)
             
             // Moon phase shadow
             GeometryReader { geometry in
@@ -237,7 +237,7 @@ struct MoonPhaseView: View {
                     
                     // Elliptical shadow that moves from right to left
                     Ellipse()
-                        .fill(.black)
+                        .fill(.white)
                         .frame(width: width, height: height)
                         .offset(x: x)
                 } else {
@@ -246,7 +246,7 @@ struct MoonPhaseView: View {
                     
                     // Elliptical shadow that moves from left to right
                     Ellipse()
-                        .fill(.black)
+                        .fill(.white)
                         .frame(width: width, height: height)
                         .offset(x: -width + x)
                 }
