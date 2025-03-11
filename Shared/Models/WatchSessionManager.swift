@@ -5,13 +5,6 @@
 //  Created by Chikai Lai on 21/12/2024.
 //
 
-//
-//  WatchSessionManager.swift
-//  Regatta
-//
-//  Created by Assistant on 21/12/2024.
-//
-
 import Foundation
 import WatchConnectivity
 
@@ -24,6 +17,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
     // Queue for pending transfers
     private var pendingSessions: [RaceSession]?
     private var isActivated = false
+    private var currentSessionIndex = 0
     
     override init() {
         super.init()
@@ -56,7 +50,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                 // Try to send any pending sessions
                 if let pendingSessions = self?.pendingSessions {
                     print("⌚️ Processing pending sessions after activation")
-                    self?.doTransferSessions(pendingSessions)
+                    self?.transferSessionsOneByOne(pendingSessions)
                     self?.pendingSessions = nil
                 }
             }
@@ -68,7 +62,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         // Try to send pending sessions if we become reachable
         if session.isReachable, let pendingSessions = pendingSessions {
             print("⌚️ Attempting to send pending sessions after becoming reachable")
-            doTransferSessions(pendingSessions)
+            transferSessionsOneByOne(pendingSessions)
             self.pendingSessions = nil
         }
     }
@@ -80,16 +74,32 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             return
         }
         
+        // Always save to shared defaults as backup
+        SharedDefaults.saveSessionsToContainer(sessions)
+        
         if isActivated {
-            doTransferSessions(sessions)
+            transferSessionsOneByOne(sessions)
         } else {
             print("⌚️ Session not activated yet, queueing transfer")
             pendingSessions = sessions
         }
     }
     
-    // Private transfer implementation
-    private func doTransferSessions(_ sessions: [RaceSession]) {
+    // Transfer sessions one by one using application context
+    private func transferSessionsOneByOne(_ sessions: [RaceSession]) {
+        // Reset current index
+        currentSessionIndex = 0
+        
+        // Start the transfer process
+        transferNextSession(sessions)
+    }
+    
+    private func transferNextSession(_ sessions: [RaceSession]) {
+        guard currentSessionIndex < sessions.count else {
+            print("⌚️ All sessions transferred successfully")
+            return
+        }
+        
         queue.async { [weak self] in
             guard let self = self,
                   let session = self.session,
@@ -98,31 +108,44 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                 return
             }
             
-            print("⌚️ Attempting to transfer sessions...")
-            print("⌚️ Session state - Activation: \(session.activationState.rawValue)")
-            print("⌚️ Session state - Reachable: \(session.isReachable)")
+            let sessionToTransfer = sessions[self.currentSessionIndex]
+            print("⌚️ Transferring session \(self.currentSessionIndex + 1)/\(sessions.count) - Date: \(sessionToTransfer.date)")
             
             do {
-                let data = try JSONEncoder().encode(sessions)
-                let message = ["sessions": data]
+                // Convert session to dictionary format
+                let sessionDict: [String: Any] = [
+                    "id": sessionToTransfer.id,
+                    "date": sessionToTransfer.date.timeIntervalSince1970,
+                    "countdownDuration": sessionToTransfer.countdownDuration,
+                    "raceStartTime": sessionToTransfer.raceStartTime?.timeIntervalSince1970 as Any,
+                    "raceDuration": sessionToTransfer.raceDuration as Any,
+                    "timeZoneOffset": sessionToTransfer.timeZoneOffset,
+                    "sessionIndex": self.currentSessionIndex,
+                    "totalSessions": sessions.count
+                ]
                 
-                if session.isReachable {
-                    session.sendMessage(message, replyHandler: { reply in
-                        print("⌚️ Sessions sent successfully: \(reply)")
-                    }) { error in
-                        print("⌚️ Failed to send sessions: \(error.localizedDescription)")
-                    }
-                } else {
-                    print("⌚️ Session not reachable, using application context")
-                    try session.updateApplicationContext(message)
-                    print("⌚️ Updated application context successfully")
+                let applicationContext: [String: Any] = [
+                    "singleSession": sessionDict,
+                    "timestamp": Date().timeIntervalSince1970 // To ensure context is considered "changed"
+                ]
+                
+                try session.updateApplicationContext(applicationContext)
+                print("⌚️ Updated application context with session \(self.currentSessionIndex + 1)")
+                
+                // Move to next session after a short delay
+                self.currentSessionIndex += 1
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.transferNextSession(sessions)
                 }
             } catch {
-                print("⌚️ Error in transfer: \(error)")
+                print("⌚️ Error transferring session \(self.currentSessionIndex + 1): \(error)")
+                
+                // Try to move to next session despite error
+                self.currentSessionIndex += 1
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    self.transferNextSession(sessions)
+                }
             }
-            
-            // Always save to shared defaults as backup
-            SharedDefaults.saveSessionsToContainer(sessions)
         }
     }
 }
@@ -134,6 +157,11 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
     private var session: WCSession?
     private let queue = DispatchQueue(label: "com.heart.regatta.watchsessionmanager")
     private var isActivated = false
+    
+    // Track received sessions
+    private var receivedSessionsCount = 0
+    private var expectedSessionsTotal = 0
+    private var receivedSessions: [RaceSession] = []
     
     override init() {
         super.init()
@@ -175,41 +203,81 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         session.activate()
     }
     
-    func session(_ session: WCSession, didReceiveMessage message: [String: Any], replyHandler: @escaping ([String: Any]) -> Void) {
-        queue.async {
-            if let sessionData = message["sessions"] as? Data {
-                do {
-                    let sessions = try JSONDecoder().decode([RaceSession].self, from: sessionData)
-                    DispatchQueue.main.async {
-                        SharedDefaults.saveSessionsToContainer(sessions)
-                        NotificationCenter.default.post(
-                            name: Notification.Name("SessionsUpdatedFromWatch"),
-                            object: nil
-                        )
-                    }
-                    replyHandler(["status": "success"])
-                } catch {
-                    print("📱 Failed to decode received sessions: \(error)")
-                    replyHandler(["status": "error", "message": error.localizedDescription])
-                }
-            }
+    // Handle application context updates (one session at a time)
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String: Any]) {
+        if let sessionDict = applicationContext["singleSession"] as? [String: Any] {
+            processReceivedSession(sessionDict)
         }
     }
     
-    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-        if let sessionData = applicationContext["sessions"] as? Data {
-            do {
-                let sessions = try JSONDecoder().decode([RaceSession].self, from: sessionData)
-                DispatchQueue.main.async {
-                    SharedDefaults.saveSessionsToContainer(sessions)
-                    NotificationCenter.default.post(
-                        name: Notification.Name("SessionsUpdatedFromWatch"),
-                        object: nil
-                    )
-                }
-            } catch {
-                print("📱 Failed to decode application context sessions: \(error)")
-            }
+    private func processReceivedSession(_ sessionDict: [String: Any]) {
+        guard let id = sessionDict["id"] as? String,
+              let dateTimeInterval = sessionDict["date"] as? TimeInterval,
+              let countdownDuration = sessionDict["countdownDuration"] as? Int,
+              let timeZoneOffset = sessionDict["timeZoneOffset"] as? Int,
+              let sessionIndex = sessionDict["sessionIndex"] as? Int,
+              let totalSessions = sessionDict["totalSessions"] as? Int else {
+            print("📱 Missing required session data")
+            return
+        }
+        
+        // Update tracking counters
+        expectedSessionsTotal = totalSessions
+        
+        // Create date objects
+        let date = Date(timeIntervalSince1970: dateTimeInterval)
+        
+        // Handle optional values
+        let raceStartTime: Date?
+        if let startTimeInterval = sessionDict["raceStartTime"] as? TimeInterval {
+            raceStartTime = Date(timeIntervalSince1970: startTimeInterval)
+        } else {
+            raceStartTime = nil
+        }
+        
+        let raceDuration = sessionDict["raceDuration"] as? TimeInterval
+        
+        // Create a RaceSession object (without data points for now)
+        let session = RaceSession(
+            date: date,
+            countdownDuration: countdownDuration,
+            raceStartTime: raceStartTime,
+            raceDuration: raceDuration
+        )
+        
+        print("📱 Received session \(sessionIndex + 1) of \(totalSessions): \(id)")
+        
+        // Add to our collection
+        receivedSessions.append(session)
+        receivedSessionsCount += 1
+        
+        // Check if we've received all expected sessions
+        if receivedSessionsCount >= expectedSessionsTotal {
+            saveAndNotifyCompletion()
+        }
+    }
+    
+    private func saveAndNotifyCompletion() {
+        // Archive all received sessions
+        if !receivedSessions.isEmpty {
+            print("📱 All \(receivedSessions.count) sessions received")
+            
+            // Save sessions to session archive
+            SessionArchiveManager.shared.saveSessionsToArchive(receivedSessions)
+            
+            // Also save to shared defaults
+            SharedDefaults.saveSessionsToContainer(receivedSessions)
+            
+            // Notify UI to refresh
+            NotificationCenter.default.post(
+                name: Notification.Name("SessionsUpdatedFromWatch"),
+                object: nil
+            )
+            
+            // Reset tracking
+            receivedSessionsCount = 0
+            expectedSessionsTotal = 0
+            receivedSessions.removeAll()
         }
     }
 }

@@ -283,9 +283,9 @@ class JournalManager: ObservableObject {
     
     func saveSessions() {
             // Keep only the last 10 sessions
-            if allSessions.count > 10 {
-                allSessions = Array(allSessions.suffix(10))
-                print("📓 Trimmed sessions to last 10, new count: \(allSessions.count)")
+            if allSessions.count > 5 {
+                allSessions = Array(allSessions.suffix(5))
+                print("📓 Trimmed sessions to last 5, new count: \(allSessions.count)")
             }
             
             SharedDefaults.saveSessionsToContainer(self.allSessions)
@@ -312,7 +312,7 @@ class JournalManager: ObservableObject {
             print("📓 Loading sessions from shared container")
             if let sessions = SharedDefaults.loadSessionsFromContainer() {
                 // Ensure we only keep last 10 sessions even when loading
-                allSessions = Array(sessions.suffix(10))
+                allSessions = Array(sessions.suffix(5))
                 print("📓 Loaded \(allSessions.count) sessions successfully")
             }
         }
@@ -320,5 +320,18 @@ class JournalManager: ObservableObject {
     private func clearCurrentSession() {
         defaults.removeObject(forKey: currentSessionKey)
         defaults.synchronize()
+    }
+    
+    // MARK - Cruise session entry
+    
+    // Add a completed cruise session without affecting current timer session
+    func addCruiseSession(_ session: RaceSession) {
+        loadSessions()
+        allSessions.append(session)
+        saveSessions()
+        
+        // Notify listeners
+        objectWillChange.send()
+        print("📓 Added cruise session to journal, total sessions: \(allSessions.count)")
     }
 }

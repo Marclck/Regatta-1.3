@@ -302,12 +302,12 @@ struct CruiseInfoView: View {
         if !locationManager.isMonitoring {
             let lastDistance = lastReadingManager.distance
             if lastDistance == 0 {
-                return "-"
+                return "0.0"
             }
             
-            if lastDistance > 99_000 {  // Over 99km
+            if lastDistance > 200_000 {  // Over 200km
                 return "FAR"
-            } else if lastDistance >= 10_000 {  // 10km to 99km
+            } else if lastDistance >= 10_000 {  // 10km to 200km
                 return String(format: "%.0fk", lastDistance / 1000)
             } else if lastDistance >= 1_000 {  // 1km to 9.9km
                 return String(format: "%.1fk", lastDistance / 1000)
@@ -317,10 +317,10 @@ struct CruiseInfoView: View {
         }
         
         if totalDistance == 0 {
-            return "-"
+            return "0.0"
         }
         
-        if totalDistance > 99_000 {  // Over 99km
+        if totalDistance > 200_000 {  // Over 200km
             return "FAR"
         } else if totalDistance >= 10_000 {  // 10km to 99km
             return String(format: "%.0fk", totalDistance / 1000)
@@ -345,21 +345,24 @@ struct CruiseInfoView: View {
     }
     
     private func resetTracking() {
+        // Reset with current GPS monitoring state
+        lastReadingManager.resetDistance(isMonitoring: locationManager.isMonitoring)
+        
+        // Original reset code
         totalDistance = 0
         lastLocation = nil
         topSpeed = 0
         courseTracker.resetTackCount()
-        lastReadingManager.resetDistance()  // Updated to use existing method
     }
     
     private func getSpeedText() -> String {
         if !locationManager.isMonitoring {
             let lastSpeed = lastReadingManager.speed
-            return lastSpeed <= 0 ? "-" : String(format: "%.1f", lastSpeed)
+            return lastSpeed <= 0 ? "0.0" : String(format: "%.1f", lastSpeed)
         }
         
         let speedInKnots = locationManager.speed * 1.94384
-        return speedInKnots <= 0 ? "-" : String(format: "%.1f", speedInKnots)
+        return speedInKnots <= 0 ? "0.0" : String(format: "%.1f", speedInKnots)
     }
     
     private func getCardinalDirection(_ degrees: Double) -> String {
@@ -464,6 +467,7 @@ struct CruiseInfoView: View {
     private var speedDisplay: some View {
         Button(action: {
             WKInterfaceDevice.current().play(.click)
+            // Inside the speedDisplay button action, where GPS is turned OFF:
             if locationManager.isMonitoring {
                 // Save current readings before stopping
                 if let location = locationManager.lastLocation {
@@ -475,9 +479,13 @@ struct CruiseInfoView: View {
                         deviation: courseTracker.currentDeviation,
                         tackCount: courseTracker.tackCount,
                         topSpeed: topSpeed,
-                        tackAngle: courseTracker.tackAngle  // Add this parameter
+                        tackAngle: courseTracker.tackAngle
                     )
                 }
+                
+                // End cruise session when GPS is turned off
+                lastReadingManager.endCruiseSession()
+                
                 locationManager.stopUpdatingLocation()
                 showGPSOffMessage = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
@@ -485,6 +493,10 @@ struct CruiseInfoView: View {
                 }
             } else {
                 locationManager.startUpdatingLocation()
+                
+                // Notify LastReadingManager of GPS status change
+                lastReadingManager.handleGPSStatusChange(isMonitoring: true)
+                
                 showGPSOnMessage = true
                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                     showGPSOnMessage = false
@@ -588,6 +600,15 @@ struct CruiseInfoView: View {
                     courseTracker.updateCourse(location.course)
                 }
                 updateDistance(newLocation: location)
+                
+                // Add data to cruise session if monitoring
+                if locationManager.isMonitoring {
+                    let speedInKnots = locationManager.speed * 1.94384
+                    lastReadingManager.addLocationToSession(
+                        speed: speedInKnots,
+                        location: location
+                    )
+                }
             }
         }
         .onDisappear {
@@ -604,9 +625,13 @@ struct CruiseInfoView: View {
                         deviation: courseTracker.currentDeviation,
                         tackCount: courseTracker.tackCount,
                         topSpeed: topSpeed,
-                        tackAngle: courseTracker.tackAngle  // Add this parameter
+                        tackAngle: courseTracker.tackAngle
                     )
                 }
+                
+                // End cruise session when view disappears with GPS on
+                lastReadingManager.endCruiseSession()
+                
                 locationManager.stopUpdatingLocation()
             }
         }

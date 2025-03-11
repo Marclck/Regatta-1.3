@@ -13,20 +13,30 @@ import CoreLocation
 struct JournalView: View {
     @StateObject private var sessionStore = iOSSessionStore.shared
     
-    private func groupedSessions() -> [String: [RaceSession]] {
+    // Modified to use Date objects as keys for proper sorting
+    private func groupedSessions() -> [(date: Date, dateString: String, sessions: [RaceSession])] {
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
         
-        return Dictionary(grouping: sessionStore.sessions) { session in
-            formatter.string(from: session.date)
+        // Group sessions by calendar day
+        let calendar = Calendar.current
+        let grouped = Dictionary(grouping: sessionStore.sessions) { session in
+            calendar.startOfDay(for: session.date)
         }
+        
+        // Convert to sorted array of (date, dateString, sessions)
+        return grouped.map { (date, sessions) in
+            (date: date, dateString: formatter.string(from: date), sessions: sessions)
+        }.sorted { $0.date > $1.date }
     }
     
     // Get the most recent start line points
     private var mostRecentStartLine: (left: LocationData?, right: LocationData?) {
-        guard let latestSession = sessionStore.sessions.max(by: { $0.date < $1.date }) else {
-            return (nil, nil)
+        guard let latestSession = sessionStore.sessions
+            .filter({ $0.countdownDuration < 900 })
+            .max(by: { $0.date < $1.date }) else {
+                return (nil, nil)
         }
         return (latestSession.leftPoint, latestSession.rightPoint)
     }
@@ -38,8 +48,8 @@ struct JournalView: View {
                 if mostRecentStartLine.left != nil || mostRecentStartLine.right != nil {
                     VStack(alignment: .leading, spacing: 4) {
                         HStack {
-                            Text("Current Race Start Line")
-                                .font(.system(.headline, design: .monospaced))
+                            Text("Current Start Line")
+                                .font(.system(.headline))
                             
                             Spacer()
                             
@@ -50,9 +60,12 @@ struct JournalView: View {
                                 }
                             }) {
                                 Text("Refresh")
-                                    .font(.system(.subheadline, design: .monospaced))
-                                    .foregroundColor(.blue)
-                            }
+                                    .font(.system(.subheadline))
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 4)
+                                    .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
+                                    .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.2))
+                                    .cornerRadius(8)                            }
                         }
                         .padding(.horizontal)
                         .padding(.top, 8)
@@ -91,6 +104,7 @@ struct JournalView: View {
                             }
                         }
                         .padding(.horizontal)
+                        .padding(.vertical, 4)
                     }
                 }
 /*
@@ -116,9 +130,10 @@ struct JournalView: View {
                         VStack {
                             // Display recent sessions (limited to 10)
                             List {
-                                ForEach(groupedSessions().keys.sorted(by: >), id: \.self) { date in
-                                    Section(header: Text(date)) {
-                                        ForEach(groupedSessions()[date]!.sorted(by: { $0.date > $1.date }), id: \.date) { session in
+                                // Use the sorted array of date groups instead of sorting string keys
+                                ForEach(groupedSessions(), id: \.date) { group in
+                                    Section(header: Text(group.dateString)) {
+                                        ForEach(group.sessions.sorted(by: { $0.date > $1.date }), id: \.date) { session in
                                             SessionRowView(session: session)
                                         }
                                     }
@@ -145,7 +160,7 @@ struct JournalView: View {
                     }
                 }
             }
-            .navigationTitle("Race Journal")
+            .navigationTitle("Journal")
             .refreshable {
                 print("📱 JournalView: Pull to refresh triggered")
                 await withCheckedContinuation { continuation in
@@ -245,31 +260,57 @@ struct SessionRowView: View {
                 }
                 
                 HStack {
-                    Text("Countdown: \(session.countdownDuration) min")
+                    if session.countdownDuration > 900 {
+                        Text("Cruise")
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                            .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.2))
+                            .cornerRadius(8)
+                    } else {
+                        Text("Countdown: \(session.countdownDuration) min")
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
+                            .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.2))
+                            .cornerRadius(8)
+                    }
                     Spacer()
-                    Text("Race: \(session.formattedRaceTime)")
+                    Text("Duration: \(session.formattedRaceTime)")
                 }
-                .font(.system(.subheadline, design: .monospaced))
+                .font(.system(.subheadline, weight: .bold))
                 .foregroundColor(.secondary)
                 
                 HStack {
-                    Text(maxSpeedDisplay)
-                    Spacer()
                     Text(avgSpeedDisplay)
+                    Spacer()
+                    Text(maxSpeedDisplay)
                 }
                 .font(.system(.caption, design: .monospaced))
                 .foregroundColor(.secondary)
                 
                 HStack {
-                    Image(systemName: "triangle.fill")
-                        .foregroundColor(.green)
-                        .font(.system(size: 12))
-                    Text(leftCoordinate)
-                    Spacer()
-                    Text(rightCoordinate)
-                    Image(systemName: "square.fill")
-                        .foregroundColor(.green)
-                        .font(.system(size: 12))
+                    if session.countdownDuration < 31 {
+                        Image(systemName: "triangle.fill")
+                            .foregroundColor(.green)
+                            .font(.system(size: 12))
+                        Text(leftCoordinate)
+                        Spacer()
+                        Text(rightCoordinate)
+                        Image(systemName: "square.fill")
+                            .foregroundColor(.green)
+                            .font(.system(size: 12))
+                    } else {
+                            Image(systemName: "circle.fill")
+                                .foregroundColor(.green)
+                                .font(.system(size: 12))
+                            Text(leftCoordinate)
+                            Spacer()
+                            Text(rightCoordinate)
+                            Image(systemName: "circle.fill")
+                                .foregroundColor(.red)
+                                .font(.system(size: 12))
+                    }
                 }
                 .font(.system(.caption, design: .monospaced))
                 .foregroundColor(.secondary)
@@ -284,7 +325,7 @@ struct SessionRowView: View {
                     RaceSessionMapView(session: session)
                         .padding(.vertical)
                 }
-                .navigationTitle("Race Details")
+                .navigationTitle("Session Data")
                 .navigationBarTitleDisplayMode(.inline)
                 .toolbar {
                     ToolbarItem(placement: .navigationBarTrailing) {
