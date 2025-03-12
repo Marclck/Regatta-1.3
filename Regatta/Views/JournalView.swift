@@ -9,9 +9,20 @@ import Foundation
 import SwiftUI
 import CoreLocation
 
+// Extension for ultraThinMaterial style
+extension View {
+    func materialBackground() -> some View {
+        self.background(.ultraThinMaterial)
+            .cornerRadius(12)
+            .environment(\.colorScheme, .dark)
+
+    }
+}
 
 struct JournalView: View {
     @StateObject private var sessionStore = iOSSessionStore.shared
+    @ObservedObject private var colorManager = ColorManager()
+
     
     // Modified to use Date objects as keys for proper sorting
     private func groupedSessions() -> [(date: Date, dateString: String, sessions: [RaceSession])] {
@@ -43,124 +54,154 @@ struct JournalView: View {
     
     var body: some View {
         NavigationView {
-            VStack(spacing: 0) {
-                // Start Line Map
-                if mostRecentStartLine.left != nil || mostRecentStartLine.right != nil {
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Text("Current Start Line")
-                                .font(.system(.headline))
-                            
-                            Spacer()
-                            
-                            Button(action: {
-                                // Trigger session refresh
-                                Task { @MainActor in
-                                    sessionStore.refreshSessions()
-                                }
-                            }) {
-                                Text("Refresh")
-                                    .font(.system(.subheadline))
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 4)
-                                    .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
-                                    .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.2))
-                                    .cornerRadius(8)                            }
-                        }
-                        .padding(.horizontal)
-                        .padding(.top, 8)
-                        
-                        StartLineMapView(
-                            leftPoint: mostRecentStartLine.left,
-                            rightPoint: mostRecentStartLine.right
-                        )
-                        .padding(.top, 4)
-                        
-                        HStack {
-                            // Left coordinate
-                            if let left = mostRecentStartLine.left {
-                                HStack(spacing: 4) {
-                                    Image(systemName: "triangle.fill")
-                                        .foregroundColor(.green)
-                                        .font(.system(size: 12))
-                                    Text(String(format: "(%.4f, %.4f)", left.latitude, left.longitude))
-                                        .font(.system(size: 12, design: .monospaced))
-                                        .foregroundColor(.secondary)
+            ZStack {
+                // Gradient background - IMPORTANT: This must be the first element in the ZStack
+                LinearGradient(
+                    gradient: Gradient(stops: [
+                        .init(color: Color(hex: colorManager.selectedTheme.rawValue), location: 0.0),
+                        .init(color: Color.black, location: 0.3),
+                        .init(color: Color.black, location: 1.0)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+                
+                // Content
+                VStack(spacing: 0) {
+                    // Start Line Map
+                    if mostRecentStartLine.left != nil || mostRecentStartLine.right != nil {
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack {
+                                Text("Current Start Line")
+                                    .font(.system(.headline))
+                                    .foregroundColor(.white)
+                                
+                                Spacer()
+                                
+                                Button(action: {
+                                    // Trigger session refresh
+                                    Task { @MainActor in
+                                        sessionStore.refreshSessions()
+                                    }
+                                }) {
+                                    Text("Refresh")
+                                        .font(.system(.subheadline))
+                                        .padding(.horizontal, 8)
+                                        .padding(.vertical, 4)
+                                        .foregroundColor(.white)
+                                        .background(Color.white.opacity(0.3))
+                                        .cornerRadius(8)
                                 }
                             }
+                            .padding(.horizontal)
+                            .padding(.top, 8)
                             
-                            Spacer()
+                            StartLineMapView(
+                                leftPoint: mostRecentStartLine.left,
+                                rightPoint: mostRecentStartLine.right
+                            )
+                            .padding(.top, 4)
+                            .cornerRadius(12)
+                            .padding(.horizontal)
                             
-                            // Right coordinate
-                            if let right = mostRecentStartLine.right {
-                                HStack(spacing: 4) {
-                                    Text(String(format: "(%.4f, %.4f)", right.latitude, right.longitude))
-                                        .font(.system(size: 12, design: .monospaced))
-                                        .foregroundColor(.secondary)
-                                    Image(systemName: "square.fill")
-                                        .foregroundColor(.green)
-                                        .font(.system(size: 12))
+                            HStack {
+                                // Left coordinate
+                                if let left = mostRecentStartLine.left {
+                                    HStack(spacing: 4) {
+                                        Image(systemName: "triangle.fill")
+                                            .foregroundColor(.green)
+                                            .font(.system(size: 12))
+                                        Text(String(format: "(%.4f, %.4f)", left.latitude, left.longitude))
+                                            .font(.system(size: 12, design: .monospaced))
+                                            .foregroundColor(.white.opacity(0.7))
+                                    }
                                 }
-                            }
-                        }
-                        .padding(.horizontal)
-                        .padding(.vertical, 4)
-                    }
-                }
-/*
-                // Archive Stats
-                archiveStats(sessionStore: sessionStore)
-*/
-                // Session List
-                Group {
-                    if sessionStore.isLoading {
-                        ProgressView("Loading sessions...")
-                    } else if sessionStore.sessions.isEmpty {
-                        VStack {
-                            Text("No race sessions recorded yet")
-                                .font(.system(.body, design: .monospaced))
-                                .foregroundColor(.gray)
-                            
-                            Text("Complete a race to see it here")
-                                .font(.system(.caption, design: .monospaced))
-                                .foregroundColor(.gray)
-                                .padding(.top, 4)
-                        }
-                    } else {
-                        VStack {
-                            // Display recent sessions (limited to 10)
-                            List {
-                                // Use the sorted array of date groups instead of sorting string keys
-                                ForEach(groupedSessions(), id: \.date) { group in
-                                    Section(header: Text(group.dateString)) {
-                                        ForEach(group.sessions.sorted(by: { $0.date > $1.date }), id: \.date) { session in
-                                            SessionRowView(session: session)
-                                        }
+                                
+                                Spacer()
+                                
+                                // Right coordinate
+                                if let right = mostRecentStartLine.right {
+                                    HStack(spacing: 4) {
+                                        Text(String(format: "(%.4f, %.4f)", right.latitude, right.longitude))
+                                            .font(.system(size: 12, design: .monospaced))
+                                            .foregroundColor(.white.opacity(0.7))
+                                        Image(systemName: "square.fill")
+                                            .foregroundColor(.green)
+                                            .font(.system(size: 12))
                                     }
                                 }
                             }
-                            
-                            /* // "All Sessions" button
-                            NavigationLink(destination: AllSessionsView()) {
-                                HStack {
-                                    Image(systemName: "arrow.up.doc.fill")
-                                    Text("All Sessions")
-                                        .font(.system(.headline, design: .rounded))
-                                }
-                                .frame(maxWidth: .infinity)
-                                .padding(.vertical, 12)
-                                .background(Color.blue)
-                                .foregroundColor(.white)
-                                .cornerRadius(10)
-                                .padding(.horizontal)
-                                .padding(.bottom, 8)
+                            .padding(.horizontal)
+                            .padding(.vertical, 4)
+                        }
+                        .materialBackground()
+                        .padding(.horizontal)
+                        .padding(.vertical, 8)
+                    }
+                    
+                    // Session List
+                    Group {
+                        if sessionStore.isLoading {
+                            VStack {
+                                ProgressView()
+                                Text("Loading sessions...")
+                                    .foregroundColor(.white)
+                                    .padding(.top, 8)
                             }
-                             */
+                            .frame(maxWidth: .infinity, maxHeight: .infinity)
+                            .padding(.top, 50)
+                        } else if sessionStore.sessions.isEmpty {
+                            VStack {
+                                Text("No race sessions recorded yet")
+                                    .font(.system(.body, design: .monospaced))
+                                    .foregroundColor(.white)
+                                
+                                Text("Complete a race to see it here")
+                                    .font(.system(.caption, design: .monospaced))
+                                    .foregroundColor(.white.opacity(0.7))
+                                    .padding(.top, 4)
+                            }
+                            .padding(.top, 50)
+                        } else {
+                            // Display recent sessions
+                            List {
+                                // Use the sorted array of date groups
+                                ForEach(groupedSessions(), id: \.date) { group in
+                                    Section(header:
+                                        Text(group.dateString)
+                                            .foregroundColor(.white)
+                                            .font(.headline)
+                                    ) {
+                                        ForEach(group.sessions.sorted(by: { $0.date > $1.date }), id: \.date) { session in
+                                            SessionRowView(session: session)
+                                                .listRowBackground(
+                                                    Color.clear
+                                                        .background(.ultraThinMaterial)
+                                                        .environment(\.colorScheme, .dark)
+
+                                                )
+                                        }
+                                    }
+                                    .listSectionSeparator(.hidden)
+                                }
+                            }
+                            .listStyle(InsetGroupedListStyle())
+                            .scrollContentBackground(.hidden) // Hide default list background
                         }
                     }
                 }
             }
-            .navigationTitle("Journal")
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Text("Journal")
+                        .foregroundColor(.white)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline) // Changed to inline to avoid conflict
+            .toolbarBackground(.hidden, for: .navigationBar)
             .refreshable {
                 print("📱 JournalView: Pull to refresh triggered")
                 await withCheckedContinuation { continuation in
@@ -251,11 +292,12 @@ struct SessionRowView: View {
                 HStack {
                     Text("\(session.formattedTime()) \(session.timeZoneString())")
                         .font(.system(.headline))
+                        .foregroundColor(.white)
                     
                     Spacer()
                     
                     Image(systemName: "map")
-                        .foregroundColor(.blue)
+                        .foregroundColor(.white)
                         .font(.system(size: 16))
                 }
                 
@@ -265,21 +307,21 @@ struct SessionRowView: View {
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
                             .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
-                            .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.2))
+                            .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.3))
                             .cornerRadius(8)
                     } else {
                         Text("Countdown: \(session.countdownDuration) min")
                             .padding(.horizontal, 8)
                             .padding(.vertical, 4)
                             .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
-                            .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.2))
+                            .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.3))
                             .cornerRadius(8)
                     }
                     Spacer()
                     Text("Duration: \(session.formattedRaceTime)")
+                        .foregroundColor(.white.opacity(0.8))
                 }
                 .font(.system(.subheadline, weight: .bold))
-                .foregroundColor(.secondary)
                 
                 HStack {
                     Text(avgSpeedDisplay)
@@ -287,7 +329,7 @@ struct SessionRowView: View {
                     Text(maxSpeedDisplay)
                 }
                 .font(.system(.caption, design: .monospaced))
-                .foregroundColor(.secondary)
+                .foregroundColor(.white.opacity(0.7))
                 
                 HStack {
                     if session.countdownDuration < 31 {
@@ -301,19 +343,19 @@ struct SessionRowView: View {
                             .foregroundColor(.green)
                             .font(.system(size: 12))
                     } else {
-                            Image(systemName: "circle.fill")
-                                .foregroundColor(.green)
-                                .font(.system(size: 12))
-                            Text(leftCoordinate)
-                            Spacer()
-                            Text(rightCoordinate)
-                            Image(systemName: "circle.fill")
-                                .foregroundColor(.red)
-                                .font(.system(size: 12))
+                        Image(systemName: "circle.fill")
+                            .foregroundColor(.green)
+                            .font(.system(size: 12))
+                        Text(leftCoordinate)
+                        Spacer()
+                        Text(rightCoordinate)
+                        Image(systemName: "circle.fill")
+                            .foregroundColor(.red)
+                            .font(.system(size: 12))
                     }
                 }
                 .font(.system(.caption, design: .monospaced))
-                .foregroundColor(.secondary)
+                .foregroundColor(.white.opacity(0.7))
             }
             .padding(.vertical, 4)
         }
@@ -334,7 +376,9 @@ struct SessionRowView: View {
                         }
                     }
                 }
+                .background(Color.black)
             }
+            .environment(\.colorScheme, .dark)
         }
     }
 }
@@ -393,7 +437,20 @@ struct SessionRowView: View {
         dataPoints: mockDataPoints
     )
     
-    return List {
-        SessionRowView(session: mockSession)
+    return ZStack {
+        LinearGradient(
+            gradient: Gradient(colors: [Color(hex: ColorTheme.ultraBlue.rawValue), Color.black]),
+            startPoint: .top,
+            endPoint: .bottom
+        )
+        .ignoresSafeArea()
+        
+        List {
+            SessionRowView(session: mockSession)
+                .listRowBackground(Color.clear.background(.ultraThinMaterial))
+                .environment(\.colorScheme, .dark)
+
+        }
+        .scrollContentBackground(.hidden)
     }
 }

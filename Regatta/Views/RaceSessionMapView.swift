@@ -182,7 +182,7 @@ struct RaceSessionMapView: View {
             }
             .pickerStyle(.segmented)
             .padding()
-            .background(Color(.systemBackground))
+            .background(Color(.black))
             
             // Map view with no-data overlay if needed
             ZStack {
@@ -403,6 +403,7 @@ struct RaceSessionMapView: View {
                 .padding(.horizontal)
             }
         }
+        .environment(\.colorScheme, .dark)
     }
     
     private func colorForSpeed(_ speed: Double) -> Color {

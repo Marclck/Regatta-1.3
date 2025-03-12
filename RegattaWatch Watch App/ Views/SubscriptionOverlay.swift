@@ -16,6 +16,7 @@ struct SubscriptionOverlay: View {
             // Blur effect
             Rectangle()
                 .fill(.ultraThinMaterial)
+                .environment(\.colorScheme, .dark)
                 .ignoresSafeArea()
             
             VStack(spacing: 12) {

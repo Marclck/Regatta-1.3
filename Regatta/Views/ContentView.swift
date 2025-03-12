@@ -30,6 +30,7 @@ struct ContentView: View {
                 }
             
         }
+        .environment(\.colorScheme, .dark)
         .onAppear {
             if lastVersionSeen != currentVersion {
                 showingUpdateModal = true
@@ -55,6 +56,7 @@ struct ContentView: View {
                 }
             }
             .background(.ultraThinMaterial)
+            .environment(\.colorScheme, .dark)
         }
     }
 }
@@ -126,9 +128,10 @@ struct VersionUpdatePopup: View {
 private var versionHistorySection: some View {
     NavigationLink(destination: VersionHistoryView(isModal: false)) {
         HStack {
-            Image(systemName: "clock.arrow.circlepath")
+            Image(systemName: "clock.arrow.circlepath").foregroundColor(.white)
             Text("Version History")
-                .font(.system(.body, design: .monospaced))
+                                            .font(.system(.body, design: .monospaced))
+                            .foregroundColor(.white)
         }
     }
 }
@@ -136,6 +139,7 @@ private var versionHistorySection: some View {
 struct MainInfoView: View {
     @StateObject private var timerState = TimerState()
     @ObservedObject private var iapManager = IAPManager.shared
+    @EnvironmentObject var colorManager: ColorManager
     @State private var showingWatchSettings = false
     @State private var showingSpeedTools = false
     @State private var showingCruiser = false
@@ -179,111 +183,176 @@ struct MainInfoView: View {
     
     var body: some View {
         NavigationView {
-            List {
-                Section("Feature Access") {
-                    NavigationLink(destination: SubscriptionView()) {
-                        HStack {
-                            Image(systemName: subscriptionIcon)
-                                .foregroundColor(subscriptionColor)
-                            VStack(alignment: .leading) {
-                                if iapManager.currentTier == .ultra {
-                                    HStack{
-                                        Text("ULTRA")
-                                            .padding(.horizontal, 8)
-                                            .padding(.vertical, 4)
-                                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
-                                            .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.2))
-                                            .cornerRadius(8)
-
-
-                                        Text("Features")
-                                    }
+            ZStack {
+                // Gradient background - matches JournalView
+                LinearGradient(
+                    gradient: Gradient(stops: [
+                        .init(color: Color(hex: colorManager.selectedTheme.rawValue), location: 0.0),
+                        .init(color: Color.black, location: 0.3),
+                        .init(color: Color.black, location: 1.0)
+                    ]),
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+                .ignoresSafeArea()
+                
+                // Content
+                VStack(spacing: 0) {
+                    // Feature Access Section (Sticky)
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("Feature Access")
+                            .font(.headline)
+                            .foregroundColor(.white)
+                            .padding(.horizontal)
+                            .padding(.top, 8)
+                        
+                        NavigationLink(destination: SubscriptionView()) {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    if iapManager.currentTier == .ultra {
+                                        HStack{
+                                            Text("ULTRA")
+                                                .padding(.horizontal, 8)
+                                                .padding(.vertical, 4)
+                                                .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                                                .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.2))
+                                                .cornerRadius(8)
+                                            
+                                            
+                                            Text("Features").foregroundColor(.white)
+                                        }
                                         .font(.system(.body, weight: .bold))
-                                } else {
-                                    HStack{
-                                        Text("ULTRA")
-                                            .padding(.horizontal, 8)
-                                            .padding(.vertical, 4)
-                                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
-                                            .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.2))
-                                            .cornerRadius(8)
                                         
-                                        Text("&")
-
-                                        Text("PRO")
-                                            .padding(.horizontal, 8)
-                                            .padding(.vertical, 4)
-                                            .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
-                                            .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.2))
-                                            .cornerRadius(8)
-
-
-                                        Text("Features")
+                                    } else {
+                                        HStack{
+                                            Text("ULTRA")
+                                                .padding(.horizontal, 8)
+                                                .padding(.vertical, 4)
+                                                .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                                                .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.2))
+                                                .cornerRadius(8)
+                                            
+                                            Text("&").foregroundColor(.white)
+                                            
+                                            Text("PRO")
+                                                .padding(.horizontal, 8)
+                                                .padding(.vertical, 4)
+                                                .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
+                                                .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.2))
+                                                .cornerRadius(8)
+                                            
+                                            
+                                            Text("Features").foregroundColor(.white)
+                                        }
+                                        .font(.system(.body, weight: .bold))
                                     }
+                                    
+                                    Text(subscriptionStatusText)
                                         .font(.system(.body, weight: .bold))
+                                        .foregroundColor(.white.opacity(0.7))
+                                    
+                                    if iapManager.isInTrialPeriod {
+                                        Text(iapManager.formatTimeRemaining())
+                                            .font(.system(.body, weight: .bold))
+                                            .foregroundColor(.green)
+                                    }
                                 }
+                                Spacer()
                                 
-                                Text(subscriptionStatusText)
-                                    .font(.system(.body, weight: .bold))
-                                    .foregroundColor(.secondary)
-                                
-                                if iapManager.isInTrialPeriod {
-                                    Text(iapManager.formatTimeRemaining())
-                                        .font(.system(.body, weight: .bold))
-                                        .foregroundColor(.green)
-                                }
+                                Image(systemName: "chevron.right")
+                                    .foregroundColor(.white)
                             }
+                            .padding()
+                            .environment(\.colorScheme, .dark)
+                            .padding(.horizontal, 10)
+                            .padding(.bottom, 4)
                         }
                     }
-                }
-                
-                Section("Long Press on Watch Screen to Access Settings Menu") {
-                    advancedSettingsSection
-                }
-                
-                Section("What is Astrolabe?") {
-                    HStack {
-                        Image(systemName: "sailboat.fill")
-                        Text("Race countdown timer & sailing stopwatch")
-                    }
-                    .font(.system(.body, design: .monospaced))
+                    .materialBackground()
+                    .frame(maxWidth: .infinity)
+                    .padding(.horizontal)
+                    .padding(.vertical, 8)
                     
-                    HStack {
-                        Image(systemName: "timer.circle.fill")
-                        Text("Set countdown from 1-30 minutes for race start sequence")
+                    // Remaining content in scrollable list
+                    List {
+                        Section(header: Text("Long Press on Watch Screen to Access Settings Menu").foregroundColor(.white)) {
+                            advancedSettingsSection
+                        }
+                        .listSectionSeparator(.hidden)
+                        
+                        Section(header: Text("What is Astrolabe?").foregroundColor(.white)) {
+                            HStack {
+                                Image(systemName: "sailboat.fill")
+                                Text("Race countdown timer & sailing stopwatch")
+                            }
+                            .font(.system(.body, design: .monospaced))
+                            .foregroundColor(.white)
+                            
+                            HStack {
+                                Image(systemName: "timer.circle.fill")
+                                Text("Set countdown from 1-30 minutes for race start sequence")
+                            }
+                            .font(.system(.body, design: .monospaced))
+                            .foregroundColor(.white)
+                            
+                            HStack {
+                                Image(systemName: "stopwatch.fill")
+                                Text("Auto-transitions to stopwatch at zero for race timing")
+                            }
+                            .font(.system(.body, design: .monospaced))
+                            .foregroundColor(.white)
+                            
+                            HStack {
+                                Image(systemName: "applewatch")
+                                Text("Optimized for Apple Watch Ultra with Ultra-exclusive features")
+                            }
+                            .font(.system(.body, design: .monospaced))
+                            .foregroundColor(.white)
+                        }
+                        .listRowBackground(Color.clear.background(.ultraThinMaterial))
+                        .environment(\.colorScheme, .dark)
+                        .listSectionSeparator(.hidden)
+                        
+                        Section(header: Text("Basic Info").foregroundColor(.white)) {
+                            basicInfoSection
+                        }
+                        .listRowBackground(Color.clear.background(.ultraThinMaterial))
+                        .environment(\.colorScheme, .dark)
+                        .listSectionSeparator(.hidden)
+                        
+                        
+                        Section(header: Text("Features").foregroundColor(.white)) {
+                            featuresSection
+                        }
+                        .listRowBackground(Color.clear.background(.ultraThinMaterial))
+                        .environment(\.colorScheme, .dark)
+                        .listSectionSeparator(.hidden)
+                        
+                        Section(header: Text("").foregroundColor(.white)) {
+                            versionHistorySection
+                            
+                            footerSection
+                        }
+                        .listRowBackground(Color.clear.background(.ultraThinMaterial))
+                        .environment(\.colorScheme, .dark)
+                        .listSectionSeparator(.hidden)
                     }
-                    .font(.system(.body, design: .monospaced))
-                    
-                    HStack {
-                        Image(systemName: "stopwatch.fill")
-                        Text("Auto-transitions to stopwatch at zero for race timing")
-                    }
-                    .font(.system(.body, design: .monospaced))
-                    
-                    HStack {
-                        Image(systemName: "applewatch")
-                        Text("Optimized for Apple Watch Ultra with Ultra-exclusive features")
-                    }
-                    .font(.system(.body, design: .monospaced))
-                }
-                
-                Section("Basic Info") {
-                    basicInfoSection
-                }
-
-                
-                Section("Features") {
-                    featuresSection
-                }
-                
-                Section() {
-                    versionHistorySection
-                    
-                    footerSection
+                    .scrollContentBackground(.hidden) // Hide default list background
+                    .listStyle(InsetGroupedListStyle())
                 }
             }
-            .navigationTitle("About")
+            .toolbar {
+                ToolbarItem(placement: .topBarLeading) {
+                    Text("About")
+                        .foregroundColor(.white)
+                        .font(.largeTitle)
+                        .fontWeight(.bold)
+                }
+            }
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbarBackground(.hidden, for: .navigationBar)
         }
+        .environment(\.colorScheme, .dark)
         .onAppear {
             NotificationCenter.default.addObserver(
                 forName: NSNotification.Name("StartCountdownFromShortcut"),
@@ -304,6 +373,7 @@ struct MainInfoView: View {
                     Text(getBasicInfoText(number))
                 }
                 .font(.system(.body, design: .monospaced))
+                .foregroundColor(.white)
             }
         }
     }
@@ -331,6 +401,8 @@ struct MainInfoView: View {
             .sheet(isPresented: $showingSpeedTools) {
                 SpeedToolInfo()
             }
+            .listRowBackground(Color.clear.background(.ultraThinMaterial))
+            .environment(\.colorScheme, .dark)
             
             Button(action: { showingCruiser = true }) {
                 HStack {
@@ -354,6 +426,8 @@ struct MainInfoView: View {
             .sheet(isPresented: $showingCruiser) {
                 CruiseRInfoView()
             }
+            .listRowBackground(Color.clear.background(.ultraThinMaterial))
+            .environment(\.colorScheme, .dark)
             
             Button(action: { showingWatchSettings = true }) {
                 HStack {
@@ -373,6 +447,8 @@ struct MainInfoView: View {
             .sheet(isPresented: $showingWatchSettings) {
                 WatchSettingsInfo()
             }
+            .listRowBackground(Color.clear.background(.ultraThinMaterial))
+            .environment(\.colorScheme, .dark)
         }
     }
     
@@ -383,18 +459,21 @@ struct MainInfoView: View {
                 Text("Haptic feedback at key moments")
             }
             .font(.system(.body, design: .monospaced))
+            .foregroundColor(.white)
             
             HStack {
                 Image(systemName: "clock.fill")
                 Text("Runs in background with notifications")
             }
             .font(.system(.body, design: .monospaced))
+            .foregroundColor(.white)
             
             HStack {
                 Image(systemName: "book.closed.fill")
                 Text("Race history stored in Journal")
             }
             .font(.system(.body, design: .monospaced))
+            .foregroundColor(.white)
         }
     }
     
@@ -403,16 +482,16 @@ struct MainInfoView: View {
             Text("made for sailing enthusiasts")
                 .font(.system(.subheadline, design: .monospaced))
                 .italic()
-                .foregroundColor(.secondary)
+                .foregroundColor(.white.opacity(0.7))
             
             HStack(spacing: 15) {
                 Link("Privacy Policy", destination: privacyPolicyURL)
                     .font(.system(.caption, design: .monospaced))
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.white.opacity(0.7))
                 
                 Link("Terms of Use", destination: termsOfUseURL)
                     .font(.system(.caption, design: .monospaced))
-                    .foregroundColor(.secondary)
+                    .foregroundColor(.white.opacity(0.7))
             }
         }
         .frame(maxWidth: .infinity)
@@ -434,45 +513,3 @@ struct MainInfoView: View {
         }
     }
 }
-
-#Preview {
-    MainInfoView()
-}
-
-#Preview {
-    ContentView()
-        .environmentObject(ColorManager())
-}
-
-//struct ContentView: View {
-//    @StateObject private var timerState = TimerState()
-  //  @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
-    
-    //var body: some View {
-      //  ZStack {
-        //    Color.black.edgesIgnoringSafeArea(.all)
-            
-            // Progress Bar
-          //  ProgressBarView(timerState: timerState)
-            
-            // Main Content
-            //VStack(spacing: 20) {
-              //  CurrentTimeView()
-                //    .padding(.top, 60)
-                
-                //Spacer()
-                
-                //TimeDisplayView(timerState: timerState)
-                
-               // Spacer()
-                
-               // ButtonsView(timerState: timerState)
-                 //   .padding(.bottom, 80)
-            //}
-            //.padding(.horizontal)
-        //}
-        //.onReceive(timer) { _ in
-          //  timerState.updateTimer()
-        //}
-    //}
-//}
