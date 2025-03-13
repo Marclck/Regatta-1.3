@@ -119,10 +119,16 @@ struct SunMoonView: View {
                             .frame(width: 5, height: 5)
                             .position(x: center.x + point.x, y: center.y + point.y)
                     } else {
+                        Circle()
+                            .fill(Color.blue)
+                            .frame(width: 5, height: 5)
+                            .position(x: center.x + point.x, y: center.y + point.y)
+/*
                         // Moon phase
                         MoonPhaseView(phase: weatherManager.moonPhase)
                             .frame(width: 8, height: 8)
                             .position(x: center.x + point.x, y: center.y + point.y)
+ */
                     }
                     
                     // Sunrise/sunset markers
