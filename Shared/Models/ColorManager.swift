@@ -40,10 +40,7 @@ enum ColorTheme: String, CaseIterable, Codable {
 }
 
 class ColorManager: NSObject, ObservableObject {
-    // Remove this as we're using SharedDefaults.shared instead
-    // static let sharedDefaults = UserDefaults(suiteName: "group.com.heart.astrolabe")!
-    
-    // Update static method to use SharedDefaults
+    // Static method to use SharedDefaults
     static func getCurrentThemeColor() -> Color {
         let theme = SharedDefaults.getTheme()
         return Color(hex: theme.rawValue)
@@ -52,57 +49,86 @@ class ColorManager: NSObject, ObservableObject {
     @Published var selectedTheme: ColorTheme {
         didSet {
             SharedDefaults.saveTheme(selectedTheme)
-            #if os(iOS)
-            sendToWatch()
+            #if os(watchOS)
+            sendToPhone()
             #endif
         }
     }
     
-    // Remove this as it's now handled in SharedDefaults
-    // private let themeKey = "selectedTheme"
+    // Queue for message sending
+    private let queue = DispatchQueue(label: "com.heart.astrolabe.colormanager")
     
     override init() {
-        // Update to use SharedDefaults
+        // Use SharedDefaults for initialization
         self.selectedTheme = SharedDefaults.getTheme()
         super.init()
         
         #if os(iOS)
         setupWatchConnection()
+        #elseif os(watchOS)
+        setupPhoneConnection()
         #endif
     }
     
-#if os(iOS)
-private func setupWatchConnection() {
-    if WCSession.isSupported() {
-        let session = WCSession.default
-        session.delegate = self
-        session.activate()
+#if os(watchOS)
+    private func setupPhoneConnection() {
+        if WCSession.isSupported() {
+            let session = WCSession.default
+            session.delegate = self
+            session.activate()
+        }
     }
-}
 
-private func sendToWatch() {
-    guard WCSession.default.isReachable else { return }
-    
-    do {
-        try WCSession.default.updateApplicationContext([
-            "selectedTheme": selectedTheme.rawValue
-        ])
-    } catch {
-        print("Error sending theme to watch: \(error.localizedDescription)")
+    private func sendToPhone() {
+        guard WCSession.default.activationState == .activated else {
+            print("⌚️ Phone session not activated, can't send theme")
+            return
+        }
+        
+        queue.async {
+            let message: [String: Any] = [
+                "messageType": "theme_update",
+                "selectedTheme": self.selectedTheme.rawValue
+            ]
+            
+            if WCSession.default.isReachable {
+                // Use sendMessage with reply handler
+                WCSession.default.sendMessage(message, replyHandler: { reply in
+                    print("⌚️ Theme sent successfully to phone: \(reply)")
+                }) { error in
+                    print("⌚️ Error sending theme to phone: \(error.localizedDescription)")
+                    
+                    // Fall back to application context if messaging fails
+                    do {
+                        try WCSession.default.updateApplicationContext(message)
+                        print("⌚️ Theme sent via application context as fallback")
+                    } catch {
+                        print("⌚️ Failed to send theme via application context: \(error.localizedDescription)")
+                    }
+                }
+            } else {
+                // Fall back to application context if not reachable
+                do {
+                    try WCSession.default.updateApplicationContext(message)
+                    print("⌚️ Phone not reachable, sent theme via application context")
+                } catch {
+                    print("⌚️ Failed to send theme via application context: \(error.localizedDescription)")
+                }
+            }
+        }
     }
-}
 #endif
-    
-    // Remove this as it's now handled in SharedDefaults.saveTheme
-    // private func saveTheme() {
-    //     ColorManager.sharedDefaults.set(selectedTheme.rawValue, forKey: themeKey)
-    // }
-    
-    // Rest of the code remains the same...
+
+#if os(iOS)
+    private func setupWatchConnection() {
+        if WCSession.isSupported() {
+            let session = WCSession.default
+            session.delegate = self
+            session.activate()
+        }
+    }
+#endif
 }
-
-
-
 
 extension Color {
     init(hex: String) {
@@ -134,17 +160,49 @@ extension Color {
 extension ColorManager: WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         if let error = error {
-            print("WCSession activation failed: \(error.localizedDescription)")
+            print("📱 WCSession activation failed: \(error.localizedDescription)")
+        } else {
+            print("📱 WCSession activated with state: \(activationState.rawValue)")
         }
     }
     
     func sessionDidBecomeInactive(_ session: WCSession) {
-        // Handle session becoming inactive
+        print("📱 WCSession became inactive")
     }
     
     func sessionDidDeactivate(_ session: WCSession) {
-        // Handle session deactivation
+        print("📱 WCSession deactivated - reactivating")
         WCSession.default.activate()
+    }
+    
+    // Handle incoming theme messages from watch
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        if let messageType = message["messageType"] as? String, messageType == "theme_update",
+           let themeString = message["selectedTheme"] as? String,
+           let newTheme = ColorTheme(rawValue: themeString) {
+            
+            DispatchQueue.main.async {
+                print("📱 Received theme update from watch: \(newTheme.name)")
+                self.selectedTheme = newTheme
+            }
+            
+            replyHandler(["status": "success", "message": "Theme updated on iPhone"])
+        } else {
+            replyHandler(["status": "ignored", "message": "Not a theme message"])
+        }
+    }
+    
+    // Keep application context as a fallback
+    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
+        if let messageType = applicationContext["messageType"] as? String, messageType == "theme_update",
+           let themeString = applicationContext["selectedTheme"] as? String,
+           let newTheme = ColorTheme(rawValue: themeString) {
+            
+            DispatchQueue.main.async {
+                print("📱 Received theme update via application context: \(newTheme.name)")
+                self.selectedTheme = newTheme
+            }
+        }
     }
 }
 #endif
@@ -153,16 +211,32 @@ extension ColorManager: WCSessionDelegate {
 extension ColorManager: WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
         if let error = error {
-            print("WCSession activation failed: \(error.localizedDescription)")
+            print("⌚️ WCSession activation failed: \(error.localizedDescription)")
+        } else {
+            print("⌚️ WCSession activated with state: \(activationState.rawValue)")
+            
+            // Send current theme when session activates
+            if activationState == .activated {
+                sendToPhone()
+            }
         }
     }
     
-    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-        if let themeString = applicationContext["selectedTheme"] as? String,
+    // For completeness, handle incoming messages from iPhone if needed
+    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
+        // We don't expect theme updates from the iPhone, but handle for completeness
+        if let messageType = message["messageType"] as? String, messageType == "theme_update",
+           let themeString = message["selectedTheme"] as? String,
            let newTheme = ColorTheme(rawValue: themeString) {
+            
             DispatchQueue.main.async {
+                print("⌚️ Received theme update from iPhone: \(newTheme.name)")
                 self.selectedTheme = newTheme
             }
+            
+            replyHandler(["status": "success", "message": "Theme updated on Watch"])
+        } else {
+            replyHandler(["status": "ignored", "message": "Not a theme message"])
         }
     }
 }

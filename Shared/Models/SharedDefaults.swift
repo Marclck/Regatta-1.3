@@ -194,4 +194,34 @@ struct SharedDefaults {
         return .cambridgeBlue
     }
     
+    static func clearSessionsFromContainer() {
+        print("📱 SharedDefaults: Clearing sessions from container")
+        
+        // Remove the file from the container
+        let fileURL = container.appendingPathComponent("sessions.json")
+        if FileManager.default.fileExists(atPath: fileURL.path) {
+            do {
+                try FileManager.default.removeItem(at: fileURL)
+                print("📱 SharedDefaults: Removed sessions file from container")
+            } catch {
+                print("📱 SharedDefaults: Error removing sessions file: \(error.localizedDescription)")
+            }
+        }
+        
+        // Create an empty sessions file
+        do {
+            let emptyArray: [RaceSession] = []
+            let data = try JSONEncoder().encode(emptyArray)
+            try data.write(to: fileURL)
+            print("📱 SharedDefaults: Created empty sessions file in container")
+        } catch {
+            print("📱 SharedDefaults: Error creating empty sessions file: \(error.localizedDescription)")
+        }
+        
+        // Clear backup in UserDefaults
+        shared.removeObject(forKey: sessionsKey)
+        shared.synchronize()
+        print("📱 SharedDefaults: Cleared sessions from UserDefaults backup")
+    }
+    
 }

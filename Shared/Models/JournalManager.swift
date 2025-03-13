@@ -162,6 +162,13 @@ class JournalManager: ObservableObject {
         print("race start recorded \(updatedSession)")
     }
     
+    // Clear all sessions from memory
+    func clearAllSessions() {
+        print("📓 Clearing all sessions from JournalManager")
+        allSessions.removeAll()
+        objectWillChange.send()
+    }
+    
     // Record final time when cancelled
     private struct StoredPoint: Codable {
         let coordinate: CLLocationCoordinate2D
@@ -283,9 +290,9 @@ class JournalManager: ObservableObject {
     
     func saveSessions() {
             // Keep only the last 10 sessions
-            if allSessions.count > 5 {
-                allSessions = Array(allSessions.suffix(5))
-                print("📓 Trimmed sessions to last 5, new count: \(allSessions.count)")
+            if allSessions.count > 10 {
+                allSessions = Array(allSessions.suffix(10))
+                print("📓 Trimmed sessions to last 10, new count: \(allSessions.count)")
             }
             
             SharedDefaults.saveSessionsToContainer(self.allSessions)
