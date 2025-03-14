@@ -40,6 +40,9 @@ enum ColorTheme: String, CaseIterable, Codable {
 }
 
 class ColorManager: NSObject, ObservableObject {
+    // Add this static shared property
+    static let shared = ColorManager()
+    
     // Static method to use SharedDefaults
     static func getCurrentThemeColor() -> Color {
         let theme = SharedDefaults.getTheme()
@@ -50,7 +53,8 @@ class ColorManager: NSObject, ObservableObject {
         didSet {
             SharedDefaults.saveTheme(selectedTheme)
             #if os(watchOS)
-            sendToPhone()
+            // Instead of sending directly, notify WatchSessionManager
+            notifyThemeChanged()
             #endif
         }
     }
@@ -58,75 +62,20 @@ class ColorManager: NSObject, ObservableObject {
     // Queue for message sending
     private let queue = DispatchQueue(label: "com.heart.astrolabe.colormanager")
     
+    // Keep the constructor public for now, but consider making it private later
     override init() {
         // Use SharedDefaults for initialization
         self.selectedTheme = SharedDefaults.getTheme()
         super.init()
-        
-        #if os(iOS)
-        setupWatchConnection()
-        #elseif os(watchOS)
-        setupPhoneConnection()
-        #endif
     }
     
 #if os(watchOS)
-    private func setupPhoneConnection() {
-        if WCSession.isSupported() {
-            let session = WCSession.default
-            session.delegate = self
-            session.activate()
-        }
-    }
-
-    private func sendToPhone() {
-        guard WCSession.default.activationState == .activated else {
-            print("⌚️ Phone session not activated, can't send theme")
-            return
-        }
-        
-        queue.async {
-            let message: [String: Any] = [
-                "messageType": "theme_update",
-                "selectedTheme": self.selectedTheme.rawValue
-            ]
-            
-            if WCSession.default.isReachable {
-                // Use sendMessage with reply handler
-                WCSession.default.sendMessage(message, replyHandler: { reply in
-                    print("⌚️ Theme sent successfully to phone: \(reply)")
-                }) { error in
-                    print("⌚️ Error sending theme to phone: \(error.localizedDescription)")
-                    
-                    // Fall back to application context if messaging fails
-                    do {
-                        try WCSession.default.updateApplicationContext(message)
-                        print("⌚️ Theme sent via application context as fallback")
-                    } catch {
-                        print("⌚️ Failed to send theme via application context: \(error.localizedDescription)")
-                    }
-                }
-            } else {
-                // Fall back to application context if not reachable
-                do {
-                    try WCSession.default.updateApplicationContext(message)
-                    print("⌚️ Phone not reachable, sent theme via application context")
-                } catch {
-                    print("⌚️ Failed to send theme via application context: \(error.localizedDescription)")
-                }
-            }
-        }
-    }
-#endif
-
-#if os(iOS)
-    private func setupWatchConnection() {
-        if WCSession.isSupported() {
-            let session = WCSession.default
-            session.delegate = self
-            session.activate()
-        }
-    }
+// Add this method instead of the previous sendToPhone
+private func notifyThemeChanged() {
+    // Let WatchSessionManager handle the communication
+    WatchSessionManager.shared.sendThemeUpdate(theme: selectedTheme)
+}
+    
 #endif
 }
 
@@ -156,57 +105,8 @@ extension Color {
     }
 }
 
-#if os(iOS)
-extension ColorManager: WCSessionDelegate {
-    func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
-        if let error = error {
-            print("📱 WCSession activation failed: \(error.localizedDescription)")
-        } else {
-            print("📱 WCSession activated with state: \(activationState.rawValue)")
-        }
-    }
-    
-    func sessionDidBecomeInactive(_ session: WCSession) {
-        print("📱 WCSession became inactive")
-    }
-    
-    func sessionDidDeactivate(_ session: WCSession) {
-        print("📱 WCSession deactivated - reactivating")
-        WCSession.default.activate()
-    }
-    
-    // Handle incoming theme messages from watch
-    func session(_ session: WCSession, didReceiveMessage message: [String : Any], replyHandler: @escaping ([String : Any]) -> Void) {
-        if let messageType = message["messageType"] as? String, messageType == "theme_update",
-           let themeString = message["selectedTheme"] as? String,
-           let newTheme = ColorTheme(rawValue: themeString) {
-            
-            DispatchQueue.main.async {
-                print("📱 Received theme update from watch: \(newTheme.name)")
-                self.selectedTheme = newTheme
-            }
-            
-            replyHandler(["status": "success", "message": "Theme updated on iPhone"])
-        } else {
-            replyHandler(["status": "ignored", "message": "Not a theme message"])
-        }
-    }
-    
-    // Keep application context as a fallback
-    func session(_ session: WCSession, didReceiveApplicationContext applicationContext: [String : Any]) {
-        if let messageType = applicationContext["messageType"] as? String, messageType == "theme_update",
-           let themeString = applicationContext["selectedTheme"] as? String,
-           let newTheme = ColorTheme(rawValue: themeString) {
-            
-            DispatchQueue.main.async {
-                print("📱 Received theme update via application context: \(newTheme.name)")
-                self.selectedTheme = newTheme
-            }
-        }
-    }
-}
-#endif
 
+/*
 #if os(watchOS)
 extension ColorManager: WCSessionDelegate {
     func session(_ session: WCSession, activationDidCompleteWith activationState: WCSessionActivationState, error: Error?) {
@@ -241,3 +141,5 @@ extension ColorManager: WCSessionDelegate {
     }
 }
 #endif
+*/
+

@@ -22,7 +22,8 @@ extension View {
 struct JournalView: View {
     @StateObject private var sessionStore = iOSSessionStore.shared
     @ObservedObject private var colorManager = ColorManager()
-
+    @State private var transferStatus: String? = nil
+    @State private var showTransferMessage = false
     
     // Modified to use Date objects as keys for proper sorting
     private func groupedSessions() -> [(date: Date, dateString: String, sessions: [RaceSession])] {
@@ -52,6 +53,27 @@ struct JournalView: View {
         return (latestSession.leftPoint, latestSession.rightPoint)
     }
     
+    private func setupTransferNotifications() {
+        let notificationCenter = NotificationCenter.default
+        let token = notificationCenter.addObserver(
+            forName: Notification.Name("WatchTransferAttempt"),
+            object: nil,
+            queue: .main
+        ) { notification in
+            if let message = notification.userInfo?["message"] as? String {
+                transferStatus = message
+                showTransferMessage = true
+                
+                // Auto-hide after a few seconds
+                DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+                    withAnimation {
+                        showTransferMessage = false
+                    }
+                }
+            }
+        }
+    }
+    
     var body: some View {
         NavigationView {
             ZStack {
@@ -78,21 +100,67 @@ struct JournalView: View {
                                     .foregroundColor(.white)
                                 
                                 Spacer()
-                                
+                                /*
                                 Button(action: {
-                                    // Trigger session refresh
-                                    Task { @MainActor in
+                                    // Show immediate feedback
+                                    transferStatus = "Requesting sessions from Watch..."
+                                    showTransferMessage = true
+                                    
+                                    // Update watch availability first
+                                    sessionStore.updateWatchAvailability()
+                                    
+                                    // Try force transfer immediately instead of normal refresh
+                                    WatchSessionManager.shared.requestForceTransfer()
+                                    
+                                    // Add slight delay then try normal refresh as backup
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
                                         sessionStore.refreshSessions()
                                     }
+                                    
+                                    // If still nothing after a few seconds, try resetting transfer state
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                                        if !sessionStore.isWatchAvailable || self.transferStatus == "Requesting sessions from Watch..." {
+                                            WatchSessionManager.shared.resetTransferState()
+                                            self.transferStatus = "Reset connection - please try again"
+                                            
+                                            // Keep message visible longer after reset
+                                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                                withAnimation {
+                                                    self.showTransferMessage = false
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Hide default message after delay if no updates
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                        withAnimation {
+                                            if self.transferStatus == "Requesting sessions from Watch..." {
+                                                self.showTransferMessage = false
+                                            }
+                                        }
+                                    }
                                 }) {
-                                    Text("Refresh")
-                                        .font(.system(.subheadline))
-                                        .padding(.horizontal, 8)
-                                        .padding(.vertical, 4)
-                                        .foregroundColor(.white)
-                                        .background(Color.white.opacity(0.3))
-                                        .cornerRadius(8)
+                                    HStack(spacing: 4) {
+                                        if !sessionStore.isWatchAvailable {
+                                            Image(systemName: "applewatch.slash")
+                                                .foregroundColor(.red)
+                                                .font(.system(size: 12))
+                                        } else {
+                                            Image(systemName: "applewatch")
+                                                .foregroundColor(.green)
+                                                .font(.system(size: 12))
+                                        }
+                                        Text("Refresh")
+                                            .font(.system(.subheadline))
+                                    }
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 8)
+                                    .foregroundColor(.white)
+                                    .background(Color.white.opacity(0.3))
+                                    .cornerRadius(18)
                                 }
+                                */
                             }
                             .padding(.horizontal)
                             .padding(.top, 8)
@@ -157,10 +225,24 @@ struct JournalView: View {
                                     .font(.system(.body, design: .monospaced))
                                     .foregroundColor(.white)
                                 
-                                Text("Complete a race to see it here")
-                                    .font(.system(.caption, design: .monospaced))
-                                    .foregroundColor(.white.opacity(0.7))
-                                    .padding(.top, 4)
+                                if !sessionStore.isWatchAvailable {
+                                    HStack {
+                                        Image(systemName: "applewatch.slash")
+                                            .foregroundColor(.red)
+                                        Text("Watch not connected")
+                                            .foregroundColor(.red)
+                                    }
+                                    .padding(.top, 12)
+                                    
+                                    Text("Please open the Watch app")
+                                        .foregroundColor(.white.opacity(0.7))
+                                        .padding(.top, 4)
+                                } else {
+                                    Text("Complete a race to see it here")
+                                        .font(.system(.caption, design: .monospaced))
+                                        .foregroundColor(.white.opacity(0.7))
+                                        .padding(.top, 4)
+                                }
                             }
                             .padding(.top, 50)
                         } else {
@@ -197,25 +279,107 @@ struct JournalView: View {
                     Text("Journal")
                         .foregroundColor(.white)
                         .font(.largeTitle)
-                        .fontWeight(.bold)
+//                        .fontWeight(.bold)
+                }
+                
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        // Show immediate feedback
+                        transferStatus = "Requesting sessions from Watch..."
+                        showTransferMessage = true
+                        
+                        // Update watch availability first
+                        sessionStore.updateWatchAvailability()
+                        
+                        // Try force transfer immediately instead of normal refresh
+                        WatchSessionManager.shared.requestForceTransfer()
+                        
+                        // Add slight delay then try normal refresh as backup
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                            sessionStore.refreshSessions()
+                        }
+                        
+                        // If still nothing after a few seconds, try resetting transfer state
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                            if !sessionStore.isWatchAvailable || self.transferStatus == "Requesting sessions from Watch..." {
+                                WatchSessionManager.shared.resetTransferState()
+                                self.transferStatus = "Reset connection - please try again"
+                                
+                                // Keep message visible longer after reset
+                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                    withAnimation {
+                                        self.showTransferMessage = false
+                                    }
+                                }
+                            }
+                        }
+                        
+                        // Hide default message after delay if no updates
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                            withAnimation {
+                                if self.transferStatus == "Requesting sessions from Watch..." {
+                                    self.showTransferMessage = false
+                                }
+                            }
+                        }
+                    }) {
+                        HStack(spacing: 4) {
+                            if !sessionStore.isWatchAvailable {
+                                Image(systemName: "applewatch.slash")
+                                    .foregroundColor(.red)
+                                    .font(.system(size: 12))
+                            } else {
+                                Image(systemName: "applewatch")
+                                    .foregroundColor(.green)
+                                    .font(.system(size: 12))
+                            }
+                            Text("Refresh")
+                                .font(.system(.subheadline))
+                        }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 8)
+                        .foregroundColor(.white)
+                        .background(Color.white.opacity(0.3))
+                        .cornerRadius(18)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 18)
+                                .stroke(Color.white.opacity(0.5), lineWidth: 1))
+                    }
+                            
                 }
             }
             .navigationBarTitleDisplayMode(.inline) // Changed to inline to avoid conflict
             .toolbarBackground(.hidden, for: .navigationBar)
             .refreshable {
                 print("📱 JournalView: Pull to refresh triggered")
+                
+                // Check if watch is available first
+                sessionStore.updateWatchAvailability()
+                
                 await withCheckedContinuation { continuation in
                     Task { @MainActor in
+                        // First display a message if watch isn't available
+                        if !sessionStore.isWatchAvailable {
+                            // This will show briefly when the watch isn't available
+                            try? await Task.sleep(nanoseconds: 1_500_000_000) // 1.5 seconds
+                        }
+                        
+                        // Perform the refresh
                         sessionStore.refreshSessions()
+                        
+                        // Slight delay to ensure UI shows refresh happening
+                        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
                         continuation.resume()
                     }
                 }
+                
                 print("📱 JournalView: Refresh completed")
             }
         }
         .onAppear {
             print("📱 JournalView: View appeared")
             sessionStore.loadSessions()
+            setupTransferNotifications()
         }
         .withArchiveSupport(sessionStore: sessionStore)
     }
@@ -382,7 +546,9 @@ struct SessionRowView: View {
         }
     }
 }
+    
 
+    
 // MARK: - Previews
 #Preview("Journal View - With Sessions") {
     let mockSessions = [

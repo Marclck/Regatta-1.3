@@ -12,6 +12,8 @@ struct ContentView: View {
     @EnvironmentObject var colorManager: ColorManager
     @AppStorage("lastVersionSeen") private var lastVersionSeen: String = ""
     @State private var showingUpdateModal = false
+    // Add a state to trigger view refresh
+    @State private var themeRefreshTrigger = UUID()
     
     private let currentVersion = "1.3"
 
@@ -23,6 +25,12 @@ struct ContentView: View {
                     Label("Journal", systemImage: "book.closed.circle.fill")
                 }
 
+            PlannerView()
+                .environmentObject(colorManager)
+                .tabItem {
+                    Label("Planner", systemImage: "mappin.circle.fill")
+                }
+            
             MainInfoView()
                 .environmentObject(colorManager)
                 .tabItem {
@@ -35,7 +43,18 @@ struct ContentView: View {
             if lastVersionSeen != currentVersion {
                 showingUpdateModal = true
             }
+            
+            // Set up notification observer for theme updates
+            NotificationCenter.default.addObserver(
+                forName: Notification.Name("ThemeUpdatedFromWatch"),
+                object: nil,
+                queue: .main
+            ) { _ in
+                // Force view refresh by changing the UUID
+                self.themeRefreshTrigger = UUID()
+            }
         }
+        .id(themeRefreshTrigger) // This causes the view to redraw when themeRefreshTrigger changes
         .sheet(isPresented: $showingUpdateModal) {
             NavigationView {
                 ScrollView {
@@ -201,7 +220,7 @@ struct MainInfoView: View {
                     // Feature Access Section (Sticky)
                     VStack(alignment: .leading, spacing: 4) {
                         Text("Feature Access")
-                            .font(.headline)
+                            .font(.system(.headline))
                             .foregroundColor(.white)
                             .padding(.horizontal)
                             .padding(.top, 8)

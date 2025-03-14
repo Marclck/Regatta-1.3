@@ -162,13 +162,6 @@ class JournalManager: ObservableObject {
         print("race start recorded \(updatedSession)")
     }
     
-    // Clear all sessions from memory
-    func clearAllSessions() {
-        print("📓 Clearing all sessions from JournalManager")
-        allSessions.removeAll()
-        objectWillChange.send()
-    }
-    
     // Record final time when cancelled
     private struct StoredPoint: Codable {
         let coordinate: CLLocationCoordinate2D
@@ -327,6 +320,12 @@ class JournalManager: ObservableObject {
     private func clearCurrentSession() {
         defaults.removeObject(forKey: currentSessionKey)
         defaults.synchronize()
+    }
+    
+    func clearAllSessions() {
+        print("📓 Clearing all sessions from JournalManager")
+        allSessions.removeAll()
+        objectWillChange.send()
     }
     
     // MARK - Cruise session entry

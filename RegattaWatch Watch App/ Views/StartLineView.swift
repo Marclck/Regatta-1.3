@@ -25,6 +25,12 @@ struct StartLineView: View {
             if startLineManager.leftButtonState == .green && startLineManager.rightButtonState == .green {
                 ZStack {
                     Rectangle()
+                        .fill(Color.black)
+                        .frame(height: 26)
+                        .frame(maxWidth: 170)
+                    
+                    
+                    Rectangle()
                         .fill(Color.green.opacity(0.5))
                         .frame(height: 26)
                         .frame(maxWidth: 84)
@@ -49,6 +55,11 @@ struct StartLineView: View {
                 }
             } else {
                 ZStack {
+                    Rectangle()
+                        .fill(Color.black)
+                        .frame(height: 26)
+                        .frame(maxWidth: 170)
+
                     Rectangle()
                         .fill(Color.white.opacity(0.1))
                         .frame(height: 26)
