@@ -365,7 +365,7 @@ struct MainInfoView: View {
                     Text("About")
                         .foregroundColor(.white)
                         .font(.largeTitle)
-                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)

@@ -9,13 +9,12 @@ import Foundation
 import SwiftUI
 import CoreLocation
 
-// Extension for ultraThinMaterial style
+// Extension for ultraThinMaterial style remains unchanged
 extension View {
     func materialBackground() -> some View {
         self.background(.ultraThinMaterial)
             .cornerRadius(12)
             .environment(\.colorScheme, .dark)
-
     }
 }
 
@@ -27,6 +26,7 @@ struct JournalView: View {
     
     // Modified to use Date objects as keys for proper sorting
     private func groupedSessions() -> [(date: Date, dateString: String, sessions: [RaceSession])] {
+        // Existing grouping code remains unchanged
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
@@ -53,7 +53,13 @@ struct JournalView: View {
         return (latestSession.leftPoint, latestSession.rightPoint)
     }
     
+    // Check if we have valid start line data
+    private var hasValidStartLineData: Bool {
+        return mostRecentStartLine.left != nil || mostRecentStartLine.right != nil
+    }
+    
     private func setupTransferNotifications() {
+        // Existing notification setup code remains unchanged
         let notificationCenter = NotificationCenter.default
         let token = notificationCenter.addObserver(
             forName: Notification.Name("WatchTransferAttempt"),
@@ -91,88 +97,60 @@ struct JournalView: View {
                 
                 // Content
                 VStack(spacing: 0) {
-                    // Start Line Map
-                    if mostRecentStartLine.left != nil || mostRecentStartLine.right != nil {
-                        VStack(alignment: .leading, spacing: 4) {
-                            HStack {
-                                Text("Current Start Line")
-                                    .font(.system(.headline))
-                                    .foregroundColor(.white)
-                                
-                                Spacer()
-                                /*
-                                Button(action: {
-                                    // Show immediate feedback
-                                    transferStatus = "Requesting sessions from Watch..."
-                                    showTransferMessage = true
-                                    
-                                    // Update watch availability first
-                                    sessionStore.updateWatchAvailability()
-                                    
-                                    // Try force transfer immediately instead of normal refresh
-                                    WatchSessionManager.shared.requestForceTransfer()
-                                    
-                                    // Add slight delay then try normal refresh as backup
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                                        sessionStore.refreshSessions()
-                                    }
-                                    
-                                    // If still nothing after a few seconds, try resetting transfer state
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-                                        if !sessionStore.isWatchAvailable || self.transferStatus == "Requesting sessions from Watch..." {
-                                            WatchSessionManager.shared.resetTransferState()
-                                            self.transferStatus = "Reset connection - please try again"
+                    // Start Line Map - ALWAYS SHOWN
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack {
+                            Text("Current Start Line")
+                                .font(.system(.headline))
+                                .foregroundColor(.white)
+                            
+                            Spacer()
+                            // Refresh button code removed for brevity
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, 8)
+                        
+                        // Show map regardless of data availability
+                        StartLineMapView(
+                            leftPoint: mostRecentStartLine.left,
+                            rightPoint: mostRecentStartLine.right
+                        )
+                        .padding(.top, 4)
+                        .cornerRadius(12)
+                        .padding(.horizontal)
+                        .overlay(
+                            // Show placeholder message when no data is available
+                            Group {
+                                if !hasValidStartLineData {
+                                    ZStack {
+                                        Color.black.opacity(0.6)
+                                            .cornerRadius(12)
+                                        
+                                        VStack(spacing: 8) {
+                                            Image(systemName: "mappin.slash")
+                                                .font(.system(size: 24))
+                                                .foregroundColor(.white.opacity(0.8))
                                             
-                                            // Keep message visible longer after reset
-                                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                                withAnimation {
-                                                    self.showTransferMessage = false
-                                                }
-                                            }
+                                            Text("No start line data available")
+                                                .font(.system(.subheadline))
+                                                .foregroundColor(.white)
+                                                .multilineTextAlignment(.center)
+                                            
+                                            Text("Complete a race with start line markers")
+                                                .font(.system(.caption))
+                                                .foregroundColor(.white.opacity(0.7))
+                                                .multilineTextAlignment(.center)
                                         }
+                                        .padding()
                                     }
-                                    
-                                    // Hide default message after delay if no updates
-                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                        withAnimation {
-                                            if self.transferStatus == "Requesting sessions from Watch..." {
-                                                self.showTransferMessage = false
-                                            }
-                                        }
-                                    }
-                                }) {
-                                    HStack(spacing: 4) {
-                                        if !sessionStore.isWatchAvailable {
-                                            Image(systemName: "applewatch.slash")
-                                                .foregroundColor(.red)
-                                                .font(.system(size: 12))
-                                        } else {
-                                            Image(systemName: "applewatch")
-                                                .foregroundColor(.green)
-                                                .font(.system(size: 12))
-                                        }
-                                        Text("Refresh")
-                                            .font(.system(.subheadline))
-                                    }
-                                    .padding(.horizontal, 8)
-                                    .padding(.vertical, 8)
-                                    .foregroundColor(.white)
-                                    .background(Color.white.opacity(0.3))
-                                    .cornerRadius(18)
                                 }
-                                */
                             }
-                            .padding(.horizontal)
-                            .padding(.top, 8)
-                            
-                            StartLineMapView(
-                                leftPoint: mostRecentStartLine.left,
-                                rightPoint: mostRecentStartLine.right
-                            )
-                            .padding(.top, 4)
-                            .cornerRadius(12)
-                            .padding(.horizontal)
-                            
+                            .padding(.horizontal),
+                            alignment: .center
+                        )
+                        
+                        // Show coordinates only if we have data
+                        if hasValidStartLineData {
                             HStack {
                                 // Left coordinate
                                 if let left = mostRecentStartLine.left {
@@ -202,15 +180,47 @@ struct JournalView: View {
                             }
                             .padding(.horizontal)
                             .padding(.vertical, 4)
+                        } else {
+                            HStack {
+                                // Left coordinate
+                                if let left = mostRecentStartLine.left {
+                                    HStack(spacing: 4) {
+                                        Image(systemName: "triangle.fill")
+                                            .foregroundColor(.green)
+                                            .font(.system(size: 12))
+                                        Text("(--, --)")
+                                            .font(.system(size: 12, design: .monospaced))
+                                            .foregroundColor(.white.opacity(0.7))
+                                    }
+                                }
+                                
+                                Spacer()
+                                
+                                // Right coordinate
+                                if let right = mostRecentStartLine.right {
+                                    HStack(spacing: 4) {
+                                        Text("(--, --)")
+                                            .font(.system(size: 12, design: .monospaced))
+                                            .foregroundColor(.white.opacity(0.7))
+                                        Image(systemName: "square.fill")
+                                            .foregroundColor(.green)
+                                            .font(.system(size: 12))
+                                    }
+                                }
+                            }
+                            .padding(.horizontal)
+                            .padding(.vertical, 4)
                         }
-                        .materialBackground()
-                        .padding(.horizontal)
-                        .padding(.vertical, 8)
+                        
                     }
+                    .materialBackground()
+                    .padding(.horizontal)
+                    .padding(.vertical, 8)
                     
-                    // Session List
+                    // Rest of the view (session list) remains unchanged
                     Group {
                         if sessionStore.isLoading {
+                            // Loading view
                             VStack {
                                 ProgressView()
                                 Text("Loading sessions...")
@@ -220,6 +230,7 @@ struct JournalView: View {
                             .frame(maxWidth: .infinity, maxHeight: .infinity)
                             .padding(.top, 50)
                         } else if sessionStore.sessions.isEmpty {
+                            // Empty state view
                             VStack {
                                 Text("No race sessions recorded yet")
                                     .font(.system(.body, design: .monospaced))
@@ -246,7 +257,7 @@ struct JournalView: View {
                             }
                             .padding(.top, 50)
                         } else {
-                            // Display recent sessions
+                            // Sessions list
                             List {
                                 // Use the sorted array of date groups
                                 ForEach(groupedSessions(), id: \.date) { group in
@@ -261,7 +272,6 @@ struct JournalView: View {
                                                     Color.clear
                                                         .background(.ultraThinMaterial)
                                                         .environment(\.colorScheme, .dark)
-
                                                 )
                                         }
                                     }
@@ -274,16 +284,20 @@ struct JournalView: View {
                     }
                 }
             }
+            // Toolbar and other view modifiers remain unchanged
             .toolbar {
+                // Existing toolbar content
                 ToolbarItem(placement: .topBarLeading) {
                     Text("Journal")
                         .foregroundColor(.white)
                         .font(.largeTitle)
-//                        .fontWeight(.bold)
+                        .fontWeight(.semibold)
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
+                    // Existing refresh button
                     Button(action: {
+                        // Refresh action code
                         // Show immediate feedback
                         transferStatus = "Requesting sessions from Watch..."
                         showTransferMessage = true
@@ -345,12 +359,12 @@ struct JournalView: View {
                             RoundedRectangle(cornerRadius: 18)
                                 .stroke(Color.white.opacity(0.5), lineWidth: 1))
                     }
-                            
                 }
             }
-            .navigationBarTitleDisplayMode(.inline) // Changed to inline to avoid conflict
+            .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.hidden, for: .navigationBar)
             .refreshable {
+                // Existing refreshable logic
                 print("📱 JournalView: Pull to refresh triggered")
                 
                 // Check if watch is available first

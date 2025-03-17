@@ -2,7 +2,7 @@
 //  WatchSessionManager.swift
 //  Regatta
 //
-//  Created by Chikai Lai on 21/12/2024.
+//  Created by Chikai Lai on 17/03/2025.
 //
 
 import Foundation

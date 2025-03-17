@@ -70,7 +70,7 @@ struct TimeDisplayView: View {
             .overlay(alignment: .bottom) {
                 RoundedRectangle(cornerRadius: 12.5).stroke(lineWidth: 2.1)
                     .offset(y:5)
-                    .frame(width: 149.5, height: 78)
+                    .frame(width: 149, height: 78) //149.5, 78
                     .foregroundColor(FocusState ? Color(hex: colorManager.selectedTheme.rawValue) : .clear)
             }
         } else {

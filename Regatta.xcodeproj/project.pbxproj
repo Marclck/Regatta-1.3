@@ -30,14 +30,12 @@
 		1D1D830F2D3727C9003C8CAA /* SubscriptionOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D1D830E2D3727C9003C8CAA /* SubscriptionOverlay.swift */; };
 		1D1D83112D386A72003C8CAA /* Astrolabe Countdown.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */; };
 		1D1D83122D386A72003C8CAA /* Astrolabe Countdown.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */; };
+		1D2278B62D84E3E40004E1FA /* SessionArchiveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC321C62D7D934000EE70E1 /* SessionArchiveManager.swift */; };
+		1D2278B72D84E3E40004E1FA /* SessionArchiveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC321C62D7D934000EE70E1 /* SessionArchiveManager.swift */; };
 		1D23AF982D611877000D7A41 /* WeeklyPromoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D23AF972D611877000D7A41 /* WeeklyPromoView.swift */; };
 		1D2D25D72D4C2C4000DF0CE2 /* RaceSessionMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D25D62D4C2C4000DF0CE2 /* RaceSessionMapView.swift */; };
 		1D2D25D92D4C47CE00DF0CE2 /* AltSpeedInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D25D82D4C47CE00DF0CE2 /* AltSpeedInfoView.swift */; };
 		1D2D25DB2D4CED2C00DF0CE2 /* CourseTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D25DA2D4CED2C00DF0CE2 /* CourseTracker.swift */; };
-		1D2E53F42D17014A00C669D4 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */; };
-		1D2E53F52D17014A00C669D4 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */; };
-		1D2E53F62D17014A00C669D4 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */; };
-		1D2E53F72D17014A00C669D4 /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */; };
 		1D2E53FA2D17159600C669D4 /* TabBarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F92D17159600C669D4 /* TabBarContentView.swift */; };
 		1D2E53FB2D17159600C669D4 /* TabBarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F92D17159600C669D4 /* TabBarContentView.swift */; };
 		1D2E53FC2D17159600C669D4 /* TabBarContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E53F92D17159600C669D4 /* TabBarContentView.swift */; };
@@ -67,6 +65,7 @@
 		1D2E541A2D17162700C669D4 /* Tabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E54172D17162700C669D4 /* Tabs.swift */; };
 		1D2E541B2D17162700C669D4 /* Tabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E54172D17162700C669D4 /* Tabs.swift */; };
 		1D2F22652CFC91B500AE4D71 /* JournalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E481A2CFBC79C004813A4 /* JournalManager.swift */; };
+		1D349B332D880E7E00FEB841 /* PlannerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D349B322D880E7E00FEB841 /* PlannerModels.swift */; };
 		1D38CD7F2D7A412C0034980A /* ExtendedSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D38CD7E2D7A412C0034980A /* ExtendedSessionManager.swift */; };
 		1D3DC5692D0280D600252F1F /* AltRaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DC5682D0280D600252F1F /* AltRaceView.swift */; };
 		1D412E062D02442A0062C639 /* ColorManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D412E052D02442A0062C639 /* ColorManager.swift */; };
@@ -92,6 +91,15 @@
 		1D4384732D18725D000DE437 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384712D18725D000DE437 /* SubscriptionView.swift */; };
 		1D4384742D18725D000DE437 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384712D18725D000DE437 /* SubscriptionView.swift */; };
 		1D4384752D18725D000DE437 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384712D18725D000DE437 /* SubscriptionView.swift */; };
+		1D5C294B2D8252BB00610A22 /* PlannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C294A2D8252BB00610A22 /* PlannerView.swift */; };
+		1D5C29512D82C34A00610A22 /* PlannerMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C29502D82C34A00610A22 /* PlannerMapView.swift */; };
+		1D5C29532D82C35800610A22 /* PlannerHistoryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C29522D82C35800610A22 /* PlannerHistoryViews.swift */; };
+		1D5C29552D82C86500610A22 /* PlannerMapSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C29542D82C86500610A22 /* PlannerMapSection.swift */; };
+		1D5C29572D82C88900610A22 /* PlannerWaypointSection.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C29562D82C88900610A22 /* PlannerWaypointSection.swift */; };
+		1D5C295A2D82C97D00610A22 /* WaypointItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C29592D82C97D00610A22 /* WaypointItem.swift */; };
+		1D5C295C2D82C99A00610A22 /* PlannerActionButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C295B2D82C99A00610A22 /* PlannerActionButton.swift */; };
+		1D5C295E2D82C9AA00610A22 /* AddWaypointButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C295D2D82C9AA00610A22 /* AddWaypointButton.swift */; };
+		1D5C29602D82C9BA00610A22 /* WaypointsList.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C295F2D82C9BA00610A22 /* WaypointsList.swift */; };
 		1D5E48192CFBC519004813A4 /* JournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E48182CFBC519004813A4 /* JournalView.swift */; };
 		1D5E481C2CFBC907004813A4 /* JournalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E481A2CFBC79C004813A4 /* JournalManager.swift */; };
 		1D5E481D2CFBC909004813A4 /* JournalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E481A2CFBC79C004813A4 /* JournalManager.swift */; };
@@ -135,6 +143,10 @@
 		1D768D752CFD1AE800DB4EE5 /* SecondProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D742CFD1AE800DB4EE5 /* SecondProgressBarView.swift */; };
 		1D768D772CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D762CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift */; };
 		1D88DEAB2D6A9B0E009DC635 /* RulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D88DEAA2D6A9B0E009DC635 /* RulerView.swift */; };
+		1D8C5FAF2D87E45400D43F8B /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */; };
+		1D8C5FB02D87E49600D43F8B /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */; };
+		1D8C5FB12D87E55400D43F8B /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */; };
+		1D8C5FB22D87E55500D43F8B /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */; };
 		1D90CF892D46C3B500357553 /* StartLineMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D90CF882D46C3B500357553 /* StartLineMapView.swift */; };
 		1D90CF8B2D46C57C00357553 /* LocationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D90CF8A2D46C57C00357553 /* LocationHelper.swift */; };
 		1D90CF8D2D4AA6A500357553 /* SpeedInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D90CF8C2D4AA6A500357553 /* SpeedInfoView.swift */; };
@@ -265,7 +277,6 @@
 		1D2D25D62D4C2C4000DF0CE2 /* RaceSessionMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RaceSessionMapView.swift; sourceTree = "<group>"; };
 		1D2D25D82D4C47CE00DF0CE2 /* AltSpeedInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltSpeedInfoView.swift; sourceTree = "<group>"; };
 		1D2D25DA2D4CED2C00DF0CE2 /* CourseTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CourseTracker.swift; sourceTree = "<group>"; };
-		1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		1D2E53F92D17159600C669D4 /* TabBarContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarContentView.swift; sourceTree = "<group>"; };
 		1D2E53FE2D1715AD00C669D4 /* TabBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarView.swift; sourceTree = "<group>"; };
 		1D2E54032D1715CC00C669D4 /* TabButtonLabelsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabButtonLabelsView.swift; sourceTree = "<group>"; };
@@ -273,6 +284,7 @@
 		1D2E540D2D1715FE00C669D4 /* TabItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItemModel.swift; sourceTree = "<group>"; };
 		1D2E54122D17161200C669D4 /* TabScrollContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabScrollContentView.swift; sourceTree = "<group>"; };
 		1D2E54172D17162700C669D4 /* Tabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs.swift; sourceTree = "<group>"; };
+		1D349B322D880E7E00FEB841 /* PlannerModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerModels.swift; sourceTree = "<group>"; };
 		1D38CD7E2D7A412C0034980A /* ExtendedSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedSessionManager.swift; sourceTree = "<group>"; };
 		1D3DC5682D0280D600252F1F /* AltRaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltRaceView.swift; sourceTree = "<group>"; };
 		1D412E052D02442A0062C639 /* ColorManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorManager.swift; sourceTree = "<group>"; };
@@ -284,6 +296,15 @@
 		1D4384672D186D10000DE437 /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
 		1D43846C2D186D43000DE437 /* PremiumAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumAlertView.swift; sourceTree = "<group>"; };
 		1D4384712D18725D000DE437 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
+		1D5C294A2D8252BB00610A22 /* PlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerView.swift; sourceTree = "<group>"; };
+		1D5C29502D82C34A00610A22 /* PlannerMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerMapView.swift; sourceTree = "<group>"; };
+		1D5C29522D82C35800610A22 /* PlannerHistoryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerHistoryViews.swift; sourceTree = "<group>"; };
+		1D5C29542D82C86500610A22 /* PlannerMapSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerMapSection.swift; sourceTree = "<group>"; };
+		1D5C29562D82C88900610A22 /* PlannerWaypointSection.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerWaypointSection.swift; sourceTree = "<group>"; };
+		1D5C29592D82C97D00610A22 /* WaypointItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaypointItem.swift; sourceTree = "<group>"; };
+		1D5C295B2D82C99A00610A22 /* PlannerActionButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerActionButton.swift; sourceTree = "<group>"; };
+		1D5C295D2D82C9AA00610A22 /* AddWaypointButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddWaypointButton.swift; sourceTree = "<group>"; };
+		1D5C295F2D82C9BA00610A22 /* WaypointsList.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaypointsList.swift; sourceTree = "<group>"; };
 		1D5E48182CFBC519004813A4 /* JournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalView.swift; sourceTree = "<group>"; };
 		1D5E481A2CFBC79C004813A4 /* JournalManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JournalManager.swift; sourceTree = "<group>"; };
 		1D5E48222CFC5DD7004813A4 /* iOSSessionStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = iOSSessionStore.swift; sourceTree = "<group>"; };
@@ -331,6 +352,7 @@
 		1D768D742CFD1AE800DB4EE5 /* SecondProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondProgressBarView.swift; sourceTree = "<group>"; };
 		1D768D762CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDisplayAsCurrentTimeView.swift; sourceTree = "<group>"; };
 		1D88DEAA2D6A9B0E009DC635 /* RulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerView.swift; sourceTree = "<group>"; };
+		1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		1D90CF882D46C3B500357553 /* StartLineMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartLineMapView.swift; sourceTree = "<group>"; };
 		1D90CF8A2D46C57C00357553 /* LocationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHelper.swift; sourceTree = "<group>"; };
 		1D90CF8C2D4AA6A500357553 /* SpeedInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedInfoView.swift; sourceTree = "<group>"; };
@@ -439,6 +461,30 @@
 				1D2E54172D17162700C669D4 /* Tabs.swift */,
 			);
 			path = TabBar;
+			sourceTree = "<group>";
+		};
+		1D5C294F2D82C33600610A22 /* Planner */ = {
+			isa = PBXGroup;
+			children = (
+				1D5C294A2D8252BB00610A22 /* PlannerView.swift */,
+				1D5C295B2D82C99A00610A22 /* PlannerActionButton.swift */,
+				1D5C29542D82C86500610A22 /* PlannerMapSection.swift */,
+				1D5C29502D82C34A00610A22 /* PlannerMapView.swift */,
+				1D5C29522D82C35800610A22 /* PlannerHistoryViews.swift */,
+				1D5C29582D82C95C00610A22 /* Waypoint */,
+			);
+			path = Planner;
+			sourceTree = "<group>";
+		};
+		1D5C29582D82C95C00610A22 /* Waypoint */ = {
+			isa = PBXGroup;
+			children = (
+				1D5C29562D82C88900610A22 /* PlannerWaypointSection.swift */,
+				1D5C295F2D82C9BA00610A22 /* WaypointsList.swift */,
+				1D5C29592D82C97D00610A22 /* WaypointItem.swift */,
+				1D5C295D2D82C9AA00610A22 /* AddWaypointButton.swift */,
+			);
+			path = Waypoint;
 			sourceTree = "<group>";
 		};
 		1D5E48212CFC5DC4004813A4 /* Models */ = {
@@ -591,17 +637,18 @@
 				1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */,
 				1D5E481A2CFBC79C004813A4 /* JournalManager.swift */,
 				1D412E052D02442A0062C639 /* ColorManager.swift */,
-				1D2E53F32D17014A00C669D4 /* WatchSessionManager.swift */,
-				1DC321C82D7D936400EE70E1 /* WatchSessionManager+Extensions.swift */,
 				1D4384672D186D10000DE437 /* IAPManager.swift */,
 				1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */,
 				1D43846C2D186D43000DE437 /* PremiumAlertView.swift */,
+				1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */,
+				1DC321C82D7D936400EE70E1 /* WatchSessionManager+Extensions.swift */,
 				1D4384712D18725D000DE437 /* SubscriptionView.swift */,
 				1D00ADD72D3F06E4001AC542 /* LocationManager.swift */,
 				1D9EE6112D405B8E008B4B29 /* HeartRateManager.swift */,
 				1D64AA0A2D464D3800F1BC04 /* StartLineManager.swift */,
 				1D2D25DA2D4CED2C00DF0CE2 /* CourseTracker.swift */,
 				1D0C3DAE2D5AB49300C7D9B5 /* KeychainHelper.swift */,
+				1D349B322D880E7E00FEB841 /* PlannerModels.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -634,6 +681,7 @@
 				1D4349702D4D10F000D0B8E8 /* SpeedToolsInfoView.swift */,
 				1DA82CEA2D600DB9009897FA /* CruiseRInfoView.swift */,
 				1D99BD542D52D21500342520 /* VersionHistoryView.swift */,
+				1D5C294F2D82C33600610A22 /* Planner */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -962,9 +1010,9 @@
 				1D412E182D025A2C0062C639 /* ColorThemeView.swift in Sources */,
 				1DD9DBD92CF6844F00D1E608 /* LineChartManager.swift in Sources */,
 				1D2E54162D17161200C669D4 /* TabScrollContentView.swift in Sources */,
+				1D8C5FB22D87E55500D43F8B /* WatchSessionManager.swift in Sources */,
 				1DC4B32E2CF676B900A8CC30 /* SharedDefaults.swift in Sources */,
 				1D00ADDA2D3F0D85001AC542 /* LocationManager.swift in Sources */,
-				1D2E53F72D17014A00C669D4 /* WatchSessionManager.swift in Sources */,
 				1D2E54072D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
 				1D5E481D2CFBC909004813A4 /* JournalManager.swift in Sources */,
 				1D2E540C2D1715E800C669D4 /* TabButtonStyle.swift in Sources */,
@@ -981,10 +1029,13 @@
 			files = (
 				1D5E48242CFC6068004813A4 /* JournalManager.swift in Sources */,
 				1D9EE6122D405B8E008B4B29 /* HeartRateManager.swift in Sources */,
+				1D5C29512D82C34A00610A22 /* PlannerMapView.swift in Sources */,
 				1DC321CD2D7D939900EE70E1 /* JournalView+Extensions.swift in Sources */,
 				1D69FEF92CE968FB001C178A /* ScreenEdgePath.swift in Sources */,
+				1D5C29602D82C9BA00610A22 /* WaypointsList.swift in Sources */,
 				1D4384682D186D10000DE437 /* IAPManager.swift in Sources */,
 				1D2E54132D17161200C669D4 /* TabScrollContentView.swift in Sources */,
+				1D8C5FAF2D87E45400D43F8B /* WatchSessionManager.swift in Sources */,
 				1D00ADD92D3F0D7F001AC542 /* LocationManager.swift in Sources */,
 				1D69FF012CE969E5001C178A /* TimeDisplayView.swift in Sources */,
 				1D2E54092D1715E800C669D4 /* TabButtonStyle.swift in Sources */,
@@ -992,18 +1043,22 @@
 				1DC4B32B2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */,
 				1DC321CB2D7D938300EE70E1 /* DataMigrationUtility.swift in Sources */,
 				1D69FF032CE969EF001C178A /* ButtonsView.swift in Sources */,
+				1D349B332D880E7E00FEB841 /* PlannerModels.swift in Sources */,
 				1D2E54182D17162700C669D4 /* Tabs.swift in Sources */,
 				1D412E1A2D025A430062C639 /* SettingsView.swift in Sources */,
 				1D2E53FA2D17159600C669D4 /* TabBarContentView.swift in Sources */,
 				1DA82CEB2D600DB9009897FA /* CruiseRInfoView.swift in Sources */,
-				1D2E53F42D17014A00C669D4 /* WatchSessionManager.swift in Sources */,
+				1D5C295C2D82C99A00610A22 /* PlannerActionButton.swift in Sources */,
 				1D69FE962CE967AA001C178A /* ContentView.swift in Sources */,
 				1D69FEF72CE968B5001C178A /* TimerState.swift in Sources */,
+				1D5C29552D82C86500610A22 /* PlannerMapSection.swift in Sources */,
 				1D5E48192CFBC519004813A4 /* JournalView.swift in Sources */,
 				1DD9DBD62CF6844B00D1E608 /* LineChartManager.swift in Sources */,
 				1DC321C72D7D934000EE70E1 /* SessionArchiveManager.swift in Sources */,
+				1D5C294B2D8252BB00610A22 /* PlannerView.swift in Sources */,
 				1D69FE982CE967AA001C178A /* Item.swift in Sources */,
 				1D43846D2D186D43000DE437 /* PremiumAlertView.swift in Sources */,
+				1D5C29532D82C35800610A22 /* PlannerHistoryViews.swift in Sources */,
 				1D69FEFB2CE96905001C178A /* SeparatorMark.swift in Sources */,
 				1D2D25D72D4C2C4000DF0CE2 /* RaceSessionMapView.swift in Sources */,
 				1D69FEFF2CE969D9001C178A /* CurrentTimeView.swift in Sources */,
@@ -1015,15 +1070,18 @@
 				1DC4B3282CF5454F00A8CC30 /* FontManager.swift in Sources */,
 				1D412E062D02442A0062C639 /* ColorManager.swift in Sources */,
 				1D99BD552D52D21500342520 /* VersionHistoryView.swift in Sources */,
+				1D5C295E2D82C9AA00610A22 /* AddWaypointButton.swift in Sources */,
 				1D4349712D4D10F000D0B8E8 /* SpeedToolsInfoView.swift in Sources */,
 				1D2E53FF2D1715AD00C669D4 /* TabBarView.swift in Sources */,
 				1D90CF892D46C3B500357553 /* StartLineMapView.swift in Sources */,
 				1D412E152D025A2C0062C639 /* ColorThemeView.swift in Sources */,
 				1D0C3DB02D5AB68600C7D9B5 /* KeychainHelper.swift in Sources */,
 				1DC321D22D7D981300EE70E1 /* AllSessionsView.swift in Sources */,
+				1D5C295A2D82C97D00610A22 /* WaypointItem.swift in Sources */,
 				1D4384722D18725D000DE437 /* SubscriptionView.swift in Sources */,
 				1D2E54042D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
 				1D5E48232CFC5DD7004813A4 /* iOSSessionStore.swift in Sources */,
+				1D5C29572D82C88900610A22 /* PlannerWaypointSection.swift in Sources */,
 				1D69FEFD2CE969CE001C178A /* ProgressBarView.swift in Sources */,
 				1D43496F2D4D0B7000D0B8E8 /* WatchSettingsInfoView.swift in Sources */,
 			);
@@ -1036,6 +1094,7 @@
 				1DC321CF2D7D95FC00EE70E1 /* WatchSessionManager+Extensions.swift in Sources */,
 				1DD9DBD52CF683EE00D1E608 /* LineChartManager.swift in Sources */,
 				1D2E54052D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
+				1D2278B62D84E3E40004E1FA /* SessionArchiveManager.swift in Sources */,
 				1D2E540A2D1715E800C669D4 /* TabButtonStyle.swift in Sources */,
 				1D4384732D18725D000DE437 /* SubscriptionView.swift in Sources */,
 				1D43846E2D186D43000DE437 /* PremiumAlertView.swift in Sources */,
@@ -1046,12 +1105,12 @@
 				1D412E162D025A2C0062C639 /* ColorThemeView.swift in Sources */,
 				1D2E54192D17162700C669D4 /* Tabs.swift in Sources */,
 				1D2F22652CFC91B500AE4D71 /* JournalManager.swift in Sources */,
+				1D8C5FB12D87E55400D43F8B /* WatchSessionManager.swift in Sources */,
 				1D2E53FB2D17159600C669D4 /* TabBarContentView.swift in Sources */,
 				1D0C3DB12D5AB6C400C7D9B5 /* KeychainHelper.swift in Sources */,
 				1D2E540F2D1715FE00C669D4 /* TabItemModel.swift in Sources */,
 				1D69FEA72CE967AB001C178A /* RegattaTests.swift in Sources */,
 				1DD9DBD12CF680B800D1E608 /* SharedDefaults.swift in Sources */,
-				1D2E53F52D17014A00C669D4 /* WatchSessionManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1062,6 +1121,7 @@
 				1D69FEB12CE967AB001C178A /* RegattaUITests.swift in Sources */,
 				1D0C3DB22D5AB6C500C7D9B5 /* KeychainHelper.swift in Sources */,
 				1D69FEB32CE967AB001C178A /* RegattaUITestsLaunchTests.swift in Sources */,
+				1D2278B72D84E3E40004E1FA /* SessionArchiveManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1088,7 +1148,6 @@
 				1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */,
 				1D5EA42E2D57ACEF001CDF6D /* WeatherViews.swift in Sources */,
 				1D412E172D025A2C0062C639 /* ColorThemeView.swift in Sources */,
-				1D2E53F62D17014A00C669D4 /* WatchSessionManager.swift in Sources */,
 				1DD528492CEBED22005FFEA2 /* TimerMode.swift in Sources */,
 				1D0C3DAB2D58775A00C7D9B5 /* LastReadingmanager.swift in Sources */,
 				1D69FF092CE96A3B001C178A /* TimeDisplayView.swift in Sources */,
@@ -1123,6 +1182,7 @@
 				1D64AA062D42F4EE00F1BC04 /* HeartRateView.swift in Sources */,
 				1DD528452CEBEBE7005FFEA2 /* SeparatorOverlay.swift in Sources */,
 				1D3DC5692D0280D600252F1F /* AltRaceView.swift in Sources */,
+				1D8C5FB02D87E49600D43F8B /* WatchSessionManager.swift in Sources */,
 				1D69FEC62CE967F7001C178A /* RegattaWatchApp.swift in Sources */,
 				1DC4B32C2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */,
 				1DE3D0672CF2FCAD00B4056F /* WatchNotificationManager.swift in Sources */,
