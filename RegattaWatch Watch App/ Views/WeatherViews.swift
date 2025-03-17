@@ -463,11 +463,11 @@ struct CompassView: View {
         Button(action: {
             WKInterfaceDevice.current().play(.click)
             withAnimation(.easeInOut(duration: 0.2)) {
-                showingSunMoon.toggle()
+//                showingSunMoon.toggle()
             }
         }) {
             ZStack {
-                if !showingSunMoon {
+//                if !showingSunMoon {
                     // Standard Compass View
                     ZStack {
                         // Background circle
@@ -503,10 +503,10 @@ struct CompassView: View {
                             .animation(.spring(response: 0.3, dampingFraction: 0.8), value: isLuminanceReduced)
                             .animation(.linear(duration: 0.1), value: compassManager.heading)
                     }
-                } else {
+/*                } else {
                     // Sun Moon View
                     SunMoonView()
-                }
+                } */
             }
             .clipShape(Circle())
         }
@@ -538,10 +538,12 @@ struct BarometerView: View {
     
     var body: some View {
         ZStack {
-            Circle()
-                .fill(settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.1))
-                .frame(width: 50, height: 50)
-            
+            if !showingPressure {
+                Circle()
+                    .fill(settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.1))
+                    .frame(width: 50, height: 50)
+            }
+                
             if !showingPressure {
                 // Temperature Fill Layer
                 ZStack {
@@ -566,6 +568,8 @@ struct BarometerView: View {
             
             if showingPressure /*&& pressureManager.isAvailable*/ {
                 // Pressure Display
+                SunMoonView()
+/*
                 VStack(spacing: 0) {
                     Text(trendSymbol)
                         .font(.system(size: 10))
@@ -582,6 +586,7 @@ struct BarometerView: View {
                         .foregroundColor(settings.lightMode ? .black : .white)
                         .offset(y:-4)
                 }
+                */
             } else {
                 // Temperature Display
                 VStack(spacing: 0) {
