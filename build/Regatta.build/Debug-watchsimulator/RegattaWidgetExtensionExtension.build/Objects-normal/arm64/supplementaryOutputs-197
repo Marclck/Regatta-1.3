@@ -1,0 +1,18 @@
+"/Users/chikailai/Documents/swift/Regatta/Shared/Models/WatchSessionManager+Extensions.swift":
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/WatchSessionManager+Extensions.swiftdeps"
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/WatchSessionManager+Extensions.d"
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/WatchSessionManager+Extensions.o"
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/WatchSessionManager+Extensions.swiftconstvalues"
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/WatchSessionManager+Extensions.dia"
+"/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/DerivedSources/GeneratedAssetSymbols.swift":
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/GeneratedAssetSymbols.o"
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues"
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps"
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/GeneratedAssetSymbols.d"
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/GeneratedAssetSymbols.dia"
+"/Users/chikailai/Documents/swift/Regatta/Shared/Models/PremiumAlertView.swift":
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/PremiumAlertView.dia"
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/PremiumAlertView.swiftconstvalues"
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/PremiumAlertView.d"
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/PremiumAlertView.swiftdeps"
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/PremiumAlertView.o"

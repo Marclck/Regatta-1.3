@@ -1,0 +1,18 @@
+"/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabButtonStyle.swift":
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabButtonStyle.swiftconstvalues"
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabButtonStyle.swiftdeps"
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabButtonStyle.dia"
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabButtonStyle.o"
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabButtonStyle.d"
+"/Users/chikailai/Documents/swift/Regatta/Shared/Models/ColorManager.swift":
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/ColorManager.dia"
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/ColorManager.swiftconstvalues"
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/ColorManager.o"
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/ColorManager.swiftdeps"
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/ColorManager.d"
+"/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/Tabs.swift":
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/Tabs.d"
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/Tabs.dia"
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/Tabs.o"
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/Tabs.swiftconstvalues"
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/Tabs.swiftdeps"

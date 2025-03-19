@@ -1,0 +1,18 @@
+"/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabScrollContentView.swift":
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/TabScrollContentView.d"
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/TabScrollContentView.swiftconstvalues"
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/TabScrollContentView.dia"
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/TabScrollContentView.swiftdeps"
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/TabScrollContentView.o"
+"/Users/chikailai/Documents/swift/Regatta/Shared/Models/WatchSessionManager.swift":
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/WatchSessionManager.dia"
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/WatchSessionManager.d"
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/WatchSessionManager.swiftconstvalues"
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/WatchSessionManager.swiftdeps"
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/WatchSessionManager.o"
+"/Users/chikailai/Documents/swift/Regatta/Shared/Models/SharedDefaults.swift":
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/SharedDefaults.swiftconstvalues"
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/SharedDefaults.d"
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/SharedDefaults.o"
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/SharedDefaults.swiftdeps"
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/arm64/SharedDefaults.dia"

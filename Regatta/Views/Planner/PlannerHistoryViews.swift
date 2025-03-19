@@ -204,7 +204,7 @@ struct PlanDetailView: View {
                         .padding(.horizontal)
                         
                         Button(action: {
-                            planStore.loadPlan(plan)
+                            planStore.loadPlanWithWatch(plan)
                             dismiss()
                         }) {
                             Text("Load This Plan")

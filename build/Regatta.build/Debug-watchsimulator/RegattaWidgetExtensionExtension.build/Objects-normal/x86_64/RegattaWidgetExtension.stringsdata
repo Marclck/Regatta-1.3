@@ -1,0 +1,20 @@
+{
+  "source": "/Users/chikailai/Documents/swift/Regatta/RegattaWidgetExtension/RegattaWidgetExtension.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "min"
+      },
+      {
+        "comment": "",
+        "key": "Last Used Time"
+      },
+      {
+        "comment": "",
+        "key": "Shows the last countdown time used"
+      }
+    ]
+  },
+  "version": 1
+}

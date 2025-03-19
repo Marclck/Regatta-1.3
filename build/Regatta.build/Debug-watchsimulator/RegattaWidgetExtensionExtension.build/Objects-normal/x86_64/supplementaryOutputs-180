@@ -1,0 +1,18 @@
+"/Users/chikailai/Documents/swift/Regatta/Shared/Models/HeartRateManager.swift":
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/HeartRateManager.o"
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/HeartRateManager.d"
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/HeartRateManager.swiftconstvalues"
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/HeartRateManager.dia"
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/HeartRateManager.swiftdeps"
+"/Users/chikailai/Documents/swift/Regatta/Shared/Models/KeychainHelper.swift":
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/KeychainHelper.swiftconstvalues"
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/KeychainHelper.d"
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/KeychainHelper.o"
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/KeychainHelper.dia"
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/KeychainHelper.swiftdeps"
+"/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabItemModel.swift":
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabItemModel.swiftdeps"
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabItemModel.o"
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabItemModel.swiftconstvalues"
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabItemModel.dia"
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabItemModel.d"

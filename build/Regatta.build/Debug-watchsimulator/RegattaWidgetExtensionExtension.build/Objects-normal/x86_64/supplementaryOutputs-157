@@ -1,0 +1,18 @@
+"/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabButtonLabelsView.swift":
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabButtonLabelsView.swiftconstvalues"
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabButtonLabelsView.o"
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabButtonLabelsView.swiftdeps"
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabButtonLabelsView.d"
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/TabButtonLabelsView.dia"
+"/Users/chikailai/Documents/swift/Regatta/Shared/Models/LocationManager.swift":
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/LocationManager.o"
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/LocationManager.swiftconstvalues"
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/LocationManager.d"
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/LocationManager.dia"
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/LocationManager.swiftdeps"
+"/Users/chikailai/Documents/swift/Regatta/Shared/Models/JournalManager.swift":
+  const-values: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/JournalManager.swiftconstvalues"
+  object: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/JournalManager.o"
+  diagnostics: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/JournalManager.dia"
+  swift-dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/JournalManager.swiftdeps"
+  dependencies: "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWidgetExtensionExtension.build/Objects-normal/x86_64/JournalManager.d"

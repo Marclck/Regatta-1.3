@@ -1,0 +1,40 @@
+{
+  "source": "/Users/chikailai/Documents/swift/Regatta/Shared/Charts/LineChartManager.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "O"
+      },
+      {
+        "comment": "",
+        "key": "C"
+      },
+      {
+        "comment": "",
+        "key": "S"
+      },
+      {
+        "comment": "",
+        "key": "Position"
+      },
+      {
+        "comment": "",
+        "key": "Minutes"
+      },
+      {
+        "comment": "",
+        "key": ""
+      },
+      {
+        "comment": "",
+        "key": "%lld min"
+      },
+      {
+        "comment": "",
+        "key": "Regatta Timer Charts"
+      }
+    ]
+  },
+  "version": 1
+}

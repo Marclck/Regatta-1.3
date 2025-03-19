@@ -29,7 +29,7 @@ struct PlannerActionButtons: View {
             
             // Save button
             Button(action: {
-                planStore.savePlan()
+                planStore.savePlanWithWatch()
                 showSaveConfirmation = true
                 
                 // Hide the confirmation after 1.5 seconds

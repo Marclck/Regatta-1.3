@@ -24,6 +24,19 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         setupSession()
     }
     
+    func session(_ session: WCSession, didReceiveMessage message: [String: Any]) {
+        print("⌚️ Received message without reply handler: \(message)")
+        
+        if let messageType = message["messageType"] as? String {
+            switch messageType {
+            case "current_plan_update":
+                processPlanUpdate(message)
+            default:
+                print("⌚️ Unknown direct message type: \(messageType)")
+            }
+        }
+    }
+    
     // Add this method to handle UserInfo messages on watchOS
     func session(_ session: WCSession, didReceiveUserInfo userInfo: [String: Any]) {
         print("⌚️ Received user info from iOS: \(userInfo)")
@@ -31,99 +44,103 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         // Check if it's a request or command we should handle
         if let messageType = userInfo["messageType"] as? String {
             switch messageType {
-            case "request_sessions":
-                print("⌚️ Received session request via UserInfo")
-                
-                if isTransferring {
-                    print("⌚️ Transfer already in progress, ignoring request")
-                    return
-                }
-                
-                let journalManager = JournalManager.shared
-                let sessions = journalManager.allSessions
-                
-                print("⌚️ iOS requested sessions via UserInfo. Found \(sessions.count) sessions.")
-                
-                // Send acknowledgment back via direct message or UserInfo
-                let ackMessage: [String: Any] = [
-                    "messageType": "userinfo_ack",
-                    "sessionCount": sessions.count,
-                    "status": "success"
-                ]
-                
-                if session.isReachable {
-                    session.sendMessage(ackMessage, replyHandler: nil, errorHandler: { _ in
-                        // Fall back to UserInfo if message fails
-                        session.transferUserInfo(ackMessage)
-                    })
-                } else {
-                    // Use UserInfo if not reachable
-                    session.transferUserInfo(ackMessage)
-                }
-                
-                // If we have sessions, start transferring them
-                if !sessions.isEmpty {
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                        print("⌚️ Starting transfer of \(sessions.count) sessions to iOS (from UserInfo request)")
-                        // Force activation flag to true if session is activated
-                        if let session = self.session, session.activationState == .activated {
-                            self.isActivated = true
+                    case "request_sessions":
+                        print("⌚️ Received session request via UserInfo")
+                        
+                        if isTransferring {
+                            print("⌚️ Transfer already in progress, ignoring request")
+                            return
                         }
-                        // Reset transfer flag if it might be stuck
-                        if self.isTransferring {
-                            print("⌚️ Resetting stuck transfer flag before starting new transfer")
-                            self.isTransferring = false
+                        
+                        let journalManager = JournalManager.shared
+                        let sessions = journalManager.allSessions
+                        
+                        print("⌚️ iOS requested sessions via UserInfo. Found \(sessions.count) sessions.")
+                        
+                        // Send acknowledgment back via direct message or UserInfo
+                        let ackMessage: [String: Any] = [
+                            "messageType": "userinfo_ack",
+                            "sessionCount": sessions.count,
+                            "status": "success"
+                        ]
+                        
+                        if session.isReachable {
+                            session.sendMessage(ackMessage, replyHandler: nil, errorHandler: { _ in
+                                // Fall back to UserInfo if message fails
+                                session.transferUserInfo(ackMessage)
+                            })
+                        } else {
+                            // Use UserInfo if not reachable
+                            session.transferUserInfo(ackMessage)
                         }
-                        // Now transfer should work even if previously blocked
-                        self.transferSessions(sessions)
+                        
+                        // If we have sessions, start transferring them
+                        if !sessions.isEmpty {
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                                print("⌚️ Starting transfer of \(sessions.count) sessions to iOS (from UserInfo request)")
+                                // Force activation flag to true if session is activated
+                                if let session = self.session, session.activationState == .activated {
+                                    self.isActivated = true
+                                }
+                                // Reset transfer flag if it might be stuck
+                                if self.isTransferring {
+                                    print("⌚️ Resetting stuck transfer flag before starting new transfer")
+                                    self.isTransferring = false
+                                }
+                                // Now transfer should work even if previously blocked
+                                self.transferSessions(sessions)
+                            }
+                        }
+                        
+                    case "ping":
+                        // Simple ping to check connectivity
+                        let pongMessage: [String: Any] = [
+                            "messageType": "pong",
+                            "timestamp": Date().timeIntervalSince1970
+                        ]
+                        
+                        if session.isReachable {
+                            session.sendMessage(pongMessage, replyHandler: nil, errorHandler: { _ in
+                                // Fall back to UserInfo
+                                session.transferUserInfo(pongMessage)
+                            })
+                        } else {
+                            session.transferUserInfo(pongMessage)
+                        }
+                        
+                    case "reset_transfer_state":
+                        print("⌚️ Received request to reset transfer state")
+                        
+                        // Reset transfer flags
+                        isTransferring = false
+                        transferStartTime = nil
+                        pendingSessions = nil
+                        
+                        // Acknowledge reset
+                        let resetAckMessage: [String: Any] = [
+                            "messageType": "reset_ack",
+                            "status": "success",
+                            "timestamp": Date().timeIntervalSince1970
+                        ]
+                        
+                        if session.isReachable {
+                            session.sendMessage(resetAckMessage, replyHandler: nil, errorHandler: { _ in
+                                session.transferUserInfo(resetAckMessage)
+                            })
+                        } else {
+                            session.transferUserInfo(resetAckMessage)
+                        }
+                        
+                    case "force_activate_transfer":
+                        forceActivationAndTransfer()
+                        
+                    case "current_plan_update":
+                        // Add this case to handle planner updates via UserInfo
+                        processPlanUpdate(userInfo)
+                        
+                    default:
+                        print("⌚️ Unknown UserInfo message type: \(messageType)")
                     }
-                }
-                
-            case "ping":
-                // Simple ping to check connectivity
-                let pongMessage: [String: Any] = [
-                    "messageType": "pong",
-                    "timestamp": Date().timeIntervalSince1970
-                ]
-                
-                if session.isReachable {
-                    session.sendMessage(pongMessage, replyHandler: nil, errorHandler: { _ in
-                        // Fall back to UserInfo
-                        session.transferUserInfo(pongMessage)
-                    })
-                } else {
-                    session.transferUserInfo(pongMessage)
-                }
-                
-            case "reset_transfer_state":
-                print("⌚️ Received request to reset transfer state")
-                
-                // Reset transfer flags
-                isTransferring = false
-                transferStartTime = nil
-                pendingSessions = nil
-                
-                // Acknowledge reset
-                let resetAckMessage: [String: Any] = [
-                    "messageType": "reset_ack",
-                    "status": "success",
-                    "timestamp": Date().timeIntervalSince1970
-                ]
-                
-                if session.isReachable {
-                    session.sendMessage(resetAckMessage, replyHandler: nil, errorHandler: { _ in
-                        session.transferUserInfo(resetAckMessage)
-                    })
-                } else {
-                    session.transferUserInfo(resetAckMessage)
-                }
-                
-            case "force_activate_transfer":
-                forceActivationAndTransfer()
-                
-            default:
-                print("⌚️ Unknown UserInfo message type: \(messageType)")
-            }
         }
     }
     
@@ -138,6 +155,10 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             case "force_activate_transfer":
                 forceActivationAndTransfer()
                 replyHandler(["status": "success", "message": "Force activation attempted"])
+            case "current_plan_update":
+                // Process the plan update
+                processPlanUpdate(message)
+                replyHandler(["status": "success", "message": "Plan update received", "waypointCount": (message["waypoints"] as? [[String: Any]])?.count ?? 0])
             default:
                 print("⌚️ Unknown message type: \(messageType)")
                 replyHandler(["status": "error", "message": "Unknown message type"])
@@ -657,6 +678,49 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         }
     }
     
+    func handlePlanUpdateMessage(_ message: [String: Any]) {
+        guard let messageType = message["messageType"] as? String else {
+            return
+        }
+        
+        if messageType == "current_plan_update" {
+            processPlanUpdate(message)
+        }
+    }
+    
+    // Process plan update messages
+    func processPlanUpdate(_ message: [String: Any]) {
+        guard let waypoints = message["waypoints"] as? [[String: Any]] else {
+            print("⌚️ Invalid plan update: no waypoints array")
+            return
+        }
+        
+        print("⌚️ Received plan update with \(waypoints.count) waypoints")
+        
+        // Notify WatchPlannerDataManager about new plan
+        DispatchQueue.main.async {
+            NotificationCenter.default.post(
+                name: Notification.Name("PlanReceivedFromPhone"),
+                object: nil,
+                userInfo: ["waypoints": waypoints]
+            )
+        }
+        
+        // Acknowledge receipt
+        if let wcSession = self.session, wcSession.isReachable {
+            let replyMessage: [String: Any] = [
+                "messageType": "plan_update_ack",
+                "status": "success",
+                "waypointCount": waypoints.count,
+                "timestamp": Date().timeIntervalSince1970
+            ]
+            
+            wcSession.sendMessage(replyMessage, replyHandler: nil, errorHandler: { error in
+                print("⌚️ Error sending plan receipt acknowledgment: \(error.localizedDescription)")
+            })
+        }
+    }
+    
 }
 
 #else
@@ -1001,15 +1065,26 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         queue.async {
             print("📱 Received message from Watch")
             
-            // Special handling for completion message
-            if let messageType = message["messageType"] as? String, messageType == "transfer_complete" {
-                print("📱 Received transfer completion message from Watch")
-                self.processMessage(message)
-                
-                // Send confirmation that it's safe to delete sessions on the Watch
-                replyHandler(["status": "success", "message": "All sessions received and processed"])
+            // Get message type
+            if let messageType = message["messageType"] as? String {
+                if messageType == "transfer_complete" {
+                    // Special handling for completion message
+                    print("📱 Received transfer completion message from Watch")
+                    self.processMessage(message)
+                    
+                    // Send confirmation that it's safe to delete sessions on the Watch
+                    replyHandler(["status": "success", "message": "All sessions received and processed"])
+                } else if messageType == "plan_update_ack" {
+                    // Handle plan acknowledgment
+                    self.handlePlanAcknowledgment(message)
+                    replyHandler(["status": "success", "timestamp": Date().timeIntervalSince1970])
+                } else {
+                    // Normal handling for other messages
+                    self.processMessage(message)
+                    replyHandler(["status": "success", "timestamp": Date().timeIntervalSince1970])
+                }
             } else {
-                // Normal handling for other messages
+                // Normal handling for messages without a type
                 self.processMessage(message)
                 replyHandler(["status": "success", "timestamp": Date().timeIntervalSince1970])
             }
@@ -1042,6 +1117,10 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             
         case "theme_update":
             processThemeUpdate(message)
+            
+        case "plan_update_ack":
+            // Already handled in session(_ session:, didReceiveMessage:, replyHandler:)
+            break
             
         default:
             print("📱 Unknown message type: \(messageType)")
@@ -1311,5 +1390,23 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             )
         }
     }
+    
+    func handlePlanAcknowledgment(_ message: [String: Any]) {
+        if let messageType = message["messageType"] as? String, messageType == "plan_update_ack",
+           let status = message["status"] as? String,
+           let waypointCount = message["waypointCount"] as? Int {
+            print("📱 Watch acknowledged plan update: \(status) with \(waypointCount) waypoints")
+            
+            // Notify interested parties that the plan was successfully sent to watch
+            DispatchQueue.main.async {
+                NotificationCenter.default.post(
+                    name: Notification.Name("PlanSentToWatch"),
+                    object: nil,
+                    userInfo: ["status": status, "waypointCount": waypointCount]
+                )
+            }
+        }
+    }
+    
 }
 #endif

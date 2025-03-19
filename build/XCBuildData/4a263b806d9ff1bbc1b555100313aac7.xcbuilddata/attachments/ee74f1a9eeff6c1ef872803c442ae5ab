@@ -1,0 +1,62 @@
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/IAPManager.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Charts/LineChartManager.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabButtonLabelsView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/LocationStatusView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/SpeedInfoView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/ProButtonsView.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/StartCountdownIntent.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/Models/ExtendedSessionManager.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabBarView.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/StartLineManager.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/Models/PersistentTimerManager.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/DistanceDisplayView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/TimerDisplayAsCurrentTimeView.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/CourseTracker.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/ButtonsView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/WatchFaceView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/Models/WatchTimerState.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/WeatherViews.swift
+/Users/chikailai/Documents/swift/Regatta/Regatta/Views/ColorThemeView.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/TimerMode.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/Models/LastReadingmanager.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/TimeDisplayView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/LastMinuteSeparatorView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/RulerView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/ContentView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/CurrentTimeView.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/WatchSessionManager+Extensions.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/SecondProgressBarView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/AltSpeedInfoView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabScrollContentView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/SunMoonView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/SpeedDisplayView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/SubscriptionOverlay.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/ProgressBarView.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/KeychainHelper.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabBarContentView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/SettingsView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/CruiseInfoView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/UltraTrialPromotionSheet.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/HeartRateManager.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/FontManager.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabItemModel.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/ColorManager.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/WaypointSyncManager.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/Models/HapticManager.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabButtonStyle.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/PremiumAlertView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/Tabs.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/WeeklyPromoView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/StartLineView.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/SubscriptionView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/HeartRateView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/SeparatorOverlay.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/WatchWaypointsView.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/AltRaceView.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/WatchSessionManager.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/\ Views/RegattaWatchApp.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/SharedDefaults.swift
+/Users/chikailai/Documents/swift/Regatta/RegattaWatch\ Watch\ App/Models/WatchNotificationManager.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/JournalManager.swift
+/Users/chikailai/Documents/swift/Regatta/Shared/Models/LocationManager.swift
+/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch\ Watch\ App.build/DerivedSources/GeneratedAssetSymbols.swift

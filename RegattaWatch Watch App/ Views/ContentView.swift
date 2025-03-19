@@ -126,7 +126,21 @@ extension ContentView {
         }
         return true // If no last show date, show promo
     }
+    
+    func establishConnectivity() {
+        // Access the actual WatchSessionManager implementation from the watch app
+        #if os(watchOS)
+        // Get the current theme
+        let currentTheme = colorManager.selectedTheme
+        
+        // Send theme update - this seems to reliably establish connectivity
+        WatchSessionManager.shared.sendThemeUpdate(theme: currentTheme)
+        
+        print("⌚️ Establishing connectivity via theme update")
+        #endif
+    }
 }
+
 
 extension ContentView {
     func shouldPerformIAPCheck() -> Bool {
@@ -164,6 +178,9 @@ extension ContentView {
         // Start the WCSession
         WCSessionManager.shared.startSession()
         
+        // Immediately attempt to establish connectivity
+        establishConnectivity()
+        
         // Check reachability every 30 seconds
         Timer.scheduledTimer(withTimeInterval: 30.0, repeats: true) { _ in
             if !WCSessionManager.shared.isReachable {
@@ -198,6 +215,7 @@ struct ContentView: View {
     // Add WatchConnectivity manager
     @ObservedObject private var wcSession = WCSessionManager.shared
     @State private var connectivityTimer: Timer?
+    @EnvironmentObject var cruisePlanState: WatchCruisePlanState
 
     var body: some View {
         ZStack {

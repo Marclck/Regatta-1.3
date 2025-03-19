@@ -1,0 +1,14 @@
+Target dependency graph (7 targets)
+Target 'RegattaWatch Watch AppUITests' in project 'Regatta'
+➜ Explicit dependency on target 'RegattaWatch Watch App' in project 'Regatta'
+Target 'RegattaWatch Watch AppTests' in project 'Regatta'
+➜ Explicit dependency on target 'RegattaWatch Watch App' in project 'Regatta'
+Target 'RegattaUITests' in project 'Regatta'
+➜ Explicit dependency on target 'Regatta' in project 'Regatta'
+Target 'RegattaTests' in project 'Regatta'
+➜ Explicit dependency on target 'Regatta' in project 'Regatta'
+Target 'Regatta' in project 'Regatta'
+➜ Explicit dependency on target 'RegattaWatch Watch App' in project 'Regatta'
+Target 'RegattaWatch Watch App' in project 'Regatta'
+➜ Explicit dependency on target 'RegattaWidgetExtensionExtension' in project 'Regatta'
+Target 'RegattaWidgetExtensionExtension' in project 'Regatta' (no dependencies)

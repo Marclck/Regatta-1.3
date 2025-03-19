@@ -1,0 +1,116 @@
+{
+  "source": "/Users/chikailai/Documents/swift/Regatta/Shared/Models/SubscriptionView.swift",
+  "tables": {
+    "Localizable": [
+      {
+        "comment": "",
+        "key": "%@/year"
+      },
+      {
+        "comment": "",
+        "key": "Subscribe for"
+      },
+      {
+        "comment": "",
+        "key": "One-Time Purchase for ULTRA Access"
+      },
+      {
+        "comment": "",
+        "key": "Limited Time Offer"
+      },
+      {
+        "comment": "",
+        "key": "Feature Access"
+      },
+      {
+        "comment": "",
+        "key": "Free Trial - %@"
+      },
+      {
+        "comment": "",
+        "key": "Ultra Trial - %@"
+      },
+      {
+        "comment": "",
+        "key": "subscription can be cancelled any time"
+      },
+      {
+        "comment": "",
+        "key": "Restore Purchases"
+      },
+      {
+        "comment": "",
+        "key": "ProControl"
+      },
+      {
+        "comment": "",
+        "key": "Advanced Button Racing Control"
+      },
+      {
+        "comment": "",
+        "key": "Dashboard"
+      },
+      {
+        "comment": "",
+        "key": "SOG, COG, Startline and Shift Tracking, Using Dual GPS on Apple Watch Ultra"
+      },
+      {
+        "comment": "",
+        "key": "At-a-Glance Cruising Display on Your Wrist"
+      },
+      {
+        "comment": "",
+        "key": "Plus all"
+      },
+      {
+        "comment": "",
+        "key": "Pro"
+      },
+      {
+        "comment": "",
+        "key": "Access features"
+      },
+      {
+        "comment": "",
+        "key": "CruiseR"
+      },
+      {
+        "comment": "",
+        "key": "NEW"
+      },
+      {
+        "comment": "",
+        "key": "Subscription Info"
+      },
+      {
+        "comment": "",
+        "key": "• Subscription automatically renews every year unless cancelled"
+      },
+      {
+        "comment": "",
+        "key": "• Cancel anytime through your Apple ID settings"
+      },
+      {
+        "comment": "",
+        "key": "• Payment will be charged to your Apple ID account"
+      },
+      {
+        "comment": "",
+        "key": "• Any unused portion of a free trial will be forfeited when purchasing a subscription"
+      },
+      {
+        "comment": "",
+        "key": "Legal"
+      },
+      {
+        "comment": "",
+        "key": "Terms of Use (EULA)"
+      },
+      {
+        "comment": "",
+        "key": "Privacy Policy"
+      }
+    ]
+  },
+  "version": 1
+}

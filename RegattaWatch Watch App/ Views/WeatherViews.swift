@@ -444,7 +444,8 @@ struct CompassView: View {
     @StateObject private var compassManager = CompassManager()
     @StateObject private var weatherManager = WeatherManager()
     @State private var showingSunMoon: Bool = false
-    
+    @State private var showingPlannerSheet: Bool = false  // New state for showing planner sheet
+
     private func getNorthPosition(heading: Double, isReduced: Bool) -> CGPoint {
         if isReduced {
             return CGPoint(x: 0, y: 0)
@@ -463,6 +464,7 @@ struct CompassView: View {
         Button(action: {
             WKInterfaceDevice.current().play(.click)
             withAnimation(.easeInOut(duration: 0.2)) {
+                showingPlannerSheet = true  // Show the planner sheet instead of toggling sunMoon
 //                showingSunMoon.toggle()
             }
         }) {
@@ -516,6 +518,13 @@ struct CompassView: View {
         }
         .onDisappear {
             compassManager.stopUpdates()
+        }
+        .sheet(isPresented: $showingPlannerSheet) {
+            // Present the WatchPlannerView as a sheet
+            NavigationView {
+                WatchCruisePlannerView()
+                    .navigationTitle("Race Plan")
+            }
         }
     }
 }

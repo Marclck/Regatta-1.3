@@ -9,7 +9,8 @@ import SwiftUI
 
 @main
 struct WatchRegattaApp: App {
-    
+    @StateObject private var cruisePlanState = WatchCruisePlanState.shared
+
     init() {
         // Set up notification handling
         WatchNotificationManager.shared.setupDelegate()
@@ -35,6 +36,7 @@ struct WatchRegattaApp: App {
                 ContentView()
                     .environmentObject(colorManager)
                     .environmentObject(settings)
+                    .environmentObject(cruisePlanState)
             }
             .environmentObject(iapManager)
         }

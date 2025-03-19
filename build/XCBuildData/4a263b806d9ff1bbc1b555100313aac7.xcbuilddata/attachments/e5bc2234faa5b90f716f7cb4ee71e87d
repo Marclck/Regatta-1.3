@@ -1,0 +1,628 @@
+{
+  "" : {
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RegattaWatch Watch App-master.dia",
+    "emit-module-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RegattaWatch Watch App-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RegattaWatch Watch App-master-emit-module.dia",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RegattaWatch Watch App-master.swiftdeps"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/GeneratedAssetSymbols~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/ColorThemeView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorThemeView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorThemeView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorThemeView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorThemeView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorThemeView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorThemeView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorThemeView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorThemeView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabBarContentView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarContentView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarContentView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarContentView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarContentView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarContentView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarContentView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarContentView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarContentView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabBarView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabBarView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabButtonLabelsView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonLabelsView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonLabelsView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonLabelsView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonLabelsView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonLabelsView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonLabelsView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonLabelsView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonLabelsView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabButtonStyle.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonStyle.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonStyle.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonStyle.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonStyle.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonStyle.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonStyle.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonStyle.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabButtonStyle~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabItemModel.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabItemModel.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabItemModel.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabItemModel.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabItemModel.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabItemModel.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabItemModel.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabItemModel.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabItemModel~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/Tabs.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/Tabs.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/Tabs.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/Tabs.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/Tabs.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/Tabs.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/Tabs.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/Tabs.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/Tabs~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabScrollContentView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabScrollContentView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabScrollContentView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabScrollContentView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabScrollContentView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabScrollContentView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabScrollContentView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabScrollContentView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TabScrollContentView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/AltRaceView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltRaceView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltRaceView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltRaceView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltRaceView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltRaceView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltRaceView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltRaceView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltRaceView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/AltSpeedInfoView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltSpeedInfoView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltSpeedInfoView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltSpeedInfoView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltSpeedInfoView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltSpeedInfoView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltSpeedInfoView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltSpeedInfoView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/AltSpeedInfoView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/ButtonsView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ButtonsView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ButtonsView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ButtonsView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ButtonsView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ButtonsView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ButtonsView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ButtonsView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ButtonsView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/ContentView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ContentView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ContentView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ContentView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ContentView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ContentView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ContentView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ContentView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/CruiseInfoView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CruiseInfoView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CruiseInfoView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CruiseInfoView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CruiseInfoView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CruiseInfoView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CruiseInfoView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CruiseInfoView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CruiseInfoView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/CurrentTimeView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CurrentTimeView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CurrentTimeView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CurrentTimeView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CurrentTimeView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CurrentTimeView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CurrentTimeView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CurrentTimeView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CurrentTimeView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/DistanceDisplayView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/DistanceDisplayView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/DistanceDisplayView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/DistanceDisplayView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/DistanceDisplayView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/DistanceDisplayView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/DistanceDisplayView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/DistanceDisplayView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/DistanceDisplayView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/HeartRateView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/LastMinuteSeparatorView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastMinuteSeparatorView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastMinuteSeparatorView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastMinuteSeparatorView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastMinuteSeparatorView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastMinuteSeparatorView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastMinuteSeparatorView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastMinuteSeparatorView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastMinuteSeparatorView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/LocationStatusView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationStatusView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationStatusView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationStatusView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationStatusView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationStatusView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationStatusView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationStatusView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationStatusView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/ProButtonsView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProButtonsView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProButtonsView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProButtonsView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProButtonsView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProButtonsView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProButtonsView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProButtonsView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProButtonsView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/ProgressBarView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProgressBarView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProgressBarView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProgressBarView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProgressBarView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProgressBarView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProgressBarView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProgressBarView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ProgressBarView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/RegattaWatchApp.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RegattaWatchApp.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RegattaWatchApp.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RegattaWatchApp.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RegattaWatchApp.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RegattaWatchApp.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RegattaWatchApp.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RegattaWatchApp.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RegattaWatchApp~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/RulerView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RulerView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RulerView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RulerView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RulerView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RulerView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RulerView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RulerView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/RulerView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/SecondProgressBarView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SecondProgressBarView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SecondProgressBarView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SecondProgressBarView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SecondProgressBarView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SecondProgressBarView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SecondProgressBarView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SecondProgressBarView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SecondProgressBarView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/SeparatorOverlay.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SeparatorOverlay.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SeparatorOverlay.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SeparatorOverlay.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SeparatorOverlay.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SeparatorOverlay.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SeparatorOverlay.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SeparatorOverlay.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SeparatorOverlay~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/SettingsView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SettingsView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SettingsView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SettingsView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SettingsView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SettingsView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SettingsView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SettingsView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/SpeedDisplayView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedDisplayView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedDisplayView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedDisplayView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedDisplayView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedDisplayView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedDisplayView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedDisplayView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedDisplayView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/SpeedInfoView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedInfoView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedInfoView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedInfoView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedInfoView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedInfoView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedInfoView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedInfoView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SpeedInfoView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/StartLineView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/SubscriptionOverlay.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionOverlay.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionOverlay.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionOverlay.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionOverlay.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionOverlay.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionOverlay.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionOverlay.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionOverlay~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/SunMoonView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SunMoonView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SunMoonView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SunMoonView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SunMoonView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SunMoonView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SunMoonView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SunMoonView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SunMoonView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/TimeDisplayView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimeDisplayView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimeDisplayView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimeDisplayView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimeDisplayView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimeDisplayView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimeDisplayView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimeDisplayView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimeDisplayView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/TimerDisplayAsCurrentTimeView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerDisplayAsCurrentTimeView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerDisplayAsCurrentTimeView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerDisplayAsCurrentTimeView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerDisplayAsCurrentTimeView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerDisplayAsCurrentTimeView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerDisplayAsCurrentTimeView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerDisplayAsCurrentTimeView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerDisplayAsCurrentTimeView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/UltraTrialPromotionSheet.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/UltraTrialPromotionSheet.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/UltraTrialPromotionSheet.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/UltraTrialPromotionSheet.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/UltraTrialPromotionSheet.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/UltraTrialPromotionSheet.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/UltraTrialPromotionSheet.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/UltraTrialPromotionSheet.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/UltraTrialPromotionSheet~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/WatchFaceView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchFaceView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchFaceView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchFaceView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchFaceView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchFaceView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchFaceView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchFaceView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchFaceView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/WatchWaypointsView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchWaypointsView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchWaypointsView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchWaypointsView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchWaypointsView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchWaypointsView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchWaypointsView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchWaypointsView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchWaypointsView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/WeatherViews.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeatherViews.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeatherViews.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeatherViews.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeatherViews.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeatherViews.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeatherViews.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeatherViews.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeatherViews~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/ Views/WeeklyPromoView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeeklyPromoView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeeklyPromoView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeeklyPromoView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeeklyPromoView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeeklyPromoView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeeklyPromoView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeeklyPromoView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WeeklyPromoView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/Models/ExtendedSessionManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ExtendedSessionManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ExtendedSessionManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ExtendedSessionManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ExtendedSessionManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ExtendedSessionManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ExtendedSessionManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ExtendedSessionManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ExtendedSessionManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/Models/HapticManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HapticManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HapticManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HapticManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HapticManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HapticManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HapticManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HapticManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HapticManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/Models/LastReadingmanager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastReadingmanager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastReadingmanager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastReadingmanager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastReadingmanager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastReadingmanager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastReadingmanager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastReadingmanager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LastReadingmanager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/Models/PersistentTimerManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PersistentTimerManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PersistentTimerManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PersistentTimerManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PersistentTimerManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PersistentTimerManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PersistentTimerManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PersistentTimerManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PersistentTimerManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/Models/WatchNotificationManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchNotificationManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchNotificationManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchNotificationManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchNotificationManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchNotificationManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchNotificationManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchNotificationManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchNotificationManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaWatch Watch App/Models/WatchTimerState.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchTimerState.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchTimerState.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchTimerState.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchTimerState.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchTimerState.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchTimerState.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchTimerState.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchTimerState~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Charts/LineChartManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LineChartManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LineChartManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LineChartManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LineChartManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LineChartManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LineChartManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LineChartManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LineChartManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/ColorManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/ColorManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/CourseTracker.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CourseTracker.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CourseTracker.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CourseTracker.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CourseTracker.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CourseTracker.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CourseTracker.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CourseTracker.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/CourseTracker~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/FontManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/FontManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/FontManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/FontManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/FontManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/FontManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/FontManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/FontManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/FontManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/HeartRateManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/HeartRateManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/IAPManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/IAPManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/IAPManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/IAPManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/IAPManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/IAPManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/IAPManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/IAPManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/IAPManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/JournalManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/JournalManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/JournalManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/JournalManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/JournalManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/JournalManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/JournalManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/JournalManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/JournalManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/KeychainHelper.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/KeychainHelper.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/KeychainHelper.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/KeychainHelper.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/KeychainHelper.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/KeychainHelper.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/KeychainHelper.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/KeychainHelper.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/KeychainHelper~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/LocationManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/LocationManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/PremiumAlertView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PremiumAlertView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PremiumAlertView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PremiumAlertView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PremiumAlertView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PremiumAlertView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PremiumAlertView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PremiumAlertView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/PremiumAlertView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/SharedDefaults.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SharedDefaults.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SharedDefaults.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SharedDefaults.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SharedDefaults.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SharedDefaults.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SharedDefaults.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SharedDefaults.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SharedDefaults~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/StartCountdownIntent.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartCountdownIntent.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartCountdownIntent.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartCountdownIntent.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartCountdownIntent.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartCountdownIntent.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartCountdownIntent.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartCountdownIntent.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartCountdownIntent~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/StartLineManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/StartLineManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/SubscriptionView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/SubscriptionView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/TimerMode.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerMode.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerMode.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerMode.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerMode.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerMode.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerMode.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerMode.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/TimerMode~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/WatchSessionManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/WatchSessionManager+Extensions.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager+Extensions.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager+Extensions.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager+Extensions.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager+Extensions.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager+Extensions.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager+Extensions.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager+Extensions.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WatchSessionManager+Extensions~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/WaypointSyncManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WaypointSyncManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WaypointSyncManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WaypointSyncManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WaypointSyncManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WaypointSyncManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WaypointSyncManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WaypointSyncManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-watchsimulator/RegattaWatch Watch App.build/Objects-normal/x86_64/WaypointSyncManager~partial.swiftmodule"
+  }
+}

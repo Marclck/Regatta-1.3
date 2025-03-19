@@ -93,7 +93,8 @@ struct CruiseInfoView: View {
 
     @State private var totalDistance: CLLocationDistance = 0
     @State private var lastLocation: CLLocation?
-    
+    @EnvironmentObject var cruisePlanState: WatchCruisePlanState
+
     @Namespace private var animation
     
     private func formatTackCount(_ count: Int) -> String {

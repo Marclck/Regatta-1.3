@@ -1,0 +1,598 @@
+{
+  "" : {
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Regatta-master.dia",
+    "emit-module-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Regatta-master-emit-module.d",
+    "emit-module-diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Regatta-master-emit-module.dia",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Regatta-master.swiftdeps"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/DerivedSources/GeneratedAssetSymbols.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/GeneratedAssetSymbols.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/GeneratedAssetSymbols.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/GeneratedAssetSymbols.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/GeneratedAssetSymbols.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/GeneratedAssetSymbols.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/GeneratedAssetSymbols~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Item.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Item.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Item.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Item.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Item.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Item.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Item.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Item.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Item~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Models/DataMigrationUtility.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/DataMigrationUtility.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/DataMigrationUtility.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/DataMigrationUtility.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/DataMigrationUtility.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/DataMigrationUtility.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/DataMigrationUtility.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/DataMigrationUtility.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/DataMigrationUtility~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Models/iOSSessionStore.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/iOSSessionStore.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/iOSSessionStore.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/iOSSessionStore.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/iOSSessionStore.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/iOSSessionStore.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/iOSSessionStore.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/iOSSessionStore.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/iOSSessionStore~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Models/LocationHelper.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationHelper.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationHelper.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationHelper.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationHelper.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationHelper.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationHelper.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationHelper.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationHelper~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Models/SessionArchiveManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SessionArchiveManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SessionArchiveManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SessionArchiveManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SessionArchiveManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SessionArchiveManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SessionArchiveManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SessionArchiveManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SessionArchiveManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/RegattaApp.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RegattaApp.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RegattaApp.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RegattaApp.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RegattaApp.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RegattaApp.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RegattaApp.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RegattaApp.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RegattaApp~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/AllSessionsView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AllSessionsView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AllSessionsView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AllSessionsView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AllSessionsView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AllSessionsView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AllSessionsView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AllSessionsView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AllSessionsView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/ButtonsView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ButtonsView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ButtonsView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ButtonsView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ButtonsView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ButtonsView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ButtonsView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ButtonsView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ButtonsView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/ColorThemeView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorThemeView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorThemeView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorThemeView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorThemeView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorThemeView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorThemeView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorThemeView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorThemeView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/ContentView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ContentView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ContentView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ContentView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ContentView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ContentView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ContentView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ContentView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ContentView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/CruiseRInfoView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CruiseRInfoView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CruiseRInfoView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CruiseRInfoView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CruiseRInfoView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CruiseRInfoView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CruiseRInfoView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CruiseRInfoView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CruiseRInfoView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/CurrentTimeView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CurrentTimeView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CurrentTimeView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CurrentTimeView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CurrentTimeView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CurrentTimeView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CurrentTimeView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CurrentTimeView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/CurrentTimeView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/JournalView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/JournalView+Extensions.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView+Extensions.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView+Extensions.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView+Extensions.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView+Extensions.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView+Extensions.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView+Extensions.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView+Extensions.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalView+Extensions~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/Planner/PlannerActionButton.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerActionButton.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerActionButton.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerActionButton.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerActionButton.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerActionButton.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerActionButton.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerActionButton.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerActionButton~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/Planner/PlannerHistoryViews.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerHistoryViews.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerHistoryViews.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerHistoryViews.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerHistoryViews.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerHistoryViews.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerHistoryViews.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerHistoryViews.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerHistoryViews~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/Planner/PlannerMapSection.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapSection.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapSection.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapSection.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapSection.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapSection.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapSection.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapSection.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapSection~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/Planner/PlannerMapView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerMapView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/Planner/PlannerView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/Planner/Waypoint/AddWaypointButton.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AddWaypointButton.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AddWaypointButton.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AddWaypointButton.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AddWaypointButton.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AddWaypointButton.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AddWaypointButton.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AddWaypointButton.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/AddWaypointButton~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/Planner/Waypoint/PlannerWaypointSection.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerWaypointSection.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerWaypointSection.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerWaypointSection.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerWaypointSection.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerWaypointSection.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerWaypointSection.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerWaypointSection.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerWaypointSection~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/Planner/Waypoint/WaypointItem.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointItem.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointItem.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointItem.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointItem.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointItem.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointItem.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointItem.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointItem~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/Planner/Waypoint/WaypointsList.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointsList.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointsList.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointsList.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointsList.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointsList.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointsList.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointsList.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointsList~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/ProgressBarView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ProgressBarView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ProgressBarView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ProgressBarView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ProgressBarView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ProgressBarView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ProgressBarView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ProgressBarView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ProgressBarView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/RaceSessionMapView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RaceSessionMapView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RaceSessionMapView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RaceSessionMapView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RaceSessionMapView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RaceSessionMapView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RaceSessionMapView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RaceSessionMapView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/RaceSessionMapView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/SettingsView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SettingsView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SettingsView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SettingsView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SettingsView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SettingsView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SettingsView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SettingsView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SettingsView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/SpeedToolsInfoView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SpeedToolsInfoView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SpeedToolsInfoView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SpeedToolsInfoView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SpeedToolsInfoView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SpeedToolsInfoView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SpeedToolsInfoView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SpeedToolsInfoView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SpeedToolsInfoView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/StartLineMapView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineMapView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineMapView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineMapView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineMapView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineMapView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineMapView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineMapView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineMapView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/TimeDisplayView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimeDisplayView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimeDisplayView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimeDisplayView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimeDisplayView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimeDisplayView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimeDisplayView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimeDisplayView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimeDisplayView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/VersionHistoryView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/VersionHistoryView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/VersionHistoryView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/VersionHistoryView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/VersionHistoryView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/VersionHistoryView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/VersionHistoryView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/VersionHistoryView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/VersionHistoryView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Regatta/Views/WatchSettingsInfoView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSettingsInfoView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSettingsInfoView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSettingsInfoView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSettingsInfoView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSettingsInfoView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSettingsInfoView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSettingsInfoView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSettingsInfoView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabBarContentView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarContentView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarContentView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarContentView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarContentView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarContentView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarContentView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarContentView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarContentView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabBarView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabBarView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabButtonLabelsView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonLabelsView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonLabelsView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonLabelsView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonLabelsView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonLabelsView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonLabelsView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonLabelsView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonLabelsView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabButtonStyle.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonStyle.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonStyle.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonStyle.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonStyle.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonStyle.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonStyle.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonStyle.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabButtonStyle~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabItemModel.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabItemModel.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabItemModel.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabItemModel.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabItemModel.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabItemModel.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabItemModel.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabItemModel.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabItemModel~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/Tabs.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Tabs.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Tabs.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Tabs.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Tabs.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Tabs.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Tabs.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Tabs.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/Tabs~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/RegattaUITests/TabBar/TabScrollContentView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabScrollContentView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabScrollContentView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabScrollContentView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabScrollContentView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabScrollContentView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabScrollContentView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabScrollContentView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TabScrollContentView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Charts/LineChartManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LineChartManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LineChartManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LineChartManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LineChartManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LineChartManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LineChartManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LineChartManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LineChartManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/ColorManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ColorManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/FontManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/FontManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/FontManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/FontManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/FontManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/FontManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/FontManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/FontManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/FontManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/HeartRateManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/HeartRateManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/HeartRateManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/HeartRateManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/HeartRateManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/HeartRateManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/HeartRateManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/HeartRateManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/HeartRateManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/IAPManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/IAPManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/IAPManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/IAPManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/IAPManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/IAPManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/IAPManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/IAPManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/IAPManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/JournalManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/JournalManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/KeychainHelper.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/KeychainHelper.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/KeychainHelper.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/KeychainHelper.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/KeychainHelper.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/KeychainHelper.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/KeychainHelper.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/KeychainHelper.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/KeychainHelper~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/LocationManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/LocationManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/PlannerModels.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerModels.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerModels.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerModels.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerModels.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerModels.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerModels.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerModels.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PlannerModels~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/PremiumAlertView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PremiumAlertView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PremiumAlertView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PremiumAlertView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PremiumAlertView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PremiumAlertView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PremiumAlertView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PremiumAlertView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/PremiumAlertView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/SharedDefaults.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SharedDefaults.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SharedDefaults.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SharedDefaults.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SharedDefaults.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SharedDefaults.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SharedDefaults.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SharedDefaults.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SharedDefaults~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/StartCountdownIntent.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartCountdownIntent.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartCountdownIntent.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartCountdownIntent.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartCountdownIntent.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartCountdownIntent.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartCountdownIntent.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartCountdownIntent.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartCountdownIntent~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/StartLineManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/StartLineManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/SubscriptionView.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SubscriptionView.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SubscriptionView.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SubscriptionView.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SubscriptionView.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SubscriptionView.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SubscriptionView.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SubscriptionView.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SubscriptionView~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/TimerState.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimerState.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimerState.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimerState.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimerState.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimerState.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimerState.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimerState.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/TimerState~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/WatchSessionManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/WatchSessionManager+Extensions.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager+Extensions.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager+Extensions.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager+Extensions.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager+Extensions.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager+Extensions.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager+Extensions.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager+Extensions.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WatchSessionManager+Extensions~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Models/WaypointSyncManager.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointSyncManager.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointSyncManager.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointSyncManager.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointSyncManager.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointSyncManager.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointSyncManager.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointSyncManager.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/WaypointSyncManager~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Views/ScreenEdgePath.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ScreenEdgePath.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ScreenEdgePath.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ScreenEdgePath.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ScreenEdgePath.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ScreenEdgePath.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ScreenEdgePath.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ScreenEdgePath.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/ScreenEdgePath~partial.swiftmodule"
+  },
+  "/Users/chikailai/Documents/swift/Regatta/Shared/Views/SeparatorMark.swift" : {
+    "const-values" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SeparatorMark.swiftconstvalues",
+    "dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SeparatorMark.d",
+    "diagnostics" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SeparatorMark.dia",
+    "index-unit-output-path" : "/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SeparatorMark.o",
+    "llvm-bc" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SeparatorMark.bc",
+    "object" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SeparatorMark.o",
+    "swift-dependencies" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SeparatorMark.swiftdeps",
+    "swiftmodule" : "/Users/chikailai/Documents/swift/Regatta/build/Regatta.build/Debug-iphonesimulator/Regatta.build/Objects-normal/arm64/SeparatorMark~partial.swiftmodule"
+  }
+}

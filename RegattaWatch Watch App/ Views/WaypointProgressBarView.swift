@@ -1,0 +1,309 @@
+//
+//  WaypointProgressBarView.swift
+//  RegattaWatch Watch App
+//
+//  Created by Chikai Lai on 18/03/2025.
+//
+
+import Foundation
+import SwiftUI
+import CoreLocation
+
+struct WaypointProgressBarView: View {
+    @EnvironmentObject var colorManager: ColorManager
+    @EnvironmentObject var settings: AppSettings
+    @ObservedObject var plannerManager: WatchPlannerDataManager
+    @ObservedObject var locationManager: LocationManager
+    @EnvironmentObject var cruisePlanState: WatchCruisePlanState
+
+    // Current segment being tracked (0-indexed)
+    @State private var currentSegment: Int = 0
+    // Progress value for current segment (0.0 to 1.0)
+    @State private var segmentProgress: Double = 0.0
+    // Overall progress value (0.0 to 1.0)
+    @State private var overallProgress: Double = 0.0
+    @State private var currentSecond: Double = 0
+
+    // Timer for updates, similar to SecondProgressBarView
+    @State private var timer = Timer.publish(every: AppSettings().timerInterval, on: .main, in: .common).autoconnect()
+
+    @State private var segmentStartPoints: [CLLocation] = []
+    @State private var routeStarted: Bool = false
+    
+    private func updateSecond() {
+        let components = Calendar.current.dateComponents([.second, .nanosecond], from: Date())
+        
+        // If timer interval is 1 second, only update on exact seconds
+        if settings.timerInterval == 1.0 {
+            currentSecond = Double(components.second!)
+        } else {
+            // For smooth animation, include nanoseconds
+            currentSecond = Double(components.second!) + Double(components.nanosecond!) / 1_000_000_000
+        }
+    }
+    
+    var body: some View {
+        GeometryReader { geometry in
+            let frame = geometry.frame(in: .global)
+            let barWidth = frame.width
+            let barHeight = frame.height
+            
+            ZStack {
+                // Background track - reusing style from SecondProgressBarView
+                RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                    .stroke(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.3), lineWidth: 25)
+                    .frame(width: barWidth, height: barHeight)
+                    .position(x: frame.midX, y: frame.midY)
+                
+                // Progress fill - reusing style from SecondProgressBarView
+                if !locationManager.isMonitoring {
+                    // Progress fill for seconds
+                        RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                            .trim(from: 0, to: currentSecond/60)
+                            .stroke(
+                                Color(hex: colorManager.selectedTheme.rawValue),
+                                style: StrokeStyle(lineWidth: 25, lineCap: .butt)
+                            )
+                            .frame(width: barHeight, height: barWidth)
+                            .position(x: frame.midX, y: frame.midY)
+                            .rotationEffect(.degrees(-90))  // Align trim start to top
+                } else {
+                    RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                        .trim(from: 0, to: overallProgress)
+                        .stroke(
+                            Color(hex: colorManager.selectedTheme.rawValue),
+                            style: StrokeStyle(lineWidth: 25, lineCap: .butt)
+                        )
+                        .frame(width: barHeight, height: barWidth)
+                        .position(x: frame.midX, y: frame.midY)
+                        .rotationEffect(.degrees(-90))  // Align trim start to top
+                        .animation(.spring(response: 0.5, dampingFraction: 0.8), value: overallProgress)
+                }
+                //12 oclock trim compensator
+                RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                    .trim(from: 0, to: 0.002)
+                    .stroke(
+                        settings.lightMode ? Color.white : Color.black,
+                        style: StrokeStyle(lineWidth: 25, lineCap: .butt)
+                    )
+                    .frame(width: barHeight, height: barWidth)
+                    .position(x: frame.midX, y: frame.midY)
+                    .rotationEffect(.degrees(-90))
+                
+                // Segment separators
+                ForEach(0..<plannerManager.currentPlan.count + 1, id: \.self) { index in
+                    if index > 0 {
+                        // Calculate the trim value for each segment separator
+                        let segmentCount = Double(plannerManager.currentPlan.count)
+                        let segmentTrim = (1.0/segmentCount) * (segmentCount - Double(index) + 1.0)
+                        let adjustedTrim = segmentTrim > 1.0 ? segmentTrim - 1.0 : segmentTrim
+                        
+                        // Create the separator mark
+                        RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                            .trim(from: max(0, adjustedTrim - 0.002), to: min(1, adjustedTrim + 0.002))
+                            .stroke(
+                                settings.lightMode ? Color.white : Color.black,
+                                style: StrokeStyle(lineWidth: 25, lineCap: .butt)
+                            )
+                            .frame(width: barHeight, height: barWidth)
+                            .position(x: frame.midX, y: frame.midY)
+                            .rotationEffect(.degrees(-90))
+                    }
+                }
+            }
+        }
+        .ignoresSafeArea()
+        .onAppear {
+            if let currentLocation = locationManager.lastLocation {
+                print("🔍 Location update started: \(String(describing: currentLocation))")
+                // Call the same functions that would be called in onReceive
+                updateProgress(for: currentLocation)
+            } else {
+                updateSecond()
+            }
+        }
+        .onReceive(locationManager.$lastLocation) { newLocation in
+            print("🔍 Location update received: \(String(describing: newLocation))")
+            updateProgress(for: newLocation)
+        }
+        .onReceive(timer) { _ in
+            // Regular timer updates, similar to SecondProgressBarView
+//            if let location = locationManager.lastLocation {
+//                updateProgress(for: location)
+//            }
+            updateSecond()
+        }
+        .onChange(of: cruisePlanState.isActive) { _, isActive in
+            if !isActive {
+                resetRoute()
+            }
+        }
+    }
+    
+    // Update progress based on current GPS location
+    private func updateProgress(for location: CLLocation?) {
+        guard let currentLocation = location,
+              !plannerManager.currentPlan.isEmpty else {
+            return
+        }
+        
+        // Convert waypoints to array of CLLocation objects
+        let waypoints = plannerManager.currentPlan.map { waypoint in
+            CLLocation(latitude: waypoint.latitude, longitude: waypoint.longitude)
+        }
+        
+        // Create segments only once when we start the route
+        if !routeStarted {
+            segmentStartPoints = [currentLocation] + waypoints
+            routeStarted = true
+            print("🛣️ Route started with \(segmentStartPoints.count) points")
+        }
+        
+        // Create segments using stored start points
+        var segments: [(start: CLLocation, end: CLLocation)] = []
+        
+        // Create segments from saved points
+        if segmentStartPoints.count >= 2 {
+            for i in 0..<segmentStartPoints.count-1 {
+                segments.append((segmentStartPoints[i], segmentStartPoints[i+1]))
+            }
+        }
+        
+        
+        print("Segments created: \(segments.count)")
+        segments.enumerated().forEach { (i, segment) in
+            print("Segment \(i): \(segment.start.coordinate) to \(segment.end.coordinate)")
+        }
+        
+        // Ensure we have segments to work with
+        guard !segments.isEmpty else { return }
+        
+        // Calculate progress within the current segment
+        let segmentProgress = calculateSegmentProgress(
+            currentLocation: currentLocation,
+            segment: segments[currentSegment]
+        )
+        
+        // Check if we need to advance to next segment
+        if segmentProgress >= 1.0 && currentSegment < segments.count - 1 {
+            currentSegment += 1
+            self.segmentProgress = 0.0
+            // Recalculate with new segment
+            updateProgress(for: location)
+            return
+        }
+        
+        self.segmentProgress = segmentProgress
+        
+        // Calculate overall progress
+        if segments.isEmpty {
+            overallProgress = 0.0
+        } else {
+            let segmentSize = 1.0 / Double(segments.count)
+            overallProgress = (Double(currentSegment) * segmentSize) + (segmentProgress * segmentSize)
+        }
+        print("✅ Progress calculated: \(overallProgress)")
+
+    }
+    
+    // Calculate progress within a segment based on projection
+    private func calculateSegmentProgress(
+        currentLocation: CLLocation,
+        segment: (start: CLLocation, end: CLLocation)
+    ) -> Double {
+        // Get coordinates
+        let x = currentLocation.coordinate.longitude
+        let y = currentLocation.coordinate.latitude
+        let x1 = segment.start.coordinate.longitude
+        let y1 = segment.start.coordinate.latitude
+        let x2 = segment.end.coordinate.longitude
+        let y2 = segment.end.coordinate.latitude
+        
+        // Calculate projection onto the segment line
+        let dx = x2 - x1
+        let dy = y2 - y1
+        
+        // Handle case where start and end points are the same
+        if dx == 0 && dy == 0 {
+            return 0.0
+        }
+        
+        // Calculate the projection parameter t
+        let numerator = (x - x1) * dx + (y - y1) * dy
+        let denominator = dx * dx + dy * dy
+        print("Projection calc: (x-x1)=\(x-x1), dx=\(dx), (y-y1)=\(y-y1), dy=\(dy)")
+        print("Numerator: \(numerator), Denominator: \(denominator)")
+        let t = numerator / denominator
+        print("Projection param t: \(t), clampedT: \(max(0, min(1, t)))")
+        // After distance calculation
+
+        
+        // Clamp t to [0, 1]
+        let clampedT = max(0, min(1, t))
+        
+        // Check if projection point is outside the segment
+        if clampedT <= 0 {
+            // Closer to start point, return 0%
+            return 0.0
+        } else if clampedT >= 1 {
+            // Closer to end point, return 100%
+            return 1.0
+        }
+        
+        // Calculate projection point coordinates
+        let projX = x1 + clampedT * dx
+        let projY = y1 + clampedT * dy
+        
+        // Create projection point location
+        let projectionPoint = CLLocation(
+            latitude: projY,
+            longitude: projX
+        )
+        
+        // Calculate distances
+        let distanceFromStart = segment.start.distance(from: projectionPoint)
+        let totalDistance = segment.start.distance(from: segment.end)
+        
+        print("Distance from start: \(distanceFromStart), total distance: \(totalDistance)")
+        
+        // Calculate progress as percentage of total distance
+        return totalDistance > 0 ? distanceFromStart / totalDistance : 0.0
+    }
+    
+    func resetRoute() {
+        routeStarted = false
+        segmentStartPoints = []
+        currentSegment = 0
+        segmentProgress = 0.0
+        overallProgress = 0.0
+    }
+}
+
+// MARK: - Preview
+#if DEBUG
+struct WaypointProgressBarView_Previews: PreviewProvider {
+    static var previews: some View {
+        let plannerManager = WatchPlannerDataManager.shared
+        let locationManager = LocationManager()
+        let settings = AppSettings()
+        let colorManager = ColorManager()
+        
+        // Add some sample waypoints for preview
+        if plannerManager.currentPlan.isEmpty {
+            // This will only execute if currentPlan is empty during preview
+            _ = [
+                WatchPlanPoint(id: UUID(), latitude: 37.7749, longitude: -122.4194, accuracy: 10, order: 0),
+                WatchPlanPoint(id: UUID(), latitude: 37.7750, longitude: -122.4195, accuracy: 10, order: 1),
+                WatchPlanPoint(id: UUID(), latitude: 37.7751, longitude: -122.4196, accuracy: 10, order: 2)
+            ]
+        }
+        
+        return WaypointProgressBarView(
+            plannerManager: plannerManager,
+            locationManager: locationManager
+        )
+        .environmentObject(settings)
+        .environmentObject(colorManager)
+    }
+}
+#endif
