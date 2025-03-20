@@ -72,14 +72,14 @@ struct RoutePlanMapView: UIViewRepresentable {
         // Position buttons in the top right corner with adequate spacing
         NSLayoutConstraint.activate([
             // Location button constraints
-            locationButton.topAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.topAnchor, constant: 16),
-            locationButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -16),
+            locationButton.topAnchor.constraint(equalTo: mapView.safeAreaLayoutGuide.topAnchor, constant: 60),
+            locationButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -8),
             locationButton.widthAnchor.constraint(equalToConstant: 40),
             locationButton.heightAnchor.constraint(equalToConstant: 40),
             
             // Zoom button constraints
             zoomButton.topAnchor.constraint(equalTo: locationButton.bottomAnchor, constant: 12),
-            zoomButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -16),
+            zoomButton.trailingAnchor.constraint(equalTo: mapView.trailingAnchor, constant: -8),
             zoomButton.widthAnchor.constraint(equalToConstant: 40),
             zoomButton.heightAnchor.constraint(equalToConstant: 40)
         ])

@@ -40,7 +40,6 @@
 		1D1D83112D386A72003C8CAA /* Astrolabe Countdown.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */; };
 		1D1D83122D386A72003C8CAA /* Astrolabe Countdown.storekit in Resources */ = {isa = PBXBuildFile; fileRef = 1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */; };
 		1D2278B62D84E3E40004E1FA /* SessionArchiveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC321C62D7D934000EE70E1 /* SessionArchiveManager.swift */; };
-		1D2278B72D84E3E40004E1FA /* SessionArchiveManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC321C62D7D934000EE70E1 /* SessionArchiveManager.swift */; };
 		1D23AF982D611877000D7A41 /* WeeklyPromoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D23AF972D611877000D7A41 /* WeeklyPromoView.swift */; };
 		1D2D25D72D4C2C4000DF0CE2 /* RaceSessionMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D25D62D4C2C4000DF0CE2 /* RaceSessionMapView.swift */; };
 		1D2D25D92D4C47CE00DF0CE2 /* AltSpeedInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2D25D82D4C47CE00DF0CE2 /* AltSpeedInfoView.swift */; };
@@ -164,6 +163,8 @@
 		1D9EE6142D405B8F008B4B29 /* HeartRateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9EE6112D405B8E008B4B29 /* HeartRateManager.swift */; };
 		1DA82CEB2D600DB9009897FA /* CruiseRInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA82CEA2D600DB9009897FA /* CruiseRInfoView.swift */; };
 		1DB44CB82D0744C70035B2F2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB44CB72D0744C70035B2F2 /* SettingsView.swift */; };
+		1DB562332D8B89F6007FF0E2 /* MapUIButtonExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB562322D8B89F6007FF0E2 /* MapUIButtonExtention.swift */; };
+		1DB562372D8B8F61007FF0E2 /* ActiveWaypointManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB562362D8B8F61007FF0E2 /* ActiveWaypointManager.swift */; };
 		1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */; };
 		1DBD85D82CEFE8290028E391 /* HapticManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85D72CEFE8290028E391 /* HapticManager.swift */; };
 		1DBD85E22CF142A50028E391 /* PersistentTimerManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DBD85E12CF142A50028E391 /* PersistentTimerManager.swift */; };
@@ -370,6 +371,8 @@
 		1D9EE6112D405B8E008B4B29 /* HeartRateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateManager.swift; sourceTree = "<group>"; };
 		1DA82CEA2D600DB9009897FA /* CruiseRInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CruiseRInfoView.swift; sourceTree = "<group>"; };
 		1DB44CB72D0744C70035B2F2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		1DB562322D8B89F6007FF0E2 /* MapUIButtonExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUIButtonExtention.swift; sourceTree = "<group>"; };
+		1DB562362D8B8F61007FF0E2 /* ActiveWaypointManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveWaypointManager.swift; sourceTree = "<group>"; };
 		1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastMinuteSeparatorView.swift; sourceTree = "<group>"; };
 		1DBD85D72CEFE8290028E391 /* HapticManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HapticManager.swift; sourceTree = "<group>"; };
 		1DBD85DD2CF133510028E391 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -694,6 +697,7 @@
 				1DA82CEA2D600DB9009897FA /* CruiseRInfoView.swift */,
 				1D99BD542D52D21500342520 /* VersionHistoryView.swift */,
 				1D5C294F2D82C33600610A22 /* Planner */,
+				1DB562322D8B89F6007FF0E2 /* MapUIButtonExtention.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -745,6 +749,7 @@
 				1D0C3DAA2D58775A00C7D9B5 /* LastReadingmanager.swift */,
 				1D38CD7E2D7A412C0034980A /* ExtendedSessionManager.swift */,
 				1D18C9942D88E110005519E5 /* WatchPlannerDataManager.swift */,
+				1DB562362D8B8F61007FF0E2 /* ActiveWaypointManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -1081,6 +1086,7 @@
 				1D69FEFF2CE969D9001C178A /* CurrentTimeView.swift in Sources */,
 				1D2E540E2D1715FE00C669D4 /* TabItemModel.swift in Sources */,
 				1D90CF8B2D46C57C00357553 /* LocationHelper.swift in Sources */,
+				1DB562332D8B89F6007FF0E2 /* MapUIButtonExtention.swift in Sources */,
 				1DC321C92D7D936400EE70E1 /* WatchSessionManager+Extensions.swift in Sources */,
 				1DE3D06B2CF3108900B4056F /* StartCountdownIntent.swift in Sources */,
 				1D69FE942CE967AA001C178A /* RegattaApp.swift in Sources */,
@@ -1138,7 +1144,6 @@
 				1D69FEB12CE967AB001C178A /* RegattaUITests.swift in Sources */,
 				1D0C3DB22D5AB6C500C7D9B5 /* KeychainHelper.swift in Sources */,
 				1D69FEB32CE967AB001C178A /* RegattaUITestsLaunchTests.swift in Sources */,
-				1D2278B72D84E3E40004E1FA /* SessionArchiveManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1157,6 +1162,7 @@
 				1D64AA0B2D464D3800F1BC04 /* StartLineManager.swift in Sources */,
 				1DBD85E22CF142A50028E391 /* PersistentTimerManager.swift in Sources */,
 				1D64AA092D464D1500F1BC04 /* DistanceDisplayView.swift in Sources */,
+				1DB562372D8B8F61007FF0E2 /* ActiveWaypointManager.swift in Sources */,
 				1D18C9AB2D8A277F005519E5 /* WaypointProgressBarView.swift in Sources */,
 				1D768D772CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift in Sources */,
 				1D2D25DB2D4CED2C00DF0CE2 /* CourseTracker.swift in Sources */,

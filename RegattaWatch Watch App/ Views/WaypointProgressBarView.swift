@@ -15,6 +15,9 @@ struct WaypointProgressBarView: View {
     @ObservedObject var plannerManager: WatchPlannerDataManager
     @ObservedObject var locationManager: LocationManager
     @EnvironmentObject var cruisePlanState: WatchCruisePlanState
+    
+    // Reference to the active waypoint manager for sharing data
+    private let activeWaypointManager = ActiveWaypointManager.shared
 
     // Current segment being tracked (0-indexed)
     @State private var currentSegment: Int = 0
@@ -114,6 +117,17 @@ struct WaypointProgressBarView: View {
         }
         .ignoresSafeArea()
         .onAppear {
+            // Update the active waypoint manager with initial data
+            updateActiveWaypointManager()
+            
+            NotificationCenter.default.addObserver(
+                forName: Notification.Name("RequestSegmentCompletion"),
+                object: nil,
+                queue: .main
+            ) { [self] _ in
+                completeCurrentSegment()
+            }
+            
             if let currentLocation = locationManager.lastLocation {
                 print("🔍 Location update started: \(String(describing: currentLocation))")
                 // Call the same functions that would be called in onReceive
@@ -137,6 +151,13 @@ struct WaypointProgressBarView: View {
             if !isActive {
                 resetRoute()
             }
+        }
+        .onDisappear {
+            NotificationCenter.default.removeObserver(
+                self,
+                name: Notification.Name("RequestSegmentCompletion"),
+                object: nil
+            )
         }
     }
     
@@ -178,6 +199,19 @@ struct WaypointProgressBarView: View {
         // Ensure we have segments to work with
         guard !segments.isEmpty else { return }
         
+        // INSERT THE NEW CODE HERE - Distance-based waypoint threshold check
+        let distanceToWaypointThreshold = 15.0 // meters
+        if currentSegment < segmentStartPoints.count - 2 {
+            let waypointLocation = segmentStartPoints[currentSegment + 1]
+            if currentLocation.distance(from: waypointLocation) < distanceToWaypointThreshold {
+                print("🏁 Reached waypoint threshold, advancing segment")
+                currentSegment += 1
+                self.segmentProgress = 0.0
+                updateProgress(for: location)
+                return
+            }
+        }
+        
         // Calculate progress within the current segment
         let segmentProgress = calculateSegmentProgress(
             currentLocation: currentLocation,
@@ -203,7 +237,9 @@ struct WaypointProgressBarView: View {
             overallProgress = (Double(currentSegment) * segmentSize) + (segmentProgress * segmentSize)
         }
         print("✅ Progress calculated: \(overallProgress)")
-
+        
+        // Update the active waypoint manager with the new data
+        updateActiveWaypointManager()
     }
     
     // Calculate progress within a segment based on projection
@@ -235,8 +271,6 @@ struct WaypointProgressBarView: View {
         print("Numerator: \(numerator), Denominator: \(denominator)")
         let t = numerator / denominator
         print("Projection param t: \(t), clampedT: \(max(0, min(1, t)))")
-        // After distance calculation
-
         
         // Clamp t to [0, 1]
         let clampedT = max(0, min(1, t))
@@ -270,13 +304,70 @@ struct WaypointProgressBarView: View {
         return totalDistance > 0 ? distanceFromStart / totalDistance : 0.0
     }
     
+    // MARK: - Route Management
+    
     func resetRoute() {
         routeStarted = false
         segmentStartPoints = []
         currentSegment = 0
         segmentProgress = 0.0
         overallProgress = 0.0
+        
+        // Also reset the ActiveWaypointManager
+        activeWaypointManager.reset()
     }
+    
+    // MARK: - Active Waypoint Manager Updates
+    
+    /// Updates the ActiveWaypointManager with the latest progress and waypoint information
+    private func updateActiveWaypointManager() {
+        var activeWaypoint: WatchPlanPoint? = nil
+        
+        // Determine the active waypoint (end point of current segment)
+        // currentSegment is the 0-indexed segment we're currently traveling on
+        // The destination is the next point in the plan
+        if !plannerManager.currentPlan.isEmpty && currentSegment < plannerManager.currentPlan.count {
+            activeWaypoint = plannerManager.currentPlan[currentSegment]
+        }
+        
+        // Update the active waypoint manager with the new, expanded parameters
+        activeWaypointManager.updateActiveWaypointInfo(
+            index: currentSegment,
+            waypoint: activeWaypoint,
+            segmentProgress: segmentProgress,
+            overallProgress: overallProgress,
+            totalSegments: plannerManager.currentPlan.count,
+            routeStarted: routeStarted,
+            segmentStartPoints: segmentStartPoints
+        )
+    }
+    
+    // MARK: - Manual Segment Completion
+    func completeCurrentSegment() {
+        // Only proceed if we have a route and aren't at the last segment
+        guard routeStarted, currentSegment < segmentStartPoints.count - 2 else {
+            print("⚠️ Cannot complete segment: route not started or already at last segment")
+            return
+        }
+        
+        print("🏁 Manually marking segment \(currentSegment) as complete")
+        
+        // Advance to next segment
+        currentSegment += 1
+        segmentProgress = 0.0
+        
+        // Recalculate overall progress
+        if segmentStartPoints.count >= 2 {
+            let segmentSize = 1.0 / Double(segmentStartPoints.count - 1)
+            overallProgress = (Double(currentSegment) * segmentSize)
+        }
+        
+        // Update the active waypoint manager
+        updateActiveWaypointManager()
+        
+        print("✅ Advanced to segment \(currentSegment), overall progress: \(overallProgress)")
+    }
+    
 }
 
 // MARK: - Preview

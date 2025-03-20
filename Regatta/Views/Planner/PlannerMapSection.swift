@@ -87,13 +87,21 @@ struct PlannerMapSection: View {
                     // The pin indicator
                     VStack {
                         Spacer()
-                        Image(systemName: "mappin")
-                            .font(.system(size: 30))
-                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
-                        Text("Tap to place pin")
-                            .foregroundColor(.white)
-                            .font(.caption)
-                            .padding(.bottom, 80)
+                        ZStack {
+                            RoundedRectangle(cornerRadius: 10)
+                                .fill(Color.black.opacity(0.3))
+                                .frame(width: 120, height: 100)
+                                .offset(y:-15)
+                            VStack {
+                                Image(systemName: "mappin")
+                                    .font(.system(size: 30))
+                                    .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                                Text("Tap to place pin")
+                                    .foregroundColor(.white)
+                                    .font(.caption)
+                            }
+                        }
+                        .padding(.bottom, 80)
                     }
                     
                     /*

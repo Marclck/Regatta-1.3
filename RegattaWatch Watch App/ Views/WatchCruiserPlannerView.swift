@@ -143,7 +143,8 @@ struct WatchCruisePlannerView: View {
     @ObservedObject var cruisePlanState = WatchCruisePlanState.shared
     @State private var selectedWaypoint: WatchPlanPoint? = nil
     @State private var showingMap: Bool = false
-    
+    @ObservedObject var activeWaypointManager = ActiveWaypointManager.shared
+
     var body: some View {
         VStack(spacing: 8) {
             // Status indicator
@@ -168,8 +169,11 @@ struct WatchCruisePlannerView: View {
                         .listRowBackground(Color.clear)
                 } else {
                     ForEach(plannerManager.currentPlan) { waypoint in
-                        WaypointRow(waypoint: waypoint)
-                            .contentShape(Rectangle())
+                        WaypointRow(
+                            waypoint: waypoint,
+                            isActive: cruisePlanState.isActive &&
+                                     activeWaypointManager.activeWaypoint?.id == waypoint.id
+                        )                            .contentShape(Rectangle())
                             .onTapGesture {
                                 // Open the waypoint in the native Maps app
                                 let coordinate = CLLocationCoordinate2D(
@@ -331,21 +335,48 @@ struct CruiseControlButtons: View {
     
     var body: some View {
         HStack(spacing: 12) {
-            // Reset Button
+            // Left Button - Either Reset or Complete Segment based on isActive
             Button(action: {
-                cruisePlanState.resetCruisePlan()
-            }) {
-                Image(systemName: "arrow.counterclockwise")
-                    .font(.system(size: 24))
-                    .fontWeight(.heavy)
-                    .symbolVariant(.fill)
-                    .foregroundColor(Color.orange)
-                    .frame(width: 65, height: 50)
-                    .background(
-                        RoundedRectangle(cornerRadius: 40)
-                            .fill(Color.orange.opacity(0.4))
+                if cruisePlanState.isActive {
+                    // Call the completeCurrentSegment function via notification
+                    NotificationCenter.default.post(
+                        name: Notification.Name("RequestSegmentCompletion"),
+                        object: nil
                     )
-                    .clipShape(RoundedRectangle(cornerRadius: 15))
+                    HapticManager.shared.playConfirmFeedback()
+                } else {
+                    // Regular reset functionality when not active
+                    cruisePlanState.resetCruisePlan()
+                }
+            }) {
+                // Change icon and color based on active state
+                if cruisePlanState.isActive {
+                    // Green checkmark when active
+                    Image(systemName: "checkmark")
+                        .font(.system(size: 24))
+                        .fontWeight(.heavy)
+                        .symbolVariant(.fill)
+                        .foregroundColor(.white)
+                        .frame(width: 65, height: 50)
+                        .background(
+                            RoundedRectangle(cornerRadius: 40)
+                                .fill(Color.green.opacity(0.8))
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                } else {
+                    // Orange reset icon when not active
+                    Image(systemName: "arrow.counterclockwise")
+                        .font(.system(size: 24))
+                        .fontWeight(.heavy)
+                        .symbolVariant(.fill)
+                        .foregroundColor(Color.orange)
+                        .frame(width: 65, height: 50)
+                        .background(
+                            RoundedRectangle(cornerRadius: 40)
+                                .fill(Color.orange.opacity(0.4))
+                        )
+                        .clipShape(RoundedRectangle(cornerRadius: 15))
+                }
             }
             .buttonStyle(PlainButtonStyle())
             

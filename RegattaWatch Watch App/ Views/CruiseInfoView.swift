@@ -345,6 +345,53 @@ struct CruiseInfoView: View {
         lastLocation = newLocation
     }
     
+    // New function to calculate and format the distance to active waypoint
+    private func getWaypointDistanceText() -> String {
+        let activeWaypointManager = ActiveWaypointManager.shared
+        
+        // Get current location
+        guard let currentLocation = locationManager.isMonitoring ?
+                                    locationManager.lastLocation :
+                                    lastLocation else {
+            return "0.0"
+        }
+        
+        // Get waypoint location
+        guard let waypointLocation = activeWaypointManager.activeWaypointLocation else {
+            // If no active waypoint but cruise plan is active, check if we've completed all waypoints
+            if cruisePlanState.isActive && activeWaypointManager.totalSegments > 0 {
+                // All waypoints completed - try to get distance to last waypoint
+                if activeWaypointManager.segmentStartPoints.count > 0,
+                   let lastWaypoint = activeWaypointManager.segmentStartPoints.last {
+                    let lastDistance = currentLocation.distance(from: lastWaypoint)
+                    return formatDistance(lastDistance)
+                }
+            }
+            return "0.0"
+        }
+        
+        // Calculate distance to waypoint
+        let distance = currentLocation.distance(from: waypointLocation)
+        return formatDistance(distance)
+    }
+
+    // Helper function to format distance consistently
+    private func formatDistance(_ distance: CLLocationDistance) -> String {
+        if distance == 0 {
+            return "0.0"
+        }
+        
+        if distance > 200_000 {  // Over 200km
+            return "FAR"
+        } else if distance >= 10_000 {  // 10km to 200km
+            return String(format: "%.0fk", distance / 1000)
+        } else if distance >= 1_000 {  // 1km to 9.9km
+            return String(format: "%.1fk", distance / 1000)
+        } else {
+            return String(format: "%.0f", distance)
+        }
+    }
+    
     private func resetTracking() {
         // Reset with current GPS monitoring state
         lastReadingManager.resetDistance(isMonitoring: locationManager.isMonitoring)
@@ -411,15 +458,32 @@ struct CruiseInfoView: View {
                         .symbolVariant(.fill)
                         .foregroundColor(.orange)
                 } else {
-                    Text(getDistanceText())
-                        .font(.zenithBeta(size: 20, weight: .medium))
-                        .foregroundColor(
-                            (showGPSOffMessage || showGPSOnMessage) ?
-                                (showGPSOffMessage ? .orange : Color(hex: colorManager.selectedTheme.rawValue)) :
-                                (locationManager.isMonitoring ?
-                                    Color(hex: colorManager.selectedTheme.rawValue) :
-                                    (settings.lightMode ? .black : .white))
-                        )
+                    HStack(spacing: 4) {
+                        // Waypoint index indicator (only shown when cruise plan is active)
+                        if cruisePlanState.isActive {
+                            Text("\(ActiveWaypointManager.shared.activeWaypointIndex)")
+                                .font(.zenithBeta(size: 16, weight: .medium))
+                                .foregroundColor(settings.lightMode ? .white : .black)
+                                .padding(.horizontal, 2)
+                                .frame(height: 16)
+                                .frame(minWidth: 16)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color(hex: colorManager.selectedTheme.rawValue))
+                                )
+                        }
+                        
+                        // Main distance text
+                        Text(cruisePlanState.isActive ? getWaypointDistanceText() : getDistanceText())
+                            .font(.zenithBeta(size: 20, weight: .medium))
+                            .foregroundColor(
+                                (showGPSOffMessage || showGPSOnMessage) ?
+                                    (showGPSOffMessage ? .orange : Color(hex: colorManager.selectedTheme.rawValue)) :
+                                    (locationManager.isMonitoring ?
+                                        Color(hex: colorManager.selectedTheme.rawValue) :
+                                        (settings.lightMode ? .black : .white))
+                            )
+                    }
                 }
             }
             .padding(.horizontal, 4)
