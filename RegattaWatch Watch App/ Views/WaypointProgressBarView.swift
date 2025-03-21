@@ -240,6 +240,51 @@ struct WaypointProgressBarView: View {
         
         // Update the active waypoint manager with the new data
         updateActiveWaypointManager()
+        
+        var activeWaypoint: WatchPlanPoint? = nil
+        if currentSegment < plannerManager.currentPlan.count {
+            activeWaypoint = plannerManager.currentPlan[currentSegment]
+        }
+
+        // Then update the direction manager
+        if cruisePlanState.isActive && currentLocation != nil && activeWaypoint != nil {
+            // Get the waypoint coordinate
+            let waypointCoordinate = CLLocationCoordinate2D(
+                latitude: activeWaypoint!.latitude,
+                longitude: activeWaypoint!.longitude
+            )
+            
+            // Calculate bearing to active waypoint
+            let bearing = WaypointDirectionManager.shared.calculateBearing(
+                from: currentLocation.coordinate,
+                to: waypointCoordinate
+            )
+            
+            // Calculate distance to waypoint
+            let waypointLocation = CLLocation(
+                latitude: activeWaypoint!.latitude,
+                longitude: activeWaypoint!.longitude
+            )
+            let distance = currentLocation.distance(from: waypointLocation)
+            
+            // Update direction manager
+            WaypointDirectionManager.shared.updateDirectionData(
+                isActive: true,
+                waypointBearing: bearing,
+                distanceToWaypoint: distance,
+                activeWaypoint: activeWaypoint,
+                currentLocation: currentLocation
+            )
+            
+            print("💫 Direction manager updated with active waypoint \(activeWaypoint!.order)")
+        } else {
+            // Only reset if cruise plan is inactive
+            if !cruisePlanState.isActive {
+                WaypointDirectionManager.shared.reset()
+            }
+            
+            print("⚠️ Cannot update direction manager: active=\(cruisePlanState.isActive), location=\(currentLocation != nil), waypoint=\(activeWaypoint != nil)")
+        }
     }
     
     // Calculate progress within a segment based on projection
@@ -315,6 +360,8 @@ struct WaypointProgressBarView: View {
         
         // Also reset the ActiveWaypointManager
         activeWaypointManager.reset()
+        
+        WaypointDirectionManager.shared.reset()
     }
     
     // MARK: - Active Waypoint Manager Updates
@@ -367,7 +414,68 @@ struct WaypointProgressBarView: View {
         
         print("✅ Advanced to segment \(currentSegment), overall progress: \(overallProgress)")
     }
+}
+
+// MARK: - Waypoint Direction Manager
+class WaypointDirectionManager: ObservableObject {
+    static let shared = WaypointDirectionManager()
     
+    @Published var isActive: Bool = false
+    @Published var waypointBearing: Double = 0.0
+    @Published var distanceToWaypoint: Double = 0.0
+    @Published var activeWaypoint: WatchPlanPoint?
+    @Published var currentLocation: CLLocation?
+    
+    private init() {}
+    
+    // Update manager data from WaypointProgressBarView
+    func updateDirectionData(
+        isActive: Bool,
+        waypointBearing: Double,
+        distanceToWaypoint: Double,
+        activeWaypoint: WatchPlanPoint?,
+        currentLocation: CLLocation?
+    ) {
+        self.isActive = isActive
+        self.waypointBearing = waypointBearing
+        self.distanceToWaypoint = distanceToWaypoint
+        self.activeWaypoint = activeWaypoint
+        self.currentLocation = currentLocation
+        
+        // Print debug info to help troubleshoot
+        print("🧭 Direction Manager updated:")
+        print("  - Active: \(isActive)")
+        print("  - Bearing: \(waypointBearing)°")
+        print("  - Distance: \(distanceToWaypoint)m")
+        print("  - Waypoint: \(String(describing: activeWaypoint?.order))")
+    }
+    
+    // Calculate bearing between two coordinates (for use in other views)
+    func calculateBearing(from: CLLocationCoordinate2D, to: CLLocationCoordinate2D) -> Double {
+        let dLon = to.longitude - from.longitude
+        
+        let y = sin(dLon * .pi / 180) * cos(to.latitude * .pi / 180)
+        let x = cos(from.latitude * .pi / 180) * sin(to.latitude * .pi / 180) -
+                sin(from.latitude * .pi / 180) * cos(to.latitude * .pi / 180) * cos(dLon * .pi / 180)
+        
+        var bearing = atan2(y, x) * 180 / .pi
+        if bearing < 0 {
+            bearing += 360
+        }
+        
+        return bearing
+    }
+    
+    // Reset all data
+    func reset() {
+        isActive = false
+        waypointBearing = 0.0
+        distanceToWaypoint = 0.0
+        activeWaypoint = nil
+        currentLocation = nil
+        
+        print("🧭 Direction Manager reset")
+    }
 }
 
 // MARK: - Preview

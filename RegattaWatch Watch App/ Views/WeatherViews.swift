@@ -441,10 +441,14 @@ struct WindSpeedView: View {
 struct CompassView: View {
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
     @EnvironmentObject var settings: AppSettings
+    @EnvironmentObject var colorManager: ColorManager
     @StateObject private var compassManager = CompassManager()
     @StateObject private var weatherManager = WeatherManager()
     @State private var showingSunMoon: Bool = false
     @State private var showingPlannerSheet: Bool = false  // New state for showing planner sheet
+    
+    // Use the shared direction manager to access waypoint data
+    @ObservedObject private var waypointDirectionManager = WaypointDirectionManager.shared
 
     private func getNorthPosition(heading: Double, isReduced: Bool) -> CGPoint {
         if isReduced {
@@ -460,61 +464,94 @@ struct CompassView: View {
         }
     }
     
+    // Calculate the waypoint position using the bearing from the direction manager
+    private func getWaypointPosition(heading: Double, isReduced: Bool) -> CGPoint {
+        if isReduced {
+            return CGPoint(x: 0, y: 0)
+        } else {
+            // Get bearing from the direction manager
+            let waypointBearing = waypointDirectionManager.waypointBearing
+            
+            // Adjust for compass heading
+            let angleInDegrees = 270 - heading + waypointBearing
+            let angle = angleInDegrees * .pi / 180
+            
+            let x = 20 * cos(angle)
+            let y = 20 * sin(angle)
+            
+            return CGPoint(x: x, y: y)
+        }
+    }
+    
     var body: some View {
         Button(action: {
             WKInterfaceDevice.current().play(.click)
             withAnimation(.easeInOut(duration: 0.2)) {
                 showingPlannerSheet = true  // Show the planner sheet instead of toggling sunMoon
-//                showingSunMoon.toggle()
             }
         }) {
             ZStack {
-//                if !showingSunMoon {
-                    // Standard Compass View
-                    ZStack {
-                        // Background circle
-                        Circle()
-                            .fill(settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.1))
-                            .frame(width: 50, height: 50)
-                        
-                        if !isLuminanceReduced {
-                            // Normal mode: show heading and cardinal direction
-                            VStack(spacing: 0) {
-                                Text(String(format: "%.0f", compassManager.heading))
-                                    .font(.zenithBeta(size: 22, weight: .medium))
-                                    .foregroundColor(settings.lightMode ? .black : .white)
-                                    .offset(y: 3.5)
-                                
-                                Text(compassManager.cardinalDirection)
-                                    .font(.zenithBeta(size: 10, weight: .medium))
-                                    .foregroundColor(settings.lightMode ? .black : .white)
-                                    .offset(y: 0)
-                            }
-                            .animation(nil, value: isLuminanceReduced) // Prevent text animation
+                // Standard Compass View
+                ZStack {
+                    // Background circle
+                    Circle()
+                        .fill(settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.1))
+                        .frame(width: 50, height: 50)
+                    
+                    if !isLuminanceReduced {
+                        // Normal mode: show heading and cardinal direction
+                        VStack(spacing: 0) {
+                            Text(String(format: "%.0f", compassManager.heading))
+                                .font(.zenithBeta(size: 22, weight: .medium))
+                                .foregroundColor(settings.lightMode ? .black : .white)
+                                .offset(y: 3.5)
+                            
+                            Text(compassManager.cardinalDirection)
+                                .font(.zenithBeta(size: 10, weight: .medium))
+                                .foregroundColor(settings.lightMode ? .black : .white)
+                                .offset(y: 0)
                         }
-                        
-                        // Animated red circle
-                        let position = getNorthPosition(heading: compassManager.heading, isReduced: isLuminanceReduced)
+                        .animation(nil, value: isLuminanceReduced) // Prevent text animation
+                    }
+                    
+                    // Waypoint indicator circle (below north indicator)
+                    if waypointDirectionManager.isActive {
+                        let waypointPosition = getWaypointPosition(heading: compassManager.heading, isReduced: isLuminanceReduced)
                         Circle()
-                            .fill(Color.red)
-                            .frame(width: isLuminanceReduced ? 10 : 5, height: isLuminanceReduced ? 10 : 5)
+                            .fill(Color(hex: colorManager.selectedTheme.rawValue))
+                            .frame(width: isLuminanceReduced ? 15 : 6, height: isLuminanceReduced ? 15 : 6)
                             .offset(
-                                x: position.x,
-                                y: position.y
+                                x: waypointPosition.x,
+                                y: waypointPosition.y
                             )
                             .animation(.spring(response: 0.3, dampingFraction: 0.8), value: isLuminanceReduced)
                             .animation(.linear(duration: 0.1), value: compassManager.heading)
+                            .animation(.linear(duration: 0.1), value: waypointDirectionManager.waypointBearing)
+                            .zIndex(0)  // Ensure it's below north indicator
                     }
-/*                } else {
-                    // Sun Moon View
-                    SunMoonView()
-                } */
+                    
+                    // Animated red circle for north
+                    let position = getNorthPosition(heading: compassManager.heading, isReduced: isLuminanceReduced)
+                    Circle()
+                        .fill(Color.red)
+                        .frame(width: isLuminanceReduced ? 10 : 5, height: isLuminanceReduced ? 10 : 5)
+                        .offset(
+                            x: position.x,
+                            y: position.y
+                        )
+                        .animation(.spring(response: 0.3, dampingFraction: 0.8), value: isLuminanceReduced)
+                        .animation(.linear(duration: 0.1), value: compassManager.heading)
+                        .zIndex(1)  // Ensure it's above waypoint indicator
+                }
             }
             .clipShape(Circle())
         }
         .buttonStyle(PlainButtonStyle())
         .onAppear {
             compassManager.startUpdates()
+            
+            // Debug output for waypoint direction
+            print("💠 CompassView appeared: Waypoint direction active=\(waypointDirectionManager.isActive)")
         }
         .onDisappear {
             compassManager.stopUpdates()
@@ -525,6 +562,13 @@ struct CompassView: View {
                 WatchCruisePlannerView()
                     .navigationTitle("Race Plan")
             }
+        }
+        // Add onChange handler to monitor waypoint direction changes
+        .onChange(of: waypointDirectionManager.isActive) { _, newIsActive in
+            print("💠 Waypoint direction active changed: \(newIsActive)")
+        }
+        .onChange(of: waypointDirectionManager.waypointBearing) { _, newBearing in
+            print("💠 Waypoint bearing changed: \(newBearing)°")
         }
     }
 }
