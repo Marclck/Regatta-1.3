@@ -64,11 +64,13 @@ struct RoutePlan: Identifiable, Codable {
     let id: UUID
     let date: Date
     var points: [PlanPoint]
+    var name: String
     
-    init(id: UUID = UUID(), date: Date = Date(), points: [PlanPoint]) {
+    init(id: UUID = UUID(), date: Date = Date(), points: [PlanPoint], name: String = "Untitled Route") {
         self.id = id
         self.date = date
         self.points = points
+        self.name = name
     }
     
     // Format date and time for display
@@ -87,6 +89,7 @@ class RoutePlanStore: ObservableObject {
     @Published var currentPlan: [PlanPoint] = []
     @Published var savedPlans: [RoutePlan] = []
     @Published var isPlanSaved: Bool = true
+    @Published var currentPlanName: String = "Untitled Route"
     
     private let planStorageKey = "savedRoutePlans"
     
@@ -131,6 +134,7 @@ class RoutePlanStore: ObservableObject {
             PlanPoint(latitude: 0.0, longitude: 0.0, accuracy: nil, order: 1),
             PlanPoint(latitude: 0.0, longitude: 0.0, accuracy: nil, order: 2)
         ]
+        currentPlanName = "Untitled Route"
         isPlanSaved = true
     }
     
@@ -193,7 +197,7 @@ class RoutePlanStore: ObservableObject {
         
         // Only save if there are valid points
         if !validPoints.isEmpty {
-            let newPlan = RoutePlan(points: validPoints)
+            let newPlan = RoutePlan(points: validPoints, name: currentPlanName)
             savedPlans.append(newPlan)
             isPlanSaved = true
             
@@ -204,7 +208,19 @@ class RoutePlanStore: ObservableObject {
     
     func loadPlan(_ plan: RoutePlan) {
         currentPlan = plan.points
+        currentPlanName = plan.name
         isPlanSaved = true
+    }
+    
+    func updatePlanName(id: UUID, newName: String) {
+        if let index = savedPlans.firstIndex(where: { $0.id == id }) {
+            var updatedPlan = savedPlans[index]
+            updatedPlan.name = newName
+            savedPlans[index] = updatedPlan
+            
+            // Persist the changes
+            savePlansToStorage()
+        }
     }
     
     private func savePlansToStorage() {
@@ -375,5 +391,98 @@ extension View {
                                                       for: nil)
                     }
             )
+    }
+}
+
+// MARK: - Route Name Editor Alert
+struct CustomRouteNameEditor: View {
+    @Binding var isPresented: Bool
+    let planId: UUID
+    let initialName: String
+    let onSave: (UUID, String) -> Void
+    
+    @State private var routeName: String = ""
+    
+    var body: some View {
+        ZStack {
+            // Semi-transparent background
+            Color.black.opacity(0.4)
+                .ignoresSafeArea()
+            
+            // Dialog content
+            VStack(spacing: 16) {
+                Text("Route Name")
+                    .font(.headline)
+                    .foregroundColor(.white)
+                
+                Text("Enter a name for this route")
+                    .font(.subheadline)
+                    .foregroundColor(.white.opacity(0.8))
+                    .multilineTextAlignment(.center)
+                
+                TextField("Enter route name", text: $routeName)
+                    .padding()
+                    .background(Color.black.opacity(0.3))
+                    .cornerRadius(8)
+                    .foregroundColor(.white)
+                    .autocorrectionDisabled()
+                    .textInputAutocapitalization(.words)
+                
+                HStack {
+                    Button("Cancel") {
+                        isPresented = false
+                    }
+                    .foregroundColor(.white)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 16)
+                    .background(Color.gray.opacity(0.3))
+                    .cornerRadius(8)
+                    
+                    Spacer()
+                    
+                    Button("Save") {
+                        onSave(planId, routeName)
+                        isPresented = false
+                    }
+                    .foregroundColor(.white)
+                    .padding(.vertical, 10)
+                    .padding(.horizontal, 16)
+                    .background(Color(hex: ColorTheme.ultraBlue.rawValue))
+                    .cornerRadius(8)
+                }
+            }
+            .padding(24)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.black.opacity(0.8))
+            )
+            .frame(width: 300)
+            .onAppear {
+                routeName = initialName
+            }
+        }
+    }
+}
+
+// Extension to use the custom dialog
+extension View {
+    func customRouteNameEditor(
+        isPresented: Binding<Bool>,
+        planId: UUID,
+        initialName: String,
+        onSave: @escaping (UUID, String) -> Void
+    ) -> some View {
+        ZStack {
+            self
+            
+            if isPresented.wrappedValue {
+                CustomRouteNameEditor(
+                    isPresented: isPresented,
+                    planId: planId,
+                    initialName: initialName,
+                    onSave: onSave
+                )
+            }
+        }
     }
 }

@@ -695,14 +695,20 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             return
         }
         
-        print("⌚️ Received plan update with \(waypoints.count) waypoints")
+        // Extract plan name from message, defaulting to "Untitled Route" if not present
+        let planName = message["planName"] as? String ?? "Untitled Route"
+        
+        print("⌚️ Received plan update with \(waypoints.count) waypoints and name: \(planName)")
         
         // Notify WatchPlannerDataManager about new plan
         DispatchQueue.main.async {
             NotificationCenter.default.post(
                 name: Notification.Name("PlanReceivedFromPhone"),
                 object: nil,
-                userInfo: ["waypoints": waypoints]
+                userInfo: [
+                    "waypoints": waypoints,
+                    "planName": planName
+                ]
             )
         }
         
@@ -712,6 +718,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                 "messageType": "plan_update_ack",
                 "status": "success",
                 "waypointCount": waypoints.count,
+                "planName": planName,
                 "timestamp": Date().timeIntervalSince1970
             ]
             

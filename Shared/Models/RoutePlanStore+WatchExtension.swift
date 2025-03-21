@@ -30,7 +30,8 @@ extension RoutePlanStore {
     
     // Send current plan to watch
     func sendCurrentPlanToWatch() {
-        PlannerWatchConnectivity.shared.sendCurrentPlanToWatch(currentPlan)
+        // Send both the current plan points and the name
+        PlannerWatchConnectivity.shared.sendCurrentPlanToWatch(currentPlan, planName: currentPlanName)
     }
 }
 #endif

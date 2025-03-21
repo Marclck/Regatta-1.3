@@ -446,7 +446,8 @@ struct CompassView: View {
     @StateObject private var weatherManager = WeatherManager()
     @State private var showingSunMoon: Bool = false
     @State private var showingPlannerSheet: Bool = false  // New state for showing planner sheet
-    
+    @ObservedObject var cruisePlanState: WatchCruisePlanState
+
     // Use the shared direction manager to access waypoint data
     @ObservedObject private var waypointDirectionManager = WaypointDirectionManager.shared
 
@@ -528,6 +529,19 @@ struct CompassView: View {
                             .animation(.linear(duration: 0.1), value: compassManager.heading)
                             .animation(.linear(duration: 0.1), value: waypointDirectionManager.waypointBearing)
                             .zIndex(0)  // Ensure it's below north indicator
+                    }
+                    
+                    if cruisePlanState.isActive && !waypointDirectionManager.isActive {
+                        let position = getNorthPosition(heading: compassManager.heading, isReduced: isLuminanceReduced)
+                        Circle()
+                            .fill(Color(hex: colorManager.selectedTheme.rawValue))
+                            .frame(width: isLuminanceReduced ? 15 : 6, height: isLuminanceReduced ? 15 : 6)
+                            .offset(
+                                x: position.x,
+                                y: position.y
+                            )
+                            .animation(.spring(response: 0.3, dampingFraction: 0.8), value: isLuminanceReduced)
+                            .animation(.linear(duration: 0.1), value: compassManager.heading)
                     }
                     
                     // Animated red circle for north
@@ -680,12 +694,15 @@ struct BarometerView: View {
     }
 }
 
+/*
 //# MARK: - Preview
 struct WeatherViews_Previews: PreviewProvider {
     static var settings = AppSettings()
     static var colorManager = ColorManager()
     static var courseTracker = CourseTracker()
     static var lastReadingManager = LastReadingManager()
+    @ObservedObject var cruisePlanState: WatchCruisePlanState
+
     
     static var previews: some View {
         HStack(spacing: 10) {
@@ -693,7 +710,7 @@ struct WeatherViews_Previews: PreviewProvider {
                 courseTracker: courseTracker,
                 lastReadingManager: lastReadingManager
             )
-            CompassView()
+            CompassView(cruisePlanState: cruisePlanState)
             BarometerView()
         }
         .environmentObject(settings)
@@ -703,3 +720,4 @@ struct WeatherViews_Previews: PreviewProvider {
         .background(Color.black)
     }
 }
+*/

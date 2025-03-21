@@ -16,6 +16,8 @@ struct PlanHistoryView: View {
     @State private var selectedPlan: RoutePlan?
     @State private var showPlanDetail = false
     @State private var mapStyleConfig: MapStyleConfiguration = .standard
+    @State private var editingPlanId: UUID?
+    @State private var showEditNameAlert = false
     
     var body: some View {
         NavigationView {
@@ -52,28 +54,51 @@ struct PlanHistoryView: View {
                         
                         List {
                             ForEach(sortedPlans) { plan in
-                                Button(action: {
-                                    selectedPlan = plan
-                                    showPlanDetail = true
-                                }) {
-                                    HStack {
-                                        VStack(alignment: .leading, spacing: 4) {
-                                            Text(plan.formattedDateTime())
-                                                .font(.headline)
-                                                .foregroundColor(.white)
+                                HStack {
+                                    Button(action: {
+                                        selectedPlan = plan
+                                        showPlanDetail = true
+                                    }) {
+                                        HStack {
+                                            VStack(alignment: .leading, spacing: 4) {
+                                                Text(plan.name)
+                                                    .font(.headline)
+                                                    .foregroundColor(.white)
+                                                
+                                                HStack {
+                                                    Text(plan.formattedDateTime())
+                                                        .font(.subheadline)
+                                                        .foregroundColor(.white.opacity(0.7))
+                                                    
+                                                    Text("•")
+                                                        .foregroundColor(.white.opacity(0.7))
+                                                    
+                                                    Text("\(plan.points.count) waypoints")
+                                                        .font(.subheadline)
+                                                        .foregroundColor(.white.opacity(0.7))
+                                                }
+                                            }
                                             
-                                            Text("\(plan.points.count) waypoints")
-                                                .font(.subheadline)
+                                            Spacer()
+                                            
+                                            Image(systemName: "chevron.right")
                                                 .foregroundColor(.white.opacity(0.7))
                                         }
-                                        
-                                        Spacer()
-                                        
-                                        Image(systemName: "chevron.right")
-                                            .foregroundColor(.white.opacity(0.7))
+                                        .contentShape(Rectangle())
                                     }
-                                    .padding(.vertical, 4)
+                                    
+                                    // Edit name button
+                                    Button(action: {
+                                        editingPlanId = plan.id
+                                        showEditNameAlert = true
+                                    }) {
+                                        Image(systemName: "pencil")
+                                            .foregroundColor(.white.opacity(0.7))
+                                            .padding(.leading, 8)
+                                    }
+                                    .buttonStyle(BorderlessButtonStyle())
                                 }
+                                .padding(.vertical, 4)
                                 .listRowBackground(
                                     Color.clear
                                         .background(.ultraThinMaterial)
@@ -97,6 +122,7 @@ struct PlanHistoryView: View {
                         .scrollContentBackground(.hidden)
                     }
                 }
+                .padding(.top, 1)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -107,10 +133,23 @@ struct PlanHistoryView: View {
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Done") {
+                    Button(action: {
                         dismiss()
+                    }) {
+                        HStack {
+                            Text("Close")
+                                .font(.system(.subheadline))
+                        }
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 8)
+                        .background(Color.white.opacity(0.3))
+                        .cornerRadius(18)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 18)
+                                .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                        )
                     }
-                    .foregroundColor(.white)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
@@ -118,10 +157,20 @@ struct PlanHistoryView: View {
             .sheet(isPresented: $showPlanDetail, content: {
                 if let plan = selectedPlan {
                     PlanDetailView(plan: plan, mapStyle: $mapStyleConfig)
+                        .preferredColorScheme(.dark) // Ensure sheet is in dark mode
                 }
             })
+            .customRouteNameEditor(
+                isPresented: $showEditNameAlert,
+                planId: editingPlanId ?? UUID(),
+                initialName: planStore.savedPlans.first(where: { $0.id == editingPlanId })?.name ?? "",
+                onSave: { planId, newName in
+                    planStore.updatePlanName(id: planId, newName: newName)
+                }
+            )
         }
         .environment(\.colorScheme, .dark)
+        .preferredColorScheme(.dark) // Add this line to ensure system-wide dark mode
     }
 }
 
@@ -131,6 +180,14 @@ struct PlanDetailView: View {
     let plan: RoutePlan
     @Binding var mapStyle: MapStyleConfiguration
     @ObservedObject private var planStore = RoutePlanStore.shared
+    @State private var showEditNameAlert = false
+    @State private var localPlanName: String
+    
+    init(plan: RoutePlan, mapStyle: Binding<MapStyleConfiguration>) {
+        self.plan = plan
+        self._mapStyle = mapStyle
+        self._localPlanName = State(initialValue: plan.name)
+    }
     
     var body: some View {
         NavigationView {
@@ -149,6 +206,42 @@ struct PlanDetailView: View {
                 
                 ScrollView {
                     VStack(spacing: 16) {
+                        // Route name with edit button
+                        HStack {
+                            Text(localPlanName)
+                                .font(.title2)
+                                .foregroundColor(.white)
+                                .fontWeight(.bold)
+                            
+                            Button(action: {
+                                showEditNameAlert = true
+                            }) {
+                                Image(systemName: "pencil.circle")
+                                    .foregroundColor(.white.opacity(0.7))
+                            }
+                            
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        .padding(.top, 8)
+                        
+                        // Date and waypoint count
+                        HStack {
+                            Text(plan.formattedDateTime())
+                                .font(.subheadline)
+                                .foregroundColor(.white.opacity(0.7))
+                            
+                            Text("•")
+                                .foregroundColor(.white.opacity(0.7))
+                            
+                            Text("\(plan.points.count) waypoints")
+                                .font(.subheadline)
+                                .foregroundColor(.white.opacity(0.7))
+                            
+                            Spacer()
+                        }
+                        .padding(.horizontal)
+                        
                         // Map style picker
                         Picker("Map Style", selection: $mapStyle) {
                             ForEach(MapStyleConfiguration.allCases) { style in
@@ -159,6 +252,7 @@ struct PlanDetailView: View {
                         .padding(.horizontal)
                         .padding(.top, 8)
                         .materialBackground()
+                        .environment(\.colorScheme, .dark) // Ensure picker is in dark mode
                         
                         // Map view
                         RoutePlanMapView(
@@ -201,6 +295,7 @@ struct PlanDetailView: View {
                             }
                         }
                         .materialBackground()
+                        .environment(\.colorScheme, .dark) // Ensure material background is in dark mode
                         .padding(.horizontal)
                         
                         Button(action: {
@@ -218,7 +313,9 @@ struct PlanDetailView: View {
                         }
                         .padding(.bottom, 16)
                     }
+                    .padding(.top, 1)
                 }
+                .padding(.top, 1)
             }
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
@@ -229,22 +326,48 @@ struct PlanDetailView: View {
                 }
                 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Close") {
+                    Button(action: {
                         dismiss()
+                    }) {
+                        HStack {
+                            Text("Close")
+                                .font(.system(.subheadline))
+                        }
+                        .foregroundColor(.white)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 8)
+                        .background(Color.white.opacity(0.3))
+                        .cornerRadius(18)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 18)
+                                .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                        )
                     }
-                    .foregroundColor(.white)
                 }
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.hidden, for: .navigationBar)
+            .customRouteNameEditor(
+                isPresented: $showEditNameAlert,
+                planId: plan.id,
+                initialName: localPlanName,
+                onSave: { planId, newName in
+                    // Update local state
+                    localPlanName = newName
+                    // Update the plan in the store
+                    planStore.updatePlanName(id: planId, newName: newName)
+                }
+            )
         }
         .environment(\.colorScheme, .dark)
+        .preferredColorScheme(.dark) // Add this line to ensure system-wide dark mode
     }
 }
 
 // MARK: - Preview Providers
 #Preview("Plan History View") {
     PlanHistoryView()
+        .preferredColorScheme(.dark) // Ensure preview is in dark mode
         .previewDisplayName("History View")
         .onAppear {
             // Set up sample history for preview
@@ -256,7 +379,8 @@ struct PlanDetailView: View {
                         points: [
                             PlanPoint(latitude: 37.7749, longitude: -122.4194, order: 0),
                             PlanPoint(latitude: 37.8199, longitude: -122.4783, order: 1)
-                        ]
+                        ],
+                        name: "Golden Gate Bridge Tour"
                     ),
                     RoutePlan(
                         date: Date().addingTimeInterval(-172800), // 2 days ago
@@ -264,7 +388,8 @@ struct PlanDetailView: View {
                             PlanPoint(latitude: 34.0522, longitude: -118.2437, order: 0),
                             PlanPoint(latitude: 34.1184, longitude: -118.3004, order: 1),
                             PlanPoint(latitude: 33.9416, longitude: -118.4085, order: 2)
-                        ]
+                        ],
+                        name: "LA Harbor Tour"
                     )
                 ]
             }
@@ -279,9 +404,11 @@ struct PlanDetailView: View {
                 PlanPoint(latitude: 37.7749, longitude: -122.4194, order: 0), // San Francisco
                 PlanPoint(latitude: 37.8199, longitude: -122.4783, order: 1), // Golden Gate Bridge
                 PlanPoint(latitude: 37.8716, longitude: -122.2727, order: 2)  // Berkeley
-            ]
+            ],
+            name: "San Francisco Bay Tour"
         ),
         mapStyle: .constant(.standard)
     )
+    .preferredColorScheme(.dark) // Ensure preview is in dark mode
     .previewDisplayName("Plan Detail")
 }

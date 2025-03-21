@@ -97,7 +97,7 @@ struct AltRaceView: View {
                             
                             HStack(spacing: 5) {
                                 WindSpeedView(courseTracker: courseTracker, lastReadingManager: lastReadingManager)
-                                CompassView()
+                                CompassView(cruisePlanState: cruisePlanState)
                                 BarometerView()
                             }
                             .offset(y:settings.ultraModel ? 15 : 10)

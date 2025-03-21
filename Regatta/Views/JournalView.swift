@@ -117,7 +117,7 @@ struct JournalView: View {
                         )
                         .padding(.top, 4)
                         .cornerRadius(12)
-                        .padding(.horizontal)
+                        .padding(.horizontal, 16)
                         .overlay(
                             // Show placeholder message when no data is available
                             Group {
@@ -214,7 +214,7 @@ struct JournalView: View {
                         
                     }
                     .materialBackground()
-                    .padding(.horizontal)
+                    .padding(.horizontal,16)
                     .padding(.vertical, 8)
                     
                     // Rest of the view (session list) remains unchanged

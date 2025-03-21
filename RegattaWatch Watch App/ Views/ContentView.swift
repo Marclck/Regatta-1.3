@@ -221,7 +221,7 @@ struct ContentView: View {
         ZStack {
             if showingWatchFace {
                 if settings.showRaceInfo {
-                    WatchFaceView(timerState: timerState)
+                    WatchFaceView(timerState: timerState, cruisePlanState: cruisePlanState)
                 } else {
                     AltRaceView(timerState: timerState)
                 }

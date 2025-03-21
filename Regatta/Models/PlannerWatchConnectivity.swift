@@ -37,7 +37,7 @@ class PlannerWatchConnectivity {
     }
     
     // Send current plan to watch
-    func sendCurrentPlanToWatch(_ plan: [PlanPoint]) {
+    func sendCurrentPlanToWatch(_ plan: [PlanPoint], planName: String = "Untitled Route") {
         // Filter out empty points (lat & lng both 0)
         let validPoints = plan.filter { !(abs($0.latitude) < 0.0001 && abs($0.longitude) < 0.0001) }
         
@@ -54,6 +54,7 @@ class PlannerWatchConnectivity {
         let message: [String: Any] = [
             "messageType": "current_plan_update",
             "waypoints": pointsArray,
+            "planName": planName,
             "timestamp": Date().timeIntervalSince1970
         ]
         
@@ -62,7 +63,7 @@ class PlannerWatchConnectivity {
         
         // Check if watch is reachable
         if sessionManager.isWatchReachable() {
-            print("📱 Sending current plan with \(validPoints.count) waypoints to watch")
+            print("📱 Sending current plan \"\(planName)\" with \(validPoints.count) waypoints to watch")
             
             // Get the session
             let session = WCSession.default

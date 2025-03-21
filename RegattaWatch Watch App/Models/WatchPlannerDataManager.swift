@@ -28,9 +28,12 @@ class WatchPlannerDataManager: ObservableObject {
     static let shared = WatchPlannerDataManager()
     
     @Published var currentPlan: [WatchPlanPoint] = []
+    @Published var currentPlanName: String = "Untitled Route"
     @Published var lastUpdateTime: Date?
     
     private let planStorageKey = "currentWatchPlan"
+    private let planNameStorageKey = "currentWatchPlanName"
+    private let lastUpdateTimeKey = "lastPlanUpdateTime"
     
     init() {
         loadSavedPlan()
@@ -46,12 +49,15 @@ class WatchPlannerDataManager: ObservableObject {
     @objc private func handlePlanUpdate(_ notification: Notification) {
         if let userInfo = notification.userInfo,
            let waypoints = userInfo["waypoints"] as? [[String: Any]] {
-            processPlanUpdate(waypoints)
+            // Extract plan name if available
+            let planName = userInfo["planName"] as? String ?? "Untitled Route"
+            
+            processPlanUpdate(waypoints, planName: planName)
         }
     }
     
     // This method will be called by WatchSessionManager
-    func processPlanUpdate(_ waypoints: [[String: Any]]) {
+    func processPlanUpdate(_ waypoints: [[String: Any]], planName: String = "Untitled Route") {
         var newPlan: [WatchPlanPoint] = []
         
         for pointDict in waypoints {
@@ -80,10 +86,11 @@ class WatchPlannerDataManager: ObservableObject {
         
         DispatchQueue.main.async {
             self.currentPlan = newPlan
+            self.currentPlanName = planName
             self.lastUpdateTime = Date()
             self.savePlan()
             
-            print("⌚️ Updated current plan with \(newPlan.count) waypoints")
+            print("⌚️ Updated current plan \"\(planName)\" with \(newPlan.count) waypoints")
         }
     }
     
@@ -91,6 +98,10 @@ class WatchPlannerDataManager: ObservableObject {
     private func savePlan() {
         if let encoded = try? JSONEncoder().encode(currentPlan) {
             UserDefaults.standard.set(encoded, forKey: planStorageKey)
+            UserDefaults.standard.set(currentPlanName, forKey: planNameStorageKey)
+            if let lastUpdate = lastUpdateTime {
+                UserDefaults.standard.set(lastUpdate, forKey: lastUpdateTimeKey)
+            }
         }
     }
     
@@ -99,14 +110,19 @@ class WatchPlannerDataManager: ObservableObject {
         if let data = UserDefaults.standard.data(forKey: planStorageKey),
            let decoded = try? JSONDecoder().decode([WatchPlanPoint].self, from: data) {
             currentPlan = decoded
+            currentPlanName = UserDefaults.standard.string(forKey: planNameStorageKey) ?? "Untitled Route"
+            lastUpdateTime = UserDefaults.standard.object(forKey: lastUpdateTimeKey) as? Date
         }
     }
     
     // Clear current plan
     func clearPlan() {
         currentPlan = []
+        currentPlanName = "Untitled Route"
         lastUpdateTime = nil
         UserDefaults.standard.removeObject(forKey: planStorageKey)
+        UserDefaults.standard.removeObject(forKey: planNameStorageKey)
+        UserDefaults.standard.removeObject(forKey: lastUpdateTimeKey)
     }
 }
 #endif

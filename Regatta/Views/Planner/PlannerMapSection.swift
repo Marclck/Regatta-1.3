@@ -25,15 +25,16 @@ struct PlannerMapSection: View {
     var body: some View {
         VStack(spacing: 0) {
             // Map style picker
-            Picker("Map Style", selection: $mapStyleConfig) {
-                ForEach(MapStyleConfiguration.allCases) { style in
-                    Text(style.name).tag(style)
+            VStack {
+                Picker("Map Style", selection: $mapStyleConfig) {
+                    ForEach(MapStyleConfiguration.allCases) { style in
+                        Text(style.name).tag(style)
+                    }
                 }
+                .pickerStyle(SegmentedPickerStyle())
             }
-            .pickerStyle(SegmentedPickerStyle())
-            .padding(.horizontal)
+            .padding(.horizontal, 16)
             .padding(.vertical, 8)
-            .materialBackground()
 
             
             // Main map view - 1.5x height compared to JournalView

@@ -14,7 +14,8 @@ import Combine
 // MARK: - Cruise Plan State Manager
 class WatchCruisePlanState: ObservableObject {
     static let shared = WatchCruisePlanState()
-    
+    @ObservedObject var plannerManager = WatchPlannerDataManager.shared
+
     // Keys for UserDefaults
     private let isActiveKey = "cruisePlanIsActive"
     private let isPausedKey = "cruisePlanIsPaused"
@@ -70,9 +71,9 @@ class WatchCruisePlanState: ObservableObject {
     
     var statusText: String {
         if isActive {
-            return "Cruise plan in progress"
+            return "\(plannerManager.currentPlanName) Plan Active"
         } else if isPaused {
-            return "Cruise plan paused"
+            return "Plan Paused"
         } else {
             return "Not in progress"
         }
@@ -201,7 +202,7 @@ struct WatchCruisePlannerView: View {
             }
             .listStyle(CarouselListStyle())
         }
-        .navigationTitle("Race Plan")
+        .navigationTitle("Cruise Plan")
     }
     
     // Helper function to display time ago
@@ -356,11 +357,11 @@ struct CruiseControlButtons: View {
                         .font(.system(size: 24))
                         .fontWeight(.heavy)
                         .symbolVariant(.fill)
-                        .foregroundColor(.white)
+                        .foregroundColor(.green)
                         .frame(width: 65, height: 50)
                         .background(
                             RoundedRectangle(cornerRadius: 40)
-                                .fill(Color.green.opacity(0.8))
+                                .fill(Color.green.opacity(0.4))
                         )
                         .clipShape(RoundedRectangle(cornerRadius: 15))
                 } else {

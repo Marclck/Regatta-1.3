@@ -73,6 +73,7 @@
 		1D2E541A2D17162700C669D4 /* Tabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E54172D17162700C669D4 /* Tabs.swift */; };
 		1D2E541B2D17162700C669D4 /* Tabs.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D2E54172D17162700C669D4 /* Tabs.swift */; };
 		1D2F22652CFC91B500AE4D71 /* JournalManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5E481A2CFBC79C004813A4 /* JournalManager.swift */; };
+		1D3326712D8E1AFE001719AA /* UnifiedSeparatorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3326702D8E1AFE001719AA /* UnifiedSeparatorView.swift */; };
 		1D349B332D880E7E00FEB841 /* PlannerModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D349B322D880E7E00FEB841 /* PlannerModels.swift */; };
 		1D38CD7F2D7A412C0034980A /* ExtendedSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D38CD7E2D7A412C0034980A /* ExtendedSessionManager.swift */; };
 		1D3DC5692D0280D600252F1F /* AltRaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D3DC5682D0280D600252F1F /* AltRaceView.swift */; };
@@ -295,6 +296,7 @@
 		1D2E540D2D1715FE00C669D4 /* TabItemModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabItemModel.swift; sourceTree = "<group>"; };
 		1D2E54122D17161200C669D4 /* TabScrollContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabScrollContentView.swift; sourceTree = "<group>"; };
 		1D2E54172D17162700C669D4 /* Tabs.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Tabs.swift; sourceTree = "<group>"; };
+		1D3326702D8E1AFE001719AA /* UnifiedSeparatorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UnifiedSeparatorView.swift; sourceTree = "<group>"; };
 		1D349B322D880E7E00FEB841 /* PlannerModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerModels.swift; sourceTree = "<group>"; };
 		1D38CD7E2D7A412C0034980A /* ExtendedSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtendedSessionManager.swift; sourceTree = "<group>"; };
 		1D3DC5682D0280D600252F1F /* AltRaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AltRaceView.swift; sourceTree = "<group>"; };
@@ -712,6 +714,7 @@
 				1D69FF082CE96A3B001C178A /* TimeDisplayView.swift */,
 				1D69FF0A2CE96A44001C178A /* ButtonsView.swift */,
 				1D4349722D4EF10900D0B8E8 /* ProButtonsView.swift */,
+				1D3326702D8E1AFE001719AA /* UnifiedSeparatorView.swift */,
 				1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */,
 				1DBD85D52CEF6F1B0028E391 /* LastMinuteSeparatorView.swift */,
 				1D768D722CFD1AA800DB4EE5 /* WatchFaceView.swift */,
@@ -1156,6 +1159,7 @@
 				1D2E54062D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
 				1D90CF8D2D4AA6A500357553 /* SpeedInfoView.swift in Sources */,
 				1D4349732D4EF10900D0B8E8 /* ProButtonsView.swift in Sources */,
+				1D3326712D8E1AFE001719AA /* UnifiedSeparatorView.swift in Sources */,
 				1DE3D0692CF3052A00B4056F /* StartCountdownIntent.swift in Sources */,
 				1D38CD7F2D7A412C0034980A /* ExtendedSessionManager.swift in Sources */,
 				1D2E54012D1715AD00C669D4 /* TabBarView.swift in Sources */,

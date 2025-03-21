@@ -24,6 +24,15 @@ struct WatchPlannerView: View {
                         .font(.caption)
                         .listRowBackground(Color.clear)
                 } else {
+                    // Display the plan name at the top of the list
+                    HStack {
+                        Text(plannerManager.currentPlanName)
+                            .font(.headline)
+                            .foregroundColor(.white)
+                        Spacer()
+                    }
+                    .listRowBackground(Color.clear)
+                    
                     ForEach(plannerManager.currentPlan) { waypoint in
                         WaypointRow(
                             waypoint: waypoint,

@@ -21,7 +21,8 @@ struct WatchFaceView: View {
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
     @State private var currentTime = Date()
     let timeTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
-    
+    @ObservedObject var cruisePlanState: WatchCruisePlanState
+
     @State private var showCruiseInfo = true
     
     private var isUltraWatch: Bool {
@@ -44,7 +45,24 @@ struct WatchFaceView: View {
                 let centerY = geometry.size.height/2
                 ZStack {
                     // Progress bar showing seconds
-                    SecondProgressBarView()
+                    if cruisePlanState.isActive {
+                        WaypointProgressBarView(
+                            plannerManager: WatchPlannerDataManager.shared,
+                            locationManager: locationManager
+                        )
+                    } else {
+                        // Progress bar showing seconds
+                        SecondProgressBarView()
+                        
+                        Text(settings.teamName)
+                            .font(.system(size: 11, weight: .semibold))
+                            .rotationEffect(.degrees(270), anchor: .center)
+                            .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
+                            .position(x: 4, y: centerY/2+55)
+                            .onReceive(timeTimer) { input in
+                                currentTime = input
+                            }
+                    }
                     
                     Text(settings.teamName)
                         .font(.system(size: 11, weight: .semibold))
@@ -97,7 +115,7 @@ struct WatchFaceView: View {
                                 WindSpeedView(
                                     courseTracker: courseTracker,
                                     lastReadingManager: lastReadingManager)
-                                CompassView()
+                                CompassView(cruisePlanState: cruisePlanState)
                                 BarometerView()
                             }
                             .offset(y:settings.ultraModel ? 15 : 10)
