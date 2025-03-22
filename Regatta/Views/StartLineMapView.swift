@@ -60,6 +60,7 @@ struct StartLineMapView: View {
         
         // Calculate initial region based on points
         if let left = leftPoint, let right = rightPoint {
+            // When both points exist, center between them with padding
             let center = CLLocationCoordinate2D(
                 latitude: (left.latitude + right.latitude) / 2,
                 longitude: (left.longitude + right.longitude) / 2
@@ -71,14 +72,23 @@ struct StartLineMapView: View {
                 span: MKCoordinateSpan(latitudeDelta: max(latDelta, 0.005), longitudeDelta: max(lonDelta, 0.005))
             ))
         } else if let point = leftPoint ?? rightPoint {
+            // When only one point exists, center on it with fixed zoom
             _region = State(initialValue: MKCoordinateRegion(
                 center: CLLocationCoordinate2D(latitude: point.latitude, longitude: point.longitude),
                 span: MKCoordinateSpan(latitudeDelta: 0.005, longitudeDelta: 0.005)
             ))
+        } else if let userLocation = LocationHelper.shared.lastLocation {
+            // Use user's current location if available
+            _region = State(initialValue: MKCoordinateRegion(
+                center: userLocation.coordinate,
+                span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+            ))
         } else {
+            // Fallback to a default region when no location is available yet
+            // Using a smaller span than before for a better initial view
             _region = State(initialValue: MKCoordinateRegion(
                 center: CLLocationCoordinate2D(latitude: 0, longitude: 0),
-                span: MKCoordinateSpan(latitudeDelta: 180, longitudeDelta: 360)
+                span: MKCoordinateSpan(latitudeDelta: 0.1, longitudeDelta: 0.1)
             ))
         }
     }
@@ -121,6 +131,20 @@ struct StartLineMapView: View {
             if isInitialSetup {
                 locationHelper.requestLocationPermission()
                 locationHelper.startUpdatingLocation()
+                
+                // If no points exist, try to update with user location
+                if leftPoint == nil && rightPoint == nil && locationHelper.lastLocation == nil {
+                    // Check again after a brief delay to allow location services to start
+                    DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                        if let userLocation = locationHelper.lastLocation {
+                            self.region = MKCoordinateRegion(
+                                center: userLocation.coordinate,
+                                span: MKCoordinateSpan(latitudeDelta: 0.01, longitudeDelta: 0.01)
+                            )
+                        }
+                    }
+                }
+                
                 isInitialSetup = false
             }
         }

@@ -520,7 +520,7 @@ struct CompassView: View {
                         let waypointPosition = getWaypointPosition(heading: compassManager.heading, isReduced: isLuminanceReduced)
                         Circle()
                             .fill(Color(hex: colorManager.selectedTheme.rawValue))
-                            .frame(width: isLuminanceReduced ? 15 : 6, height: isLuminanceReduced ? 15 : 6)
+                            .frame(width: isLuminanceReduced ? 15 : 5, height: isLuminanceReduced ? 15 : 5)
                             .offset(
                                 x: waypointPosition.x,
                                 y: waypointPosition.y
@@ -535,7 +535,7 @@ struct CompassView: View {
                         let position = getNorthPosition(heading: compassManager.heading, isReduced: isLuminanceReduced)
                         Circle()
                             .fill(Color(hex: colorManager.selectedTheme.rawValue))
-                            .frame(width: isLuminanceReduced ? 15 : 6, height: isLuminanceReduced ? 15 : 6)
+                            .frame(width: isLuminanceReduced ? 15 : 7, height: isLuminanceReduced ? 15 : 7)
                             .offset(
                                 x: position.x,
                                 y: position.y

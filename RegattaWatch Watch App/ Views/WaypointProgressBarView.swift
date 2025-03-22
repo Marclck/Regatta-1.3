@@ -391,9 +391,28 @@ struct WaypointProgressBarView: View {
     
     // MARK: - Manual Segment Completion
     func completeCurrentSegment() {
-        // Only proceed if we have a route and aren't at the last segment
-        guard routeStarted, currentSegment < segmentStartPoints.count - 2 else {
-            print("⚠️ Cannot complete segment: route not started or already at last segment")
+        if !routeStarted {
+            routeStarted = true
+            
+            // Initialize segment start points if they're empty
+            if segmentStartPoints.isEmpty && !plannerManager.currentPlan.isEmpty {
+                // Use a mock starting location if no current location is available
+                let startLocation = locationManager.lastLocation ??
+                    CLLocation(latitude: plannerManager.currentPlan[0].latitude,
+                              longitude: plannerManager.currentPlan[0].longitude)
+                
+                // Create segment points from available waypoints
+                segmentStartPoints = [startLocation] + plannerManager.currentPlan.map { waypoint in
+                    CLLocation(latitude: waypoint.latitude, longitude: waypoint.longitude)
+                }
+                
+                print("🛣️ Route initialized with \(segmentStartPoints.count) points")
+            }
+        }
+        
+        // Modify guard condition to be less restrictive
+        guard segmentStartPoints.count >= 2, currentSegment < segmentStartPoints.count - 2 else {
+            print("⚠️ Cannot complete segment: insufficient waypoints or already at last segment")
             return
         }
         

@@ -197,7 +197,15 @@ class RoutePlanStore: ObservableObject {
         
         // Only save if there are valid points
         if !validPoints.isEmpty {
-            let newPlan = RoutePlan(points: validPoints, name: currentPlanName)
+            // Create a copy of valid points with re-numerated order values
+            var reorderedPoints = validPoints
+            
+            // Re-numerate the order property to ensure sequential ordering without gaps
+            for i in 0..<reorderedPoints.count {
+                reorderedPoints[i].order = i
+            }
+            
+            let newPlan = RoutePlan(points: reorderedPoints, name: currentPlanName)
             savedPlans.append(newPlan)
             isPlanSaved = true
             
@@ -278,8 +286,8 @@ struct LocationPointEditor: View {
             Text("\(index + 1)")
                 .font(.system(.headline))
                 .foregroundColor(.white)
-                .frame(width: 24, height: 24)
-                .background(Circle().fill(Color(hex: ColorTheme.ultraBlue.rawValue)))
+                .frame(width: 30, height: 30)
+                .background(Circle().fill(Color.white.opacity(0.2)))
             
             // Coordinate fields
             VStack(alignment: .leading, spacing: 4) {
@@ -311,11 +319,7 @@ struct LocationPointEditor: View {
             .dismissKeyboardOnTap()
             .toolbar {
                 ToolbarItemGroup(placement: .keyboard) {
-                    Spacer()
-                    Button("Done") {
-                        isLatitudeFocused = false
-                        isLongitudeFocused = false
-                    }
+
                 }
             }
             
@@ -331,12 +335,12 @@ struct LocationPointEditor: View {
                             onDelete()
                         }
                     } label: {
-                        Image(systemName: "trash")
+                        Image(systemName: "delete.left.fill")
                             .foregroundColor(.red.opacity(0.7))
                     }
                 } else {
                     // Placeholder to maintain spacing when no delete button
-                    Image(systemName: "trash")
+                    Image(systemName: "delete.left.fill")
                         .foregroundColor(.clear)
                         .opacity(0)
                 }

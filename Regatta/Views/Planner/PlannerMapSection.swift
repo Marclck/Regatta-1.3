@@ -67,7 +67,7 @@ struct PlannerMapSection: View {
                         }
                     }
                 )
-                .frame(height: 350) // 1.5x height compared to JournalView
+                .frame(height: 300) // 1.5x height compared to JournalView
                 .cornerRadius(12)
                 
                 // Center pin indicator and red circle when in pinning mode

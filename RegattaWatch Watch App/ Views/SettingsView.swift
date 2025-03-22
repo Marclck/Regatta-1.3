@@ -171,6 +171,61 @@ struct SpeedInfoToggle: View {
     }
 }
 
+struct CruiserToggle: View {
+    @EnvironmentObject var settings: AppSettings
+    @ObservedObject private var iapManager = IAPManager.shared
+    @StateObject private var locationManager = LocationManager()
+    @State private var showingPermissionAlert = false
+    
+    var body: some View {
+        Toggle("CruiseR", isOn: Binding(
+            get: { settings.showCruiser },
+            set: { newValue in
+                if newValue {
+                    // User is trying to turn it on
+                    if locationManager.authorizationStatus == .authorizedWhenInUse ||
+                       locationManager.authorizationStatus == .authorizedAlways {
+                        // Permission already granted, respect user's toggle choice
+                        settings.showCruiser = newValue
+                    } else {
+                        // Need to request permission
+                        showingPermissionAlert = true
+                        // Don't set showCruiser yet
+                    }
+                } else {
+                    // User is turning it off, always allow
+                    settings.showCruiser = false
+                }
+            }
+        ))
+        .alert(
+            "Location Access Required",
+            isPresented: $showingPermissionAlert,
+            actions: {
+                Button("Not Now", role: .cancel) {
+                    settings.showCruiser = false  // Ensure toggle stays off
+                }
+                Button("Enable") {
+                    locationManager.requestLocationPermission()
+                }
+            },
+            message: {
+                Text("CruiseR needs location access to show speed and distance while the feature is active.")
+            }
+        )
+        .onChange(of: locationManager.authorizationStatus) { _, newStatus in
+            if newStatus == .authorizedWhenInUse || newStatus == .authorizedAlways {
+                // Permission was granted, but don't automatically enable the feature
+                // Let the user decide if they want it on or off
+                // Do nothing here
+            } else if newStatus == .denied || newStatus == .restricted {
+                // Permission was denied, ensure feature is disabled
+                settings.showCruiser = false
+            }
+        }
+    }
+}
+
 struct SettingsView: View {
     @EnvironmentObject var colorManager: ColorManager
     @EnvironmentObject var settings: AppSettings
@@ -211,10 +266,17 @@ struct SettingsView: View {
                         .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
                         .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
                     
+                    CruiserToggle()
+                        .font(.system(size: 17))
+                        .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
+                        .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
+                    
+                    /*
                     Toggle("CruiseR", isOn: $settings.showCruiser)
                         .font(.system(size: 17))
                         .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
                         .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
+                    */
                     
                     if !iapManager.canAccessFeatures(minimumTier: .ultra) {
                         Text("Requires Ultra subscription")

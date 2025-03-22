@@ -282,9 +282,9 @@ class JournalManager: ObservableObject {
     }
     
     func saveSessions() {
-            // Keep only the last 10 sessions
-            if allSessions.count > 10 {
-                allSessions = Array(allSessions.suffix(10))
+            // Keep only the last 15 sessions
+            if allSessions.count > 15 {
+                allSessions = Array(allSessions.suffix(15))
                 print("📓 Trimmed sessions to last 10, new count: \(allSessions.count)")
             }
             
