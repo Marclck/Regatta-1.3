@@ -73,7 +73,7 @@ class WatchCruisePlanState: ObservableObject {
         if isActive {
             return "\(plannerManager.currentPlanName) Plan Active"
         } else if isPaused {
-            return "Plan Paused"
+            return "\(plannerManager.currentPlanName) Plan Paused"
         } else {
             return "Not in progress"
         }
