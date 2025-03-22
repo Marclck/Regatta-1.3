@@ -65,13 +65,13 @@ struct UnifiedSeparatorView: View {
                             value: totalMinutes
                         )
                 }
-                
+                /*
                 // Last minute separators (only in countdown mode and during last minute)
                 if mode == .countdown && currentTime <= 60 && currentTime > 0 && totalMinutes > 0 {
                     ForEach(0..<5, id: \.self) { index in
                         let minuteSegmentWidth = 1.0 / Double(totalMinutes)
-                        let lastSegmentStart = 1.0 - minuteSegmentWidth
-                        let subSegmentPosition = lastSegmentStart + (minuteSegmentWidth / 6.0 * Double(index + 1))
+                        let firstSegmentStart = (Double(totalMinutes) - 1 ) / Double(totalMinutes)
+                        let subSegmentPosition = firstSegmentStart + (minuteSegmentWidth / 6.0 * Double(index + 1))
                         
                         RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
                             .trim(from: max(0, subSegmentPosition - 0.002),
@@ -84,6 +84,7 @@ struct UnifiedSeparatorView: View {
                             .rotationEffect(.degrees(-90))
                     }
                 }
+                 */
             }
         }
     }

@@ -89,7 +89,7 @@ struct CruiseInfoView: View {
     @State private var flashingTackCount: Bool = false
     @State private var flashingTopSpeed: Bool = false
     @State private var topSpeed: Double = 0
-    @State private var showingTackAngle: Bool = false
+    @State private var showingTackAngle: Bool = true
 
     @State private var totalDistance: CLLocationDistance = 0
     @State private var lastLocation: CLLocation?
@@ -470,6 +470,17 @@ struct CruiseInfoView: View {
                                 .background(
                                     RoundedRectangle(cornerRadius: 8)
                                         .fill(Color(hex: colorManager.selectedTheme.rawValue))
+                                )
+                        } else {
+                            Image(systemName: "arrow.counterclockwise")
+                                .font(.zenithBeta(size: 10, weight: .medium))
+                                .foregroundColor(settings.lightMode ? .white : .black)
+                                .padding(.horizontal, 2)
+                                .frame(height: 16)
+                                .frame(minWidth: 16)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 8)
+                                        .fill(Color.orange)
                                 )
                         }
                         

@@ -90,8 +90,8 @@ struct WatchProgressBarView: View {
                         if timerState.mode == .countdown && timerState.currentTime <= 60 && timerState.currentTime > 0 && timerState.selectedMinutes > 0 {
                             ForEach(0..<5, id: \.self) { index in
                                 let minuteSegmentWidth = 1.0 / Double(timerState.selectedMinutes)
-                                let lastSegmentStart = 1.0 - minuteSegmentWidth
-                                let subSegmentPosition = lastSegmentStart + (minuteSegmentWidth / 6.0 * Double(index + 1))
+                                let lastSegmentStart = minuteSegmentWidth
+                                let subSegmentPosition = lastSegmentStart - (minuteSegmentWidth / 6.0 * Double(index + 1))
                                 
                                 RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
                                     .trim(from: max(0, subSegmentPosition - 0.002),
