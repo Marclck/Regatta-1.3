@@ -64,14 +64,16 @@ struct WatchFaceView: View {
                             }
                     }
                     
-                    Text(settings.teamName)
-                        .font(.system(size: 11, weight: .semibold))
-                        .rotationEffect(.degrees(270), anchor: .center)
-                        .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
-                        .position(x: 4, y: centerY/2+60)
-                        .onReceive(timeTimer) { input in
-                            currentTime = input
-                        }
+                    if !cruisePlanState.isActive {
+                        Text(settings.teamName)
+                            .font(.system(size: 11, weight: .semibold))
+                            .rotationEffect(.degrees(270), anchor: .center)
+                            .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
+                            .position(x: 4, y: centerY/2+60)
+                            .onReceive(timeTimer) { input in
+                                currentTime = input
+                            }
+                    }
                     
                     // Content
                     VStack(spacing: 0) {
