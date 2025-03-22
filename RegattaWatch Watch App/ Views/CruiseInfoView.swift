@@ -595,20 +595,33 @@ struct CruiseInfoView: View {
                         .fill(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4))
                 )
             } else {
-                Text(getSpeedText())
-                    .font(.zenithBeta(size: 20, weight: .medium))
-                    .foregroundColor(locationManager.isMonitoring ?
-                        Color(hex: colorManager.selectedTheme.rawValue) :
-                        (settings.lightMode ? .black : .white))
-                    .padding(.horizontal, 4)
-                    .padding(.vertical, 4)
-                    .frame(minWidth: 55)
-                    .background(
-                        RoundedRectangle(cornerRadius: 8)
-                            .fill(locationManager.isMonitoring ?
-                                Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
+                HStack(spacing: 4) {
+                    Text(getSpeedText())
+                        .font(.zenithBeta(size: 20, weight: .medium))
+                        .foregroundColor(locationManager.isMonitoring ?
+                                         Color(hex: colorManager.selectedTheme.rawValue) :
+                                            (settings.lightMode ? .black : .white))
+
+                    
+                    Image(systemName: locationManager.isMonitoring ? "pause" : "play.fill")                        .font(.zenithBeta(size: 12, weight: .medium))
+                        .foregroundColor(settings.lightMode ? .white : .black)
+                        .padding(.horizontal, 2)
+                        .frame(height: 16)
+                        .frame(minWidth: 16)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color(hex: colorManager.selectedTheme.rawValue))
+                        )
+                }
+                .padding(.horizontal, 4)
+                .padding(.vertical, 4)
+                .frame(minWidth: 55)
+                .background(
+                    RoundedRectangle(cornerRadius: 8)
+                        .fill(locationManager.isMonitoring ?
+                              Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
                                 (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.1)))
-                    )
+                )
             }
         }
         .buttonStyle(.plain)
