@@ -49,15 +49,17 @@ struct RaceSessionMapView: View {
     @State private var showDetailView: Bool = false
     
     // Computed stats from SessionRowView
-    private var raceStats: (topSpeed: Double?, avgSpeed: Double?) {
+    private var raceStats: (topSpeed: Double?, avgSpeed: Double?, totalDistance: CLLocationDistance?) {
         guard let raceStartTime = session.raceStartTime else {
-            return (nil, nil)
+            return (nil, nil, nil)
         }
         
         let raceDataPoints = session.dataPoints.filter { $0.timestamp >= raceStartTime }
         let topSpeed = raceDataPoints.compactMap { $0.speed }.max()
         
         var avgSpeed: Double? = nil
+        var totalDistance: CLLocationDistance? = nil
+        
         if let raceDuration = session.raceDuration,
            raceDuration > 0 {
             let locations = raceDataPoints.compactMap { point -> CLLocationCoordinate2D? in
@@ -65,18 +67,34 @@ struct RaceSessionMapView: View {
                 return CLLocationCoordinate2D(latitude: loc.latitude, longitude: loc.longitude)
             }
             
-            var totalDistance: CLLocationDistance = 0
             if locations.count >= 2 {
+                var distanceSum: CLLocationDistance = 0
                 for i in 0..<(locations.count - 1) {
                     let loc1 = CLLocation(latitude: locations[i].latitude, longitude: locations[i].longitude)
                     let loc2 = CLLocation(latitude: locations[i + 1].latitude, longitude: locations[i + 1].longitude)
-                    totalDistance += loc1.distance(from: loc2)
+                    distanceSum += loc1.distance(from: loc2)
                 }
-                avgSpeed = (totalDistance / raceDuration) * 1.94384
+                totalDistance = distanceSum
+                avgSpeed = (distanceSum / raceDuration) * 1.94384 // Convert m/s to knots
             }
         }
         
-        return (topSpeed, avgSpeed)
+        return (topSpeed, avgSpeed, totalDistance)
+    }
+
+    // Helper function to format distance with appropriate unit
+    private func formatDistance(_ distance: CLLocationDistance?) -> String {
+        guard let distance = distance else {
+            return "0.0 m"
+        }
+        
+        if distance >= 1000 {
+            // Display in kilometers if 1km or more
+            return String(format: "%.2f km", distance / 1000)
+        } else {
+            // Display in meters if less than 1km
+            return String(format: "%.0f m", distance)
+        }
     }
     
     init(session: RaceSession) {
@@ -153,10 +171,10 @@ struct RaceSessionMapView: View {
         VStack(alignment: .leading, spacing: 12) {
             // Session info header
             VStack(alignment: .leading, spacing: 8) {
-                Text("\(session.formattedTime()) \(session.timeZoneString())")
-                    .font(.system(.headline))
                 
                 HStack {
+                    Text("\(session.formattedTime()) \(session.timeZoneString())")
+                    
                     if session.countdownDuration > 900 {
                         Text("Cruise")
                             .padding(.horizontal, 8)
@@ -166,12 +184,98 @@ struct RaceSessionMapView: View {
                             .cornerRadius(8)
                     } else {
                         Text("Countdown: \(session.countdownDuration) min")
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
+                            .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.3))
+                            .cornerRadius(8)
+                        
                     }
+                }
+                .font(.system(.headline, weight: .bold))
+                
+                HStack {
+                    Text("Distance: \(formatDistance(raceStats.totalDistance))")
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .foregroundColor(Color.white)
+                        .background(Color.white.opacity(0.3))
+                        .cornerRadius(8)
+                    
                     Spacer()
                     Text("Duration: \(session.formattedRaceTime)")
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .foregroundColor(Color.white)
+                        .background(Color.white.opacity(0.3))
+                        .cornerRadius(8)
                 }
-                .font(.system(.subheadline))
+                .font(.system(.subheadline, weight: .bold))
                 .foregroundColor(.secondary)
+                
+
+                HStack {
+                    if let windSpeed = session.windSpeed,
+                       let windDirection = session.windDirection,
+                       let windCardinalDirection = session.windCardinalDirection {
+                        Text("Wind: \(String(format: "%.1f", windSpeed)) kts, \(String(format: "%.0f", windDirection))° \(windCardinalDirection)")
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
+                            .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.3))
+                            .cornerRadius(8)
+                    } else {
+                        let speedDisplay = session.windSpeed != nil ? String(format: "%.1f", session.windSpeed!) + " kts" : "--"
+                        let directionDisplay = session.windDirection != nil ? String(format: "%.0f", session.windDirection!) + "°" : "--"
+                        let cardinalDisplay = session.windCardinalDirection ?? "--"
+                        
+                        Text("Wind: \(speedDisplay) kts, \(directionDisplay)° \(cardinalDisplay)")
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 4)
+                            .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
+                            .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.3))
+                            .cornerRadius(8)
+                    }
+
+
+                    Spacer()
+
+                    if let condition = session.weatherCondition, let temperature = session.temperature {
+                        HStack {
+                            Text("Weather: ")
+                            Image(systemName: condition)
+                            Text("\(String(format: "%.1f", temperature))°C")
+                        }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                        .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.3))
+                        .cornerRadius(8)
+                    } else {
+                        let conditionImage = session.weatherCondition != nil ?
+                            Image(systemName: session.weatherCondition!) :
+                            Image(systemName: "exclamationmark.triangle")
+                        
+                        let tempDisplay = session.temperature != nil ?
+                            "\(String(format: "%.1f", session.temperature!))°C" :
+                            "-- °C"
+                        
+                        HStack {
+                            Text("Weather: ")
+                            conditionImage
+                            Text(tempDisplay)
+                        }
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                        .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.3))
+                        .cornerRadius(8)
+                    }
+                    
+                }
+                .font(.system(.subheadline, weight: .bold))
+                .foregroundColor(.secondary)
+                
             }
             .padding(.horizontal)
             
@@ -404,6 +508,165 @@ struct RaceSessionMapView: View {
                 .padding(.horizontal)
             }
             
+            List {
+                // Basic session info
+                Section(header: Text("Session Info")) {
+                    LabeledContent("Date", value: session.formattedStartTime)
+                    LabeledContent("Duration", value: session.formattedRaceTime)
+                    LabeledContent("Countdown", value: "\(session.countdownDuration) min")
+                }
+                
+                // Weather data
+                Section(header: Text("Weather Data")) {
+                    if let windSpeed = session.windSpeed {
+                        LabeledContent("Wind Speed", value: "\(String(format: "%.1f", windSpeed)) knots")
+                    } else {
+                        LabeledContent("Wind Speed", value: "Not available")
+                    }
+                    
+                    if let windDirection = session.windDirection {
+                        LabeledContent("Wind Direction", value: "\(String(format: "%.0f", windDirection))°")
+                    } else {
+                        LabeledContent("Wind Direction", value: "Not available")
+                    }
+                    
+                    if let cardinalDirection = session.windCardinalDirection {
+                        LabeledContent("Cardinal Direction", value: cardinalDirection)
+                    } else {
+                        LabeledContent("Cardinal Direction", value: "Not available")
+                    }
+                    
+                    if let temperature = session.temperature {
+                        LabeledContent("Temperature", value: "\(String(format: "%.1f", temperature))°C")
+                    } else {
+                        LabeledContent("Temperature", value: "Not available")
+                    }
+                    
+                    if let condition = session.weatherCondition {
+                        LabeledContent("Weather Condition", value: condition)
+                    } else {
+                        LabeledContent("Weather Condition", value: "Not available")
+                    }
+                }
+                
+                // Cruise plan data
+                Section(header: Text("Cruise Plan Data")) {
+                    if let planActive = session.planActive {
+                        LabeledContent("Plan Active", value: planActive ? "Yes" : "No")
+                    } else {
+                        LabeledContent("Plan Active", value: "Not available")
+                    }
+                    
+                    if let planName = session.activePlanName {
+                        LabeledContent("Plan Name", value: planName)
+                    } else {
+                        LabeledContent("Plan Name", value: "Not available")
+                    }
+                    
+                    if let completed = session.completedWaypointsCount,
+                       let total = session.totalWaypointsCount {
+                        LabeledContent("Waypoints", value: "\(completed)/\(total)")
+                    } else {
+                        LabeledContent("Waypoints", value: "Not available")
+                    }
+                    
+                    if let completion = session.planCompletionPercentage {
+                        LabeledContent("Completion", value: "\(String(format: "%.1f", completion))%")
+                    } else {
+                        LabeledContent("Completion", value: "Not available")
+                    }
+                }
+                
+                // Detailed waypoint data
+                if let waypoints = session.waypoints, !waypoints.isEmpty {
+                    Section(header: Text("Waypoints (\(waypoints.count))")) {
+                        ForEach(waypoints.sorted(by: { $0.order < $1.order })) { waypoint in
+                            VStack(alignment: .leading, spacing: 4) {
+                                HStack {
+                                    // Show different icon for active waypoint
+                                    if waypoint.isActiveWaypoint == true {
+                                        Image(systemName: "location.circle.fill")
+                                            .foregroundColor(.blue)
+                                    } else {
+                                        Image(systemName: waypoint.completed ? "checkmark.circle.fill" : "circle")
+                                            .foregroundColor(waypoint.completed ? .green : .gray)
+                                    }
+                                    
+                                    Text("Waypoint \(waypoint.order + 1)")
+                                        .font(.headline)
+                                    
+                                    // Show active badge if this is the active waypoint
+                                    if waypoint.isActiveWaypoint == true {
+                                        Text("ACTIVE")
+                                            .font(.caption)
+                                            .padding(.horizontal, 6)
+                                            .padding(.vertical, 2)
+                                            .background(Color.blue.opacity(0.2))
+                                            .foregroundColor(.blue)
+                                            .cornerRadius(4)
+                                    }
+                                }
+                                
+                                Text("Coordinates: \(String(format: "%.6f", waypoint.latitude)), \(String(format: "%.6f", waypoint.longitude))")
+                                    .font(.caption)
+                                
+                                // Show progress for active waypoint
+                                if let progress = waypoint.progress, progress > 0 {
+                                    HStack {
+                                        Text("Progress: \(String(format: "%.1f", progress * 100))%")
+                                            .font(.caption)
+                                        
+                                        // Progress bar
+                                        GeometryReader { geometry in
+                                            ZStack(alignment: .leading) {
+                                                Rectangle()
+                                                    .frame(width: geometry.size.width, height: 6)
+                                                    .opacity(0.3)
+                                                    .foregroundColor(.gray)
+                                                
+                                                Rectangle()
+                                                    .frame(width: min(CGFloat(progress) * geometry.size.width, geometry.size.width), height: 6)
+                                                    .foregroundColor(.blue)
+                                            }
+                                            .cornerRadius(3)
+                                        }
+                                        .frame(height: 6)
+                                    }
+                                }
+                                
+                                if let reachedAt = waypoint.reachedAt {
+                                    Text("Reached at: \(dateFormatter.string(from: reachedAt))")
+                                        .font(.caption)
+                                }
+                                
+                                if let distance = waypoint.distanceFromPrevious {
+                                    Text("Distance from previous: \(String(format: "%.1f", distance)) meters")
+                                        .font(.caption)
+                                }
+                                
+                                if let time = waypoint.timeFromPrevious {
+                                    Text("Time from previous: \(formatTimeInterval(time))")
+                                        .font(.caption)
+                                }
+                            }
+                            .padding(.vertical, 4)
+                        }
+                    }
+                }
+                
+                // Data points summary
+                Section(header: Text("Data Points")) {
+                    LabeledContent("Total Data Points", value: "\(session.dataPoints.count)")
+                    
+                    if !session.dataPoints.isEmpty {
+                        LabeledContent("First Point", value: dateFormatter.string(from: session.dataPoints.first!.timestamp))
+                        LabeledContent("Last Point", value: dateFormatter.string(from: session.dataPoints.last!.timestamp))
+                    }
+                }
+            }
+            .frame(height: 300) // Set an appropriate height
+
+
             // Button to navigate to session details view
             Button(action: {
                 showDetailView = true
@@ -422,13 +685,45 @@ struct RaceSessionMapView: View {
             .sheet(isPresented: $showDetailView) {
                 NavigationView {
                     SessionDetailTestView(session: session)
-                        .navigationBarItems(trailing: Button("Done") {
-                            showDetailView = false
-                        })
+                        .toolbar {
+                            ToolbarItem(placement: .topBarTrailing) {
+                                Button(action: {
+                                    showDetailView = false
+                                }) {
+                                    HStack {
+                                        Text("Close")
+                                            .font(.system(.subheadline))
+                                    }
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 8)
+                                    .padding(.vertical, 8)
+                                    .background(Color.white.opacity(0.3))
+                                    .cornerRadius(18)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: 18)
+                                            .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                                    )
+                                }
+                            }
+                        }
                 }
             }
         }
         .environment(\.colorScheme, .dark)
+    }
+    
+    private var dateFormatter: DateFormatter {
+        let formatter = DateFormatter()
+        formatter.dateStyle = .short
+        formatter.timeStyle = .medium
+        return formatter
+    }
+    
+    // Helper for formatting time intervals
+    private func formatTimeInterval(_ interval: TimeInterval) -> String {
+        let minutes = Int(interval) / 60
+        let seconds = Int(interval) % 60
+        return String(format: "%02d:%02d", minutes, seconds)
     }
     
     private func colorForSpeed(_ speed: Double) -> Color {
@@ -525,6 +820,7 @@ struct RaceSessionMapView: View {
         RaceSessionMapView(session: mockSession)
     }
     .background(Color(.systemGroupedBackground))
+    .preferredColorScheme(.dark)
 }
 
 #Preview("Without GPS Data") {
@@ -540,4 +836,5 @@ struct RaceSessionMapView: View {
         RaceSessionMapView(session: mockSession)
     }
     .background(Color(.systemGroupedBackground))
+    .preferredColorScheme(.dark)
 }

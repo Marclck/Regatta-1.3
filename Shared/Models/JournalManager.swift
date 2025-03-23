@@ -29,6 +29,8 @@ struct WaypointRecord: Codable {
     let reachedAt: Date?
     let distanceFromPrevious: Double?
     let timeFromPrevious: TimeInterval?
+    let progress: Double?               // Add for partial completion
+    let isActiveWaypoint: Bool?         // Flag to indicate the active waypoint
 }
 
 struct RaceSession: Codable {

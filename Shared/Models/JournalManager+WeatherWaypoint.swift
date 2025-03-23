@@ -43,20 +43,64 @@ extension JournalManager {
             // Try to get plan name from UserDefaults
             activePlanName = UserDefaults.standard.string(forKey: "currentPlanName") ?? "Active Plan"
             
-            // Build detailed waypoint records if available
-            if let waypoint = waypointManager.activeWaypoint {
-                // Create a record for current waypoint
+            // Get ALL waypoints from the WatchCruisePlanState
+            // First, get the current plan data from UserDefaults
+            if let planData = UserDefaults.standard.data(forKey: "currentCruisePlan"),
+               let planPoints = try? JSONDecoder().decode([WatchPlanPoint].self, from: planData) {
+                
+                // Sort by order
+                let sortedPoints = planPoints.sorted(by: { $0.order < $1.order })
+                
+                // Convert to WaypointRecords with completion status based on active waypoint index
+                waypointRecords = sortedPoints.map { point -> WaypointRecord in
+                    // Determine if this waypoint has been completed
+                    let isCompleted = point.order < waypointManager.activeWaypointIndex
+                    
+                    // For the active waypoint, use current progress percentage
+                    let isActiveWaypoint = point.order == waypointManager.activeWaypointIndex - 1
+                    let progress = isActiveWaypoint ? waypointManager.currentSegmentProgress : nil
+                    
+                    // Get distance from previous waypoint if available
+                    var distanceFromPrevious: Double? = nil
+                    if point.order > 0, point.order < sortedPoints.count {
+                        let previousPoint = sortedPoints[point.order - 1]
+                        let previousLocation = CLLocation(
+                            latitude: previousPoint.latitude,
+                            longitude: previousPoint.longitude
+                        )
+                        let currentLocation = CLLocation(
+                            latitude: point.latitude,
+                            longitude: point.longitude
+                        )
+                        distanceFromPrevious = previousLocation.distance(from: currentLocation)
+                    }
+                    
+                    return WaypointRecord(
+                        latitude: point.latitude,
+                        longitude: point.longitude,
+                        order: point.order,
+                        completed: isCompleted,
+                        reachedAt: isCompleted ? Date() : nil, // We don't know exact time
+                        distanceFromPrevious: distanceFromPrevious,
+                        timeFromPrevious: nil,
+                        progress: progress,
+                        isActiveWaypoint: isActiveWaypoint
+                    )
+                }
+            } else if let waypoint = waypointManager.activeWaypoint {
+                // Fallback to just using the active waypoint if we can't get the full plan
                 let currentRecord = WaypointRecord(
                     latitude: waypoint.latitude,
                     longitude: waypoint.longitude,
                     order: waypoint.order,
-                    completed: true,
-                    reachedAt: Date(),
+                    completed: false,
+                    reachedAt: nil,
                     distanceFromPrevious: nil,
-                    timeFromPrevious: nil
+                    timeFromPrevious: nil,
+                    progress: waypointManager.currentSegmentProgress,
+                    isActiveWaypoint: true
                 )
                 
-                // If we have any previous waypoints, we would collect them here too
                 waypointRecords = [currentRecord]
             }
         }
@@ -159,20 +203,64 @@ extension JournalManager {
             // Try to get plan name from UserDefaults
             activePlanName = UserDefaults.standard.string(forKey: "currentPlanName") ?? "Active Plan"
             
-            // Build detailed waypoint records if available
-            if let waypoint = waypointManager.activeWaypoint {
-                // Create a record for current waypoint
+            // Get ALL waypoints from the WatchCruisePlanState
+            // First, get the current plan data from UserDefaults
+            if let planData = UserDefaults.standard.data(forKey: "currentCruisePlan"),
+               let planPoints = try? JSONDecoder().decode([WatchPlanPoint].self, from: planData) {
+                
+                // Sort by order
+                let sortedPoints = planPoints.sorted(by: { $0.order < $1.order })
+                
+                // Convert to WaypointRecords with completion status based on active waypoint index
+                waypointRecords = sortedPoints.map { point -> WaypointRecord in
+                    // Determine if this waypoint has been completed
+                    let isCompleted = point.order < waypointManager.activeWaypointIndex
+                    
+                    // For the active waypoint, use current progress percentage
+                    let isActiveWaypoint = point.order == waypointManager.activeWaypointIndex - 1
+                    let progress = isActiveWaypoint ? waypointManager.currentSegmentProgress : nil
+                    
+                    // Get distance from previous waypoint if available
+                    var distanceFromPrevious: Double? = nil
+                    if point.order > 0, point.order < sortedPoints.count {
+                        let previousPoint = sortedPoints[point.order - 1]
+                        let previousLocation = CLLocation(
+                            latitude: previousPoint.latitude,
+                            longitude: previousPoint.longitude
+                        )
+                        let currentLocation = CLLocation(
+                            latitude: point.latitude,
+                            longitude: point.longitude
+                        )
+                        distanceFromPrevious = previousLocation.distance(from: currentLocation)
+                    }
+                    
+                    return WaypointRecord(
+                        latitude: point.latitude,
+                        longitude: point.longitude,
+                        order: point.order,
+                        completed: isCompleted,
+                        reachedAt: isCompleted ? Date() : nil, // We don't know exact time
+                        distanceFromPrevious: distanceFromPrevious,
+                        timeFromPrevious: nil,
+                        progress: progress,
+                        isActiveWaypoint: isActiveWaypoint
+                    )
+                }
+            } else if let waypoint = waypointManager.activeWaypoint {
+                // Fallback to just using the active waypoint if we can't get the full plan
                 let currentRecord = WaypointRecord(
                     latitude: waypoint.latitude,
                     longitude: waypoint.longitude,
                     order: waypoint.order,
-                    completed: true,
-                    reachedAt: Date(),
+                    completed: false,
+                    reachedAt: nil,
                     distanceFromPrevious: nil,
-                    timeFromPrevious: nil
+                    timeFromPrevious: nil,
+                    progress: waypointManager.currentSegmentProgress,
+                    isActiveWaypoint: true
                 )
                 
-                // If we have any previous waypoints, we would collect them here too
                 waypointRecords = [currentRecord]
             }
         }

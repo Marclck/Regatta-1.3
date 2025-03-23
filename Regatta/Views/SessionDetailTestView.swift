@@ -93,14 +93,56 @@ struct SessionDetailTestView: View {
                     ForEach(waypoints.sorted(by: { $0.order < $1.order })) { waypoint in
                         VStack(alignment: .leading, spacing: 4) {
                             HStack {
-                                Image(systemName: waypoint.completed ? "checkmark.circle.fill" : "circle")
-                                    .foregroundColor(waypoint.completed ? .green : .gray)
+                                // Show different icon for active waypoint
+                                if waypoint.isActiveWaypoint == true {
+                                    Image(systemName: "location.circle.fill")
+                                        .foregroundColor(.blue)
+                                } else {
+                                    Image(systemName: waypoint.completed ? "checkmark.circle.fill" : "circle")
+                                        .foregroundColor(waypoint.completed ? .green : .gray)
+                                }
+                                
                                 Text("Waypoint \(waypoint.order + 1)")
                                     .font(.headline)
+                                
+                                // Show active badge if this is the active waypoint
+                                if waypoint.isActiveWaypoint == true {
+                                    Text("ACTIVE")
+                                        .font(.caption)
+                                        .padding(.horizontal, 6)
+                                        .padding(.vertical, 2)
+                                        .background(Color.blue.opacity(0.2))
+                                        .foregroundColor(.blue)
+                                        .cornerRadius(4)
+                                }
                             }
                             
                             Text("Coordinates: \(String(format: "%.6f", waypoint.latitude)), \(String(format: "%.6f", waypoint.longitude))")
                                 .font(.caption)
+                            
+                            // Show progress for active waypoint
+                            if let progress = waypoint.progress, progress > 0 {
+                                HStack {
+                                    Text("Progress: \(String(format: "%.1f", progress * 100))%")
+                                        .font(.caption)
+                                    
+                                    // Progress bar
+                                    GeometryReader { geometry in
+                                        ZStack(alignment: .leading) {
+                                            Rectangle()
+                                                .frame(width: geometry.size.width, height: 6)
+                                                .opacity(0.3)
+                                                .foregroundColor(.gray)
+                                            
+                                            Rectangle()
+                                                .frame(width: min(CGFloat(progress) * geometry.size.width, geometry.size.width), height: 6)
+                                                .foregroundColor(.blue)
+                                        }
+                                        .cornerRadius(3)
+                                    }
+                                    .frame(height: 6)
+                                }
+                            }
                             
                             if let reachedAt = waypoint.reachedAt {
                                 Text("Reached at: \(dateFormatter.string(from: reachedAt))")

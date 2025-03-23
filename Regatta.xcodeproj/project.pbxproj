@@ -656,6 +656,7 @@
 				1DC4B3272CF5454F00A8CC30 /* FontManager.swift */,
 				1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */,
 				1D5E481A2CFBC79C004813A4 /* JournalManager.swift */,
+				1DDD4E132D8F7DE100916608 /* JournalManager+WeatherWaypoint.swift */,
 				1D412E052D02442A0062C639 /* ColorManager.swift */,
 				1D4384672D186D10000DE437 /* IAPManager.swift */,
 				1D1D83102D386A72003C8CAA /* Astrolabe Countdown.storekit */,
@@ -670,7 +671,6 @@
 				1D0C3DAE2D5AB49300C7D9B5 /* KeychainHelper.swift */,
 				1D349B322D880E7E00FEB841 /* PlannerModels.swift */,
 				1D18C99B2D88E15C005519E5 /* RoutePlanStore+WatchExtension.swift */,
-				1DDD4E132D8F7DE100916608 /* JournalManager+WeatherWaypoint.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -699,13 +699,13 @@
 				1D412E192D025A430062C639 /* SettingsView.swift */,
 				1D90CF882D46C3B500357553 /* StartLineMapView.swift */,
 				1D2D25D62D4C2C4000DF0CE2 /* RaceSessionMapView.swift */,
+				1DDD4E152D8F7E3C00916608 /* SessionDetailTestView.swift */,
 				1D43496E2D4D0B7000D0B8E8 /* WatchSettingsInfoView.swift */,
 				1D4349702D4D10F000D0B8E8 /* SpeedToolsInfoView.swift */,
 				1DA82CEA2D600DB9009897FA /* CruiseRInfoView.swift */,
 				1D99BD542D52D21500342520 /* VersionHistoryView.swift */,
 				1D5C294F2D82C33600610A22 /* Planner */,
 				1DB562322D8B89F6007FF0E2 /* MapUIButtonExtention.swift */,
-				1DDD4E152D8F7E3C00916608 /* SessionDetailTestView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -756,9 +756,9 @@
 				1DBD85E12CF142A50028E391 /* PersistentTimerManager.swift */,
 				1DE3D0662CF2FCAD00B4056F /* WatchNotificationManager.swift */,
 				1D0C3DAA2D58775A00C7D9B5 /* LastReadingmanager.swift */,
+				1DB562362D8B8F61007FF0E2 /* ActiveWaypointManager.swift */,
 				1D38CD7E2D7A412C0034980A /* ExtendedSessionManager.swift */,
 				1D18C9942D88E110005519E5 /* WatchPlannerDataManager.swift */,
-				1DB562362D8B8F61007FF0E2 /* ActiveWaypointManager.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";

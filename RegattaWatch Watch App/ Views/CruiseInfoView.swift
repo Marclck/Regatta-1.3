@@ -614,7 +614,7 @@ struct CruiseInfoView: View {
                                             (settings.lightMode ? .black : .white))
 
                     
-                    Image(systemName: locationManager.isMonitoring ? "pause" : "play.fill")                        .font(.zenithBeta(size: 12, weight: .medium))
+                    Image(systemName: locationManager.isMonitoring ? "pause" : "play.fill")                        .font(.zenithBeta(size: 10, weight: .heavy))
                         .foregroundColor(settings.lightMode ? .white : .black)
                         .padding(.horizontal, 2)
                         .frame(height: 16)

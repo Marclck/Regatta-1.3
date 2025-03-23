@@ -543,6 +543,15 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                     waypointDict["timeFromPrevious"] = timeFromPrevious
                 }
                 
+                // Add the new properties
+                if let progress = waypoint.progress {
+                    waypointDict["progress"] = progress
+                }
+                
+                if let isActiveWaypoint = waypoint.isActiveWaypoint {
+                    waypointDict["isActiveWaypoint"] = isActiveWaypoint
+                }
+                
                 waypointDicts.append(waypointDict)
             }
             
@@ -1457,6 +1466,10 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                 let distanceFromPrevious = waypointDict["distanceFromPrevious"] as? Double
                 let timeFromPrevious = waypointDict["timeFromPrevious"] as? TimeInterval
                 
+                // Get the new properties
+                let progress = waypointDict["progress"] as? Double
+                let isActiveWaypoint = waypointDict["isActiveWaypoint"] as? Bool
+                
                 let waypointRecord = WaypointRecord(
                     latitude: latitude,
                     longitude: longitude,
@@ -1464,7 +1477,9 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                     completed: completed,
                     reachedAt: reachedAt,
                     distanceFromPrevious: distanceFromPrevious,
-                    timeFromPrevious: timeFromPrevious
+                    timeFromPrevious: timeFromPrevious,
+                    progress: progress,
+                    isActiveWaypoint: isActiveWaypoint
                 )
                 
                 waypoints?.append(waypointRecord)
