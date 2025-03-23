@@ -49,7 +49,7 @@ class WatchTimerState: ObservableObject {
     func resetAndRestartStopwatch() {
         if mode == .stopwatch && isRunning {
             // Record the previous session
-            journalManager.recordSessionEnd(totalTime: currentTime)
+            journalManager.recordSessionEndWithEnrichment(totalTime: currentTime)
             let finishTime = persistentTimer.getCurrentTime()
             SharedDefaults.setLastFinishTime(finishTime)
             
@@ -365,7 +365,7 @@ class WatchTimerState: ObservableObject {
     func resetTimer() {
         // Record finish time if in stopwatch mode and running
         if mode == .stopwatch {
-            journalManager.recordSessionEnd(totalTime: currentTime)
+            journalManager.recordSessionEndWithEnrichment(totalTime: currentTime)
             let finishTime = persistentTimer.getCurrentTime()
             SharedDefaults.setLastFinishTime(finishTime)
             print("⌚️ WatchTimerState: Recorded finish time: \(finishTime)")

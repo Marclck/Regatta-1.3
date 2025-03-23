@@ -477,6 +477,78 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             ]
         }
         
+        // Add weather data if available
+        if let windSpeed = raceSession.windSpeed {
+            messageDict["windSpeed"] = windSpeed
+        }
+        
+        if let windDirection = raceSession.windDirection {
+            messageDict["windDirection"] = windDirection
+        }
+        
+        if let windCardinalDirection = raceSession.windCardinalDirection {
+            messageDict["windCardinalDirection"] = windCardinalDirection
+        }
+        
+        if let temperature = raceSession.temperature {
+            messageDict["temperature"] = temperature
+        }
+        
+        if let weatherCondition = raceSession.weatherCondition {
+            messageDict["weatherCondition"] = weatherCondition
+        }
+        
+        // Add cruise plan data if available
+        if let planActive = raceSession.planActive {
+            messageDict["planActive"] = planActive
+        }
+        
+        if let activePlanName = raceSession.activePlanName {
+            messageDict["activePlanName"] = activePlanName
+        }
+        
+        if let completedWaypointsCount = raceSession.completedWaypointsCount {
+            messageDict["completedWaypointsCount"] = completedWaypointsCount
+        }
+        
+        if let totalWaypointsCount = raceSession.totalWaypointsCount {
+            messageDict["totalWaypointsCount"] = totalWaypointsCount
+        }
+        
+        if let planCompletionPercentage = raceSession.planCompletionPercentage {
+            messageDict["planCompletionPercentage"] = planCompletionPercentage
+        }
+        
+        // Add waypoint records if available
+        if let waypoints = raceSession.waypoints, !waypoints.isEmpty {
+            var waypointDicts: [[String: Any]] = []
+            
+            for waypoint in waypoints {
+                var waypointDict: [String: Any] = [
+                    "latitude": waypoint.latitude,
+                    "longitude": waypoint.longitude,
+                    "order": waypoint.order,
+                    "completed": waypoint.completed
+                ]
+                
+                if let reachedAt = waypoint.reachedAt {
+                    waypointDict["reachedAt"] = reachedAt.timeIntervalSince1970
+                }
+                
+                if let distanceFromPrevious = waypoint.distanceFromPrevious {
+                    waypointDict["distanceFromPrevious"] = distanceFromPrevious
+                }
+                
+                if let timeFromPrevious = waypoint.timeFromPrevious {
+                    waypointDict["timeFromPrevious"] = timeFromPrevious
+                }
+                
+                waypointDicts.append(waypointDict)
+            }
+            
+            messageDict["waypoints"] = waypointDicts
+        }
+        
         // Try to send status update via UserInfo as well
         let statusMessage: [String: Any] = [
             "messageType": "transfer_status",
@@ -1348,6 +1420,57 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             )
         }
         
+        // Parse weather data
+        let windSpeed = metadata["windSpeed"] as? Double
+        let windDirection = metadata["windDirection"] as? Double
+        let windCardinalDirection = metadata["windCardinalDirection"] as? String
+        let temperature = metadata["temperature"] as? Double
+        let weatherCondition = metadata["weatherCondition"] as? String
+        
+        // Parse cruise plan data
+        let planActive = metadata["planActive"] as? Bool
+        let activePlanName = metadata["activePlanName"] as? String
+        let completedWaypointsCount = metadata["completedWaypointsCount"] as? Int
+        let totalWaypointsCount = metadata["totalWaypointsCount"] as? Int
+        let planCompletionPercentage = metadata["planCompletionPercentage"] as? Double
+        
+        // Parse waypoint records
+        var waypoints: [WaypointRecord]? = nil
+        if let waypointDicts = metadata["waypoints"] as? [[String: Any]], !waypointDicts.isEmpty {
+            waypoints = []
+            
+            for waypointDict in waypointDicts {
+                guard let latitude = waypointDict["latitude"] as? Double,
+                      let longitude = waypointDict["longitude"] as? Double,
+                      let order = waypointDict["order"] as? Int,
+                      let completed = waypointDict["completed"] as? Bool else {
+                    continue
+                }
+                
+                let reachedAt: Date?
+                if let reachedAtTimestamp = waypointDict["reachedAt"] as? TimeInterval {
+                    reachedAt = Date(timeIntervalSince1970: reachedAtTimestamp)
+                } else {
+                    reachedAt = nil
+                }
+                
+                let distanceFromPrevious = waypointDict["distanceFromPrevious"] as? Double
+                let timeFromPrevious = waypointDict["timeFromPrevious"] as? TimeInterval
+                
+                let waypointRecord = WaypointRecord(
+                    latitude: latitude,
+                    longitude: longitude,
+                    order: order,
+                    completed: completed,
+                    reachedAt: reachedAt,
+                    distanceFromPrevious: distanceFromPrevious,
+                    timeFromPrevious: timeFromPrevious
+                )
+                
+                waypoints?.append(waypointRecord)
+            }
+        }
+        
         // Create the session with all data
         let session = RaceSession(
             date: date,
@@ -1356,7 +1479,18 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             raceDuration: raceDuration,
             dataPoints: dataPoints,
             leftPoint: leftPoint,
-            rightPoint: rightPoint
+            rightPoint: rightPoint,
+            windSpeed: windSpeed,
+            windDirection: windDirection,
+            windCardinalDirection: windCardinalDirection,
+            temperature: temperature,
+            weatherCondition: weatherCondition,
+            activePlanName: activePlanName,
+            planActive: planActive,
+            completedWaypointsCount: completedWaypointsCount,
+            totalWaypointsCount: totalWaypointsCount,
+            planCompletionPercentage: planCompletionPercentage,
+            waypoints: waypoints
         )
         
         print("📱 Session \(sessionId) completed with \(dataPoints.count) data points")

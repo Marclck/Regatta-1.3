@@ -189,6 +189,8 @@
 		1DD9DBD62CF6844B00D1E608 /* LineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD9DBCE2CF67C4100D1E608 /* LineChartManager.swift */; };
 		1DD9DBD82CF6844E00D1E608 /* LineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD9DBCE2CF67C4100D1E608 /* LineChartManager.swift */; };
 		1DD9DBD92CF6844F00D1E608 /* LineChartManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD9DBCE2CF67C4100D1E608 /* LineChartManager.swift */; };
+		1DDD4E162D8F7E3C00916608 /* SessionDetailTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDD4E152D8F7E3C00916608 /* SessionDetailTestView.swift */; };
+		1DDD4E172D8F7E8F00916608 /* JournalManager+WeatherWaypoint.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DDD4E132D8F7DE100916608 /* JournalManager+WeatherWaypoint.swift */; };
 		1DE3D0672CF2FCAD00B4056F /* WatchNotificationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3D0662CF2FCAD00B4056F /* WatchNotificationManager.swift */; };
 		1DE3D0692CF3052A00B4056F /* StartCountdownIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3D0682CF3052A00B4056F /* StartCountdownIntent.swift */; };
 		1DE3D06B2CF3108900B4056F /* StartCountdownIntent.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DE3D0682CF3052A00B4056F /* StartCountdownIntent.swift */; };
@@ -393,6 +395,8 @@
 		1DD528482CEBED22005FFEA2 /* TimerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerMode.swift; sourceTree = "<group>"; };
 		1DD5284A2CEC0983005FFEA2 /* RegattaWatch-Watch-App-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "RegattaWatch-Watch-App-Info.plist"; sourceTree = SOURCE_ROOT; };
 		1DD9DBCE2CF67C4100D1E608 /* LineChartManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LineChartManager.swift; sourceTree = "<group>"; };
+		1DDD4E132D8F7DE100916608 /* JournalManager+WeatherWaypoint.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "JournalManager+WeatherWaypoint.swift"; sourceTree = "<group>"; };
+		1DDD4E152D8F7E3C00916608 /* SessionDetailTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionDetailTestView.swift; sourceTree = "<group>"; };
 		1DE3D0662CF2FCAD00B4056F /* WatchNotificationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchNotificationManager.swift; sourceTree = "<group>"; };
 		1DE3D0682CF3052A00B4056F /* StartCountdownIntent.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartCountdownIntent.swift; sourceTree = "<group>"; };
 		1DE5F8FC2D7BC1FD0052EB4C /* SunMoonView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SunMoonView.swift; sourceTree = "<group>"; };
@@ -666,6 +670,7 @@
 				1D0C3DAE2D5AB49300C7D9B5 /* KeychainHelper.swift */,
 				1D349B322D880E7E00FEB841 /* PlannerModels.swift */,
 				1D18C99B2D88E15C005519E5 /* RoutePlanStore+WatchExtension.swift */,
+				1DDD4E132D8F7DE100916608 /* JournalManager+WeatherWaypoint.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -700,6 +705,7 @@
 				1D99BD542D52D21500342520 /* VersionHistoryView.swift */,
 				1D5C294F2D82C33600610A22 /* Planner */,
 				1DB562322D8B89F6007FF0E2 /* MapUIButtonExtention.swift */,
+				1DDD4E152D8F7E3C00916608 /* SessionDetailTestView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -1089,6 +1095,7 @@
 				1D69FEFF2CE969D9001C178A /* CurrentTimeView.swift in Sources */,
 				1D2E540E2D1715FE00C669D4 /* TabItemModel.swift in Sources */,
 				1D90CF8B2D46C57C00357553 /* LocationHelper.swift in Sources */,
+				1DDD4E162D8F7E3C00916608 /* SessionDetailTestView.swift in Sources */,
 				1DB562332D8B89F6007FF0E2 /* MapUIButtonExtention.swift in Sources */,
 				1DC321C92D7D936400EE70E1 /* WatchSessionManager+Extensions.swift in Sources */,
 				1DE3D06B2CF3108900B4056F /* StartCountdownIntent.swift in Sources */,
@@ -1181,6 +1188,7 @@
 				1D69FF092CE96A3B001C178A /* TimeDisplayView.swift in Sources */,
 				1D18C9A92D8A1AB2005519E5 /* WatchCruiserPlannerView.swift in Sources */,
 				1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */,
+				1DDD4E172D8F7E8F00916608 /* JournalManager+WeatherWaypoint.swift in Sources */,
 				1D88DEAB2D6A9B0E009DC635 /* RulerView.swift in Sources */,
 				1D69FEC82CE967F7001C178A /* ContentView.swift in Sources */,
 				1D69FF072CE96A32001C178A /* CurrentTimeView.swift in Sources */,

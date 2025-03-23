@@ -154,7 +154,7 @@ class LastReadingManager: ObservableObject {
         )
         
         // Save to JournalManager
-        JournalManager.shared.addCruiseSession(session)
+        JournalManager.shared.addCruiseSessionWithEnrichment(session)
         
         // Reset our session state
         isCruiseSessionActive = false

@@ -21,6 +21,16 @@ struct LocationData: Codable {
     let accuracy: Double
 }
 
+struct WaypointRecord: Codable {
+    let latitude: Double
+    let longitude: Double
+    let order: Int
+    let completed: Bool
+    let reachedAt: Date?
+    let distanceFromPrevious: Double?
+    let timeFromPrevious: TimeInterval?
+}
+
 struct RaceSession: Codable {
     var id: String { date.timeIntervalSince1970.description }
     
@@ -33,13 +43,41 @@ struct RaceSession: Codable {
     let leftPoint: LocationData?  // Added
     let rightPoint: LocationData?  // Added
     
+    // Weather Data
+    let windSpeed: Double?
+    let windDirection: Double?
+    let windCardinalDirection: String?
+    let temperature: Double?
+    let weatherCondition: String?
+
+    // Cruise Plan Summary
+    let activePlanName: String?
+    let planActive: Bool?
+    let completedWaypointsCount: Int?
+    let totalWaypointsCount: Int?
+    let planCompletionPercentage: Double?
+
+    // Detailed Waypoint Data
+    let waypoints: [WaypointRecord]?
+    
     init(date: Date,
          countdownDuration: Int,
          raceStartTime: Date?,
          raceDuration: TimeInterval?,
          dataPoints: [DataPoint] = [],
          leftPoint: LocationData? = nil,
-         rightPoint: LocationData? = nil) {
+         rightPoint: LocationData? = nil,
+         windSpeed: Double? = nil,
+         windDirection: Double? = nil,
+         windCardinalDirection: String? = nil,
+         temperature: Double? = nil,
+         weatherCondition: String? = nil,
+         activePlanName: String? = nil,
+         planActive: Bool? = nil,
+         completedWaypointsCount: Int? = nil,
+         totalWaypointsCount: Int? = nil,
+         planCompletionPercentage: Double? = nil,
+         waypoints: [WaypointRecord]? = nil) {
         self.date = date
         self.countdownDuration = countdownDuration
         self.raceStartTime = raceStartTime
@@ -48,6 +86,19 @@ struct RaceSession: Codable {
         self.dataPoints = dataPoints
         self.leftPoint = leftPoint
         self.rightPoint = rightPoint
+        
+        // New properties
+        self.windSpeed = windSpeed
+        self.windDirection = windDirection
+        self.windCardinalDirection = windCardinalDirection
+        self.temperature = temperature
+        self.weatherCondition = weatherCondition
+        self.activePlanName = activePlanName
+        self.planActive = planActive
+        self.completedWaypointsCount = completedWaypointsCount
+        self.totalWaypointsCount = totalWaypointsCount
+        self.planCompletionPercentage = planCompletionPercentage
+        self.waypoints = waypoints
     }
     
     var formattedStartTime: String {

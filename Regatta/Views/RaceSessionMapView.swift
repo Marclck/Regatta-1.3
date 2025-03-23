@@ -46,6 +46,7 @@ struct RaceSessionMapView: View {
     @State private var mapSelection: MKMapItem?
     @State private var selectedConfiguration: MapStyleConfiguration
     @State private var isInteractionEnabled: Bool = true
+    @State private var showDetailView: Bool = false
     
     // Computed stats from SessionRowView
     private var raceStats: (topSpeed: Double?, avgSpeed: Double?) {
@@ -401,6 +402,30 @@ struct RaceSessionMapView: View {
                 .font(.system(.caption, design: .monospaced))
                 .foregroundColor(.secondary)
                 .padding(.horizontal)
+            }
+            
+            // Button to navigate to session details view
+            Button(action: {
+                showDetailView = true
+            }) {
+                HStack {
+                    Text("View Session Details")
+                    Spacer()
+                    Image(systemName: "chevron.right")
+                }
+                .padding()
+                .background(Color(.secondarySystemBackground))
+                .cornerRadius(10)
+                .padding(.horizontal)
+            }
+            .foregroundColor(.primary)
+            .sheet(isPresented: $showDetailView) {
+                NavigationView {
+                    SessionDetailTestView(session: session)
+                        .navigationBarItems(trailing: Button("Done") {
+                            showDetailView = false
+                        })
+                }
             }
         }
         .environment(\.colorScheme, .dark)
