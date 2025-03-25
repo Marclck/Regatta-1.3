@@ -45,14 +45,14 @@ extension JournalManager {
             
             // Get ALL waypoints from the WatchCruisePlanState
             // First, get the current plan data from UserDefaults
-            if let planData = UserDefaults.standard.data(forKey: "currentCruisePlan"),
-               let planPoints = try? JSONDecoder().decode([WatchPlanPoint].self, from: planData) {
-                
-                // Sort by order
-                let sortedPoints = planPoints.sorted(by: { $0.order < $1.order })
-                
+            // Get the full plan from WatchPlannerDataManager
+            let planManager = WatchPlannerDataManager.shared
+            let planPoints = planManager.currentPlan
+            activePlanName = planManager.currentPlanName // Use the plan name from the manager
+
+            if !planPoints.isEmpty {
                 // Convert to WaypointRecords with completion status based on active waypoint index
-                waypointRecords = sortedPoints.map { point -> WaypointRecord in
+                waypointRecords = planPoints.map { point -> WaypointRecord in
                     // Determine if this waypoint has been completed
                     let isCompleted = point.order < waypointManager.activeWaypointIndex
                     
@@ -62,8 +62,8 @@ extension JournalManager {
                     
                     // Get distance from previous waypoint if available
                     var distanceFromPrevious: Double? = nil
-                    if point.order > 0, point.order < sortedPoints.count {
-                        let previousPoint = sortedPoints[point.order - 1]
+                    if point.order > 0, point.order < planPoints.count {
+                        let previousPoint = planPoints[point.order - 1]
                         let previousLocation = CLLocation(
                             latitude: previousPoint.latitude,
                             longitude: previousPoint.longitude
@@ -205,14 +205,14 @@ extension JournalManager {
             
             // Get ALL waypoints from the WatchCruisePlanState
             // First, get the current plan data from UserDefaults
-            if let planData = UserDefaults.standard.data(forKey: "currentCruisePlan"),
-               let planPoints = try? JSONDecoder().decode([WatchPlanPoint].self, from: planData) {
-                
-                // Sort by order
-                let sortedPoints = planPoints.sorted(by: { $0.order < $1.order })
-                
+            // Get the full plan from WatchPlannerDataManager
+            let planManager = WatchPlannerDataManager.shared
+            let planPoints = planManager.currentPlan
+            activePlanName = planManager.currentPlanName // Use the plan name from the manager
+
+            if !planPoints.isEmpty {
                 // Convert to WaypointRecords with completion status based on active waypoint index
-                waypointRecords = sortedPoints.map { point -> WaypointRecord in
+                waypointRecords = planPoints.map { point -> WaypointRecord in
                     // Determine if this waypoint has been completed
                     let isCompleted = point.order < waypointManager.activeWaypointIndex
                     
@@ -222,8 +222,8 @@ extension JournalManager {
                     
                     // Get distance from previous waypoint if available
                     var distanceFromPrevious: Double? = nil
-                    if point.order > 0, point.order < sortedPoints.count {
-                        let previousPoint = sortedPoints[point.order - 1]
+                    if point.order > 0, point.order < planPoints.count {
+                        let previousPoint = planPoints[point.order - 1]
                         let previousLocation = CLLocation(
                             latitude: previousPoint.latitude,
                             longitude: previousPoint.longitude
