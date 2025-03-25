@@ -11,19 +11,38 @@ import CoreLocation
 
 extension JournalManager {
     // Enhanced version of recordSessionEnd that includes weather and waypoint data
-    func recordSessionEndWithEnrichment(totalTime: TimeInterval) {
+    func recordSessionEndWithEnrichment(totalTime: TimeInterval, lastReadingManager: LastReadingManager? = nil) {
         guard let session = currentSession else {
             print("📓 No current session to record")
             return
         }
         
         // Get weather data
-        let weatherManager = WeatherManager()
-        let weatherSpeed = weatherManager.windSpeed
-        let weatherDirection = weatherManager.windDirection
-        let weatherCardinalDirection = weatherManager.cardinalDirection
-        let weatherTemperature = weatherManager.currentTemp
-        let weatherCondition = weatherManager.condition
+        // Get weather data - prefer LastReadingManager when available
+        var weatherSpeed: Double = 0
+        var weatherDirection: Double = 0
+        var weatherCardinalDirection: String = "N"
+        var weatherTemperature: Double = 0
+        var weatherCondition: String = "sun.max.fill"
+
+        if let lastReading = lastReadingManager {
+                print("📓 JournalManager got LastReadingManager: windSpeed=\(lastReading.windSpeed), windDirection=\(lastReading.course), temp=\(lastReading.temperature)")
+            
+            // Use wind-specific data from LastReadingManager
+            weatherDirection = lastReading.windDirection
+            weatherCardinalDirection = lastReading.windCardinalDirection
+            weatherSpeed = lastReading.windSpeed
+            weatherTemperature = lastReading.temperature
+            weatherCondition = lastReading.weatherCondition
+        } else {
+            // Fallback to creating a new WeatherManager for all data
+            let weatherManager = WeatherManager()
+            weatherSpeed = weatherManager.windSpeed
+            weatherDirection = weatherManager.windDirection
+            weatherCardinalDirection = weatherManager.cardinalDirection
+            weatherTemperature = weatherManager.currentTemp
+            weatherCondition = weatherManager.condition
+        }
         
         // Get waypoint data
         let waypointManager = ActiveWaypointManager.shared
@@ -176,14 +195,33 @@ extension JournalManager {
     }
     
     // Enhanced version of addCruiseSession that includes weather and waypoint data
-    func addCruiseSessionWithEnrichment(_ baseSession: RaceSession) {
+    func addCruiseSessionWithEnrichment(_ baseSession: RaceSession, lastReadingManager: LastReadingManager? = nil) {
         // Get weather data
-        let weatherManager = WeatherManager()
-        let weatherSpeed = weatherManager.windSpeed
-        let weatherDirection = weatherManager.windDirection
-        let weatherCardinalDirection = weatherManager.cardinalDirection
-        let weatherTemperature = weatherManager.currentTemp
-        let weatherCondition = weatherManager.condition
+        // Get weather data - prefer LastReadingManager when available
+        var weatherSpeed: Double = 0
+        var weatherDirection: Double = 0
+        var weatherCardinalDirection: String = "N"
+        var weatherTemperature: Double = 0
+        var weatherCondition: String = "sun.max.fill"
+
+        if let lastReading = lastReadingManager {
+            print("📓 JournalManager got LastReadingManager: windSpeed=\(lastReading.windSpeed), windDirection=\(lastReading.course), temp=\(lastReading.temperature)")
+        
+            // Use wind-specific data from LastReadingManager
+            weatherDirection = lastReading.windDirection
+            weatherCardinalDirection = lastReading.windCardinalDirection
+            weatherSpeed = lastReading.windSpeed
+            weatherTemperature = lastReading.temperature
+            weatherCondition = lastReading.weatherCondition
+        } else {
+            // Fallback to creating a new WeatherManager for all data
+            let weatherManager = WeatherManager()
+            weatherSpeed = weatherManager.windSpeed
+            weatherDirection = weatherManager.windDirection
+            weatherCardinalDirection = weatherManager.cardinalDirection
+            weatherTemperature = weatherManager.currentTemp
+            weatherCondition = weatherManager.condition
+        }
         
         // Get waypoint data
         let waypointManager = ActiveWaypointManager.shared

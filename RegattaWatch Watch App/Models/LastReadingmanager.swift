@@ -19,6 +19,12 @@ class LastReadingManager: ObservableObject {
     @Published var tackAngle: Double = 0
     @Published var waypointDistance: Double = 0  // Add this
     @Published var waypointIndex: Int = 0        // Add this
+    // Add these properties
+    @Published var windSpeed: Double = 0
+    @Published var temperature: Double = 0
+    @Published var weatherCondition: String = "sun.max.fill"
+    @Published var windDirection: Double = 0
+    @Published var windCardinalDirection: String = "N"
     
     private let defaults = UserDefaults.standard
     private let speedKey = "lastSpeed"
@@ -31,6 +37,11 @@ class LastReadingManager: ObservableObject {
     private let tackAngleKey = "lastTackAngle"
     private let waypointDistanceKey = "lastWaypointDistance"  // Add this
     private let waypointIndexKey = "lastWaypointIndex"        // Add this
+    private let windSpeedKey = "lastWindSpeed"
+    private let temperatureKey = "lastTemperature"
+    private let weatherConditionKey = "lastWeatherCondition"
+    private let windDirectionKey = "lastWindDirection"
+    private let windCardinalDirectionKey = "lastWindCardinalDirection"
     
     // Cruise session tracking
     private var cruiseSessionDataPoints: [DataPoint] = []
@@ -60,6 +71,28 @@ class LastReadingManager: ObservableObject {
         tackAngle = defaults.double(forKey: tackAngleKey)
         waypointDistance = defaults.double(forKey: waypointDistanceKey)  // Add this
         waypointIndex = defaults.integer(forKey: waypointIndexKey)       // Add this
+        windSpeed = defaults.double(forKey: windSpeedKey)
+        temperature = defaults.double(forKey: temperatureKey)
+        weatherCondition = defaults.string(forKey: weatherConditionKey) ?? "sun.max.fill"
+        windDirection = defaults.double(forKey: windDirectionKey)
+        windCardinalDirection = defaults.string(forKey: windCardinalDirectionKey) ?? "N"
+    }
+    
+    func updateWeatherData(windSpeed: Double, windDirection: Double, windCardinalDirection: String,
+                           temperature: Double, condition: String) {
+        self.windSpeed = windSpeed
+        self.windDirection = windDirection  // Store separately from course
+        self.windCardinalDirection = windCardinalDirection  // Store separately from cardinalDirection
+        self.temperature = temperature
+        self.weatherCondition = condition
+        
+        defaults.set(windSpeed, forKey: windSpeedKey)
+        defaults.set(windDirection, forKey: windDirectionKey)  // New key
+        defaults.set(windCardinalDirection, forKey: windCardinalDirectionKey)  // New key
+        defaults.set(temperature, forKey: temperatureKey)
+        defaults.set(condition, forKey: weatherConditionKey)
+        
+        print("📝 LastReadingManager received weather data: windSpeed=\(windSpeed), windDirection=\(windDirection), temp=\(temperature)")
     }
     
     func saveReading(speed: Double, distance: Double, course: Double, direction: String, deviation: Double, tackCount: Int, topSpeed: Double, tackAngle: Double) {
@@ -174,8 +207,8 @@ class LastReadingManager: ObservableObject {
             rightPoint: rightPoint // Last GPS location
         )
         
-        // Save to JournalManager
-        JournalManager.shared.addCruiseSessionWithEnrichment(session)
+        // Save to JournalManager with this LastReadingManager instance
+        JournalManager.shared.addCruiseSessionWithEnrichment(session, lastReadingManager: self)
         
         // Reset our session state
         isCruiseSessionActive = false

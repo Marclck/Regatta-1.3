@@ -31,12 +31,18 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     private let locationManager = CLLocationManager()
     private var timer: Timer?
     
+    private weak var lastReadingManager: LastReadingManager?
+    
     override init() {
         super.init()
         locationManager.delegate = self
         locationManager.desiredAccuracy = kCLLocationAccuracyBest
         locationManager.distanceFilter = 1000 // Update every 1km
         setupLocation()
+    }
+    
+    func setLastReadingManager(_ manager: LastReadingManager) {
+        self.lastReadingManager = manager
     }
     
     private func setupLocation() {
@@ -86,17 +92,48 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                     self.lowTemp = weather.dailyForecast[0].lowTemperature.converted(to: .celsius).value
                     self.highTemp = weather.dailyForecast[0].highTemperature.converted(to: .celsius).value
                     
-                    // Check if it's daytime
-                    let isDaylight = weather.currentWeather.isDaylight
-                    
                     // Set condition icon based on weather condition and daylight
+                    let isDaylight = weather.currentWeather.isDaylight
                     self.condition = self.getConditionIcon(weather.currentWeather.condition, daylight: isDaylight)
                     
-                    // Add sun/moon data - directly access the properties since they're not optional
+                    // Add sun/moon data
                     let dayWeather = weather.dailyForecast[0]
                     self.nauticalSunrise = dayWeather.sun.nauticalDawn
                     self.nauticalSunset = dayWeather.sun.nauticalDusk
                     self.moonPhase = dayWeather.moon.phase
+                    
+                    // NEW CODE: Update LastReadingManager with weather data if available
+                    if let lastReadingManager = self.lastReadingManager {
+                        lastReadingManager.updateWeatherData(
+                            windSpeed: self.windSpeed,
+                            windDirection: self.windDirection,
+                            windCardinalDirection: self.cardinalDirection,
+                            temperature: self.currentTemp,
+                            condition: self.condition
+                        )
+                        
+                        // We don't want to overwrite existing speed, distance, etc.
+                        // So we get current values first
+                        let currentSpeed = lastReadingManager.speed
+                        let currentDistance = lastReadingManager.distance
+                        let currentTackCount = lastReadingManager.tackCount
+                        let currentTopSpeed = lastReadingManager.topSpeed
+                        let currentTackAngle = lastReadingManager.tackAngle
+                        
+                        // Save with updated weather data (wind direction becomes course)
+                        lastReadingManager.saveReading(
+                            speed: currentSpeed,
+                            distance: currentDistance,
+                            course: self.windDirection,
+                            direction: self.cardinalDirection,
+                            deviation: 0, // No deviation data from weather
+                            tackCount: currentTackCount,
+                            topSpeed: currentTopSpeed,
+                            tackAngle: currentTackAngle
+                        )
+                        
+                        print("🌤️ WeatherManager updating LastReadingManager: windSpeed=\(self.windSpeed), windDirection=\(self.windDirection), temp=\(self.currentTemp)")
+                    }
                     
                     self.isLoading = false
                     self.error = nil
@@ -430,6 +467,7 @@ struct WindSpeedView: View {
         .buttonStyle(PlainButtonStyle())
         .onAppear {
             compassManager.startUpdates()
+            weatherManager.setLastReadingManager(lastReadingManager)
         }
         .onDisappear {
             compassManager.stopUpdates()
