@@ -345,34 +345,88 @@ struct CruiseInfoView: View {
         lastLocation = newLocation
     }
     
-    // New function to calculate and format the distance to active waypoint
-    private func getWaypointDistanceText() -> String {
-        let activeWaypointManager = ActiveWaypointManager.shared
-        
-        // Get current location
-        guard let currentLocation = locationManager.isMonitoring ?
-                                    locationManager.lastLocation :
-                                    lastLocation else {
-            return "0.0"
+    // New function to update waypoint info separately from view rendering
+    private func updateWaypointInfo() {
+        // Only update if GPS is on and cruise plan is active
+        guard locationManager.isMonitoring,
+              cruisePlanState.isActive,
+              locationManager.isLocationValid,
+              let currentLocation = locationManager.lastLocation else {
+            return
         }
         
-        // Get waypoint location
-        guard let waypointLocation = activeWaypointManager.activeWaypointLocation else {
-            // If no active waypoint but cruise plan is active, check if we've completed all waypoints
-            if cruisePlanState.isActive && activeWaypointManager.totalSegments > 0 {
-                // All waypoints completed - try to get distance to last waypoint
-                if activeWaypointManager.segmentStartPoints.count > 0,
-                   let lastWaypoint = activeWaypointManager.segmentStartPoints.last {
-                    let lastDistance = currentLocation.distance(from: lastWaypoint)
-                    return formatDistance(lastDistance)
-                }
+        let activeWaypointManager = ActiveWaypointManager.shared
+        
+        // Calculate and save distance to waypoint if available
+        if let waypointLocation = activeWaypointManager.activeWaypointLocation,
+           activeWaypointManager.activeWaypointIndex > 0 {
+            let distance = currentLocation.distance(from: waypointLocation)
+            
+            DispatchQueue.main.async {
+                self.lastReadingManager.saveWaypointInfo(
+                    distance: distance,
+                    index: activeWaypointManager.activeWaypointIndex
+                )
+            }
+        }
+        // If no active waypoint but we have segment start points, use the last one
+        else if !activeWaypointManager.segmentStartPoints.isEmpty,
+                let lastWaypoint = activeWaypointManager.segmentStartPoints.last,
+                activeWaypointManager.activeWaypointIndex > 0 {
+            
+            let lastDistance = currentLocation.distance(from: lastWaypoint)
+            
+            DispatchQueue.main.async {
+                self.lastReadingManager.saveWaypointInfo(
+                    distance: lastDistance,
+                    index: activeWaypointManager.activeWaypointIndex
+                )
+            }
+        }
+    }
+    
+    // New function to calculate and format the distance to active waypoint
+    private func getWaypointDistanceText() -> String {
+        // If GPS is off, use the last saved value from LastReadingManager
+        if !locationManager.isMonitoring {
+            if lastReadingManager.waypointDistance > 0 {
+                return formatDistance(lastReadingManager.waypointDistance)
             }
             return "0.0"
         }
         
-        // Calculate distance to waypoint
-        let distance = currentLocation.distance(from: waypointLocation)
-        return formatDistance(distance)
+        // Get current location - return early if no location
+        guard locationManager.isLocationValid,
+              let currentLocation = locationManager.lastLocation else {
+            return "0.0"
+        }
+        
+        let activeWaypointManager = ActiveWaypointManager.shared
+        
+        // Get waypoint location
+        if let waypointLocation = activeWaypointManager.activeWaypointLocation {
+            // Calculate distance to waypoint
+            let distance = currentLocation.distance(from: waypointLocation)
+            // IMPORTANT: Do NOT save waypoint info here during view rendering
+            // Just return the formatted distance
+            return formatDistance(distance)
+        }
+        
+        // If we get here, we have no active waypoint location
+        // Check if we've completed all waypoints of an active cruise plan
+        if cruisePlanState.isActive &&
+           activeWaypointManager.totalSegments > 0 &&
+           !activeWaypointManager.segmentStartPoints.isEmpty {
+            
+            if let lastWaypoint = activeWaypointManager.segmentStartPoints.last {
+                let lastDistance = currentLocation.distance(from: lastWaypoint)
+                // IMPORTANT: Do NOT save waypoint info here during view rendering
+                // Just return the formatted distance
+                return formatDistance(lastDistance)
+            }
+        }
+        
+        return "0.0"
     }
 
     // Helper function to format distance consistently
@@ -461,7 +515,12 @@ struct CruiseInfoView: View {
                     HStack(spacing: 4) {
                         // Waypoint index indicator (only shown when cruise plan is active)
                         if cruisePlanState.isActive {
-                            Text("\(ActiveWaypointManager.shared.activeWaypointIndex)")
+                            // Use the active waypoint index or the saved one if GPS is off
+                            let waypointIndex = locationManager.isMonitoring ?
+                                ActiveWaypointManager.shared.activeWaypointIndex :
+                                lastReadingManager.waypointIndex
+                            
+                            Text("\(waypointIndex)")
                                 .font(.zenithBeta(size: 16, weight: .medium))
                                 .foregroundColor(settings.lightMode ? .white : .black)
                                 .padding(.horizontal, 2)
@@ -473,14 +532,14 @@ struct CruiseInfoView: View {
                                 )
                         } else {
                             Image(systemName: "arrow.counterclockwise")
-                                .font(.zenithBeta(size: 10, weight: .medium))
+                                .font(.system(size: 10, weight: .heavy))
                                 .foregroundColor(settings.lightMode ? .white : .black)
                                 .padding(.horizontal, 2)
                                 .frame(height: 16)
                                 .frame(minWidth: 16)
                                 .background(
                                     RoundedRectangle(cornerRadius: 8)
-                                        .fill(Color.orange)
+                                        .fill(Color(hex:ColorTheme.speedPapaya.rawValue))
                                 )
                         }
                         
@@ -543,10 +602,12 @@ struct CruiseInfoView: View {
     private var speedDisplay: some View {
         Button(action: {
             WKInterfaceDevice.current().play(.click)
-            // Inside the speedDisplay button action, where GPS is turned OFF:
+            
             if locationManager.isMonitoring {
+                // TURNING GPS OFF
                 // Save current readings before stopping
                 if let location = locationManager.lastLocation {
+                    // Save basic readings
                     lastReadingManager.saveReading(
                         speed: locationManager.speed * 1.94384,
                         distance: totalDistance,
@@ -557,6 +618,12 @@ struct CruiseInfoView: View {
                         topSpeed: topSpeed,
                         tackAngle: courseTracker.tackAngle
                     )
+                    
+                    // Update waypoint info one last time before turning off GPS
+                    if cruisePlanState.isActive {
+                        // Use our dedicated function that safely updates waypoint info
+                        updateWaypointInfo()
+                    }
                 }
                 
                 // End cruise session when GPS is turned off
@@ -568,6 +635,7 @@ struct CruiseInfoView: View {
                     showGPSOffMessage = false
                 }
             } else {
+                // TURNING GPS ON
                 locationManager.startUpdatingLocation()
                 
                 // Notify LastReadingManager of GPS status change
@@ -683,7 +751,8 @@ struct CruiseInfoView: View {
                 location: locationManager.lastLocation
             )
         }
-        .onChange(of: locationManager.lastLocation) { _, _ in
+        .onChange(of: locationManager.lastLocation) { oldValue, newValue in
+            // Only execute if location has changed and is valid
             if let location = locationManager.lastLocation {
                 if location.course >= 0 {
                     courseTracker.updateCourse(location.course)
@@ -697,6 +766,14 @@ struct CruiseInfoView: View {
                         speed: speedInKnots,
                         location: location
                     )
+                    
+                    // Periodically update waypoint info using our dedicated function
+                    // This moves the update out of the view rendering cycle
+                    if cruisePlanState.isActive {
+                        DispatchQueue.main.async {
+                            self.updateWaypointInfo()
+                        }
+                    }
                 }
             }
         }
@@ -706,6 +783,7 @@ struct CruiseInfoView: View {
             
             if locationManager.isMonitoring {
                 if let location = locationManager.lastLocation {
+                    // Save basic readings
                     lastReadingManager.saveReading(
                         speed: locationManager.speed * 1.94384,
                         distance: totalDistance,
@@ -716,6 +794,14 @@ struct CruiseInfoView: View {
                         topSpeed: topSpeed,
                         tackAngle: courseTracker.tackAngle
                     )
+                    
+                    // Update waypoint info one last time using our dedicated function
+                    if cruisePlanState.isActive {
+                        // Use dispatch async to avoid updating during view rendering
+                        DispatchQueue.main.async {
+                            self.updateWaypointInfo()
+                        }
+                    }
                 }
                 
                 // End cruise session when view disappears with GPS on

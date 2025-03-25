@@ -90,7 +90,7 @@ struct AltRaceView: View {
                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
                                     .offset(y:-48.5)
                             }
-                            .font(.zenithBeta(size: 84, weight: .medium))
+                            .font(.zenithBeta(size: 84, weight: .bold))
                             .frame(width: 150, height: 60)
                             .position(x: geometry.size.width/2, y: centerY/2+25)
                             .onReceive(timeTimer) { input in

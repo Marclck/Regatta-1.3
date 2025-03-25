@@ -14,9 +14,11 @@ class LastReadingManager: ObservableObject {
     @Published var course: Double = 0
     @Published var cardinalDirection: String = "N"
     @Published var deviation: Double = 0
-    @Published var tackCount: Int = 0      // Added
-    @Published var topSpeed: Double = 0     // Added
-    @Published var tackAngle: Double = 0  // Add this
+    @Published var tackCount: Int = 0
+    @Published var topSpeed: Double = 0
+    @Published var tackAngle: Double = 0
+    @Published var waypointDistance: Double = 0  // Add this
+    @Published var waypointIndex: Int = 0        // Add this
     
     private let defaults = UserDefaults.standard
     private let speedKey = "lastSpeed"
@@ -24,9 +26,12 @@ class LastReadingManager: ObservableObject {
     private let courseKey = "lastCourse"
     private let directionKey = "lastDirection"
     private let deviationKey = "lastDeviation"
-    private let tackCountKey = "lastTackCount"  // Added
-    private let topSpeedKey = "lastTopSpeed"    // Added
-    private let tackAngleKey = "lastTackAngle"  // Add this
+    private let tackCountKey = "lastTackCount"
+    private let topSpeedKey = "lastTopSpeed"
+    private let tackAngleKey = "lastTackAngle"
+    private let waypointDistanceKey = "lastWaypointDistance"  // Add this
+    private let waypointIndexKey = "lastWaypointIndex"        // Add this
+    
     // Cruise session tracking
     private var cruiseSessionDataPoints: [DataPoint] = []
     private var cruiseSessionStartTime: Date? = nil
@@ -50,29 +55,40 @@ class LastReadingManager: ObservableObject {
         course = defaults.double(forKey: courseKey)
         cardinalDirection = defaults.string(forKey: directionKey) ?? "N"
         deviation = defaults.double(forKey: deviationKey)
-        tackCount = defaults.integer(forKey: tackCountKey)  // Added
-        topSpeed = defaults.double(forKey: topSpeedKey)     // Added
-        tackAngle = defaults.double(forKey: tackAngleKey)  // Add this
+        tackCount = defaults.integer(forKey: tackCountKey)
+        topSpeed = defaults.double(forKey: topSpeedKey)
+        tackAngle = defaults.double(forKey: tackAngleKey)
+        waypointDistance = defaults.double(forKey: waypointDistanceKey)  // Add this
+        waypointIndex = defaults.integer(forKey: waypointIndexKey)       // Add this
     }
     
-    func saveReading(speed: Double, distance: Double, course: Double, direction: String, deviation: Double, tackCount: Int, topSpeed: Double, tackAngle: Double) {  // Add tackAngle
-            self.speed = speed
-            self.distance = distance
-            self.course = course
-            self.cardinalDirection = direction
-            self.deviation = deviation
-            self.tackCount = tackCount  // Now using the passed tackCount value
-            self.topSpeed = topSpeed  // Save the passed topSpeed
-        self.tackAngle = tackAngle  // Add this
+    func saveReading(speed: Double, distance: Double, course: Double, direction: String, deviation: Double, tackCount: Int, topSpeed: Double, tackAngle: Double) {
+        self.speed = speed
+        self.distance = distance
+        self.course = course
+        self.cardinalDirection = direction
+        self.deviation = deviation
+        self.tackCount = tackCount
+        self.topSpeed = topSpeed
+        self.tackAngle = tackAngle
 
-            defaults.set(speed, forKey: speedKey)
-            defaults.set(distance, forKey: distanceKey)
-            defaults.set(course, forKey: courseKey)
-            defaults.set(direction, forKey: directionKey)
-            defaults.set(deviation, forKey: deviationKey)
-            defaults.set(tackCount, forKey: tackCountKey)
-            defaults.set(topSpeed, forKey: topSpeedKey)
-        defaults.set(tackAngle, forKey: tackAngleKey)  // Add this
+        defaults.set(speed, forKey: speedKey)
+        defaults.set(distance, forKey: distanceKey)
+        defaults.set(course, forKey: courseKey)
+        defaults.set(direction, forKey: directionKey)
+        defaults.set(deviation, forKey: deviationKey)
+        defaults.set(tackCount, forKey: tackCountKey)
+        defaults.set(topSpeed, forKey: topSpeedKey)
+        defaults.set(tackAngle, forKey: tackAngleKey)
+    }
+    
+    // Add new method to save waypoint information
+    func saveWaypointInfo(distance: Double, index: Int) {
+        self.waypointDistance = distance
+        self.waypointIndex = index
+        
+        defaults.set(distance, forKey: waypointDistanceKey)
+        defaults.set(index, forKey: waypointIndexKey)
     }
     
     func resetDistance(isMonitoring: Bool = false) {
@@ -83,10 +99,15 @@ class LastReadingManager: ObservableObject {
         distance = 0
         tackCount = 0    // Reset tack count when distance is reset
         topSpeed = 0     // Reset top speed when distance is reset
+        waypointDistance = 0  // Reset waypoint distance
+        waypointIndex = 0     // Reset waypoint index
+        
         defaults.set(0, forKey: distanceKey)
         defaults.set(0, forKey: tackCountKey)
         defaults.set(0, forKey: topSpeedKey)
-        defaults.set(0, forKey: tackAngleKey)  // Add this
+        defaults.set(0, forKey: tackAngleKey)
+        defaults.set(0, forKey: waypointDistanceKey)  // Add this
+        defaults.set(0, forKey: waypointIndexKey)     // Add this
     }
     
     // Handle when distance becomes zero (reset or otherwise)
