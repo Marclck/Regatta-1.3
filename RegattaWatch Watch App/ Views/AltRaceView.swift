@@ -107,15 +107,37 @@ struct AltRaceView: View {
                         } else {
                             // Show current time
                             VStack(spacing: -10) {
-                                Text(hourString(from: currentTime))
-                                    .scaleEffect(x:1, y:0.9)
-                                    .foregroundColor(settings.lightMode ? .black : .white)
-                                    .offset(y:isLuminanceReduced ? 10 : 4)
+                                // Hour digits in HStack
+                                ZStack() {
+                                    Text(hourFirstDigit(from: currentTime))
+                                        .scaleEffect(x:1, y:0.9)
+                                        .frame(alignment: .trailing)
+                                        .foregroundColor(settings.lightMode ? .black : .white)
+                                        .offset(x: hourFirstDigit(from: currentTime) == "1" ? -20 : -30)
+
+                                    Text(hourSecondDigit(from: currentTime))
+                                        .scaleEffect(x:1, y:0.9)
+                                        .frame(alignment: .leading)
+                                        .foregroundColor(settings.lightMode ? .black : .white)
+                                        .offset(x: hourSecondDigit(from: currentTime) == "1" ? 20 : 30)
+                                }
+                                .offset(y:isLuminanceReduced ? 6 : 4)
                                 
-                                Text(minuteString(from: currentTime))
-                                    .scaleEffect(x:1, y:0.9)
-                                    .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                    .offset(y:isLuminanceReduced ? -40 : -24)
+                                // Minute digits in HStack
+                                ZStack() {
+                                    Text(minuteFirstDigit(from: currentTime))
+                                        .scaleEffect(x:1, y:0.9)
+                                        .frame(alignment: .trailing)
+                                        .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                        .offset(x: minuteFirstDigit(from: currentTime) == "1" ? -20 : -30)
+                                        
+                                    Text(minuteSecondDigit(from: currentTime))
+                                        .scaleEffect(x:1, y:0.9)
+                                        .frame(alignment: .leading)
+                                        .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                        .offset(x: minuteSecondDigit(from: currentTime) == "1" ? 20 : 30)
+                                }
+                                .offset(y:isLuminanceReduced ? -40 : -24)
                             }
                             .font(.zenithBeta(size: 84, weight: .medium))
                             .scaleEffect(x:1, y:1.3)
@@ -201,6 +223,34 @@ struct AltRaceView: View {
        let formatter = DateFormatter()
        formatter.dateFormat = "mm"
        return formatter.string(from: date)
+    }
+    
+    private func hourFirstDigit(from date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH" // Always use 2-digit format
+        let hourString = formatter.string(from: date)
+        return String(hourString.prefix(1))
+    }
+
+    private func hourSecondDigit(from date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "HH" // Always use 2-digit format
+        let hourString = formatter.string(from: date)
+        return String(hourString.suffix(1))
+    }
+
+    private func minuteFirstDigit(from date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "mm" // Always use 2-digit format
+        let minuteString = formatter.string(from: date)
+        return String(minuteString.prefix(1))
+    }
+
+    private func minuteSecondDigit(from date: Date) -> String {
+        let formatter = DateFormatter()
+        formatter.dateFormat = "mm" // Always use 2-digit format
+        let minuteString = formatter.string(from: date)
+        return String(minuteString.suffix(1))
     }
 }
 

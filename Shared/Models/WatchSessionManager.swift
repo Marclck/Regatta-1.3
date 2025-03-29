@@ -658,7 +658,8 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                     "totalChunks": chunksCount,
                     "startIndex": startIndex,
                     "endIndex": endIndex,
-                    "dataPoints": dataPointDicts
+                    "dataPoints": dataPointDicts,
+                    "dataPointCount": dataPointDicts.count // Simple integrity check
                 ]
                 
                 // Send the chunk
@@ -1264,7 +1265,7 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         }
         
         // Calculate expected chunks
-        let chunkSize = 20
+        let chunkSize = 100
         let totalChunks = dataPointsCount > 0 ? Int(ceil(Double(dataPointsCount) / Double(chunkSize))) : 0
         
         // Store metadata
@@ -1296,7 +1297,23 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             return
         }
         
-        print("📱 Received data points chunk \(chunkIndex+1)/\(totalChunks) for session \(sessionId)")
+        print("📱 Debug - Received chunk \(chunkIndex): startIndex=\(startIndex), endIndex=\(endIndex), dataPointsCount=\(dataPointsArray.count)")
+        if chunkIndex == 0 {
+            print("📱 Processing chunk 0 - extra verification")
+            // Validate more carefully, possibly with looser requirements
+        }
+        
+//        print("📱 Received data points chunk \(chunkIndex+1)/\(totalChunks) for session \(sessionId)")
+        
+        // Simple count validation - Do this BEFORE processing the chunk
+        if let expectedCount = message["dataPointCount"] as? Int {
+            if dataPointsArray.count != expectedCount {
+                print("📱 Data integrity check failed: expected \(expectedCount) data points, got \(dataPointsArray.count)")
+                // Request resend but limit attempts
+                requestChunkResend(sessionId: sessionId, chunkIndex: chunkIndex)
+                return
+            }
+        }
         
         // Check if we have metadata for this session
         guard var sessionData = receivingSessionsData[sessionId] else {
@@ -1371,6 +1388,63 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
         if sessionData.isComplete {
             print("📱 All chunks received for session \(sessionId), completing")
             completeSession(sessionId)
+        }
+    }
+    
+    // Add to iPhone-side WatchSessionManager
+    private var chunkResendAttempts: [String: Int] = [:]
+    private let maxResendAttempts = 2
+
+    private func requestChunkResend(sessionId: String, chunkIndex: Int) {
+        // Create a unique key for this chunk
+        let resendKey = "\(sessionId)_\(chunkIndex)"
+        
+        // Get current attempts
+        let attempts = chunkResendAttempts[resendKey] ?? 0
+        
+        // If we've tried too many times, give up and accept what we have
+        if attempts >= maxResendAttempts {
+            print("📱 Max resend attempts (\(maxResendAttempts)) reached for chunk \(chunkIndex) - accepting anyway")
+            
+            // Force accept the chunk even with issues
+            if var sessionData = receivingSessionsData[sessionId] {
+                sessionData.receivedChunks.insert(chunkIndex)
+                receivingSessionsData[sessionId] = sessionData
+                
+                // Check if this completes the session
+                if sessionData.isComplete {
+                    print("📱 All chunks now marked as received, completing session")
+                    completeSession(sessionId)
+                }
+            }
+            return
+        }
+        
+        // Increment the attempt count
+        chunkResendAttempts[resendKey] = attempts + 1
+        print("📱 Requesting resend of chunk \(chunkIndex) for session \(sessionId) (attempt \(attempts + 1)/\(maxResendAttempts))")
+        
+        // Send the resend request
+        if let session = self.session, session.isReachable {
+            let resendRequest: [String: Any] = [
+                "messageType": "resend_chunk_request",
+                "sessionId": sessionId,
+                "chunkIndex": chunkIndex,
+                "attemptCount": attempts + 1
+            ]
+            
+            session.sendMessage(resendRequest, replyHandler: { _ in
+                print("📱 Resend request acknowledged")
+            }, errorHandler: { error in
+                print("📱 Failed to request resend: \(error)")
+            })
+        }
+    }
+    
+    private func debugChunkZero(_ message: [String: Any]) {
+        print("📱 CHUNK ZERO DEBUG:")
+        for (key, value) in message {
+            print("  \(key): \(value)")
         }
     }
     
