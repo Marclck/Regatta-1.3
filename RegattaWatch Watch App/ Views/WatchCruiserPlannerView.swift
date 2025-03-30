@@ -75,7 +75,7 @@ class WatchCruisePlanState: ObservableObject {
         } else if isPaused {
             return "\(plannerManager.currentPlanName) Plan Paused"
         } else {
-            return "Not in progress"
+            return "\(plannerManager.currentPlanName) Loaded"
         }
     }
     
@@ -146,6 +146,17 @@ struct WatchCruisePlannerView: View {
     @State private var showingMap: Bool = false
     @ObservedObject var activeWaypointManager = ActiveWaypointManager.shared
 
+    // Helper function to scroll to active waypoint
+    private func scrollToActiveWaypoint(proxy: ScrollViewProxy) {
+        // Only scroll if cruise plan is active and we have an active waypoint
+        if cruisePlanState.isActive,
+           let activeWaypoint = activeWaypointManager.activeWaypoint {
+            withAnimation {
+                proxy.scrollTo(activeWaypoint.id, anchor: .center)
+            }
+        }
+    }
+    
     var body: some View {
         VStack(spacing: 8) {
             // Status indicator
@@ -162,19 +173,26 @@ struct WatchCruisePlannerView: View {
             }
             
             // Waypoint list
-            List {
-                if plannerManager.currentPlan.isEmpty {
-                    Text("No waypoints available")
-                        .foregroundColor(.gray)
-                        .font(.caption)
-                        .listRowBackground(Color.clear)
-                } else {
-                    ForEach(plannerManager.currentPlan) { waypoint in
-                        WaypointRow(
-                            waypoint: waypoint,
-                            isActive: cruisePlanState.isActive &&
-                                     activeWaypointManager.activeWaypoint?.id == waypoint.id
-                        )                            .contentShape(Rectangle())
+            ScrollViewReader { scrollProxy in
+                List {
+                    if plannerManager.currentPlan.isEmpty {
+                        Text("No waypoints available")
+                            .foregroundColor(.gray)
+                            .font(.caption)
+                            .listRowBackground(Color.clear)
+                    } else {
+                        ForEach(plannerManager.currentPlan) { waypoint in
+                            WaypointRow(
+                                waypoint: waypoint,
+                                isActive: cruisePlanState.isActive &&
+                                         activeWaypointManager.activeWaypoint?.id == waypoint.id
+                            )
+                            .listRowBackground(RoundedRectangle(cornerRadius: 15)
+                                .fill(cruisePlanState.isActive &&
+                                     activeWaypointManager.activeWaypoint?.id == waypoint.id ?
+                                      Color.green.opacity(0.3) : Color.white.opacity(0.3))
+                            )
+                            .contentShape(Rectangle())
                             .onTapGesture {
                                 // Open the waypoint in the native Maps app
                                 let coordinate = CLLocationCoordinate2D(
@@ -186,18 +204,32 @@ struct WatchCruisePlannerView: View {
                                 mapItem.name = "Waypoint \(waypoint.order + 1)"
                                 mapItem.openInMaps()
                             }
+                            .id(waypoint.id) // Add id to enable scrolling to this item
+                        }
+                    }
+                    
+                    if let lastUpdate = plannerManager.lastUpdateTime {
+                        HStack {
+                            Spacer()
+                            Text("Last updated: \(timeAgoString(from: lastUpdate))")
+                                .font(.caption2)
+                                .foregroundColor(.gray)
+                            Spacer()
+                        }
+                        .listRowBackground(Color.clear)
                     }
                 }
-                
-                if let lastUpdate = plannerManager.lastUpdateTime {
-                    HStack {
-                        Spacer()
-                        Text("Last updated: \(timeAgoString(from: lastUpdate))")
-                            .font(.caption2)
-                            .foregroundColor(.gray)
-                        Spacer()
+                .listStyle(CarouselListStyle())
+                .onAppear {
+                    scrollToActiveWaypoint(proxy: scrollProxy)
+                }
+                .onChange(of: activeWaypointManager.activeWaypoint) { _ in
+                    scrollToActiveWaypoint(proxy: scrollProxy)
+                }
+                .onChange(of: cruisePlanState.isActive) { isActive in
+                    if isActive {
+                        scrollToActiveWaypoint(proxy: scrollProxy)
                     }
-                    .listRowBackground(Color.clear)
                 }
             }
             .listStyle(CarouselListStyle())

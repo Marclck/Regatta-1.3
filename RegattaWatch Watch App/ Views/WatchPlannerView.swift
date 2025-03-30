@@ -104,24 +104,29 @@ struct WaypointRow: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 4) {
             HStack {
-                Text("Waypoint \(waypoint.order + 1)")
-                    .font(.headline)
-                    .foregroundColor(.white)
-                
-                Spacer()
-            }
-            
-            HStack {
+                let symbolName = "\(waypoint.order + 1).circle.fill"
+                Image(systemName: symbolName)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(
+                        .white,                       // Number color (primary)
+                        isActive ? .green : .blue     // Circle fill color (secondary)
+                    )
+                    .font(.system(size: 24, weight: .bold))
                 Image(systemName: "mappin.circle.fill")
-                    .foregroundColor(isActive ? .green : .blue)
+                    .symbolRenderingMode(.palette)
+                    .foregroundStyle(
+                        .white,                       // Number color (primary)
+                        isActive ? .green : .blue     // Circle fill color (secondary)
+                    )
+                    .font(.system(size: 24, weight: .bold))
                 Text(waypoint.formattedCoordinates())
                     .font(.system(.caption, design: .monospaced))
                     .foregroundColor(.white.opacity(0.8))
             }
         }
         .padding(.vertical, 4)
-        .padding(isActive ? 6 : 0)
-        .background(
+        .padding(isActive ? 0 : 0)
+        /*.background(
             RoundedRectangle(cornerRadius: 10)
                 .strokeBorder(
                     isActive ? Color.green : Color.clear,
@@ -132,7 +137,7 @@ struct WaypointRow: View {
                     RoundedRectangle(cornerRadius: 10)
                         .fill(isActive ? Color.green.opacity(0.2) : Color.clear)
                 )
-        )
+        )*/
         .animation(.easeInOut(duration: 0.3), value: isActive)
     }
 }

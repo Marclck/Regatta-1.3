@@ -684,7 +684,7 @@ struct RaceSessionMapView: View {
             .foregroundColor(.primary)
             .sheet(isPresented: $showDetailView) {
                 NavigationView {
-                    SessionDetailTestView(session: session)
+                    ModernRaceSessionMapView(session: session)
                         .toolbar {
                             ToolbarItem(placement: .topBarTrailing) {
                                 Button(action: {

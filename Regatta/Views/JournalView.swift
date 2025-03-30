@@ -24,9 +24,12 @@ struct JournalView: View {
     @State private var transferStatus: String? = nil
     @State private var showTransferMessage = false
     
-    // Modified to use Date objects as keys for proper sorting
+    // Add these state variables to control the detail view presentation
+    @State private var selectedSession: RaceSession? = nil
+    @State private var showFullScreenMapView = false
+    
+    // Existing code for groupedSessions()
     private func groupedSessions() -> [(date: Date, dateString: String, sessions: [RaceSession])] {
-        // Existing grouping code remains unchanged
         let formatter = DateFormatter()
         formatter.dateStyle = .medium
         formatter.timeStyle = .none
@@ -43,7 +46,7 @@ struct JournalView: View {
         }.sorted { $0.date > $1.date }
     }
     
-    // Get the most recent start line points
+    // Your existing code for mostRecentStartLine
     private var mostRecentStartLine: (left: LocationData?, right: LocationData?) {
         guard let latestSession = sessionStore.sessions
             .filter({ $0.countdownDuration < 900 })
@@ -53,13 +56,13 @@ struct JournalView: View {
         return (latestSession.leftPoint, latestSession.rightPoint)
     }
     
-    // Check if we have valid start line data
+    // Your existing code for hasValidStartLineData
     private var hasValidStartLineData: Bool {
         return mostRecentStartLine.left != nil || mostRecentStartLine.right != nil
     }
     
+    // Your existing code for setupTransferNotifications
     private func setupTransferNotifications() {
-        // Existing notification setup code remains unchanged
         let notificationCenter = NotificationCenter.default
         let token = notificationCenter.addObserver(
             forName: Notification.Name("WatchTransferAttempt"),
@@ -81,313 +84,346 @@ struct JournalView: View {
     }
     
     var body: some View {
-        NavigationView {
-            ZStack {
-                // Gradient background - IMPORTANT: This must be the first element in the ZStack
-                LinearGradient(
-                    gradient: Gradient(stops: [
-                        .init(color: Color(hex: colorManager.selectedTheme.rawValue), location: 0.0),
-                        .init(color: Color.black, location: 0.3),
-                        .init(color: Color.black, location: 1.0)
-                    ]),
-                    startPoint: .top,
-                    endPoint: .bottom
-                )
-                .ignoresSafeArea()
-                
-                // Content
-                VStack(spacing: 0) {
-                    // Start Line Map - ALWAYS SHOWN
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Text("Current Start Line")
-                                .font(.system(.headline))
-                                .foregroundColor(.white)
-                            
-                            Spacer()
-                            // Refresh button code removed for brevity
-                        }
-                        .padding(.horizontal)
-                        .padding(.top, 8)
-                        
-                        // Show map regardless of data availability
-                        StartLineMapView(
-                            leftPoint: mostRecentStartLine.left,
-                            rightPoint: mostRecentStartLine.right
-                        )
-                        .padding(.top, 4)
-                        .cornerRadius(12)
-                        .padding(.horizontal, 16)
-                        .overlay(
-                            // Show placeholder message when no data is available
-                            Group {
-                                if !hasValidStartLineData {
-                                    ZStack {
-                                        Color.black.opacity(0.6)
-                                            .cornerRadius(12)
-                                        
-                                        VStack(spacing: 8) {
-                                            Image(systemName: "mappin.slash")
-                                                .font(.system(size: 24))
-                                                .foregroundColor(.white.opacity(0.8))
-                                            
-                                            Text("No start line data available")
-                                                .font(.system(.subheadline))
-                                                .foregroundColor(.white)
-                                                .multilineTextAlignment(.center)
-                                            
-                                            Text("Complete a race with start line markers")
-                                                .font(.system(.caption))
-                                                .foregroundColor(.white.opacity(0.7))
-                                                .multilineTextAlignment(.center)
-                                        }
-                                        .padding()
-                                    }
-                                }
-                            }
-                            .padding(.horizontal),
-                            alignment: .center
-                        )
-                        
-                        // Show coordinates only if we have data
-                        if hasValidStartLineData {
-                            HStack {
-                                // Left coordinate
-                                if let left = mostRecentStartLine.left {
-                                    HStack(spacing: 4) {
-                                        Image(systemName: "triangle.fill")
-                                            .foregroundColor(.green)
-                                            .font(.system(size: 12))
-                                        Text(String(format: "(%.4f, %.4f)", left.latitude, left.longitude))
-                                            .font(.system(size: 12, design: .monospaced))
-                                            .foregroundColor(.white.opacity(0.7))
-                                    }
-                                }
-                                
-                                Spacer()
-                                
-                                // Right coordinate
-                                if let right = mostRecentStartLine.right {
-                                    HStack(spacing: 4) {
-                                        Text(String(format: "(%.4f, %.4f)", right.latitude, right.longitude))
-                                            .font(.system(size: 12, design: .monospaced))
-                                            .foregroundColor(.white.opacity(0.7))
-                                        Image(systemName: "square.fill")
-                                            .foregroundColor(.green)
-                                            .font(.system(size: 12))
-                                    }
-                                }
-                            }
-                            .padding(.horizontal)
-                            .padding(.vertical, 4)
-                        } else {
-                            HStack {
-                                // Left coordinate
-                                if let left = mostRecentStartLine.left {
-                                    HStack(spacing: 4) {
-                                        Image(systemName: "triangle.fill")
-                                            .foregroundColor(.green)
-                                            .font(.system(size: 12))
-                                        Text("(--, --)")
-                                            .font(.system(size: 12, design: .monospaced))
-                                            .foregroundColor(.white.opacity(0.7))
-                                    }
-                                }
-                                
-                                Spacer()
-                                
-                                // Right coordinate
-                                if let right = mostRecentStartLine.right {
-                                    HStack(spacing: 4) {
-                                        Text("(--, --)")
-                                            .font(.system(size: 12, design: .monospaced))
-                                            .foregroundColor(.white.opacity(0.7))
-                                        Image(systemName: "square.fill")
-                                            .foregroundColor(.green)
-                                            .font(.system(size: 12))
-                                    }
-                                }
-                            }
-                            .padding(.horizontal)
-                            .padding(.vertical, 4)
-                        }
-                        
-                    }
-                    .materialBackground()
-                    .padding(.horizontal,16)
-                    .padding(.vertical, 8)
+        ZStack {
+            // Main content with NavigationView
+            NavigationView {
+                ZStack {
+                    // Gradient background
+                    LinearGradient(
+                        gradient: Gradient(stops: [
+                            .init(color: Color(hex: colorManager.selectedTheme.rawValue), location: 0.0),
+                            .init(color: Color.black, location: 0.3),
+                            .init(color: Color.black, location: 1.0)
+                        ]),
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .ignoresSafeArea()
                     
-                    // Rest of the view (session list) remains unchanged
-                    Group {
-                        if sessionStore.isLoading {
-                            // Loading view
-                            VStack {
-                                ProgressView()
-                                Text("Loading sessions...")
-                                    .foregroundColor(.white)
-                                    .padding(.top, 8)
-                            }
-                            .frame(maxWidth: .infinity, maxHeight: .infinity)
-                            .padding(.top, 50)
-                        } else if sessionStore.sessions.isEmpty {
-                            // Empty state view
-                            VStack {
-                                Text("No race sessions recorded yet")
-                                    .font(.system(.body, design: .monospaced))
+                    // Content
+                    VStack(spacing: 0) {
+                        // Start Line Map section (your existing code)
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack {
+                                Text("Current Start Line")
+                                    .font(.system(.headline))
                                     .foregroundColor(.white)
                                 
-                                if !sessionStore.isWatchAvailable {
-                                    HStack {
-                                        Image(systemName: "applewatch.slash")
-                                            .foregroundColor(.red)
-                                        Text("Watch not connected")
-                                            .foregroundColor(.red)
-                                    }
-                                    .padding(.top, 12)
-                                    
-                                    Text("Please open the Watch app")
-                                        .foregroundColor(.white.opacity(0.7))
-                                        .padding(.top, 4)
-                                } else {
-                                    Text("Complete a race to see it here")
-                                        .font(.system(.caption, design: .monospaced))
-                                        .foregroundColor(.white.opacity(0.7))
-                                        .padding(.top, 4)
-                                }
+                                Spacer()
                             }
-                            .padding(.top, 50)
-                        } else {
-                            // Sessions list
-                            List {
-                                // Use the sorted array of date groups
-                                ForEach(groupedSessions(), id: \.date) { group in
-                                    Section(header:
-                                        Text(group.dateString)
-                                            .foregroundColor(.white)
-                                            .font(.headline)
-                                    ) {
-                                        ForEach(group.sessions.sorted(by: { $0.date > $1.date }), id: \.date) { session in
-                                            SessionRowView(session: session)
-                                                .listRowBackground(
-                                                    Color.clear
-                                                        .background(.ultraThinMaterial)
-                                                        .environment(\.colorScheme, .dark)
-                                                )
+                            .padding(.horizontal)
+                            .padding(.top, 8)
+                            
+                            // Show map regardless of data availability
+                            StartLineMapView(
+                                leftPoint: mostRecentStartLine.left,
+                                rightPoint: mostRecentStartLine.right
+                            )
+                            .padding(.top, 4)
+                            .cornerRadius(12)
+                            .padding(.horizontal, 16)
+                            .overlay(
+                                // Show placeholder message when no data is available
+                                Group {
+                                    if !hasValidStartLineData {
+                                        ZStack {
+                                            Color.black.opacity(0.6)
+                                                .cornerRadius(12)
+                                            
+                                            VStack(spacing: 8) {
+                                                Image(systemName: "mappin.slash")
+                                                    .font(.system(size: 24))
+                                                    .foregroundColor(.white.opacity(0.8))
+                                                
+                                                Text("No start line data available")
+                                                    .font(.system(.subheadline))
+                                                    .foregroundColor(.white)
+                                                    .multilineTextAlignment(.center)
+                                                
+                                                Text("Complete a race with start line markers")
+                                                    .font(.system(.caption))
+                                                    .foregroundColor(.white.opacity(0.7))
+                                                    .multilineTextAlignment(.center)
+                                            }
+                                            .padding()
                                         }
                                     }
-                                    .listSectionSeparator(.hidden)
                                 }
+                                .padding(.horizontal),
+                                alignment: .center
+                            )
+                            
+                            // Show coordinates based on your existing logic
+                            if hasValidStartLineData {
+                                HStack {
+                                    // Left coordinate
+                                    if let left = mostRecentStartLine.left {
+                                        HStack(spacing: 4) {
+                                            Image(systemName: "triangle.fill")
+                                                .foregroundColor(.green)
+                                                .font(.system(size: 12))
+                                            Text(String(format: "(%.4f, %.4f)", left.latitude, left.longitude))
+                                                .font(.system(size: 12, design: .monospaced))
+                                                .foregroundColor(.white.opacity(0.7))
+                                        }
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    // Right coordinate
+                                    if let right = mostRecentStartLine.right {
+                                        HStack(spacing: 4) {
+                                            Text(String(format: "(%.4f, %.4f)", right.latitude, right.longitude))
+                                                .font(.system(size: 12, design: .monospaced))
+                                                .foregroundColor(.white.opacity(0.7))
+                                            Image(systemName: "square.fill")
+                                                .foregroundColor(.green)
+                                                .font(.system(size: 12))
+                                        }
+                                    }
+                                }
+                                .padding(.horizontal)
+                                .padding(.vertical, 4)
+                            } else {
+                                // Your existing code for when no coordinates are available
+                                HStack {
+                                    // Placeholder text for left coordinate
+                                    HStack(spacing: 4) {
+                                        Image(systemName: "triangle.fill")
+                                            .foregroundColor(.green)
+                                            .font(.system(size: 12))
+                                        Text("(--, --)")
+                                            .font(.system(size: 12, design: .monospaced))
+                                            .foregroundColor(.white.opacity(0.7))
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    // Placeholder text for right coordinate
+                                    HStack(spacing: 4) {
+                                        Text("(--, --)")
+                                            .font(.system(size: 12, design: .monospaced))
+                                            .foregroundColor(.white.opacity(0.7))
+                                        Image(systemName: "square.fill")
+                                            .foregroundColor(.green)
+                                            .font(.system(size: 12))
+                                    }
+                                }
+                                .padding(.horizontal)
+                                .padding(.vertical, 4)
                             }
-                            .listStyle(InsetGroupedListStyle())
-                            .scrollContentBackground(.hidden) // Hide default list background
+                        }
+                        .materialBackground()
+                        .padding(.horizontal,16)
+                        .padding(.vertical, 8)
+                        
+                        // Sessions list section (modified to handle taps)
+                        Group {
+                            if sessionStore.isLoading {
+                                // Loading view (your existing code)
+                                VStack {
+                                    ProgressView()
+                                    Text("Loading sessions...")
+                                        .foregroundColor(.white)
+                                        .padding(.top, 8)
+                                }
+                                .frame(maxWidth: .infinity, maxHeight: .infinity)
+                                .padding(.top, 50)
+                            } else if sessionStore.sessions.isEmpty {
+                                // Empty state view (your existing code)
+                                VStack {
+                                    Text("No race sessions recorded yet")
+                                        .font(.system(.body, design: .monospaced))
+                                        .foregroundColor(.white)
+                                    
+                                    if !sessionStore.isWatchAvailable {
+                                        HStack {
+                                            Image(systemName: "applewatch.slash")
+                                                .foregroundColor(.red)
+                                            Text("Watch not connected")
+                                                .foregroundColor(.red)
+                                        }
+                                        .padding(.top, 12)
+                                        
+                                        Text("Please open the Watch app")
+                                            .foregroundColor(.white.opacity(0.7))
+                                            .padding(.top, 4)
+                                    } else {
+                                        Text("Complete a race to see it here")
+                                            .font(.system(.caption, design: .monospaced))
+                                            .foregroundColor(.white.opacity(0.7))
+                                            .padding(.top, 4)
+                                    }
+                                }
+                                .padding(.top, 50)
+                            } else {
+                                // Sessions list with tap handler
+                                List {
+                                    ForEach(groupedSessions(), id: \.date) { group in
+                                        Section(header:
+                                            Text(group.dateString)
+                                                .foregroundColor(.white)
+                                                .font(.headline)
+                                        ) {
+                                            ForEach(group.sessions.sorted(by: { $0.date > $1.date }), id: \.date) { session in
+                                                SessionRowView(session: session)
+                                                    .listRowBackground(
+                                                        Color.clear
+                                                            .background(.ultraThinMaterial)
+                                                            .environment(\.colorScheme, .dark)
+                                                    )
+                                                    .contentShape(Rectangle())
+                                                    .onTapGesture {
+                                                        print("Session row tapped")
+                                                        selectedSession = session
+                                                        withAnimation(.easeInOut(duration: 0.3)) {
+                                                            showFullScreenMapView = true
+                                                        }
+                                                    }
+                                            }
+                                        }
+                                        .listSectionSeparator(.hidden)
+                                    }
+                                }
+                                .listStyle(InsetGroupedListStyle())
+                                .scrollContentBackground(.hidden)
+                            }
                         }
                     }
                 }
-            }
-            // Toolbar and other view modifiers remain unchanged
-            .toolbar {
-                // Existing toolbar content
-                ToolbarItem(placement: .topBarLeading) {
-                    Text("Journal")
-                        .foregroundColor(.white)
-                        .font(.largeTitle)
-                        .fontWeight(.semibold)
-                }
-                
-                ToolbarItem(placement: .topBarTrailing) {
-                    // Existing refresh button
-                    Button(action: {
-                        // Refresh action code
-                        // Show immediate feedback
-                        transferStatus = "Requesting sessions from Watch..."
-                        showTransferMessage = true
-                        
-                        // Update watch availability first
-                        sessionStore.updateWatchAvailability()
-                        
-                        // Try force transfer immediately instead of normal refresh
-                        WatchSessionManager.shared.requestForceTransfer()
-                        
-                        // Add slight delay then try normal refresh as backup
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
-                            sessionStore.refreshSessions()
-                        }
-                        
-                        // If still nothing after a few seconds, try resetting transfer state
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
-                            if !sessionStore.isWatchAvailable || self.transferStatus == "Requesting sessions from Watch..." {
-                                WatchSessionManager.shared.resetTransferState()
-                                self.transferStatus = "Reset connection - please try again"
-                                
-                                // Keep message visible longer after reset
-                                DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                                    withAnimation {
+                .toolbar {
+                    // Your existing toolbar content
+                    ToolbarItem(placement: .topBarLeading) {
+                        Text("Journal")
+                            .foregroundColor(.white)
+                            .font(.largeTitle)
+                            .fontWeight(.semibold)
+                    }
+                    
+                    ToolbarItem(placement: .topBarTrailing) {
+                        // Your existing refresh button
+                        Button(action: {
+                            // Refresh action code
+                            transferStatus = "Requesting sessions from Watch..."
+                            showTransferMessage = true
+                            
+                            sessionStore.updateWatchAvailability()
+                            WatchSessionManager.shared.requestForceTransfer()
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                                sessionStore.refreshSessions()
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 4.0) {
+                                if !sessionStore.isWatchAvailable || self.transferStatus == "Requesting sessions from Watch..." {
+                                    WatchSessionManager.shared.resetTransferState()
+                                    self.transferStatus = "Reset connection - please try again"
+                                    
+                                    DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                        withAnimation {
+                                            self.showTransferMessage = false
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                                withAnimation {
+                                    if self.transferStatus == "Requesting sessions from Watch..." {
                                         self.showTransferMessage = false
                                     }
                                 }
                             }
-                        }
-                        
-                        // Hide default message after delay if no updates
-                        DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
-                            withAnimation {
-                                if self.transferStatus == "Requesting sessions from Watch..." {
-                                    self.showTransferMessage = false
+                        }) {
+                            HStack(spacing: 4) {
+                                if !sessionStore.isWatchAvailable {
+                                    Image(systemName: "applewatch.slash")
+                                        .foregroundColor(.red)
+                                        .font(.system(size: 12))
+                                } else {
+                                    Image(systemName: "applewatch")
+                                        .foregroundColor(.green)
+                                        .font(.system(size: 12))
                                 }
+                                Text("Refresh")
+                                    .font(.system(.subheadline))
                             }
+                            .padding(.horizontal, 8)
+                            .padding(.vertical, 8)
+                            .foregroundColor(.white)
+                            .background(Color.white.opacity(0.3))
+                            .cornerRadius(18)
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 18)
+                                    .stroke(Color.white.opacity(0.5), lineWidth: 1))
                         }
-                    }) {
-                        HStack(spacing: 4) {
-                            if !sessionStore.isWatchAvailable {
-                                Image(systemName: "applewatch.slash")
-                                    .foregroundColor(.red)
-                                    .font(.system(size: 12))
-                            } else {
-                                Image(systemName: "applewatch")
-                                    .foregroundColor(.green)
-                                    .font(.system(size: 12))
-                            }
-                            Text("Refresh")
-                                .font(.system(.subheadline))
-                        }
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 8)
-                        .foregroundColor(.white)
-                        .background(Color.white.opacity(0.3))
-                        .cornerRadius(18)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 18)
-                                .stroke(Color.white.opacity(0.5), lineWidth: 1))
                     }
+                }
+                .navigationBarTitleDisplayMode(.inline)
+                .toolbarBackground(.hidden, for: .navigationBar)
+                .refreshable {
+                    // Your existing refreshable code
+                    print("📱 JournalView: Pull to refresh triggered")
+                    sessionStore.updateWatchAvailability()
+                    await withCheckedContinuation { continuation in
+                        Task { @MainActor in
+                            if !sessionStore.isWatchAvailable {
+                                try? await Task.sleep(nanoseconds: 1_500_000_000)
+                            }
+                            sessionStore.refreshSessions()
+                            try? await Task.sleep(nanoseconds: 500_000_000)
+                            continuation.resume()
+                        }
+                    }
+                    print("📱 JournalView: Refresh completed")
                 }
             }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(.hidden, for: .navigationBar)
-            .refreshable {
-                // Existing refreshable logic
-                print("📱 JournalView: Pull to refresh triggered")
+            
+            // IMPORTANT: Full screen map overlay - completely covers everything when active
+            if showFullScreenMapView, let session = selectedSession {
+                Color.black
+                    .ignoresSafeArea()
+                    .transition(.opacity)
                 
-                // Check if watch is available first
-                sessionStore.updateWatchAvailability()
-                
-                await withCheckedContinuation { continuation in
-                    Task { @MainActor in
-                        // First display a message if watch isn't available
-                        if !sessionStore.isWatchAvailable {
-                            // This will show briefly when the watch isn't available
-                            try? await Task.sleep(nanoseconds: 1_500_000_000) // 1.5 seconds
+                ModernRaceSessionMapView(session: session)
+                    .ignoresSafeArea()
+                    .transition(.move(edge: .bottom))
+                    .overlay(alignment: .topLeading) {
+                        // Custom back button to exit the map view
+                        Button(action: {
+                            print("Back button tapped")
+                            withAnimation(.easeInOut(duration: 0.3)) {
+                                showFullScreenMapView = false
+                            }
+                        }) {
+                            ZStack {
+                                Circle()
+                                    .fill(Color.black.opacity(0.6))
+                                    .frame(width: 36, height: 36)
+                                
+                                Image(systemName: "xmark")
+                                    .foregroundColor(.white)
+                                    .font(.system(size: 16, weight: .bold))
+                            }
                         }
-                        
-                        // Perform the refresh
-                        sessionStore.refreshSessions()
-                        
-                        // Slight delay to ensure UI shows refresh happening
-                        try? await Task.sleep(nanoseconds: 500_000_000) // 0.5 seconds
-                        continuation.resume()
+                        .padding(.leading, 16)
                     }
+                    .zIndex(100) // Ensure this is above everything else
+            }
+            
+            // Transfer message toast (if you have it)
+            if showTransferMessage, let status = transferStatus {
+                VStack {
+                    Spacer()
+                    Text(status)
+                        .foregroundColor(.white)
+                        .padding()
+                        .background(Color.black.opacity(0.7))
+                        .cornerRadius(10)
+                        .padding(.bottom, 20)
                 }
-                
-                print("📱 JournalView: Refresh completed")
+                .transition(.move(edge: .bottom))
+                .zIndex(200) // Above everything else
             }
         }
         .onAppear {
@@ -401,7 +437,6 @@ struct JournalView: View {
 
 struct SessionRowView: View {
     let session: RaceSession
-    @State private var showMapView = false
     
     private var raceStats: (topSpeed: Double?, avgSpeed: Double?) {
         guard let raceStartTime = session.raceStartTime else {
@@ -463,101 +498,76 @@ struct SessionRowView: View {
     }
     
     var body: some View {
-        Button(action: {
-            showMapView = true
-        }) {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack {
-                    Text("\(session.formattedTime()) \(session.timeZoneString())")
-                        .font(.system(.headline))
-                        .foregroundColor(.white)
-                    
-                    Spacer()
-                    
-                    Image(systemName: "map")
-                        .foregroundColor(.white)
-                        .font(.system(size: 16))
-                }
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text("\(session.formattedTime()) \(session.timeZoneString())")
+                    .font(.system(.headline))
+                    .foregroundColor(.white)
                 
-                HStack {
-                    if session.countdownDuration > 900 {
-                        Text("Cruise")
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
-                            .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.3))
-                            .cornerRadius(8)
-                    } else {
-                        Text("Countdown: \(session.countdownDuration) min")
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 4)
-                            .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
-                            .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.3))
-                            .cornerRadius(8)
-                    }
-                    Spacer()
-                    Text("Duration: \(session.formattedRaceTime)")
-                        .foregroundColor(.white.opacity(0.8))
-                }
-                .font(.system(.subheadline, weight: .bold))
+                Spacer()
                 
-                HStack {
-                    Text(avgSpeedDisplay)
-                    Spacer()
-                    Text(maxSpeedDisplay)
-                }
-                .font(.system(.caption, design: .monospaced))
-                .foregroundColor(.white.opacity(0.7))
-                
-                HStack {
-                    if session.countdownDuration < 31 {
-                        Image(systemName: "triangle.fill")
-                            .foregroundColor(.green)
-                            .font(.system(size: 12))
-                        Text(leftCoordinate)
-                        Spacer()
-                        Text(rightCoordinate)
-                        Image(systemName: "square.fill")
-                            .foregroundColor(.green)
-                            .font(.system(size: 12))
-                    } else {
-                        Image(systemName: "circle.fill")
-                            .foregroundColor(.green)
-                            .font(.system(size: 12))
-                        Text(leftCoordinate)
-                        Spacer()
-                        Text(rightCoordinate)
-                        Image(systemName: "circle.fill")
-                            .foregroundColor(.red)
-                            .font(.system(size: 12))
-                    }
-                }
-                .font(.system(.caption, design: .monospaced))
-                .foregroundColor(.white.opacity(0.7))
+                Image(systemName: "map")
+                    .foregroundColor(.white)
+                    .font(.system(size: 16))
             }
-            .padding(.vertical, 4)
-        }
-        .buttonStyle(PlainButtonStyle())
-        .contentShape(Rectangle())
-        .sheet(isPresented: $showMapView) {
-            NavigationView {
-                ScrollView {
-                    RaceSessionMapView(session: session)
-                        .padding(.vertical)
+            
+            HStack {
+                if session.countdownDuration > 900 {
+                    Text("Cruise")
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
+                        .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.3))
+                        .cornerRadius(8)
+                } else {
+                    Text("Countdown: \(session.countdownDuration) min")
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
+                        .background(Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.3))
+                        .cornerRadius(8)
                 }
-                .navigationTitle("Session Data")
-                .navigationBarTitleDisplayMode(.inline)
-                .toolbar {
-                    ToolbarItem(placement: .navigationBarTrailing) {
-                        Button("Done") {
-                            showMapView = false
-                        }
-                    }
-                }
-                .background(Color.black)
+                Spacer()
+                Text("Duration: \(session.formattedRaceTime)")
+                    .foregroundColor(.white.opacity(0.8))
             }
-            .environment(\.colorScheme, .dark)
+            .font(.system(.subheadline, weight: .bold))
+            
+            HStack {
+                Text(avgSpeedDisplay)
+                Spacer()
+                Text(maxSpeedDisplay)
+            }
+            .font(.system(.caption, design: .monospaced))
+            .foregroundColor(.white.opacity(0.7))
+            
+            HStack {
+                if session.countdownDuration < 31 {
+                    Image(systemName: "triangle.fill")
+                        .foregroundColor(.green)
+                        .font(.system(size: 12))
+                    Text(leftCoordinate)
+                    Spacer()
+                    Text(rightCoordinate)
+                    Image(systemName: "square.fill")
+                        .foregroundColor(.green)
+                        .font(.system(size: 12))
+                } else {
+                    Image(systemName: "circle.fill")
+                        .foregroundColor(.green)
+                        .font(.system(size: 12))
+                    Text(leftCoordinate)
+                    Spacer()
+                    Text(rightCoordinate)
+                    Image(systemName: "circle.fill")
+                        .foregroundColor(.red)
+                        .font(.system(size: 12))
+                }
+            }
+            .font(.system(.caption, design: .monospaced))
+            .foregroundColor(.white.opacity(0.7))
         }
+        .padding(.vertical, 4)
     }
 }
     

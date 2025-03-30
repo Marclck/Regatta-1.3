@@ -113,13 +113,13 @@ struct AltRaceView: View {
                                         .scaleEffect(x:1, y:0.9)
                                         .frame(alignment: .trailing)
                                         .foregroundColor(settings.lightMode ? .black : .white)
-                                        .offset(x: hourFirstDigit(from: currentTime) == "1" ? -20 : -30)
+                                        .offset(x: hourFirstDigit(from: currentTime) == "1" ? -19 : -29)
 
                                     Text(hourSecondDigit(from: currentTime))
                                         .scaleEffect(x:1, y:0.9)
                                         .frame(alignment: .leading)
                                         .foregroundColor(settings.lightMode ? .black : .white)
-                                        .offset(x: hourSecondDigit(from: currentTime) == "1" ? 20 : 30)
+                                        .offset(x: hourSecondDigit(from: currentTime) == "1" ? 19 : 29)
                                 }
                                 .offset(y:isLuminanceReduced ? 6 : 4)
                                 
@@ -129,13 +129,13 @@ struct AltRaceView: View {
                                         .scaleEffect(x:1, y:0.9)
                                         .frame(alignment: .trailing)
                                         .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                        .offset(x: minuteFirstDigit(from: currentTime) == "1" ? -20 : -30)
+                                        .offset(x: minuteFirstDigit(from: currentTime) == "1" ? -19 : -29)
                                         
                                     Text(minuteSecondDigit(from: currentTime))
                                         .scaleEffect(x:1, y:0.9)
                                         .frame(alignment: .leading)
                                         .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                        .offset(x: minuteSecondDigit(from: currentTime) == "1" ? 20 : 30)
+                                        .offset(x: minuteSecondDigit(from: currentTime) == "1" ? 19 : 29)
                                 }
                                 .offset(y:isLuminanceReduced ? -40 : -24)
                             }
