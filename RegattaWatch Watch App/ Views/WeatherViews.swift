@@ -13,6 +13,9 @@ import CoreMotion
 
 // MARK: - Weather Manager
 class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
+    // Make WeatherManager a singleton for shared access
+    static let shared = WeatherManager()
+    
     @Published var windSpeed: Double = 0
     @Published var windDirection: Double = 0
     @Published var cardinalDirection: String = "N"
@@ -25,7 +28,13 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     @Published var nauticalSunrise: Date?
     @Published var nauticalSunset: Date?
     @Published var moonPhase: MoonPhase = .new
-
+    
+    // Add a flag to track if data is already available
+    private var hasData: Bool = false
+    // Add a timestamp for the last update
+    private var lastUpdateTime: Date?
+    // Add a minimum interval between forced updates (e.g., 5 minutes)
+    private let minimumUpdateInterval: TimeInterval = 300
 
     private let weatherService = WeatherService.shared
     private let locationManager = CLLocationManager()
@@ -33,6 +42,7 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     private weak var lastReadingManager: LastReadingManager?
     
+    // Private initializer for singleton
     override init() {
         super.init()
         locationManager.delegate = self
@@ -43,6 +53,17 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func setLastReadingManager(_ manager: LastReadingManager) {
         self.lastReadingManager = manager
+        
+        // If we already have weather data, immediately update the LastReadingManager
+        if self.hasData {
+            manager.updateWeatherData(
+                windSpeed: self.windSpeed,
+                windDirection: self.windDirection,
+                windCardinalDirection: self.cardinalDirection,
+                temperature: self.currentTemp,
+                condition: self.condition
+            )
+        }
     }
     
     private func setupLocation() {
@@ -52,7 +73,25 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let location = locations.last else { return }
-        updateWeather(for: location)
+        
+        // Check if we need to update or have recent data
+        if shouldUpdateWeather() {
+            updateWeather(for: location)
+        }
+    }
+    
+    // New method to determine if we should update weather
+    private func shouldUpdateWeather() -> Bool {
+        // Always update if we have no data
+        if !hasData { return true }
+        
+        // Don't update if we recently updated
+        if let lastUpdate = lastUpdateTime,
+           Date().timeIntervalSince(lastUpdate) < minimumUpdateInterval {
+            return false
+        }
+        
+        return true
     }
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
@@ -73,8 +112,23 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
     
+    // Public method to force an update if needed
+    func requestWeatherUpdate() {
+        guard let location = locationManager.location else { return }
+        
+        if shouldUpdateWeather() {
+            updateWeather(for: location)
+        } else {
+            print("🌤️ Skipping weather update - recent data already available")
+        }
+    }
+    
     private func updateWeather(for location: CLLocation) {
+        // Don't start a new request if we're already loading
+        if isLoading { return }
+        
         isLoading = true
+        print("🌤️ Starting weather update")
         
         Task {
             do {
@@ -102,7 +156,11 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                     self.nauticalSunset = dayWeather.sun.nauticalDusk
                     self.moonPhase = dayWeather.moon.phase
                     
-                    // NEW CODE: Update LastReadingManager with weather data if available
+                    // Update hasData and lastUpdateTime
+                    self.hasData = true
+                    self.lastUpdateTime = Date()
+                    
+                    // Update LastReadingManager with weather data if available
                     if let lastReadingManager = self.lastReadingManager {
                         lastReadingManager.updateWeatherData(
                             windSpeed: self.windSpeed,
@@ -141,8 +199,28 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                 }
             } catch {
                 DispatchQueue.main.async { [weak self] in
-                    self?.error = "Weather error: \(error.localizedDescription)"
-                    self?.isLoading = false
+                    guard let self = self else { return }
+                    
+                    // Check if LastReadingManager has weather data we can use
+                    if let lastReadingManager = self.lastReadingManager,
+                       lastReadingManager.windSpeed > 0 {
+                        // Use cached data from LastReadingManager
+                        self.windSpeed = lastReadingManager.windSpeed
+                        self.windDirection = lastReadingManager.windDirection
+                        self.cardinalDirection = lastReadingManager.windCardinalDirection
+                        self.currentTemp = lastReadingManager.temperature
+                        self.condition = lastReadingManager.weatherCondition
+                        
+                        self.hasData = true  // Mark that we have data, even if it's cached
+                        
+                        print("⚠️ Weather fetch failed, using cached data from LastReadingManager")
+                        self.error = "Weather unavailable. Using cached data."
+                    } else {
+                        self.error = "Weather error: \(error.localizedDescription)"
+                    }
+                    
+                    self.isLoading = false
+                    self.scheduleNextUpdate()
                 }
                 print("Error fetching weather: \(error)")
             }
@@ -164,7 +242,6 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         }
     }
     
-    
     private func scheduleNextUpdate() {
         timer?.invalidate()
         timer = Timer.scheduledTimer(withTimeInterval: 600, repeats: false) { [weak self] _ in
@@ -185,6 +262,7 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
         locationManager.stopUpdatingLocation()
     }
 }
+
 // MARK: - Pressure Manager
 class PressureManager: ObservableObject {
     @Published var currentPressure: Double = 0
@@ -350,10 +428,11 @@ class CompassManager: NSObject, ObservableObject, CLLocationManagerDelegate {
 struct WindSpeedView: View {
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var colorManager: ColorManager
-    @StateObject private var weatherManager = WeatherManager()
+    // Use shared WeatherManager instead of creating a new instance
+    @ObservedObject private var weatherManager = WeatherManager.shared
     @StateObject private var compassManager = CompassManager()
-    @ObservedObject var courseTracker: CourseTracker  // Use existing CourseTracker
-    @ObservedObject var lastReadingManager: LastReadingManager  // Use existing LastReadingManager
+    @ObservedObject var courseTracker: CourseTracker
+    @ObservedObject var lastReadingManager: LastReadingManager
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
     @State private var showingTWA: Bool = false
     
@@ -468,6 +547,7 @@ struct WindSpeedView: View {
         .onAppear {
             compassManager.startUpdates()
             weatherManager.setLastReadingManager(lastReadingManager)
+            // No need to manually update weather - the shared manager handles it
         }
         .onDisappear {
             compassManager.stopUpdates()
@@ -481,14 +561,17 @@ struct CompassView: View {
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var colorManager: ColorManager
     @StateObject private var compassManager = CompassManager()
-    @StateObject private var weatherManager = WeatherManager()
-    @State private var showingSunMoon: Bool = false
-    @State private var showingPlannerSheet: Bool = false  // New state for showing planner sheet
+    // Use shared WeatherManager instead of creating a new instance
+    @ObservedObject private var weatherManager = WeatherManager.shared
+    @State private var showingPlannerSheet: Bool = false
     @ObservedObject var cruisePlanState: WatchCruisePlanState
 
     // Use the shared direction manager to access waypoint data
     @ObservedObject private var waypointDirectionManager = WaypointDirectionManager.shared
 
+    // Add reference to ContentView's showingWatchFace
+    @Binding var showingWatchFace: Bool
+    
     private func getNorthPosition(heading: Double, isReduced: Bool) -> CGPoint {
         if isReduced {
             return CGPoint(x: 0, y: 0)
@@ -526,7 +609,7 @@ struct CompassView: View {
         Button(action: {
             WKInterfaceDevice.current().play(.click)
             withAnimation(.easeInOut(duration: 0.2)) {
-                showingPlannerSheet = true  // Show the planner sheet instead of toggling sunMoon
+                showingPlannerSheet = true
             }
         }) {
             ZStack {
@@ -601,15 +684,26 @@ struct CompassView: View {
         .buttonStyle(PlainButtonStyle())
         .onAppear {
             compassManager.startUpdates()
-            
-            // Debug output for waypoint direction
             print("💠 CompassView appeared: Waypoint direction active=\(waypointDirectionManager.isActive)")
         }
         .onDisappear {
             compassManager.stopUpdates()
         }
-        .sheet(isPresented: $showingPlannerSheet) {
-            // Present the WatchPlannerView as a sheet
+        .sheet(isPresented: $showingPlannerSheet, onDismiss: {
+            // Trigger double toggle of showingWatchFace
+            // First toggle
+            withAnimation {
+                showingWatchFace.toggle()
+            }
+            
+            // Second toggle with a slight delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                withAnimation {
+                    showingWatchFace.toggle()
+                }
+                print("!! Double toggle of watchface completed")
+            }
+        }) {
             NavigationView {
                 WatchCruisePlannerView()
                     .navigationTitle("Race Plan")
@@ -629,7 +723,8 @@ struct CompassView: View {
 struct BarometerView: View {
     @EnvironmentObject var settings: AppSettings
     @StateObject private var pressureManager = PressureManager()
-    @StateObject private var weatherManager = WeatherManager()
+    // Use shared WeatherManager instead of creating a new instance
+    @ObservedObject private var weatherManager = WeatherManager.shared
     @EnvironmentObject var colorManager: ColorManager
     @State private var showingPressure: Bool = false
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
@@ -674,24 +769,6 @@ struct BarometerView: View {
             if showingPressure /*&& pressureManager.isAvailable*/ {
                 // Pressure Display
                 SunMoonView()
-/*
-                VStack(spacing: 0) {
-                    Text(trendSymbol)
-                        .font(.system(size: 10))
-                        .foregroundColor(settings.lightMode ? .black : .white)
-                        .offset(y:-2)
-                    
-                    Text(String(format: "%.0f", pressureManager.currentPressure))
-                        .font(.zenithBeta(size: 18, weight: .medium))
-                        .foregroundColor(settings.lightMode ? .black : .white)
-                        .offset(y:-2)
-                    
-                    Text("hPa")
-                        .font(.zenithBeta(size: 10, weight: .medium))
-                        .foregroundColor(settings.lightMode ? .black : .white)
-                        .offset(y:-4)
-                }
-                */
             } else {
                 // Temperature Display
                 VStack(spacing: 0) {
@@ -714,11 +791,9 @@ struct BarometerView: View {
             }
         }
         .onTapGesture {
-//            if pressureManager.isAvailable {
-                WKInterfaceDevice.current().play(.click)
-                withAnimation(.easeInOut(duration: 0.2)) {
-                    showingPressure.toggle()
-//                }
+            WKInterfaceDevice.current().play(.click)
+            withAnimation(.easeInOut(duration: 0.2)) {
+                showingPressure.toggle()
             }
         }
     }

@@ -25,6 +25,8 @@ struct AltRaceView: View {
     @State private var showCruiseInfo = true
     @EnvironmentObject var cruisePlanState: WatchCruisePlanState
 
+    @Binding var showingWatchFace: Bool
+    
     var body: some View {
         ZStack {
             if settings.lightMode {
@@ -99,7 +101,10 @@ struct AltRaceView: View {
                             
                             HStack(spacing: 5) {
                                 WindSpeedView(courseTracker: courseTracker, lastReadingManager: lastReadingManager)
-                                CompassView(cruisePlanState: cruisePlanState)
+                                CompassView(
+                                    cruisePlanState: cruisePlanState,
+                                    showingWatchFace: $showingWatchFace
+                                )
                                 BarometerView()
                             }
                             .offset(y:settings.ultraModel ? 15 : 10)

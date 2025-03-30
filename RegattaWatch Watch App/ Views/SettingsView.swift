@@ -241,12 +241,13 @@ struct SettingsView: View {
     
     var body: some View {
         VStack(spacing: 0) {
-            Text("Settings")
+            /*
+             Text("Settings")
                 .font(.system(size: 17, weight: .semibold))
                 .padding(.horizontal)
                 .padding(.vertical, 8)
             
-            /*
+
             Text("Restart app after change")
                 .font(.system(size: 14))
                 .foregroundColor(.white.opacity(0.4))

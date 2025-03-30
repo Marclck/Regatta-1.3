@@ -221,9 +221,15 @@ struct ContentView: View {
         ZStack {
             if showingWatchFace {
                 if settings.showRaceInfo {
-                    WatchFaceView(timerState: timerState, cruisePlanState: cruisePlanState)
+                    WatchFaceView(
+                        showingWatchFace: $showingWatchFace, timerState: timerState,
+                        cruisePlanState: cruisePlanState
+                    )
                 } else {
-                    AltRaceView(timerState: timerState)
+                    AltRaceView(
+                        timerState: timerState,
+                        showingWatchFace: $showingWatchFace
+                    )
                 }
             } else {
                 TimerView(timerState: timerState, showStartLine: $showStartLine)
@@ -324,14 +330,33 @@ struct ContentView: View {
         }
         
         .sheet(isPresented: $showSettings, onDismiss: {
+            // Original toggle for refreshToggle
             withAnimation {
                 refreshToggle.toggle()
             }
-        }) {
-            if !iapManager.canAccessFeatures(minimumTier: .pro) {
-                SubscriptionOverlay()
+            
+            // First toggle of showingWatchFace
+            withAnimation {
+                showingWatchFace.toggle()
             }
-            SettingsView(showSettings: $showSettings)
+            
+            // Second toggle with a slight delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                withAnimation {
+                    showingWatchFace.toggle()
+                }
+                print("!! Double toggle of watchface completed from settings")
+            }
+        }) {
+            NavigationView {
+                VStack {
+                    if !iapManager.canAccessFeatures(minimumTier: .pro) {
+                        SubscriptionOverlay()
+                    }
+                    SettingsView(showSettings: $showSettings)
+                }
+                .navigationTitle("Settings")
+            }
         }
         .sheet(isPresented: $showPremiumAlert) {
             PremiumAlertView()

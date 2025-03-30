@@ -16,6 +16,7 @@ struct WatchFaceView: View {
     @StateObject private var locationManager = LocationManager()
     @StateObject private var courseTracker = CourseTracker()  // Add CourseTracker
     @StateObject private var lastReadingManager = LastReadingManager()  // Add LastReadingManager
+    @Binding var showingWatchFace: Bool
 
     @ObservedObject var timerState: WatchTimerState
     @State private var timer = Timer.publish(every: 0.01, on: .main, in: .common).autoconnect()
@@ -106,7 +107,10 @@ struct WatchFaceView: View {
                                 WindSpeedView(
                                     courseTracker: courseTracker,
                                     lastReadingManager: lastReadingManager)
-                                CompassView(cruisePlanState: cruisePlanState)
+                                CompassView(
+                                    cruisePlanState: cruisePlanState,
+                                    showingWatchFace: $showingWatchFace
+                                )
                                 BarometerView()
                             }
                             .offset(y:settings.ultraModel ? 15 : 10)
