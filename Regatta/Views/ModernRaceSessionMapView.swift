@@ -27,6 +27,12 @@ struct ModernRaceSessionMapView: View {
     @State private var showFullScreenMap: Bool = false
     @Environment(\.dismiss) private var dismiss
     
+    @State private var filteredLocationPoints: [(location: CLLocationCoordinate2D, speed: Double)] = []
+    @State private var currentZoomLevel: Double? = nil
+    private let maxDisplayPoints = 500
+    @State private var previousPositionState: MapCameraPosition?
+    @State private var zoomLevelState: Double = 1.0
+    
     // Computed stats from SessionRowView
     private var raceStats: (topSpeed: Double?, avgSpeed: Double?, totalDistance: CLLocationDistance?) {
         guard let raceStartTime = session.raceStartTime else {
@@ -76,6 +82,318 @@ struct ModernRaceSessionMapView: View {
         }
     }
     
+    // Add these functions to the ModernRaceSessionMapView struct
+
+    // Filter location points to limit display to ~500 points max while preserving shape
+    private func filterLocationPoints(
+        points: [(location: CLLocationCoordinate2D, speed: Double)],
+        maxPointCount: Int = 500,
+        currentZoomLevel: Double? = nil
+    ) -> [(location: CLLocationCoordinate2D, speed: Double)] {
+        guard points.count > maxPointCount else {
+            // No filtering needed if under the limit
+            return points
+        }
+        
+        // Calculate base epsilon (tolerance) based on total points
+        let baseEpsilon = calculateBaseEpsilon(for: points)
+        
+        // Adjust epsilon based on zoom level if provided
+        let epsilon: Double
+        if let zoomLevel = currentZoomLevel {
+            // Reduce epsilon (more detail) when zoomed in
+            epsilon = baseEpsilon / max(1.0, zoomLevel / 3.0)
+        } else {
+            epsilon = baseEpsilon
+        }
+        
+        // Apply Ramer-Douglas-Peucker algorithm
+        let simplified = applyRamerDouglasPeucker(
+            points: points,
+            epsilon: epsilon,
+            start: 0,
+            end: points.count - 1
+        )
+        
+        // If still too many points after simplification, use adaptive sampling
+        if simplified.count > maxPointCount {
+            return adaptiveSampling(points: simplified, maxCount: maxPointCount)
+        }
+        
+        return simplified
+    }
+
+    // Calculate a base epsilon value for the Ramer-Douglas-Peucker algorithm
+    private func calculateBaseEpsilon(for points: [(location: CLLocationCoordinate2D, speed: Double)]) -> Double {
+        // Find the bounding box of all points
+        let coordinates = points.map { $0.location }
+        let minLat = coordinates.map { $0.latitude }.min() ?? 0
+        let maxLat = coordinates.map { $0.latitude }.max() ?? 0
+        let minLon = coordinates.map { $0.longitude }.min() ?? 0
+        let maxLon = coordinates.map { $0.longitude }.max() ?? 0
+        
+        // Calculate diagonal distance of bounding box (rough approximation)
+        let diagonalLat = maxLat - minLat
+        let diagonalLon = maxLon - minLon
+        let diagonalDistance = sqrt(diagonalLat * diagonalLat + diagonalLon * diagonalLon)
+        
+        // Base epsilon on a fraction of the diagonal
+        // The larger the epsilon, the more aggressive the simplification
+        let fractionOfDiagonal = 0.001 // Adjust based on testing
+        let baseEpsilon = diagonalDistance * fractionOfDiagonal
+        
+        // Scale based on point count - more points need more aggressive filtering
+        let pointCountFactor = Double(points.count) / 1000.0
+        return baseEpsilon * max(1.0, pointCountFactor)
+    }
+
+    // Ramer-Douglas-Peucker algorithm for polyline simplification
+    private func applyRamerDouglasPeucker(
+        points: [(location: CLLocationCoordinate2D, speed: Double)],
+        epsilon: Double,
+        start: Int,
+        end: Int
+    ) -> [(location: CLLocationCoordinate2D, speed: Double)] {
+        guard end > start + 1 else {
+            // Base case: cannot simplify further
+            return Array(points[start...end])
+        }
+        
+        // Find the point with the maximum distance from line segment
+        var maxDistance = 0.0
+        var maxIndex = start
+        
+        let startPoint = points[start].location
+        let endPoint = points[end].location
+        
+        for i in start + 1..<end {
+            let distance = perpendicularDistance(
+                point: points[i].location,
+                lineStart: startPoint,
+                lineEnd: endPoint
+            )
+            
+            if distance > maxDistance {
+                maxDistance = distance
+                maxIndex = i
+            }
+        }
+        
+        // If max distance is greater than epsilon, recursively simplify both segments
+        if maxDistance > epsilon {
+            let firstSegment = applyRamerDouglasPeucker(
+                points: points,
+                epsilon: epsilon,
+                start: start,
+                end: maxIndex
+            )
+            
+            let secondSegment = applyRamerDouglasPeucker(
+                points: points,
+                epsilon: epsilon,
+                start: maxIndex,
+                end: end
+            )
+            
+            // Combine results (excluding duplicate point)
+            return firstSegment.dropLast() + secondSegment
+        } else {
+            // All points in this segment are within epsilon distance, so just keep endpoints
+            return [points[start], points[end]]
+        }
+    }
+
+    // Calculate perpendicular distance from a point to a line segment
+    private func perpendicularDistance(
+        point: CLLocationCoordinate2D,
+        lineStart: CLLocationCoordinate2D,
+        lineEnd: CLLocationCoordinate2D
+    ) -> Double {
+        let x = point.longitude
+        let y = point.latitude
+        let x1 = lineStart.longitude
+        let y1 = lineStart.latitude
+        let x2 = lineEnd.longitude
+        let y2 = lineEnd.latitude
+        
+        // Line equation: (y2-y1)x + (x1-x2)y + (x2y1-x1y2) = 0
+        let a = y2 - y1
+        let b = x1 - x2
+        let c = x2 * y1 - x1 * y2
+        
+        // Distance formula: |ax + by + c| / sqrt(a² + b²)
+        let numerator = abs(a * x + b * y + c)
+        let denominator = sqrt(a * a + b * b)
+        
+        if denominator == 0 {
+            // Points are coincident
+            return 0
+        }
+        
+        return numerator / denominator
+    }
+
+    // Adaptive sampling to further reduce points if needed
+    private func adaptiveSampling(
+        points: [(location: CLLocationCoordinate2D, speed: Double)],
+        maxCount: Int
+    ) -> [(location: CLLocationCoordinate2D, speed: Double)] {
+        guard points.count > maxCount else {
+            return points
+        }
+        
+        // Step 1: Always keep first and last points
+        let result = [points.first!] + adaptivelySelectPoints(points: points.dropFirst().dropLast(), maxCount: maxCount - 2) + [points.last!]
+        
+        return result
+    }
+
+    // Helper to select important points based on speed changes and direction changes
+    private func adaptivelySelectPoints(
+        points: [(location: CLLocationCoordinate2D, speed: Double)],
+        maxCount: Int
+    ) -> [(location: CLLocationCoordinate2D, speed: Double)] {
+        let pointsArray = Array(points)
+        guard pointsArray.count > maxCount else {
+            return pointsArray
+        }
+        
+        // Calculate importance score for each point based on:
+        // 1. Speed changes (more significant changes are more important)
+        // 2. Direction changes (more significant turns are more important)
+        var importanceScores: [(index: Int, score: Double)] = []
+        
+        // We'll skip first and last since they're always included
+        for i in 1..<pointsArray.count - 1 {
+            let prevPoint = pointsArray[i-1]
+            let point = pointsArray[i]
+            let nextPoint = pointsArray[i+1]
+            
+            // Speed change importance
+            let speedChangeScore = abs(point.speed - prevPoint.speed) + abs(nextPoint.speed - point.speed)
+            
+            // Direction change importance (angle between segments)
+            let directionChangeScore = calculateDirectionChange(
+                p1: prevPoint.location,
+                p2: point.location,
+                p3: nextPoint.location
+            )
+            
+            // Combined score (weight can be adjusted based on what's more important)
+            let score = speedChangeScore * 0.3 + directionChangeScore * 0.7
+            
+            importanceScores.append((index: i, score: score))
+        }
+        
+        // Sort points by importance (higher score is more important)
+        let sortedByImportance = importanceScores.sorted { $0.score > $1.score }
+        
+        // Take the most important points up to maxCount
+        let selectedIndices = sortedByImportance.prefix(maxCount).map { $0.index }.sorted()
+        
+        // Return selected points
+        return selectedIndices.map { pointsArray[$0] }
+    }
+
+    // Calculate the angle change at a point (used for direction change importance)
+    private func calculateDirectionChange(
+        p1: CLLocationCoordinate2D,
+        p2: CLLocationCoordinate2D,
+        p3: CLLocationCoordinate2D
+    ) -> Double {
+        // Convert to Cartesian-like coordinates for simplicity
+        // (this is an approximation, not geodesic calculation)
+        let x1 = p1.longitude
+        let y1 = p1.latitude
+        let x2 = p2.longitude
+        let y2 = p2.latitude
+        let x3 = p3.longitude
+        let y3 = p3.latitude
+        
+        // Calculate vectors
+        let v1x = x2 - x1
+        let v1y = y2 - y1
+        let v2x = x3 - x2
+        let v2y = y3 - y2
+        
+        // Calculate magnitudes
+        let v1Mag = sqrt(v1x * v1x + v1y * v1y)
+        let v2Mag = sqrt(v2x * v2x + v2y * v2y)
+        
+        // Prevent division by zero
+        if v1Mag == 0 || v2Mag == 0 {
+            return 0
+        }
+        
+        // Dot product
+        let dotProduct = v1x * v2x + v1y * v2y
+        
+        // Cosine of angle
+        let cosAngle = dotProduct / (v1Mag * v2Mag)
+        
+        // Clamp value to valid range for acos
+        let clampedCosAngle = max(-1.0, min(1.0, cosAngle))
+        
+        // Convert to angle in radians, then to degrees
+        let angleInRadians = acos(clampedCosAngle)
+        let angleInDegrees = angleInRadians * 180.0 / .pi
+        
+        // Return angle change - more change means more importance
+        return angleInDegrees
+    }
+
+    // Helper method to estimate zoom level from MapCameraPosition
+    private func estimateZoomLevel(from cameraPosition: MapCameraPosition) -> Double? {
+        // Just return the current zoom level - we'll update it elsewhere
+        return zoomLevelState
+    }
+    
+    private func updateFilteredPoints() {
+        // Get current zoom level
+        let zoom = currentZoomLevel ?? 1.0
+        
+        // Adjust point count based on zoom level
+        let zoomAdjustedPointCount = min(maxDisplayPoints, Int(Double(maxDisplayPoints) * zoom))
+        
+        if validLocationPoints.count > zoomAdjustedPointCount {
+            filteredLocationPoints = filterLocationPoints(
+                points: validLocationPoints,
+                maxPointCount: zoomAdjustedPointCount,
+                currentZoomLevel: zoom
+            )
+        } else {
+            filteredLocationPoints = validLocationPoints
+        }
+    }
+    
+    private func resetMapToShowEntireRoute() {
+        if !validLocationPoints.isEmpty {
+            let coordinates = validLocationPoints.map { $0.location }
+            let minLat = coordinates.map { $0.latitude }.min() ?? 0
+            let maxLat = coordinates.map { $0.latitude }.max() ?? 0
+            let minLon = coordinates.map { $0.longitude }.min() ?? 0
+            let maxLon = coordinates.map { $0.longitude }.max() ?? 0
+            
+            let center = CLLocationCoordinate2D(
+                latitude: (minLat + maxLat) / 2,
+                longitude: (minLon + maxLon) / 2
+            )
+            
+            let span = MKCoordinateSpan(
+                latitudeDelta: (maxLat - minLat) * 1.5,
+                longitudeDelta: (maxLon - minLon) * 1.5
+            )
+            
+            // Set the position
+            position = .region(MKCoordinateRegion(center: center, span: span))
+            
+            // Update filtered points after a short delay
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+                updateFilteredPoints()
+            }
+        }
+    }
+    
     init(session: RaceSession) {
         self.session = session
         self.validLocationPoints = session.dataPoints.compactMap { point -> (location: CLLocationCoordinate2D, speed: Double)? in
@@ -87,6 +405,12 @@ struct ModernRaceSessionMapView: View {
         }
         self.maxSpeed = session.dataPoints.compactMap { $0.speed }.max() ?? 0
         self.hasStartLine = session.leftPoint != nil && session.rightPoint != nil
+        
+        // Initialize filtered points with up to maxDisplayPoints
+        let initialFiltered = self.validLocationPoints.count > self.maxDisplayPoints ?
+            Array(self.validLocationPoints.prefix(self.maxDisplayPoints)) :
+            self.validLocationPoints
+        self._filteredLocationPoints = State(initialValue: initialFiltered)
         
         let initialRegion: MKCoordinateRegion
         if !self.validLocationPoints.isEmpty {
@@ -150,20 +474,20 @@ struct ModernRaceSessionMapView: View {
             // Full-screen map
             Map(position: $position, interactionModes: showFullScreenMap ? [.pan, .zoom] : [], selection: $mapSelection) {
                 
-                // Route with speed colors
-                if validLocationPoints.count > 1 {
+                // Route with speed colors - UPDATED to use filteredLocationPoints
+                if filteredLocationPoints.count > 1 {
                     // Draw polylines between points
-                    ForEach(0..<validLocationPoints.count - 1, id: \.self) { index in
-                        let start = validLocationPoints[index]
-                        let end = validLocationPoints[index + 1]
+                    ForEach(0..<filteredLocationPoints.count - 1, id: \.self) { index in
+                        let start = filteredLocationPoints[index]
+                        let end = filteredLocationPoints[index + 1]
                         
                         MapPolyline(coordinates: [start.location, end.location])
                             .stroke(colorForSpeed(start.speed), lineWidth: 7)
                     }
                     
                     // Add circle annotations for each point
-                    ForEach(1..<validLocationPoints.count - 1, id: \.self) { index in
-                        let point = validLocationPoints[index]
+                    ForEach(1..<filteredLocationPoints.count - 1, id: \.self) { index in
+                        let point = filteredLocationPoints[index]
                         
                         Annotation("", coordinate: point.location) {
                             Image(systemName: "circle.fill")
@@ -219,9 +543,32 @@ struct ModernRaceSessionMapView: View {
             .mapStyle(selectedMapStyle.style)
             .ignoresSafeArea(edges: showFullScreenMap ? .all : [])
             .frame(height: showFullScreenMap ? nil : 300)
+            .onChange(of: position) { oldValue, newValue in
+                // Update zoom level when position changes
+                if previousPositionState != newValue {
+                    zoomLevelState = min(10.0, zoomLevelState * 1.1)
+                    previousPositionState = newValue
+                }
+                
+                // Update current zoom level
+                currentZoomLevel = zoomLevelState
+                
+                // Update filtered points based on new zoom level
+                updateFilteredPoints()
+            }
+            .onAppear {
+                // Initialize filtered points with proper algorithm
+                updateFilteredPoints()
+            }
             .onTapGesture {
                 withAnimation(.easeInOut) {
+                    let wasFullScreen = showFullScreenMap
                     showFullScreenMap.toggle()
+                    
+                    // If transitioning from full screen to normal mode, reset the map view
+                    if wasFullScreen {
+                        resetMapToShowEntireRoute()
+                    }
                 }
             }
             /*
