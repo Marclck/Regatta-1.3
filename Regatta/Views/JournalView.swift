@@ -340,13 +340,17 @@ struct JournalView: View {
                                     Image(systemName: "applewatch.slash")
                                         .foregroundColor(.red)
                                         .font(.system(size: 12))
+                                    
+                                    Text("Connect Watch")
+                                        .font(.system(.subheadline))
                                 } else {
                                     Image(systemName: "applewatch")
                                         .foregroundColor(.green)
                                         .font(.system(size: 12))
+                                    
+                                    Text("Update")
+                                        .font(.system(.subheadline))
                                 }
-                                Text("Refresh")
-                                    .font(.system(.subheadline))
                             }
                             .padding(.horizontal, 8)
                             .padding(.vertical, 8)

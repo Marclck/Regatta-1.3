@@ -25,6 +25,7 @@ struct ModernRaceSessionMapView: View {
     @State private var showDetailView: Bool = false
     @State private var showMapStyleControls: Bool = false
     @State private var showFullScreenMap: Bool = false
+    @State private var showWaypointAnnotations: Bool = false // New state for waypoint toggle
     @Environment(\.dismiss) private var dismiss
     
     @State private var filteredLocationPoints: [(location: CLLocationCoordinate2D, speed: Double)] = []
@@ -539,6 +540,29 @@ struct ModernRaceSessionMapView: View {
                         }
                     }
                 }
+                
+                // Waypoint annotations
+                if showWaypointAnnotations, let waypoints = session.waypoints, !waypoints.isEmpty {
+                    ForEach(waypoints.sorted(by: { $0.order < $1.order })) { waypoint in
+                        let waypointCoord = CLLocationCoordinate2D(
+                            latitude: waypoint.latitude,
+                            longitude: waypoint.longitude
+                        )
+                        
+                        Annotation("WP \(waypoint.order + 1)", coordinate: waypointCoord) {
+                            ZStack {
+                                Circle()
+                                    .fill(waypoint.completed ? Color.green.opacity(0.7) :
+                                         (waypoint.isActiveWaypoint == true ? Color(hex: ColorTheme.ultraBlue.rawValue) : Color.gray.opacity(0.7)))
+                                    .frame(width: 28, height: 28)
+                                
+                                Text("\(waypoint.order + 1)")
+                                    .font(.system(size: 12, weight: .bold))
+                                    .foregroundColor(.white)
+                            }
+                        }
+                    }
+                }
             }
             .mapStyle(selectedMapStyle.style)
             .ignoresSafeArea(edges: showFullScreenMap ? .all : [])
@@ -780,7 +804,7 @@ struct ModernRaceSessionMapView: View {
                                             Text(String(format: "%.1f", raceStats.avgSpeed ?? 0))
                                                 .font(.system(size: 34, weight: .bold))
                                             
-                                            Text("kts")
+                                            Text("kn")
                                                 .font(.system(size: 16, weight: .medium))
                                                 .foregroundColor(.gray)
                                         }
@@ -797,7 +821,7 @@ struct ModernRaceSessionMapView: View {
                                             Text(String(format: "%.1f", raceStats.topSpeed ?? 0))
                                                 .font(.system(size: 34, weight: .bold))
                                             
-                                            Text("kts")
+                                            Text("kn")
                                                 .font(.system(size: 16, weight: .medium))
                                                 .foregroundColor(.gray)
                                         }
@@ -821,7 +845,7 @@ struct ModernRaceSessionMapView: View {
                                                 Text(String(format: "%.1f", windSpeed))
                                                     .font(.system(size: 28, weight: .bold))
                                                 
-                                                Text("kts")
+                                                Text("kn")
                                                     .font(.system(size: 16, weight: .medium))
                                                     .foregroundColor(.gray)
                                             }
@@ -849,8 +873,12 @@ struct ModernRaceSessionMapView: View {
                                                     .font(.system(size: 24))
                                                     .foregroundColor(Color.white)
                                                 
-                                                Text("\(String(format: "%.1f", temperature))°C")
-                                                    .font(.system(size: 22, weight: .bold))
+                                                Text("\(String(format: "%.1f", temperature))")
+                                                    .font(.system(size: 28, weight: .bold))
+                                                
+                                                Text("°C")
+                                                    .font(.system(size: 16, weight: .medium))
+                                                    .foregroundColor(.gray)
                                             }
                                         } else {
                                             Text("Not available")
@@ -870,7 +898,7 @@ struct ModernRaceSessionMapView: View {
                                     .foregroundColor(.gray)
                                 
                                 HStack {
-                                    Text("0.0 kts")
+                                    Text("0.0 kn")
                                         .font(.caption)
                                     LinearGradient(
                                         gradient: Gradient(colors: [
@@ -883,7 +911,7 @@ struct ModernRaceSessionMapView: View {
                                     )
                                     .frame(height: 8)
                                     .cornerRadius(4)
-                                    Text("\(String(format: "%.1f", raceStats.topSpeed ?? 0)) kts")
+                                    Text("\(String(format: "%.1f", raceStats.topSpeed ?? 0)) kn")
                                         .font(.caption)
                                 }
                             }
@@ -958,9 +986,36 @@ struct ModernRaceSessionMapView: View {
                             // Cruise plan data
                             if let planActive = session.planActive, planActive == true {
                                 VStack(alignment: .leading, spacing: 8) {
-                                    Text("Cruise Plan")
-                                        .font(.system(size: 14, weight: .medium))
-                                        .foregroundColor(.gray)
+                                    HStack {
+                                        Text("Cruise Plan")
+                                            .font(.system(size: 14, weight: .medium))
+                                            .foregroundColor(.gray)
+                                        
+                                        Spacer()
+                                        
+                                        // Waypoint display toggle button
+                                        Button(action: {
+                                            withAnimation {
+                                                showWaypointAnnotations.toggle()
+                                            }
+                                        }) {
+                                            HStack(spacing: 4) {
+                                                Image(systemName: showWaypointAnnotations ? "mappin.circle.fill" : "mappin.circle")
+                                                    .font(.system(size: 14))
+                                                Text("Show Waypoints")
+                                                    .font(.system(size: 12))
+                                            }
+                                            .padding(.horizontal, 10)
+                                            .padding(.vertical, 6)
+                                            .background(showWaypointAnnotations ?
+                                                      Color(hex: ColorTheme.ultraBlue.rawValue).opacity(0.3) :
+                                                      Color.gray.opacity(0.3))
+                                            .foregroundColor(showWaypointAnnotations ?
+                                                           Color(hex: ColorTheme.ultraBlue.rawValue) :
+                                                           Color.white)
+                                            .cornerRadius(12)
+                                        }
+                                    }
                                     
                                     VStack(alignment: .leading, spacing: 6) {
                                         // Plan name
@@ -1108,6 +1163,7 @@ struct ModernRaceSessionMapView: View {
                                 .padding(.top, 8)
                             }
                             
+                            /*
                             // View Session Details button
                             Button(action: {
                                 showDetailView = true
@@ -1149,6 +1205,7 @@ struct ModernRaceSessionMapView: View {
                                         }
                                 }
                             }
+                            */ //button closure
                         }
                     }
                 }

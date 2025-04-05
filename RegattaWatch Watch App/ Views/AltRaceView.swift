@@ -63,15 +63,24 @@ struct AltRaceView: View {
                     // Content
                     VStack(spacing: 0) {
                         // Timer display instead of current time
-                        TimerDisplayAsCurrentTime(timerState: timerState)
-                            .padding(.top, -10)
-                            .offset(y:-10)
+                        if settings.showCruiser && !showCruiseInfo {
+                            Circle()
+                                .fill(timerState.mode == .countdown && timerState.currentTime <= 60
+                                      ? Color.orange.opacity(1)
+                                      : Color(hex: colorManager.selectedTheme.rawValue).opacity(1))
+                                .frame(width: 10, height: 10)
+                                .offset(y:-35)
+                        } else {
+                            TimerDisplayAsCurrentTime(timerState: timerState)
+                                .padding(.top, -10)
+                                .offset(y:-10)
+                        }
                         
                         Spacer()
                             .frame(height: 10)
                         
                         if settings.showCruiser && showCruiseInfo {
-
+                            
                             Spacer()
                                 .frame(height: 30)
                             
@@ -85,7 +94,7 @@ struct AltRaceView: View {
                                     .font(.zenithBeta(size: 38, weight: .medium))
                                     .foregroundColor(settings.lightMode ? .black : .white)
                                     .offset(y:-53)
-
+                                
                                 
                                 Text(minuteString(from: currentTime))
                                     .font(.zenithBeta(size: 38, weight: .medium))
@@ -109,7 +118,254 @@ struct AltRaceView: View {
                             }
                             .offset(y:settings.ultraModel ? 15 : 10)
                             
-                        } else {
+                        } else if settings.showCruiser && !showCruiseInfo {
+                                // Show current time
+                                VStack(spacing: -10) {
+                                    HStack(spacing: 0) {
+                                        // First digit position
+                                        HStack(spacing: 0) {
+                                            // Left half - Hour on top of Minute (vertically) - Center aligned, right masked
+                                            ZStack {
+                                                // Hour first digit - left half (on top vertically)
+                                                Text(hourFirstDigit(from: currentTime))
+                                                    .scaleEffect(x:1, y:0.9)
+                                                    .foregroundColor(settings.lightMode ? .black : .white)
+                                                    .offset(y: isLuminanceReduced ? 15 : 1)
+                                                    .frame(width: 60, alignment: .center) // Wider frame, center alignment
+                                                    .frame(height: 150, alignment: .center) // Wider frame, center alignment
+                                                    .mask(
+                                                        HStack(spacing: 0) {
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                                .opacity(0) // Transparent to create the mask
+                                                        }
+                                                    )
+                                                    .offset(x:hourFirstDigit(from: currentTime) == "1" ? 10 : 0)
+                                                    .offset(y:-45)
+                                                    .zIndex(2) // Ensure hour is on top
+                                                
+                                                // Minute first digit - left half (on bottom vertically)
+                                                Text(minuteFirstDigit(from: currentTime))
+                                                    .scaleEffect(x:1, y:0.9)
+                                                    .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                                    .offset(y: isLuminanceReduced ? -35 : -26)
+                                                    .frame(width: 60, alignment: .center) // Wider frame, center alignment
+                                                    .frame(height: 150, alignment: .center) // Wider frame, center alignment
+                                                    .mask(
+                                                        HStack(spacing: 0) {
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                                .opacity(0) // Transparent to create the mask
+                                                        }
+                                                    )
+                                                    .offset(x:minuteFirstDigit(from: currentTime) == "1" ? 10 : 0)
+                                                    .offset(y:45)
+                                                    .zIndex(1) // Ensure minute is on bottom
+                                            }
+                                            .offset(x:15)
+                                            .frame(width: 30, height: 150)
+                                            
+                                            // Right half - Hour on top of Minute (vertically) - Center aligned, left masked
+                                            ZStack {
+                                                // Hour first digit - right half (on top vertically)
+                                                Text(hourFirstDigit(from: currentTime))
+                                                    .scaleEffect(x:1, y:0.9)
+                                                    .foregroundColor(settings.lightMode ? .black : .white)
+                                                    .offset(y: isLuminanceReduced ? 15 : 1)
+                                                    .frame(width: 60, alignment: .center) // Wider frame, center alignment
+                                                    .frame(height: 150, alignment: .center) // Wider frame, center alignment
+                                                    .mask(
+                                                        HStack(spacing: 0) {
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                                .opacity(0) // Transparent to create the mask
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                        }
+                                                    )
+                                                    .offset(x:hourFirstDigit(from: currentTime) == "1" ? 10 : 0)
+                                                    .offset(y:-45)
+                                                    .zIndex(["1", "4", "6"].contains(minuteFirstDigit(from: currentTime)) ? 2 : 1)
+
+                                                // Minute first digit - right half (on bottom vertically)
+                                                Text(minuteFirstDigit(from: currentTime))
+                                                    .scaleEffect(x:1, y:0.9)
+                                                    .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                                    .offset(y: isLuminanceReduced ? -35 : -26)
+                                                    .frame(width: 60, alignment: .center) // Wider frame, center alignment
+                                                    .frame(height: 150, alignment: .center) // Wider frame, center alignment
+                                                    .mask(
+                                                        HStack(spacing: 0) {
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                                .opacity(0) // Transparent to create the mask
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                        }
+                                                    )
+                                                    .offset(x:minuteFirstDigit(from: currentTime) == "1" ? 10 : 0)
+                                                    .offset(y:45)
+                                                    .zIndex(["1", "4", "6"].contains(minuteFirstDigit(from: currentTime)) ? 1 : 2)
+                                            }
+                                            .frame(width: 30, height: 150)
+                                            .offset(x:-15)
+                                        }
+                                        
+                                        // Second digit position
+                                        HStack(spacing: 0) {
+                                            // Left half - Hour on top of Minute (vertically) - Center aligned, right masked
+                                            ZStack {
+                                                // Hour second digit - left half (on top vertically)
+                                                Text(hourSecondDigit(from: currentTime))
+                                                    .scaleEffect(x:1, y:0.9)
+                                                    .foregroundColor(settings.lightMode ? .black : .white)
+                                                    .offset(y: isLuminanceReduced ? 15 : 1)
+                                                    .frame(width: 60, alignment: .center) // Wider frame, center alignment
+                                                    .frame(height: 150, alignment: .center) // Wider frame, center alignment
+                                                    .mask(
+                                                        HStack(spacing: 0) {
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                                .opacity(0) // Transparent to create the mask
+                                                        }
+                                                    )
+                                                    .offset(x:hourSecondDigit(from: currentTime) == "1" ? -10 : 0)
+                                                    .offset(y:-45)
+                                                    .zIndex(["1", "4", "7", "9"].contains(hourSecondDigit(from: currentTime)) ? 1 : 2)
+
+                                                // Minute second digit - left half (on bottom vertically)
+                                                Text(minuteSecondDigit(from: currentTime))
+                                                    .scaleEffect(x:1, y:0.9)
+                                                    .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                                    .offset(y: isLuminanceReduced ? -35 : -26)
+                                                    .frame(width: 60, alignment: .center) // Wider frame, center alignment
+                                                    .frame(height: 150, alignment: .center) // Wider frame, center alignment
+                                                    .mask(
+                                                        HStack(spacing: 0) {
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                                .opacity(0) // Transparent to create the mask
+                                                        }
+                                                    )
+                                                    .offset(x:minuteSecondDigit(from: currentTime) == "1" ? -10 : 0)
+                                                    .offset(y:45)
+                                                    .zIndex(["1", "4", "7", "9"].contains(hourSecondDigit(from: currentTime)) ? 2 : 1)
+                                            }
+                                            .offset(x:15)
+                                            .frame(width: 30, height: 150)
+                                            
+                                            // Right half - Hour on top of Minute (vertically) - Center aligned, left masked
+                                            ZStack {
+                                                // Hour second digit - right half (on top vertically)
+                                                Text(hourSecondDigit(from: currentTime))
+                                                    .scaleEffect(x:1, y:0.9)
+                                                    .foregroundColor(settings.lightMode ? .black : .white)
+                                                    .offset(y: isLuminanceReduced ? 15 : 1)
+                                                    .frame(width: 60, alignment: .center) // Wider frame, center alignment
+                                                    .frame(height: 150, alignment: .center) // Wider frame, center alignment
+                                                    .mask(
+                                                        HStack(spacing: 0) {
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                                .opacity(0) // Transparent to create the mask
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                        }
+                                                    )
+                                                    .offset(x:hourSecondDigit(from: currentTime) == "1" ? -10 : 0)
+                                                    .offset(y:-45)
+                                                    .zIndex(["1", "4", "6"].contains(minuteSecondDigit(from: currentTime)) ? 2 : 1)
+
+                                                // Minute second digit - right half (on bottom vertically)
+                                                Text(minuteSecondDigit(from: currentTime))
+                                                    .scaleEffect(x:1, y:0.9)
+                                                    .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                                    .offset(y: isLuminanceReduced ? -35 : -26)
+                                                    .frame(width: 60, alignment: .center) // Wider frame, center alignment
+                                                    .frame(height: 150, alignment: .center) // Wider frame, center alignment
+                                                    .mask(
+                                                        HStack(spacing: 0) {
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                                .opacity(0) // Transparent to create the mask
+                                                            Rectangle()
+                                                                .frame(width: 30, height: 150)
+                                                        }
+                                                    )
+                                                    .offset(x:minuteSecondDigit(from: currentTime) == "1" ? -10 : 0)
+                                                    .offset(y:45)
+                                                    .zIndex(["1", "4", "6"].contains(minuteSecondDigit(from: currentTime)) ? 1 : 2)
+                                            }
+                                            .offset(x:-15)
+                                            .frame(width: 30, height: 60)
+                                        }
+                                    }
+                                }
+                                .font(.zenithBeta(size: 84, weight: .medium))
+                                .scaleEffect(x:1.05, y:1.43)
+                                .foregroundColor(.white)
+                                .frame(width: 150, height: 60)
+                                .position(x: geometry.size.width/2, y: centerY/2+25)
+                                .offset(y:5)
+                                .onReceive(timeTimer) { input in
+                                    currentTime = input
+                                }
+                                
+                                /*
+                                 // Show current time
+                                 VStack(spacing: -10) {
+                                 // Hour digits in HStack
+                                 ZStack() {
+                                 Text(hourFirstDigit(from: currentTime))
+                                 .scaleEffect(x:1, y:0.9)
+                                 .frame(alignment: .trailing)
+                                 .foregroundColor(settings.lightMode ? .black : .white)
+                                 .offset(x: hourFirstDigit(from: currentTime) == "1" ? -19 : -29)
+                                 
+                                 Text(hourSecondDigit(from: currentTime))
+                                 .scaleEffect(x:1, y:0.9)
+                                 .frame(alignment: .leading)
+                                 .foregroundColor(settings.lightMode ? .black : .white)
+                                 .offset(x: hourSecondDigit(from: currentTime) == "1" ? 19 : 29)
+                                 }
+                                 .offset(y:isLuminanceReduced ? 15 : 1)
+                                 
+                                 // Minute digits in HStack
+                                 ZStack() {
+                                 Text(minuteFirstDigit(from: currentTime))
+                                 .scaleEffect(x:1, y:0.9)
+                                 .frame(alignment: .trailing)
+                                 .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                 .offset(x: minuteFirstDigit(from: currentTime) == "1" ? -19 : -29)
+                                 
+                                 Text(minuteSecondDigit(from: currentTime))
+                                 .scaleEffect(x:1, y:0.9)
+                                 .frame(alignment: .leading)
+                                 .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                 .offset(x: minuteSecondDigit(from: currentTime) == "1" ? 19 : 29)
+                                 }
+                                 .offset(y:isLuminanceReduced ? -35 : -24)
+                                 }
+                                 .font(.zenithBeta(size: 84, weight: .medium))
+                                 .scaleEffect(x:1, y:1.43)
+                                 .foregroundColor(.white)
+                                 .frame(width: 150, height: 60)
+                                 .position(x: geometry.size.width/2, y: centerY/2+25)
+                                 .offset(y:5)
+                                 .onReceive(timeTimer) { input in
+                                 currentTime = input
+                                 }
+                                 */
+                            
+                            } else {
                             // Show current time
                             VStack(spacing: -10) {
                                 // Hour digits in HStack
