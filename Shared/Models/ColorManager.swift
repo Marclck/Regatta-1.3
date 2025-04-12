@@ -14,7 +14,7 @@ import WatchConnectivity
 #endif
 
 enum ColorTheme: String, CaseIterable, Codable {
-    case cambridgeBlue = "A0C1AB"
+    case cambridgeBlue = "9bbea9" //9bbea9 or A0C1AB
     case ultraBlue = "47BBFC"    // Adding cyan as Ultra Blue
     case brittanBlue = "#8FCB5A"
     case marimbaBlue = "049DFE"

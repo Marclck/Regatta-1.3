@@ -61,6 +61,8 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                 windDirection: self.windDirection,
                 windCardinalDirection: self.cardinalDirection,
                 temperature: self.currentTemp,
+                highTemp: self.highTemp,     // Add this parameter
+                lowTemp: self.lowTemp,       // Add this parameter
                 condition: self.condition
             )
         }
@@ -167,6 +169,8 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                             windDirection: self.windDirection,
                             windCardinalDirection: self.cardinalDirection,
                             temperature: self.currentTemp,
+                            highTemp: self.highTemp,
+                            lowTemp: self.lowTemp,
                             condition: self.condition
                         )
                         
@@ -209,6 +213,8 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                         self.windDirection = lastReadingManager.windDirection
                         self.cardinalDirection = lastReadingManager.windCardinalDirection
                         self.currentTemp = lastReadingManager.temperature
+                        self.highTemp = lastReadingManager.highTemp  // Add this
+                        self.lowTemp = lastReadingManager.lowTemp    // Add this
                         self.condition = lastReadingManager.weatherCondition
                         
                         self.hasData = true  // Mark that we have data, even if it's cached

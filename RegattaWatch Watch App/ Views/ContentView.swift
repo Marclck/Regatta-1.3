@@ -352,10 +352,12 @@ struct ContentView: View {
                 VStack {
                     if !iapManager.canAccessFeatures(minimumTier: .pro) {
                         SubscriptionOverlay()
+                    } else {
+                        SettingsView(showSettings: $showSettings)
                     }
-                    SettingsView(showSettings: $showSettings)
                 }
                 .navigationTitle("Settings")
+                    
             }
         }
         .sheet(isPresented: $showPremiumAlert) {

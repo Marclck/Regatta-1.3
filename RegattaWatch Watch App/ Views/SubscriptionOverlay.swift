@@ -13,11 +13,12 @@ struct SubscriptionOverlay: View {
     
     var body: some View {
         ZStack {
-            // Blur effect
+            // Blur effect as full screen background
             Rectangle()
                 .fill(.ultraThinMaterial)
                 .environment(\.colorScheme, .dark)
-                .ignoresSafeArea()
+                .edgesIgnoringSafeArea(.all) // Use this to make it completely full screen
+                .frame(maxWidth: .infinity, maxHeight: .infinity) // Ensure it fills the entire screen
             
             VStack(spacing: 12) {
                 Image(systemName: "lock.circle.fill")
@@ -41,7 +42,9 @@ struct SubscriptionOverlay: View {
                 
             }
             .padding()
+            .frame(maxWidth: .infinity, maxHeight: .infinity) // Make the VStack expand to fill available space
         }
+//        .ignoresSafeArea() // Apply to the entire ZStack to ensure full screen coverage
         .sheet(isPresented: $showSubscription) {
             SubscriptionView()
         }

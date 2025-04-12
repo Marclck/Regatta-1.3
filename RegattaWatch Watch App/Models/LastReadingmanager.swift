@@ -25,6 +25,8 @@ class LastReadingManager: ObservableObject {
     @Published var weatherCondition: String = "sun.max.fill"
     @Published var windDirection: Double = 0
     @Published var windCardinalDirection: String = "N"
+    @Published var highTemp: Double = 0
+    @Published var lowTemp: Double = 0
     
     private let defaults = UserDefaults.standard
     private let speedKey = "lastSpeed"
@@ -42,6 +44,8 @@ class LastReadingManager: ObservableObject {
     private let weatherConditionKey = "lastWeatherCondition"
     private let windDirectionKey = "lastWindDirection"
     private let windCardinalDirectionKey = "lastWindCardinalDirection"
+    private let highTempKey = "lastHighTemp"
+    private let lowTempKey = "lastLowTemp"
     
     // Cruise session tracking
     private var cruiseSessionDataPoints: [DataPoint] = []
@@ -76,21 +80,27 @@ class LastReadingManager: ObservableObject {
         weatherCondition = defaults.string(forKey: weatherConditionKey) ?? "sun.max.fill"
         windDirection = defaults.double(forKey: windDirectionKey)
         windCardinalDirection = defaults.string(forKey: windCardinalDirectionKey) ?? "N"
+        highTemp = defaults.double(forKey: highTempKey)
+        lowTemp = defaults.double(forKey: lowTempKey)
     }
     
     func updateWeatherData(windSpeed: Double, windDirection: Double, windCardinalDirection: String,
-                           temperature: Double, condition: String) {
+                           temperature: Double, highTemp: Double, lowTemp: Double, condition: String) {
         self.windSpeed = windSpeed
         self.windDirection = windDirection  // Store separately from course
         self.windCardinalDirection = windCardinalDirection  // Store separately from cardinalDirection
         self.temperature = temperature
         self.weatherCondition = condition
+        self.highTemp = highTemp
+        self.lowTemp = lowTemp
         
         defaults.set(windSpeed, forKey: windSpeedKey)
         defaults.set(windDirection, forKey: windDirectionKey)  // New key
         defaults.set(windCardinalDirection, forKey: windCardinalDirectionKey)  // New key
         defaults.set(temperature, forKey: temperatureKey)
         defaults.set(condition, forKey: weatherConditionKey)
+        defaults.set(highTemp, forKey: highTempKey)
+        defaults.set(lowTemp, forKey: lowTempKey)
         
         print("📝 LastReadingManager received weather data: windSpeed=\(windSpeed), windDirection=\(windDirection), temp=\(temperature)")
     }

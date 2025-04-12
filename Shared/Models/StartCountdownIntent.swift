@@ -68,9 +68,9 @@ struct RegattaShortcuts: AppShortcutsProvider {
         AppShortcut(
             intent: StartCountdownIntent(),
             phrases: [
-                "Start regatta countdown",
-                "Start countdown timer",
-                "Begin regatta timer"
+                "Start ${applicationName} countdown",
+                "Start countdown timer in ${applicationName}",
+                "Begin ${applicationName} timer"
             ],
             shortTitle: "Start Timer",
             systemImageName: "timer.circle.fill"
