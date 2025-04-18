@@ -8,6 +8,7 @@
 import Foundation
 import SwiftUI
 import MapKit
+import CoreLocation
 
 // MARK: - Main Planner View
 struct PlannerView: View {
@@ -18,6 +19,9 @@ struct PlannerView: View {
     @State private var activePinningPoint: UUID?
     @State private var showHistory = false
     @State private var showSaveConfirmation = false
+    
+    // Add state for tracking the center coordinate
+    @State private var centerCoordinate: CLLocationCoordinate2D = CLLocationCoordinate2D(latitude: 0, longitude: 0)
     
     var body: some View {
         NavigationView {
@@ -37,18 +41,21 @@ struct PlannerView: View {
                 // Content
                 VStack(spacing: 0) {
                     // Map Section - with red circle and coordinate display
+                    // Pass the center coordinate binding directly
                     PlannerMapSection(
                         planStore: planStore,
                         mapStyleConfig: $mapStyleConfig,
-                        activePinningPoint: $activePinningPoint
+                        activePinningPoint: $activePinningPoint,
+                        externalCenterCoordinate: $centerCoordinate
                     )
                     
-                    // Waypoints List Section
+                    // Waypoints List Section - pass center coordinate
                     ScrollView {
                         PlannerWaypointsSection(
                             planStore: planStore,
                             activePinningPoint: $activePinningPoint,
-                            showSaveConfirmation: $showSaveConfirmation
+                            showSaveConfirmation: $showSaveConfirmation,
+                            centerCoordinate: $centerCoordinate  // Pass the center coordinate
                         )
                     }
                     .animation(.easeInOut, value: planStore.currentPlan.count)

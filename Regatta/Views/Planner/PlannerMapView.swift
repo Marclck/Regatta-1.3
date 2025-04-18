@@ -14,7 +14,7 @@ import CoreLocation
 struct RoutePlanMapView: UIViewRepresentable {
     var points: [PlanPoint]
     var mapStyle: MapStyleConfiguration
-    var activePinningMode: Bool
+    var activePinningMode: Bool // Keeping parameter for compatibility but now ignored
     var onMapMoved: ((CLLocationCoordinate2D) -> Void)?
     var onLocationSelected: ((CLLocationCoordinate2D) -> Void)?
     private static var coordinatorKey: UInt8 = 0
@@ -41,16 +41,14 @@ struct RoutePlanMapView: UIViewRepresentable {
             mapView.mapType = .satellite
         }
         
-        // Only add the pan gesture if initially in pinning mode
-        if activePinningMode {
-            let panGesture = UIPanGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handlePan(_:)))
-            panGesture.delegate = context.coordinator
-            panGesture.cancelsTouchesInView = false
-            panGesture.delaysTouchesBegan = false
-            panGesture.delaysTouchesEnded = false
-            mapView.addGestureRecognizer(panGesture)
-            context.coordinator.panGestureRecognizer = panGesture
-        }
+        // Always add the pan gesture regardless of pinning mode
+        let panGesture = UIPanGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handlePan(_:)))
+        panGesture.delegate = context.coordinator
+        panGesture.cancelsTouchesInView = false
+        panGesture.delaysTouchesBegan = false
+        panGesture.delaysTouchesEnded = false
+        mapView.addGestureRecognizer(panGesture)
+        context.coordinator.panGestureRecognizer = panGesture
         
         // Create buttons
         let locationButton = createMapControlButton(
@@ -170,41 +168,12 @@ struct RoutePlanMapView: UIViewRepresentable {
             }
         }
         
-        // Update coordinator with current pinning mode
-        let wasPinningMode = context.coordinator.activePinningMode
-        context.coordinator.activePinningMode = activePinningMode
+        // Always track center coordinates regardless of pinning mode
+        onMapMoved?(mapView.centerCoordinate)
         
-        // Handle the pan gesture recognizer based on pinning mode
-        if activePinningMode && context.coordinator.panGestureRecognizer == nil {
-            // Add the gesture if needed
-            let panGesture = UIPanGestureRecognizer(target: context.coordinator, action: #selector(Coordinator.handlePan(_:)))
-            panGesture.delegate = context.coordinator
-            panGesture.cancelsTouchesInView = false
-            panGesture.delaysTouchesBegan = false
-            panGesture.delaysTouchesEnded = false
-            mapView.addGestureRecognizer(panGesture)
-            context.coordinator.panGestureRecognizer = panGesture
-        } else if !activePinningMode && context.coordinator.panGestureRecognizer != nil {
-            // Remove the gesture if needed
-            if let panGesture = context.coordinator.panGestureRecognizer {
-                mapView.removeGestureRecognizer(panGesture)
-                context.coordinator.panGestureRecognizer = nil
-            }
-        }
-        
-        // Report the current center coordinate when in pinning mode
-        if activePinningMode {
-            onMapMoved?(mapView.centerCoordinate)
-            
-            // Start coordinate tracking if not already
-            if !context.coordinator.isTrackingCoordinates {
-                context.coordinator.startCoordinateTracking(mapView)
-            }
-        } else {
-            // Stop coordinate tracking if it was active
-            if context.coordinator.isTrackingCoordinates {
-                context.coordinator.stopCoordinateTracking()
-            }
+        // Always track coordinates
+        if !context.coordinator.isTrackingCoordinates {
+            context.coordinator.startCoordinateTracking(mapView)
         }
     }
     
@@ -228,7 +197,7 @@ struct RoutePlanMapView: UIViewRepresentable {
     class Coordinator: NSObject, MKMapViewDelegate, UIGestureRecognizerDelegate {
         var parent: RoutePlanMapView
         var firstUpdate: Bool? = true
-        var activePinningMode: Bool = false
+        var activePinningMode: Bool = false // Keeping for compatibility but now ignored
         var isTrackingCoordinates: Bool = false
         var displayLink: CADisplayLink?
         var mapViewRef: MKMapView?
@@ -366,12 +335,13 @@ struct RoutePlanMapView: UIViewRepresentable {
         }
         
         @objc func handlePan(_ gesture: UIPanGestureRecognizer) {
-            guard activePinningMode, let mapView = gesture.view as? MKMapView else { return }
+            guard let mapView = gesture.view as? MKMapView else { return }
             
-            // Only allow moving the map, not interacting with annotations
+            // Always handle pan gestures and report center coordinates
+            // Removed dependency on activePinningMode
             if gesture.state == .ended {
                 let centerCoordinate = mapView.centerCoordinate
-                parent.onLocationSelected?(centerCoordinate)
+                parent.onMapMoved?(centerCoordinate)
             }
         }
         
@@ -409,7 +379,8 @@ struct RoutePlanMapView: UIViewRepresentable {
         }
         
         @objc func updateCoordinates() {
-            guard let mapView = mapViewRef, activePinningMode else { return }
+            guard let mapView = mapViewRef else { return }
+            // Always report coordinates regardless of pinning mode
             parent.onMapMoved?(mapView.centerCoordinate)
         }
     }

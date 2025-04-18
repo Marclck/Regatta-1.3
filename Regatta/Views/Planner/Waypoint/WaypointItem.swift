@@ -6,11 +6,16 @@
 //
 
 import SwiftUI
+import MapKit
+import CoreLocation
 
 struct WaypointItem: View {
     @ObservedObject var planStore: RoutePlanStore
     let index: Int
     @Binding var activePinningPoint: UUID?
+    
+    // Add binding for center coordinate
+    @Binding var centerCoordinate: CLLocationCoordinate2D
     
     var body: some View {
         // Safety check to ensure the index is valid
@@ -55,7 +60,8 @@ struct WaypointItem: View {
                 },
                 onStopPinning: {
                     activePinningPoint = nil
-                }
+                },
+                centerCoordinate: $centerCoordinate // Pass the center coordinate binding
             )
             .padding(.horizontal)
             .draggable(point) {
@@ -65,7 +71,8 @@ struct WaypointItem: View {
                     index: index,
                     onDelete: {},  // Disable buttons during drag preview
                     onStartPinning: {},
-                    onStopPinning: {}
+                    onStopPinning: {},
+                    centerCoordinate: .constant(CLLocationCoordinate2D(latitude: 0, longitude: 0)) // Dummy binding for preview
                 )
                 .padding(.horizontal)
                 .compositingGroup()  // Ensures the view is rendered as a single unit
@@ -100,13 +107,12 @@ struct WaypointItem: View {
     }
 }
 
-
-
 #Preview {
     WaypointItem(
         planStore: RoutePlanStore.shared,
         index: 0,
-        activePinningPoint: .constant(nil)
+        activePinningPoint: .constant(nil),
+        centerCoordinate: .constant(CLLocationCoordinate2D(latitude: 0, longitude: 0)) // Add dummy center coordinate for preview
     )
     .background(Color.black)
     .previewLayout(.sizeThatFits)

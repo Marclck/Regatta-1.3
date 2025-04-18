@@ -5,52 +5,39 @@
 //  Created by Chikai Lai on 13/03/2025.
 //
 
-import Foundation
 import SwiftUI
+import CoreLocation
 
 struct WaypointsList: View {
     @ObservedObject var planStore: RoutePlanStore
     @Binding var activePinningPoint: UUID?
     
+    // Add binding for center coordinate
+    @Binding var centerCoordinate: CLLocationCoordinate2D
+    
     var body: some View {
-        VStack(alignment: .leading, spacing: 8) {
-            Text("Waypoints")
-                .font(.headline)
-                .foregroundColor(.white)
-                .frame(maxWidth: .infinity, alignment: .leading)
-                .padding(.horizontal)
-                .padding(.top)
-
-            ForEach(Array(planStore.currentPlan.indices), id: \.self) { index in
-                WaypointItem(
-                    planStore: planStore,
-                    index: index,
-                    activePinningPoint: $activePinningPoint
-                )
-            }
-        }
-        .toolbar {
-            ToolbarItemGroup(placement: .keyboard) {
-                Spacer()
-                Button("Done") {
-                    hideKeyboard()
+        ScrollView {
+            VStack(spacing: 8) {
+                ForEach(planStore.currentPlan.indices, id: \.self) { index in
+                    WaypointItem(
+                        planStore: planStore,
+                        index: index,
+                        activePinningPoint: $activePinningPoint,
+                        centerCoordinate: $centerCoordinate // Pass the center coordinate
+                    )
                 }
             }
         }
-    }
-}
-
-// Add this extension somewhere in your project
-extension View {
-    func hideKeyboard() {
-        UIApplication.shared.sendAction(#selector(UIResponder.resignFirstResponder), to: nil, from: nil, for: nil)
+        .padding(.top, 15)
     }
 }
 
 #Preview {
     WaypointsList(
         planStore: RoutePlanStore.shared,
-        activePinningPoint: .constant(nil)
+        activePinningPoint: .constant(nil),
+        centerCoordinate: .constant(CLLocationCoordinate2D(latitude: 0, longitude: 0)) // Add dummy coordinate for preview
     )
     .background(Color.black)
+    .previewLayout(.sizeThatFits)
 }

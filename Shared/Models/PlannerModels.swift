@@ -253,6 +253,9 @@ struct LocationPointEditor: View {
     let onStartPinning: () -> Void
     let onStopPinning: () -> Void
     
+    // Add direct binding to center coordinate
+    @Binding var centerCoordinate: CLLocationCoordinate2D
+    
     // Use computed properties instead of State variables
     private var latitudeText: Binding<String> {
         Binding<String>(
@@ -276,7 +279,6 @@ struct LocationPointEditor: View {
         )
     }
     
-    @State private var isPinningActive: Bool = false
     @FocusState private var isLatitudeFocused: Bool
     @FocusState private var isLongitudeFocused: Bool
     
@@ -297,7 +299,7 @@ struct LocationPointEditor: View {
                         .font(.system(.caption, design: .monospaced))
                     
                     TextField("0.000000", text: latitudeText)
-                        .keyboardType(.decimalPad)
+                        .keyboardType(.numbersAndPunctuation)
                         .foregroundColor(.white)
                         .focused($isLatitudeFocused)
                         .font(.system(.caption, design: .monospaced))
@@ -309,7 +311,7 @@ struct LocationPointEditor: View {
                         .font(.system(.caption, design: .monospaced))
                     
                     TextField("0.000000", text: longitudeText)
-                        .keyboardType(.decimalPad)
+                        .keyboardType(.numbersAndPunctuation)
                         .foregroundColor(.white)
                         .focused($isLongitudeFocused)
                         .font(.system(.caption, design: .monospaced))
@@ -347,22 +349,25 @@ struct LocationPointEditor: View {
                 
                 Spacer()
                 
-                // Pin on map button
+                // Get Coordinates button - directly capture coordinates from map
                 Button {
-                    isPinningActive.toggle()
-                    if isPinningActive {
-                        // Wrap in a DispatchQueue.main.async to ensure UI state is fully updated
-                        DispatchQueue.main.async {
-                            onStartPinning()
-                        }
-                    } else {
-                        DispatchQueue.main.async {
+                    // Directly update the point with current center coordinates
+                    DispatchQueue.main.async {
+                        // First, tell parent we're starting pinning for this point (to highlight it)
+                        onStartPinning()
+                        
+                        // Use the direct binding to center coordinate
+                        point.latitude = centerCoordinate.latitude
+                        point.longitude = centerCoordinate.longitude
+                        
+                        // After a short delay, tell parent we're done pinning
+                        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                             onStopPinning()
                         }
                     }
                 } label: {
-                    Image(systemName: "mappin")
-                        .foregroundColor(isPinningActive ? Color(hex: ColorTheme.signalOrange.rawValue) : .blue.opacity(0.7))
+                    Image(systemName: "mappin.and.ellipse")
+                        .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
                 }
                 
                 Spacer()

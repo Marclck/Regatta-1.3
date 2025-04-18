@@ -8,9 +8,6 @@
 import Foundation
 import SwiftUI
 import MapKit
-
-import SwiftUI
-import MapKit
 import CoreLocation
 
 struct PlannerMapSection: View {
@@ -21,6 +18,9 @@ struct PlannerMapSection: View {
     // For tracking the center coordinate of the map
     @State private var centerCoordinate: CLLocationCoordinate2D =
         CLLocationCoordinate2D(latitude: 0, longitude: 0)
+    
+    // Add a binding to notify parent of coordinate changes
+    @Binding var externalCenterCoordinate: CLLocationCoordinate2D
     
     var body: some View {
         VStack(spacing: 0) {
@@ -39,22 +39,16 @@ struct PlannerMapSection: View {
             
             // Main map view - 1.5x height compared to JournalView
             ZStack {
-                
-                // First layer: Semi-transparent overlay (when in pinning mode)
-                if activePinningPoint != nil {
-                    Color.black.opacity(0.3)
-                        .cornerRadius(12)
-                        .allowsHitTesting(false)
-                }
-                
                 // Map with coordinate tracking
                 RoutePlanMapView(
                     points: planStore.currentPlan,
                     mapStyle: mapStyleConfig,
-                    activePinningMode: activePinningPoint != nil,
+                    activePinningMode: false, // Always false since we're not toggling pinning mode
                     onMapMoved: { coordinate in
                         // Update center coordinate as map moves
                         self.centerCoordinate = coordinate
+                        // Also update external coordinate
+                        self.externalCenterCoordinate = coordinate
                     },
                     onLocationSelected: { coordinate in
                         if let pointId = activePinningPoint {
@@ -70,64 +64,36 @@ struct PlannerMapSection: View {
                 .frame(height: 300) // 1.5x height compared to JournalView
                 .cornerRadius(12)
                 
-                // Center pin indicator and red circle when in pinning mode
-                if activePinningPoint != nil {
-                    // Red circle at center of map
-                    ZStack{
-                        Circle()
-                            .stroke(Color.red, lineWidth: 2)
-                            .background(Circle().fill(Color.red.opacity(0.2)))
-                            .frame(width: 20, height: 20)
-                     
-                        Circle()
-                            .fill(Color.red)
-                            .frame(width: 2, height: 2)
-                        
-                    }
-                        
-                    // The pin indicator
-                    VStack {
-                        Spacer()
-                        
-                        ZStack {
-                            RoundedRectangle(cornerRadius: 10)
-                                .fill(Color.black.opacity(0.3))
-                                .frame(width: 120, height: 100)
-                                .offset(y:-15)
-                            VStack {
-                                Image(systemName: "mappin")
-                                    .font(.system(size: 30))
-                                    .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
-                                Text("Tap to place pin")
-                                    .foregroundColor(.white)
-                                    .font(.caption)
-                            }
-                        }
-                        .padding(.bottom, 60)
-                    }
+                // Red crosshairs always displayed at the center of the map
+                ZStack{
+                    // Horizontal line
+                    Rectangle()
+                        .fill(Color.red)
+                        .frame(width: 20, height: 2)
                     
-                    /*
-                    // Semi-transparent overlay
-                    Color.black.opacity(0.3)
-                        .cornerRadius(12)
-                        .allowsHitTesting(false)
-                     */
+                    // Vertical line
+                    Rectangle()
+                        .fill(Color.red)
+                        .frame(width: 2, height: 20)
+                    
+                    // Central circle
+                    Circle()
+                        .stroke(Color.red, lineWidth: 2)
+                        .frame(width: 6, height: 6)
                 }
             }
             .padding(.horizontal)
             .padding(.vertical, 8)
             
-            // Display coordinates when in pinning mode
-            if activePinningPoint != nil {
-                HStack {
-                    Spacer()
-                    Text(String(format: "(%.6f, %.6f)", centerCoordinate.latitude, centerCoordinate.longitude))
-                        .font(.system(.caption, design: .monospaced))
-                        .foregroundColor(.white.opacity(0.7))
-                    Spacer()
-                }
-                .padding(.vertical, 4)
+            // Always display coordinates
+            HStack {
+                Spacer()
+                Text(String(format: "(%.6f, %.6f)", centerCoordinate.latitude, centerCoordinate.longitude))
+                    .font(.system(.caption, design: .monospaced))
+                    .foregroundColor(.white.opacity(0.7))
+                Spacer()
             }
+            .padding(.vertical, 4)
         }
     }
 }
@@ -136,7 +102,8 @@ struct PlannerMapSection: View {
     PlannerMapSection(
         planStore: RoutePlanStore.shared,
         mapStyleConfig: .constant(.standard),
-        activePinningPoint: .constant(UUID())
+        activePinningPoint: .constant(UUID()),
+        externalCenterCoordinate: .constant(CLLocationCoordinate2D(latitude: 0, longitude: 0))
     )
     .background(Color.black)
 }

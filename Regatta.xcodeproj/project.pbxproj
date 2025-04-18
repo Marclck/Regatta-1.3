@@ -153,6 +153,7 @@
 		1D768D732CFD1AA800DB4EE5 /* WatchFaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D722CFD1AA800DB4EE5 /* WatchFaceView.swift */; };
 		1D768D752CFD1AE800DB4EE5 /* SecondProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D742CFD1AE800DB4EE5 /* SecondProgressBarView.swift */; };
 		1D768D772CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D762CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift */; };
+		1D824DBA2DB2F1B5006159B0 /* CoordinateUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D824DB92DB2F1AC006159B0 /* CoordinateUtilities.swift */; };
 		1D88DEAB2D6A9B0E009DC635 /* RulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D88DEAA2D6A9B0E009DC635 /* RulerView.swift */; };
 		1D8C5FAF2D87E45400D43F8B /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */; };
 		1D8C5FB02D87E49600D43F8B /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */; };
@@ -372,6 +373,7 @@
 		1D768D722CFD1AA800DB4EE5 /* WatchFaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFaceView.swift; sourceTree = "<group>"; };
 		1D768D742CFD1AE800DB4EE5 /* SecondProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondProgressBarView.swift; sourceTree = "<group>"; };
 		1D768D762CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDisplayAsCurrentTimeView.swift; sourceTree = "<group>"; };
+		1D824DB92DB2F1AC006159B0 /* CoordinateUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateUtilities.swift; sourceTree = "<group>"; };
 		1D88DEAA2D6A9B0E009DC635 /* RulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerView.swift; sourceTree = "<group>"; };
 		1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		1D90CF882D46C3B500357553 /* StartLineMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartLineMapView.swift; sourceTree = "<group>"; };
@@ -491,6 +493,7 @@
 		1D5C294F2D82C33600610A22 /* Planner */ = {
 			isa = PBXGroup;
 			children = (
+				1D824DB92DB2F1AC006159B0 /* CoordinateUtilities.swift */,
 				1D5C294A2D8252BB00610A22 /* PlannerView.swift */,
 				1D5C295B2D82C99A00610A22 /* PlannerActionButton.swift */,
 				1D5C29542D82C86500610A22 /* PlannerMapSection.swift */,
@@ -1079,6 +1082,7 @@
 				1D00ADD92D3F0D7F001AC542 /* LocationManager.swift in Sources */,
 				1D69FF012CE969E5001C178A /* TimeDisplayView.swift in Sources */,
 				1D2E54092D1715E800C669D4 /* TabButtonStyle.swift in Sources */,
+				1D824DBA2DB2F1B5006159B0 /* CoordinateUtilities.swift in Sources */,
 				1D64AA0F2D46BCF700F1BC04 /* StartLineManager.swift in Sources */,
 				1DC4B32B2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */,
 				1DC321CB2D7D938300EE70E1 /* DataMigrationUtility.swift in Sources */,
