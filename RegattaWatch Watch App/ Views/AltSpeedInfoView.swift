@@ -616,7 +616,7 @@ struct AltSpeedInfoView: View {
         ZStack {
             // Original VStack content
             VStack {
-                HStack(alignment: .center, spacing: timerState.isRunning ? 10 : 70) {
+                HStack(alignment: .center, spacing: timerState.isRunning ? 10 : (WKInterfaceDevice.current().screenBounds.height < 224 ? 60 : 70)) {
                     distanceButton
                         .offset(x: timerState.isRunning ? 0 : -5, y: timerState.isRunning ? 0 : -20)
                         .animation(.spring(response: 0.5, dampingFraction: 0.8), value: timerState.isRunning)

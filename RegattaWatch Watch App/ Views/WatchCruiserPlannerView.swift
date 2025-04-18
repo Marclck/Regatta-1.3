@@ -164,6 +164,7 @@ struct WatchCruisePlannerView: View {
                 
                 Text(cruisePlanState.statusText)
                     .font(.caption2)
+                    .dynamicTypeSize(.xSmall)
                     .foregroundColor(cruisePlanState.statusColor)
                     .padding(.top, 2)
                                 
@@ -179,6 +180,7 @@ struct WatchCruisePlannerView: View {
                         Text("No waypoints available")
                             .foregroundColor(.gray)
                             .font(.caption)
+                            .dynamicTypeSize(.xSmall)
                             .listRowBackground(Color.clear)
                     } else {
                         ForEach(plannerManager.currentPlan) { waypoint in
@@ -213,6 +215,7 @@ struct WatchCruisePlannerView: View {
                             Spacer()
                             Text("Last updated: \(timeAgoString(from: lastUpdate))")
                                 .font(.caption2)
+                                .dynamicTypeSize(.xSmall)
                                 .foregroundColor(.gray)
                             Spacer()
                         }
@@ -287,8 +290,10 @@ struct WaypointMapView: View {
             VStack(alignment: .leading) {
                 Text("Waypoint \(waypoint.order + 1)")
                     .font(.headline)
+                    .dynamicTypeSize(.xSmall)
                 Text(waypoint.formattedCoordinates())
                     .font(.system(.caption, design: .monospaced))
+                    .dynamicTypeSize(.xSmall)
             }
             .padding(.bottom)
         }
@@ -388,6 +393,7 @@ struct CruiseControlButtons: View {
                     Image(systemName: "checkmark")
                         .font(.system(size: 24))
                         .fontWeight(.heavy)
+                        .dynamicTypeSize(.xSmall)
                         .symbolVariant(.fill)
                         .foregroundColor(.green)
                         .frame(width: 65, height: 50)
@@ -401,6 +407,7 @@ struct CruiseControlButtons: View {
                     Image(systemName: "arrow.counterclockwise")
                         .font(.system(size: 24))
                         .fontWeight(.heavy)
+                        .dynamicTypeSize(.xSmall)
                         .symbolVariant(.fill)
                         .foregroundColor(Color.orange)
                         .frame(width: 65, height: 50)
@@ -420,6 +427,7 @@ struct CruiseControlButtons: View {
                 Image(systemName: cruisePlanState.isActive ? "pause" : "play")
                     .font(.system(size: 24))
                     .fontWeight(.heavy)
+                    .dynamicTypeSize(.xSmall)
                     .symbolVariant(.fill)
                     .foregroundColor(Color(hex: colorManager.selectedTheme.rawValue))
                     .frame(width: 65, height: 50)

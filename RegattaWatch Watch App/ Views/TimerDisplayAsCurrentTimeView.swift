@@ -12,14 +12,16 @@ import WatchKit
 struct TimerDisplayAsCurrentTime: View {
     @ObservedObject var timerState: WatchTimerState
     @EnvironmentObject var colorManager: ColorManager
+    @EnvironmentObject var settings: AppSettings
 
     
     var body: some View {
         Text(displayText)
-            .font(.system(size: 14, design: .monospaced))
+            .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 14) : .system(size: 14, design: .monospaced))
+            .dynamicTypeSize(.xSmall)
             .foregroundColor(.black)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4)
+            .padding(.horizontal, settings.debugMode ? 10 : 10)
+            .padding(.vertical, settings.debugMode ? 7 : 4)
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(backgroundColor)

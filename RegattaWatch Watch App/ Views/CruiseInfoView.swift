@@ -728,7 +728,7 @@ struct CruiseInfoView: View {
                 }
                 
                 courseDisplay
-                    .offset(y: 40)
+                    .offset(y: WKInterfaceDevice.current().screenBounds.height < 224 ? 35 : 43)
             }
         }
         .padding(.horizontal)

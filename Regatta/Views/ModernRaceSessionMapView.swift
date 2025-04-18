@@ -1161,6 +1161,7 @@ struct ModernRaceSessionMapView: View {
                                 .cornerRadius(12)
                                 .padding(.horizontal, 16)
                                 .padding(.top, 8)
+                                .padding(.bottom, 80)
                             }
                             
                             /*

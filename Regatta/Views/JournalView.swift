@@ -28,6 +28,10 @@ struct JournalView: View {
     @State private var selectedSession: RaceSession? = nil
     @State private var showFullScreenMapView = false
     
+    // Add state variable for limited session display
+    @State private var showAllSessions = false
+    @State private var initialSessionCount = 10
+    
     // Existing code for groupedSessions()
     private func groupedSessions() -> [(date: Date, dateString: String, sessions: [RaceSession])] {
         let formatter = DateFormatter()
@@ -44,6 +48,33 @@ struct JournalView: View {
         return grouped.map { (date, sessions) in
             (date: date, dateString: formatter.string(from: date), sessions: sessions)
         }.sorted { $0.date > $1.date }
+    }
+    
+    // Add new method to get limited sessions
+    private func limitedSessions() -> [(date: Date, dateString: String, sessions: [RaceSession])] {
+        if showAllSessions {
+            return groupedSessions()
+        } else {
+            // Get all sessions in a flat array, sorted by date (newest first)
+            let allSortedSessions = sessionStore.sessions.sorted { $0.date > $1.date }
+            
+            // Take only the most recent 'initialSessionCount' sessions
+            let limitedSessions = Array(allSortedSessions.prefix(initialSessionCount))
+            
+            // Regroup these limited sessions
+            let calendar = Calendar.current
+            let formatter = DateFormatter()
+            formatter.dateStyle = .medium
+            formatter.timeStyle = .none
+            
+            let grouped = Dictionary(grouping: limitedSessions) { session in
+                calendar.startOfDay(for: session.date)
+            }
+            
+            return grouped.map { (date, sessions) in
+                (date: date, dateString: formatter.string(from: date), sessions: sessions)
+            }.sorted { $0.date > $1.date }
+        }
     }
     
     // Your existing code for mostRecentStartLine
@@ -257,36 +288,73 @@ struct JournalView: View {
                                 }
                                 .padding(.top, 50)
                             } else {
-                                // Sessions list with tap handler
-                                List {
-                                    ForEach(groupedSessions(), id: \.date) { group in
-                                        Section(header:
-                                            Text(group.dateString)
-                                                .foregroundColor(.white)
-                                                .font(.headline)
-                                        ) {
-                                            ForEach(group.sessions.sorted(by: { $0.date > $1.date }), id: \.date) { session in
-                                                SessionRowView(session: session)
-                                                    .listRowBackground(
-                                                        Color.clear
-                                                            .background(.ultraThinMaterial)
-                                                            .environment(\.colorScheme, .dark)
-                                                    )
-                                                    .contentShape(Rectangle())
-                                                    .onTapGesture {
-                                                        print("Session row tapped")
-                                                        selectedSession = session
-                                                        withAnimation(.easeInOut(duration: 0.3)) {
-                                                            showFullScreenMapView = true
+                                // Sessions list with tap handler and 'Load more' button
+                                ZStack {
+                                    List {
+                                        ForEach(limitedSessions(), id: \.date) { group in
+                                            Section(header:
+                                                Text(group.dateString)
+                                                    .foregroundColor(.white)
+                                                    .font(.headline)
+                                            ) {
+                                                ForEach(group.sessions.sorted(by: { $0.date > $1.date }), id: \.date) { session in
+                                                    SessionRowView(session: session)
+                                                        .listRowBackground(
+                                                            Color.clear
+                                                                .background(.ultraThinMaterial)
+                                                                .environment(\.colorScheme, .dark)
+                                                        )
+                                                        .contentShape(Rectangle())
+                                                        .onTapGesture {
+                                                            print("Session row tapped")
+                                                            selectedSession = session
+                                                            withAnimation(.easeInOut(duration: 0.3)) {
+                                                                showFullScreenMapView = true
+                                                            }
                                                         }
-                                                    }
+                                                }
                                             }
+                                            .listSectionSeparator(.hidden)
                                         }
-                                        .listSectionSeparator(.hidden)
+                                        
+                                        // Add empty section at the bottom to create space for the button
+                                        if !showAllSessions && sessionStore.sessions.count > initialSessionCount {
+                                            Section {
+                                                // Empty row for spacing
+                                                Color.clear
+                                                    .frame(height: 10)
+                                                    .listRowBackground(Color.clear)
+                                            }
+                                            .listSectionSeparator(.hidden)
+                                        }
+                                    }
+                                    .listStyle(InsetGroupedListStyle())
+                                    .scrollContentBackground(.hidden)
+                                    
+                                    // "Load more" button at the bottom of the list
+                                    if !showAllSessions && sessionStore.sessions.count > initialSessionCount {
+                                        VStack {
+                                            Button(action: {
+                                                withAnimation {
+                                                    showAllSessions = true
+                                                }
+                                            }) {
+                                                Text("Load more sessions")
+                                                    .font(.system(.subheadline, weight: .semibold))
+                                                    .foregroundColor(.white)
+                                                    .padding(.horizontal, 16)
+                                                    .padding(.vertical, 12)
+                                                    .background(
+                                                        Color(hex: colorManager.selectedTheme.rawValue)
+                                                    )
+                                                    .cornerRadius(20)
+                                                    .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
+                                            }
+                                            .padding(.bottom, 20)
+                                        }
+                                        .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
                                     }
                                 }
-                                .listStyle(InsetGroupedListStyle())
-                                .scrollContentBackground(.hidden)
                             }
                         }
                     }
@@ -380,6 +448,9 @@ struct JournalView: View {
                         }
                     }
                     print("📱 JournalView: Refresh completed")
+                    
+                    // Reset to initial state on refresh
+                    showAllSessions = false
                 }
             }
             
@@ -434,6 +505,9 @@ struct JournalView: View {
             print("📱 JournalView: View appeared")
             sessionStore.loadSessions()
             setupTransferNotifications()
+            
+            // Reset to initial state when view appears
+            showAllSessions = false
         }
         .withArchiveSupport(sessionStore: sessionStore)
     }
@@ -574,9 +648,7 @@ struct SessionRowView: View {
         .padding(.vertical, 4)
     }
 }
-    
 
-    
 // MARK: - Previews
 #Preview("Journal View - With Sessions") {
     let mockSessions = [

@@ -56,6 +56,8 @@ struct TimeDisplayView: View {
                 ForEach(0...30, id: \.self) { minute in
                     Text("\(String(format: "%02d:00", minute))")
                         .font(.zenithBeta(size: 38, weight: .medium))
+                        .dynamicTypeSize(.xSmall)
+                        .padding(.vertical)
                         .scaleEffect(x:1, y:1)
                         .foregroundColor(.white)
                 }

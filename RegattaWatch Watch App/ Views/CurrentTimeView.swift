@@ -11,17 +11,19 @@ import SwiftUI
 struct CurrentTimeView: View {
     @ObservedObject var timerState: WatchTimerState
     @EnvironmentObject var colorManager: ColorManager
-    
+    @EnvironmentObject var settings: AppSettings
+
     @State private var currentTime = Date()
     @State private var lastUpdateTime: TimeInterval = 0
     @State private var timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     
     var body: some View {
         Text(timeString(from: currentTime))
-            .font(.system(size: 14, design: .monospaced))
+            .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 14) : .system(size: 14, design: .monospaced))
+            .dynamicTypeSize(.xSmall)
             .foregroundColor(.black)
-            .padding(.horizontal, 10)
-            .padding(.vertical, 4)
+            .padding(.horizontal, settings.debugMode ? 10 : 10)
+            .padding(.vertical, settings.debugMode ? 7 : 4)
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(backgroundColor)

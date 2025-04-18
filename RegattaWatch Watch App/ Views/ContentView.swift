@@ -74,6 +74,12 @@ class WCSessionManager: NSObject, ObservableObject, WCSessionDelegate {
     }
 }
 
+
+// Screen size detection
+let device = WKInterfaceDevice.current()
+let screenBounds = device.screenBounds
+let smallWatch: Bool = screenBounds.height < 224
+
 private var isUltraWatch: Bool {
     #if os(watchOS)
     return WKInterfaceDevice.current().model.contains("Ultra")
@@ -88,6 +94,8 @@ func printWatchModel() {
     print("Current Watch Model: \(device.model)")
     print("Current Watch Name: \(device.name)")
     print("Current Watch ppi: \(device.screenBounds)")
+    print("Current Watch ppi: \(device.screenBounds.height)")
+
     #else
     print("Not running on watchOS")
     #endif
@@ -234,6 +242,7 @@ struct ContentView: View {
             } else {
                 TimerView(timerState: timerState, showStartLine: $showStartLine)
             }
+            
             
             // Toggle overlay - only show when not in start line mode
             if !showStartLine {
@@ -424,34 +433,37 @@ struct TimerView: View {
                             Spacer()
                                 .frame(height: 0)
                             
-                            if settings.ultraModel {
+                            if smallWatch {
                                 // Only use pro buttons if user has any subscription (Pro or Ultra)
                                 if settings.useProButtons && iapManager.canAccessFeatures(minimumTier: .pro) {
                                     ProButtonsView(timerState: timerState)
                                         .padding(.bottom, -10)
                                         .background(OverlayPlayerForTimeRemove())
-                                        .offset(y: 0)
+                                        .offset(y: 10)
                                 } else {
                                     ButtonsView(timerState: timerState)
                                         .padding(.bottom, -10)
                                         .background(OverlayPlayerForTimeRemove())
-                                        .offset(y: 0)
+                                        .offset(y: 10)
                                 }
                             } else {
                                 if settings.useProButtons && iapManager.canAccessFeatures(minimumTier: .pro) {
                                     ProButtonsView(timerState: timerState)
                                         .padding(.bottom, -10)
                                         .background(OverlayPlayerForTimeRemove())
-                                        .offset(y: -5)
+                                        .offset(y: 5)
                                 } else {
                                     ButtonsView(timerState: timerState)
                                         .padding(.bottom, -10)
                                         .background(OverlayPlayerForTimeRemove())
-                                        .offset(y: -5)
+                                        .offset(y: 5)
                                 }
                             }
                         }
                         .padding(.horizontal, 0)
+                        .scaleEffect(smallWatch ?
+                                     CGSize(width: 0.9, height: 0.9) :
+                                     CGSize(width: 1, height: 1))
                         
                         // Show speed info if user has any subscription (Pro or Ultra)
                         if settings.showSpeedInfo && iapManager.canAccessFeatures(minimumTier: .pro) {
@@ -462,6 +474,7 @@ struct TimerView: View {
                                 isCheckmark: $showStartLine
                             )
                             .offset(y: timerState.isRunning ? -35 : -66)
+                            .offset(y: smallWatch ? 15 : 0)
                         }
                         
                         ZStack {
@@ -480,6 +493,7 @@ struct TimerView: View {
                                 .offset(x: timerState.isRunning ? 0 : 22.5, y: -81)
                             }
                         }
+                        .offset(y: smallWatch ? 15 : 0)
                     }
                     .onReceive(timer) { _ in
                         timerState.updateTimer()

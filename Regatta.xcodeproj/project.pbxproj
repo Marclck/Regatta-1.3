@@ -26,6 +26,8 @@
 		1D0C3DB32D5AB6C600C7D9B5 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C3DAE2D5AB49300C7D9B5 /* KeychainHelper.swift */; };
 		1D0C3DB42D5AB6C600C7D9B5 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C3DAE2D5AB49300C7D9B5 /* KeychainHelper.swift */; };
 		1D0C3DB52D5AB6C700C7D9B5 /* KeychainHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D0C3DAE2D5AB49300C7D9B5 /* KeychainHelper.swift */; };
+		1D163FA02DABA15400B7829B /* PrivacyOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D163F9F2DABA15000B7829B /* PrivacyOverlay.swift */; };
+		1D163FA42DAF142B00B7829B /* Hermes-Numbers.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D163FA32DAF142B00B7829B /* Hermes-Numbers.ttf */; };
 		1D18C9932D88E0F1005519E5 /* PlannerWatchConnectivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D18C9922D88E0F1005519E5 /* PlannerWatchConnectivity.swift */; };
 		1D18C9952D88E110005519E5 /* WatchPlannerDataManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D18C9942D88E110005519E5 /* WatchPlannerDataManager.swift */; };
 		1D18C99D2D88E16C005519E5 /* RoutePlanStore+WatchExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D18C99B2D88E15C005519E5 /* RoutePlanStore+WatchExtension.swift */; };
@@ -280,6 +282,8 @@
 		1D0C3DAA2D58775A00C7D9B5 /* LastReadingmanager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LastReadingmanager.swift; sourceTree = "<group>"; };
 		1D0C3DAC2D5AAD7100C7D9B5 /* UltraTrialPromotionSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UltraTrialPromotionSheet.swift; sourceTree = "<group>"; };
 		1D0C3DAE2D5AB49300C7D9B5 /* KeychainHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainHelper.swift; sourceTree = "<group>"; };
+		1D163F9F2DABA15000B7829B /* PrivacyOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrivacyOverlay.swift; sourceTree = "<group>"; };
+		1D163FA32DAF142B00B7829B /* Hermes-Numbers.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hermes-Numbers.ttf"; sourceTree = "<group>"; };
 		1D18C9922D88E0F1005519E5 /* PlannerWatchConnectivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerWatchConnectivity.swift; sourceTree = "<group>"; };
 		1D18C9942D88E110005519E5 /* WatchPlannerDataManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchPlannerDataManager.swift; sourceTree = "<group>"; };
 		1D18C99B2D88E15C005519E5 /* RoutePlanStore+WatchExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "RoutePlanStore+WatchExtension.swift"; sourceTree = "<group>"; };
@@ -716,6 +720,8 @@
 		1D69FEF52CE9686B001C178A /*  Views */ = {
 			isa = PBXGroup;
 			children = (
+				1D163F9F2DABA15000B7829B /* PrivacyOverlay.swift */,
+				1D163FA32DAF142B00B7829B /* Hermes-Numbers.ttf */,
 				1D69FEC52CE967F7001C178A /* RegattaWatchApp.swift */,
 				1D69FEC72CE967F7001C178A /* ContentView.swift */,
 				1D69FF042CE96A26001C178A /* ProgressBarView.swift */,
@@ -1005,6 +1011,7 @@
 				1D1D83122D386A72003C8CAA /* Astrolabe Countdown.storekit in Resources */,
 				1D69FECD2CE967F9001C178A /* Preview Assets.xcassets in Resources */,
 				1D69FECA2CE967F9001C178A /* Assets.xcassets in Resources */,
+				1D163FA42DAF142B00B7829B /* Hermes-Numbers.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1190,6 +1197,7 @@
 				1D0C3DAB2D58775A00C7D9B5 /* LastReadingmanager.swift in Sources */,
 				1D18C9A72D89570B005519E5 /* WatchPlannerView.swift in Sources */,
 				1D69FF092CE96A3B001C178A /* TimeDisplayView.swift in Sources */,
+				1D163FA02DABA15400B7829B /* PrivacyOverlay.swift in Sources */,
 				1D18C9A92D8A1AB2005519E5 /* WatchCruiserPlannerView.swift in Sources */,
 				1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */,
 				1DDD4E172D8F7E8F00916608 /* JournalManager+WeatherWaypoint.swift in Sources */,

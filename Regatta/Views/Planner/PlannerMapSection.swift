@@ -88,6 +88,7 @@ struct PlannerMapSection: View {
                     // The pin indicator
                     VStack {
                         Spacer()
+                        
                         ZStack {
                             RoundedRectangle(cornerRadius: 10)
                                 .fill(Color.black.opacity(0.3))
@@ -102,7 +103,7 @@ struct PlannerMapSection: View {
                                     .font(.caption)
                             }
                         }
-                        .padding(.bottom, 80)
+                        .padding(.bottom, 60)
                     }
                     
                     /*

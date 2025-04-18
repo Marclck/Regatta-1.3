@@ -25,10 +25,10 @@ struct WatchFaceView: View {
     @ObservedObject var cruisePlanState: WatchCruisePlanState
 
     @State private var showCruiseInfo = true
-    
-    private var isUltraWatch: Bool {
+        
+    private var isSmallWatch: Bool {
         #if os(watchOS)
-        return WKInterfaceDevice.current().name.contains("Ultra")
+        return WKInterfaceDevice.current().screenBounds.height < 224
         #else
         return false
         #endif
@@ -113,7 +113,7 @@ struct WatchFaceView: View {
                                 )
                                 BarometerView()
                             }
-                            .offset(y:settings.ultraModel ? 15 : 10)
+                            .offset(y:settings.ultraModel ? 15 : (isSmallWatch ? 20 : 10))
 
                         } else {
                             // Show current time
@@ -142,28 +142,30 @@ struct WatchFaceView: View {
                                 .frame(height: 20)
                             
                             VStack(alignment: .center, spacing: 1) {
-                                if isUltraWatch {
+                                if !isSmallWatch {
                                     Text(dateString(from: Date()))
                                         .font(.system(size:14))
                                         .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
                                 }
 
-                                if isUltraWatch {
+                                if !isSmallWatch {
                                     Text("Race \(JournalManager.shared.allSessions.count)")
                                         .font(.system(size: 14))
                                         .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
                                 } else {
                                     Text("Race \(JournalManager.shared.allSessions.count)")
-                                        .offset(y:-10)
                                         .font(.system(size: 14))
                                         .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
                                 }
                             }
                             .frame(width: 180, height: 40)
                             .padding(.bottom, 0)
-                            .offset(y:28)
+                            .offset(y: isSmallWatch ? 28 : 26)
                         }
                     }
+                    .scaleEffect(isSmallWatch ?
+                    CGSize(width: 0.9, height: 0.9)
+                    : CGSize(width: 1, height: 1))
                     .padding(.horizontal, 0)
                     
                     if settings.showCruiser && showCruiseInfo {
@@ -171,7 +173,18 @@ struct WatchFaceView: View {
                             locationManager: locationManager
                         )
                         .transition(.opacity)
-                        .offset(y:-35)
+                        .offset(y: isSmallWatch ? -28 : -35)
+                        .scaleEffect(isSmallWatch ?
+                        CGSize(width: 0.9, height: 0.9)
+                        : CGSize(width: 1, height: 1))
+                    }
+                    
+                    if settings.privacyOverlay {
+                        PrivacyOverlayView()
+                            .offset(y:0)
+                            .scaleEffect(isSmallWatch ?
+                            CGSize(width: 0.9, height: 0.9)
+                            : CGSize(width: 1, height: 1))
                     }
                     
                     // Tappable area for cruise info

@@ -97,6 +97,20 @@ class AppSettings: ObservableObject {
         }
     }
     
+    @Published var privacyOverlay: Bool {
+        didSet {
+            UserDefaults.standard.set(privacyOverlay, forKey: "privacyOverlay")
+            print("PrivacyOverlay changed to: \(privacyOverlay)")
+        }
+    }
+    
+    @Published var debugMode: Bool {
+        didSet {
+            UserDefaults.standard.set(debugMode, forKey: "debugMode")
+            print("DebugMode changed to: \(debugMode)")
+        }
+    }
+    
     init() {
         self.teamName = UserDefaults.standard.string(forKey: "teamName") ?? "Ultra"
         self.showRaceInfo = UserDefaults.standard.object(forKey: "showRaceInfo") as? Bool ?? true
@@ -109,10 +123,11 @@ class AppSettings: ObservableObject {
         self.showCruiser = UserDefaults.standard.object(forKey: "showCruiser") as? Bool ?? false
         self.maxBoatSpeed = UserDefaults.standard.double(forKey: "maxBoatSpeed") != 0 ?
             UserDefaults.standard.double(forKey: "maxBoatSpeed") : 50.0
-        UserDefaults.standard.synchronize()
         self.quickStartMinutes = UserDefaults.standard.integer(forKey: "quickStartMinutes") != 0 ?
             UserDefaults.standard.integer(forKey: "quickStartMinutes") : 5
-
+        self.privacyOverlay = UserDefaults.standard.bool(forKey: "privacyOverlay") // Default to false
+        self.debugMode = UserDefaults.standard.bool(forKey: "debugMode") // Default to false
+        UserDefaults.standard.synchronize()
     }
 }
 
@@ -442,13 +457,37 @@ struct SettingsView: View {
                     
                     Toggle("Light Mode", isOn: $settings.lightMode)
                     
+                    Toggle("Privacy Overlay", isOn: $settings.privacyOverlay)
+                    
                     Text("Restart the app for the changes to take effect. Double press digital crown and swipe left to close the app.")
                         .font(.caption2)
+                
+                    
                 }
                 .font(.system(size: 17))
                 .foregroundColor(.white.opacity(1))
 
+                Section("Developer") {
+                    Toggle("Debug Mode", isOn: $settings.debugMode)
+                        .font(.system(size: 17))
+                        .toggleStyle(SwitchToggleStyle(tint: Color.white.opacity(0.5)))
+                        .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
+                    
+                    if !iapManager.canAccessFeatures(minimumTier: .ultra) {
+                        Text("Requires Ultra subscription")
+                            .font(.caption2)
+                            .foregroundColor(.gray)
+                    } else {
+                        Text("Enables additional logging and debug features")
+                            .font(.caption2)
+                            .foregroundColor(.white)
+                    }
+                }
+                .font(.system(size: 17, weight: .bold))
+                .foregroundColor(Color.white.opacity(0.5))
+                
             }
+            .dynamicTypeSize(.xSmall)
          }
      }
      
@@ -492,7 +531,9 @@ extension AppSettings {
         ultraModel = true
         maxBoatSpeed = 50.0
         quickStartMinutes = 5
-        
+        privacyOverlay = false
+        debugMode = false
+
         // Reset ultra features if tier is not ultra
         if tier != .ultra {
             showSpeedInfo = false
@@ -514,9 +555,10 @@ extension AppSettings {
         UserDefaults.standard.set(true, forKey: "ultraModel")
         UserDefaults.standard.set(false, forKey: "useProButtons")
         UserDefaults.standard.set(50.0, forKey: "maxBoatSpeed")
-        UserDefaults.standard.synchronize()
         UserDefaults.standard.set(5, forKey: "quickStartMinutes")
-
+        UserDefaults.standard.set(false, forKey: "privacyOverlay")
+        UserDefaults.standard.set(false, forKey: "debugMode")
+        UserDefaults.standard.synchronize()
     }
 }
 
