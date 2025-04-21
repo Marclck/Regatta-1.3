@@ -70,10 +70,11 @@ struct WatchFaceView: View {
                         // Timer display instead of current time
                         TimerDisplayAsCurrentTime(timerState: timerState)
                             .padding(.top, -10)
-                            .offset(y:-10)
+                            .offset(y: smallWatch ? -15 : -10)
                         
                         Spacer()
                             .frame(height: 10)
+                            .offset(y: smallWatch ? -5 : 0)
                         
                         if settings.showCruiser && showCruiseInfo {
                             Spacer()
@@ -98,6 +99,7 @@ struct WatchFaceView: View {
                             .font(.zenithBeta(size: 84, weight: .semibold))
                             .frame(width: 150, height: 60)
                             .position(x: geometry.size.width/2, y: centerY/2+25)
+                            .offset(y: smallWatch ? -5 : 0)
                             .scaleEffect(x:1.4, y:1.1)
                             .onReceive(timeTimer) { input in
                                 currentTime = input
@@ -134,6 +136,7 @@ struct WatchFaceView: View {
                             .frame(width: 150, height: 60)
                             .position(x: geometry.size.width/2, y: centerY/2+10)
                             .offset(y:7)
+                            .offset(y: smallWatch ? -5 : 0)
                             .onReceive(timeTimer) { input in
                                 currentTime = input
                             }
@@ -173,7 +176,7 @@ struct WatchFaceView: View {
                             locationManager: locationManager
                         )
                         .transition(.opacity)
-                        .offset(y: isSmallWatch ? -28 : -35)
+                        .offset(y: isSmallWatch ? -33 : -35)
                         .scaleEffect(isSmallWatch ?
                         CGSize(width: 0.9, height: 0.9)
                         : CGSize(width: 1, height: 1))

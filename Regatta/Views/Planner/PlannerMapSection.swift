@@ -45,10 +45,19 @@ struct PlannerMapSection: View {
                     mapStyle: mapStyleConfig,
                     activePinningMode: false, // Always false since we're not toggling pinning mode
                     onMapMoved: { coordinate in
-                        // Update center coordinate as map moves
-                        self.centerCoordinate = coordinate
-                        // Also update external coordinate
-                        self.externalCenterCoordinate = coordinate
+                        // Debounce frequent updates to avoid overloading the state system
+                        // Only update if significant change (maybe 0.0001 degrees difference)
+                        let significantChange = abs(self.centerCoordinate.latitude - coordinate.latitude) > 0.0001 ||
+                                               abs(self.centerCoordinate.longitude - coordinate.longitude) > 0.0001
+                        
+                        if significantChange {
+                            DispatchQueue.main.async {
+                                // Update center coordinate as map moves
+                                self.centerCoordinate = coordinate
+                                // Also update external coordinate
+                                self.externalCenterCoordinate = coordinate
+                            }
+                        }
                     },
                     onLocationSelected: { coordinate in
                         if let pointId = activePinningPoint {

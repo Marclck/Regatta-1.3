@@ -16,6 +16,8 @@ struct PlannerActionButtons: View {
         HStack {
             // Clear button
             Button(action: {
+                print("clear button pressed")
+
                 planStore.resetCurrentPlan()
             }) {
                 Text("Clear")
@@ -29,6 +31,7 @@ struct PlannerActionButtons: View {
             
             // Save button
             Button(action: {
+                print("button pressed")
                 planStore.savePlanWithWatch()
                 showSaveConfirmation = true
                 
@@ -49,7 +52,7 @@ struct PlannerActionButtons: View {
                     )
                     .cornerRadius(12)
             }
-            .disabled(planStore.isPlanSaved && !showSaveConfirmation)
+//            .disabled(planStore.isPlanSaved && !showSaveConfirmation)
         }
         .padding(.horizontal)
         .padding(.top, 12)

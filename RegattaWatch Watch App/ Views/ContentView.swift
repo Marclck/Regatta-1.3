@@ -420,7 +420,7 @@ struct TimerView: View {
                             ZStack {
                                 CurrentTimeView(timerState: timerState)
                                     .padding(.top, -10)
-                                    .offset(y: -10)
+                                    .offset(y: smallWatch ? -15 : -10)
                             }
                             
                             Spacer()
@@ -437,11 +437,17 @@ struct TimerView: View {
                                 // Only use pro buttons if user has any subscription (Pro or Ultra)
                                 if settings.useProButtons && iapManager.canAccessFeatures(minimumTier: .pro) {
                                     ProButtonsView(timerState: timerState)
+                                        .scaleEffect(smallWatch ?
+                                                     CGSize(width: 1.1, height: 1.1) :
+                                                     CGSize(width: 1, height: 1))
                                         .padding(.bottom, -10)
                                         .background(OverlayPlayerForTimeRemove())
                                         .offset(y: 10)
                                 } else {
                                     ButtonsView(timerState: timerState)
+                                        .scaleEffect(smallWatch ?
+                                                     CGSize(width: 1.1, height: 1.1) :
+                                                     CGSize(width: 1, height: 1))
                                         .padding(.bottom, -10)
                                         .background(OverlayPlayerForTimeRemove())
                                         .offset(y: 10)
@@ -449,11 +455,17 @@ struct TimerView: View {
                             } else {
                                 if settings.useProButtons && iapManager.canAccessFeatures(minimumTier: .pro) {
                                     ProButtonsView(timerState: timerState)
+                                        .scaleEffect(smallWatch ?
+                                                     CGSize(width: 1.1, height: 1.1) :
+                                                     CGSize(width: 1, height: 1))
                                         .padding(.bottom, -10)
                                         .background(OverlayPlayerForTimeRemove())
                                         .offset(y: 5)
                                 } else {
                                     ButtonsView(timerState: timerState)
+                                        .scaleEffect(smallWatch ?
+                                                     CGSize(width: 1.1, height: 1.1) :
+                                                     CGSize(width: 1, height: 1))
                                         .padding(.bottom, -10)
                                         .background(OverlayPlayerForTimeRemove())
                                         .offset(y: 5)
@@ -474,7 +486,7 @@ struct TimerView: View {
                                 isCheckmark: $showStartLine
                             )
                             .offset(y: timerState.isRunning ? -35 : -66)
-                            .offset(y: smallWatch ? 15 : 0)
+                            .offset(y: smallWatch ? 10 : 0)
                         }
                         
                         ZStack {
@@ -493,7 +505,7 @@ struct TimerView: View {
                                 .offset(x: timerState.isRunning ? 0 : 22.5, y: -81)
                             }
                         }
-                        .offset(y: smallWatch ? 15 : 0)
+                        .offset(y: smallWatch ? 10 : 0)
                     }
                     .onReceive(timer) { _ in
                         timerState.updateTimer()

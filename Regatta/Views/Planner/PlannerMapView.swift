@@ -10,6 +10,19 @@ import SwiftUI
 import MapKit
 import CoreLocation
 
+// MARK: - Custom Distance Annotation
+class DistanceAnnotation: NSObject, MKAnnotation {
+    var coordinate: CLLocationCoordinate2D
+    var title: String?
+    var offsetFromLine: CGFloat = 20.0  // Offset distance from the route line
+    
+    init(coordinate: CLLocationCoordinate2D, distance: Double) {
+        self.coordinate = coordinate
+        self.title = String(format: "%.1f NM", distance)
+        super.init()
+    }
+}
+
 // MARK: - Route Planning Map View
 struct RoutePlanMapView: UIViewRepresentable {
     var points: [PlanPoint]
@@ -158,6 +171,21 @@ struct RoutePlanMapView: UIViewRepresentable {
             let polyline = MKPolyline(coordinates: coordinates, count: coordinates.count)
             mapView.addOverlay(polyline)
             
+            // Add distance annotations for each segment
+            for i in 0..<(validPoints.count - 1) {
+                // Calculate the distance for this segment
+                let startPoint = validPoints[i]
+                let endPoint = validPoints[i + 1]
+                let segmentDistance = calculateDistanceInNauticalMiles(from: startPoint, to: endPoint)
+                
+                // Find midpoint of this segment with offset
+                if let midpointCoordinate = findMidpointWithOffset(for: [startPoint, endPoint]) {
+                    // Create distance annotation for this segment
+                    let distanceAnnotation = DistanceAnnotation(coordinate: midpointCoordinate, distance: segmentDistance)
+                    mapView.addAnnotation(distanceAnnotation)
+                }
+            }
+            
             // Zoom to fit the route if needed
             if let firstUpdate = context.coordinator.firstUpdate, firstUpdate {
                 context.coordinator.firstUpdate = false
@@ -175,6 +203,104 @@ struct RoutePlanMapView: UIViewRepresentable {
         if !context.coordinator.isTrackingCoordinates {
             context.coordinator.startCoordinateTracking(mapView)
         }
+    }
+    
+    // Function to calculate distance between two points in nautical miles
+    private func calculateDistanceInNauticalMiles(from startPoint: PlanPoint, to endPoint: PlanPoint) -> Double {
+        let start = CLLocation(latitude: startPoint.latitude, longitude: startPoint.longitude)
+        let end = CLLocation(latitude: endPoint.latitude, longitude: endPoint.longitude)
+        let distanceMeters = start.distance(from: end)
+        
+        // Convert meters to nautical miles (1 nautical mile = 1852 meters)
+        return distanceMeters / 1852.0
+    }
+    
+    // Function to calculate total route distance in nautical miles
+    private func calculateTotalDistanceInNauticalMiles(points: [PlanPoint]) -> Double {
+        guard points.count >= 2 else { return 0.0 }
+        
+        var totalDistanceMeters: CLLocationDistance = 0.0
+        
+        for i in 0..<(points.count - 1) {
+            let start = CLLocation(latitude: points[i].latitude, longitude: points[i].longitude)
+            let end = CLLocation(latitude: points[i + 1].latitude, longitude: points[i + 1].longitude)
+            totalDistanceMeters += start.distance(from: end)
+        }
+        
+        // Convert meters to nautical miles (1 nautical mile = 1852 meters)
+        return totalDistanceMeters / 1852.0
+    }
+    
+    // Function to find the midpoint of the route with a slight offset to avoid overlapping the line
+    private func findMidpointWithOffset(for points: [PlanPoint]) -> CLLocationCoordinate2D? {
+        guard points.count >= 2 else { return nil }
+        
+        // If we only have 2 points, find the midpoint of the line
+        if points.count == 2 {
+            // Calculate midpoint
+            let midLat = (points[0].latitude + points[1].latitude) / 2.0
+            let midLon = (points[0].longitude + points[1].longitude) / 2.0
+            
+            // Calculate perpendicular vector for offset
+            let dx = points[1].longitude - points[0].longitude
+            let dy = points[1].latitude - points[0].latitude
+            
+            // Normalize and perpendicular
+            let length = sqrt(dx * dx + dy * dy)
+            let offsetFactor = 0.0001 // Small coordinate offset, adjust as needed
+            
+            // Perpendicular offset to the right of the line
+            let perpX = -dy / length * offsetFactor
+            let perpY = dx / length * offsetFactor
+            
+            return CLLocationCoordinate2D(latitude: midLat + perpY, longitude: midLon + perpX)
+        }
+        
+        // For more than 2 points, find approximate midpoint by distance
+        var distanceSoFar: CLLocationDistance = 0.0
+        var cumulativeDistances: [CLLocationDistance] = [0.0]
+        
+        // Calculate cumulative distances
+        for i in 1..<points.count {
+            let start = CLLocation(latitude: points[i-1].latitude, longitude: points[i-1].longitude)
+            let end = CLLocation(latitude: points[i].latitude, longitude: points[i].longitude)
+            distanceSoFar += start.distance(from: end)
+            cumulativeDistances.append(distanceSoFar)
+        }
+        
+        let totalDistance = distanceSoFar
+        let midDistance = totalDistance / 2.0
+        
+        // Find the segment containing the midpoint
+        for i in 1..<points.count {
+            if cumulativeDistances[i-1] <= midDistance && cumulativeDistances[i] >= midDistance {
+                // Interpolate within this segment
+                let segmentLength = cumulativeDistances[i] - cumulativeDistances[i-1]
+                let ratio = (midDistance - cumulativeDistances[i-1]) / segmentLength
+                
+                let startPoint = points[i-1]
+                let endPoint = points[i]
+                
+                let midLat = startPoint.latitude + (endPoint.latitude - startPoint.latitude) * ratio
+                let midLon = startPoint.longitude + (endPoint.longitude - startPoint.longitude) * ratio
+                
+                // Calculate perpendicular offset
+                let dx = endPoint.longitude - startPoint.longitude
+                let dy = endPoint.latitude - startPoint.latitude
+                let length = sqrt(dx * dx + dy * dy)
+                let offsetFactor = 0.0001 // Small coordinate offset, adjust as needed
+                
+                // Perpendicular offset to the right of the line
+                let perpX = -dy / length * offsetFactor
+                let perpY = dx / length * offsetFactor
+                
+                return CLLocationCoordinate2D(latitude: midLat + perpY, longitude: midLon + perpX)
+            }
+        }
+        
+        // Fallback to approximate center
+        let midIndex = points.count / 2
+        return points[midIndex].coordinate
     }
     
     // Add this method back to the RoutePlanMapView struct
@@ -263,7 +389,7 @@ struct RoutePlanMapView: UIViewRepresentable {
                 }
                 
                 // Get all annotations except the user location annotation
-                let annotations = mapView.annotations.filter { !($0 is MKUserLocation) }
+                let annotations = mapView.annotations.filter { !($0 is MKUserLocation) && !($0 is DistanceAnnotation) }
                 
                 // Make sure we have at least one annotation
                 guard !annotations.isEmpty else {
@@ -312,10 +438,63 @@ struct RoutePlanMapView: UIViewRepresentable {
         }
         
         func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+            // Return nil for user location to use default blue dot
             if annotation is MKUserLocation {
                 return nil
             }
             
+            // Special handling for distance annotation
+            if let distanceAnnotation = annotation as? DistanceAnnotation {
+                // Use regular MKAnnotationView instead of MKMarkerAnnotationView for distance labels
+                let identifier = "DistanceAnnotation"
+                var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
+                
+                if annotationView == nil {
+                    // Create a plain annotation view without a pin
+                    annotationView = MKAnnotationView(annotation: distanceAnnotation, reuseIdentifier: identifier)
+                    annotationView?.canShowCallout = false
+                } else {
+                    annotationView?.annotation = distanceAnnotation
+                }
+                
+                // Create custom label for the distance
+                let label = UILabel()
+                label.text = distanceAnnotation.title
+                label.font = UIFont.systemFont(ofSize: 12, weight: .medium)
+                label.textColor = UIColor.white
+                label.backgroundColor = UIColor(Color(hex: ColorTheme.ultraBlue.rawValue))
+                label.layer.cornerRadius = 8
+                label.clipsToBounds = true
+                label.textAlignment = .center
+                label.sizeToFit()
+                
+                // Add padding
+                let padding: CGFloat = 4
+                let newFrame = CGRect(
+                    x: -label.frame.width/2,
+                    y: -label.frame.height/2,
+                    width: label.frame.width + padding * 2,
+                    height: label.frame.height + padding * 2
+                )
+                label.frame = newFrame
+                label.textAlignment = .center
+                
+                // Clear any existing subviews and add the label
+                annotationView?.subviews.forEach { $0.removeFromSuperview() }
+                annotationView?.addSubview(label)
+                
+                // Set the frame for the annotation view to match the label size
+                annotationView?.frame = CGRect(
+                    x: 0,
+                    y: 0,
+                    width: newFrame.width,
+                    height: newFrame.height
+                )
+                
+                return annotationView
+            }
+            
+            // Regular route point annotation
             let identifier = "RoutePoint"
             var annotationView = mapView.dequeueReusableAnnotationView(withIdentifier: identifier)
             

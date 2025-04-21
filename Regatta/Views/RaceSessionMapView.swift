@@ -40,13 +40,35 @@ struct RaceSessionMapView: View {
     private let validLocationPoints: [(location: CLLocationCoordinate2D, speed: Double)]
     private let maxSpeed: Double
     private let hasStartLine: Bool
-    
+    private let segmentDistances: [Double]
+
     // State properties
     @State private var position: MapCameraPosition
     @State private var mapSelection: MKMapItem?
     @State private var selectedConfiguration: MapStyleConfiguration
     @State private var isInteractionEnabled: Bool = true
     @State private var showDetailView: Bool = false
+    
+    // Function to find the midpoint with an offset to avoid overlapping with the line
+    private func findMidpointWithOffset(start: CLLocationCoordinate2D, end: CLLocationCoordinate2D) -> CLLocationCoordinate2D {
+        // Calculate midpoint
+        let midLat = (start.latitude + end.latitude) / 2.0
+        let midLon = (start.longitude + end.longitude) / 2.0
+        
+        // Calculate perpendicular vector for offset
+        let dx = end.longitude - start.longitude
+        let dy = end.latitude - start.latitude
+        
+        // Normalize and perpendicular
+        let length = sqrt(dx * dx + dy * dy)
+        let offsetFactor = 0.0001 // Small coordinate offset, adjust as needed
+        
+        // Perpendicular offset to the right of the line
+        let perpX = -dy / length * offsetFactor
+        let perpY = dx / length * offsetFactor
+        
+        return CLLocationCoordinate2D(latitude: midLat + perpY, longitude: midLon + perpX)
+    }
     
     // Computed stats from SessionRowView
     private var raceStats: (topSpeed: Double?, avgSpeed: Double?, totalDistance: CLLocationDistance?) {
@@ -161,6 +183,25 @@ struct RaceSessionMapView: View {
         self._position = State(initialValue: .region(initialRegion))
         self._mapSelection = State(initialValue: nil)
         self._selectedConfiguration = State(initialValue: .hybrid)
+        
+        // Calculate segment distances
+        var distances: [Double] = []
+        if self.validLocationPoints.count >= 2 {
+            for i in 0..<(self.validLocationPoints.count - 1) {
+                let start = CLLocation(
+                    latitude: self.validLocationPoints[i].location.latitude,
+                    longitude: self.validLocationPoints[i].location.longitude
+                )
+                let end = CLLocation(
+                    latitude: self.validLocationPoints[i + 1].location.latitude,
+                    longitude: self.validLocationPoints[i + 1].location.longitude
+                )
+                // Convert meters to nautical miles (1 nautical mile = 1852 meters)
+                let distanceNM = start.distance(from: end) / 1852.0
+                distances.append(distanceNM)
+            }
+        }
+        self.segmentDistances = distances
     }
     
     private var hasLocationData: Bool {
@@ -315,7 +356,32 @@ struct RaceSessionMapView: View {
                             }
                         }
                     }
-                                    
+
+                    // Add distance labels for segments
+                    ForEach(0..<validLocationPoints.count - 1, id: \.self) { index in
+                        let start = validLocationPoints[index]
+                        let end = validLocationPoints[index + 1]
+                        let segmentDistance = segmentDistances[index]
+                        
+                        // Only show distance for segments that are visible (not too small)
+                        if segmentDistance > 0.05 { // Only show distances greater than 0.05 NM
+                            let midpointCoordinate = findMidpointWithOffset(
+                                start: start.location,
+                                end: end.location
+                            )
+                            
+                            Annotation("", coordinate: midpointCoordinate) {
+                                Text(String(format: "%.1f NM", segmentDistance))
+                                    .font(.system(size: 10, weight: .medium))
+                                    .foregroundColor(.white)
+                                    .padding(.horizontal, 6)
+                                    .padding(.vertical, 2)
+                                    .background(Color(hex: ColorTheme.ultraBlue.rawValue))
+                                    .cornerRadius(8)
+                            }
+                        }
+                    }
+                    
                 // Start line
                 if hasStartLine,
                    let leftPoint = session.leftPoint,
@@ -577,10 +643,42 @@ struct RaceSessionMapView: View {
                     }
                 }
                 
-                // Detailed waypoint data
+                // Detailed waypoint data with distances
                 if let waypoints = session.waypoints, !waypoints.isEmpty {
                     Section(header: Text("Waypoints (\(waypoints.count))")) {
-                        ForEach(waypoints.sorted(by: { $0.order < $1.order })) { waypoint in
+                        // Start point to first waypoint distance
+                        if waypoints.count > 0 && hasStartLine && validLocationPoints.count > 0,
+                           let leftPoint = session.leftPoint {
+                            let startLocation = CLLocation(
+                                latitude: leftPoint.latitude,
+                                longitude: leftPoint.longitude
+                            )
+                            let firstWaypoint = waypoints.sorted(by: { $0.order < $1.order }).first!
+                            let waypointLocation = CLLocation(
+                                latitude: firstWaypoint.latitude,
+                                longitude: firstWaypoint.longitude
+                            )
+                            let distanceMeters = startLocation.distance(from: waypointLocation)
+                            let distanceNM = distanceMeters / 1852.0
+                            
+                            VStack(alignment: .leading, spacing: 4) {
+                                HStack {
+                                    Text("Start to Waypoint 1")
+                                        .font(.headline)
+                                    Spacer()
+                                    Text(String(format: "%.2f NM", distanceNM))
+                                        .font(.subheadline)
+                                        .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
+                                }
+                                .padding(.vertical, 4)
+                            }
+                        }
+                        
+                        // Display waypoints with distances between them
+                        let sortedWaypoints = waypoints.sorted(by: { $0.order < $1.order })
+                        ForEach(0..<sortedWaypoints.count, id: \.self) { index in
+                            let waypoint = sortedWaypoints[index]
+                            
                             VStack(alignment: .leading, spacing: 4) {
                                 HStack {
                                     // Show different icon for active waypoint
@@ -604,6 +702,27 @@ struct RaceSessionMapView: View {
                                             .background(Color.blue.opacity(0.2))
                                             .foregroundColor(.blue)
                                             .cornerRadius(4)
+                                    }
+                                    
+                                    Spacer()
+                                    
+                                    // Show distance from previous waypoint if not the first
+                                    if index > 0 {
+                                        let prevWaypoint = sortedWaypoints[index - 1]
+                                        let prevLocation = CLLocation(
+                                            latitude: prevWaypoint.latitude,
+                                            longitude: prevWaypoint.longitude
+                                        )
+                                        let currentLocation = CLLocation(
+                                            latitude: waypoint.latitude,
+                                            longitude: waypoint.longitude
+                                        )
+                                        let distanceMeters = prevLocation.distance(from: currentLocation)
+                                        let distanceNM = distanceMeters / 1852.0
+                                        
+                                        Text(String(format: "%.2f NM", distanceNM))
+                                            .font(.subheadline)
+                                            .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
                                     }
                                 }
                                 
@@ -636,11 +755,6 @@ struct RaceSessionMapView: View {
                                 
                                 if let reachedAt = waypoint.reachedAt {
                                     Text("Reached at: \(dateFormatter.string(from: reachedAt))")
-                                        .font(.caption)
-                                }
-                                
-                                if let distance = waypoint.distanceFromPrevious {
-                                    Text("Distance from previous: \(String(format: "%.1f", distance)) meters")
                                         .font(.caption)
                                 }
                                 

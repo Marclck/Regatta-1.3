@@ -6,5 +6,29 @@
 	<array>
 		<string>StartCountdownIntent</string>
 	</array>
+    <key>UTExportedTypeDeclarations</key>
+    <array>
+        <dict>
+            <key>UTTypeIdentifier</key>
+            <string>com.regatta.planpoint</string>
+            <key>UTTypeTagSpecification</key>
+            <dict>
+                <key>public.filename-extension</key>
+                <array>
+                    <string>planpoint</string>
+                </array>
+                <key>public.mime-type</key>
+                <array>
+                    <string>application/com.regatta.planpoint</string>
+                </array>
+            </dict>
+            <key>UTTypeDescription</key>
+            <string>Regatta Plan Point</string>
+            <key>UTTypeConformsTo</key>
+            <array>
+                <string>public.data</string>
+            </array>
+        </dict>
+    </array>
 </dict>
 </plist>

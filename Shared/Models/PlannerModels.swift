@@ -192,8 +192,11 @@ class RoutePlanStore: ObservableObject {
     }
     
     func savePlan() {
+        print("Starting savePlan...")
         // Filter out empty points (lat & lng both 0)
         let validPoints = currentPlan.filter { !(abs($0.latitude) < 0.0001 && abs($0.longitude) < 0.0001) }
+        
+        print("Found \(validPoints.count) valid points")
         
         // Only save if there are valid points
         if !validPoints.isEmpty {
@@ -211,6 +214,9 @@ class RoutePlanStore: ObservableObject {
             
             // Persist to storage
             savePlansToStorage()
+            print("Plan saved successfully")
+        } else {
+            print("No valid points to save")
         }
     }
     
