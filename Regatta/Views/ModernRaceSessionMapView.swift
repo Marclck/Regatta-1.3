@@ -1113,37 +1113,29 @@ struct ModernRaceSessionMapView: View {
                                                                 .font(.system(size: 9, design: .monospaced))
                                                                 .foregroundColor(.gray)
                                                             
-                                                            // Show progress for active waypoint
-                                                            /*
-                                                            if let progress = waypoint.progress, progress > 0 {
-                                                                HStack {
-                                                                    Text("\(String(format: "%.0f", progress * 100))%")
-                                                                        .font(.system(size: 9))
-                                                                        .foregroundColor(.gray)
-                                                                    
-                                                                    // Mini progress bar
-                                                                    ZStack(alignment: .leading) {
-                                                                        Rectangle()
-                                                                            .frame(width: 40, height: 4)
-                                                                            .opacity(0.3)
-                                                                            .foregroundColor(.gray)
-                                                                        
-                                                                        Rectangle()
-                                                                            .frame(width: min(CGFloat(progress) * 40, 40), height: 4)
-                                                                            .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
-                                                                    }
-                                                                    .cornerRadius(2)
-                                                                }
-                                                            }
-                                                            */
-                                                            
-                                                            /*
-                                                            if let reachedAt = waypoint.reachedAt {
-                                                                Text(dateFormatter.string(from: reachedAt))
+                                                            // Distance calculation and display
+                                                            if waypoint.order == 0 && hasStartLine, let leftPoint = session.leftPoint {
+                                                                // For first waypoint, display distance from start
+                                                                let startLocation = CLLocation(latitude: leftPoint.latitude, longitude: leftPoint.longitude)
+                                                                let waypointLocation = CLLocation(latitude: waypoint.latitude, longitude: waypoint.longitude)
+                                                                let distanceMeters = startLocation.distance(from: waypointLocation)
+                                                                let distanceNM = distanceMeters / 1852.0
+                                                                
+                                                                Text(String(format: "Start: %.1f NM", distanceNM))
                                                                     .font(.system(size: 9))
-                                                                    .foregroundColor(.gray)
+                                                                    .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
                                                             }
-                                                            */
+                                                            else if waypoint.order > 0, let prevWaypoint = waypoints.first(where: { $0.order == waypoint.order - 1 }) {
+                                                                // For subsequent waypoints, display distance from previous waypoint
+                                                                let prevLocation = CLLocation(latitude: prevWaypoint.latitude, longitude: prevWaypoint.longitude)
+                                                                let currLocation = CLLocation(latitude: waypoint.latitude, longitude: waypoint.longitude)
+                                                                let distanceMeters = prevLocation.distance(from: currLocation)
+                                                                let distanceNM = distanceMeters / 1852.0
+                                                                
+                                                                Text(String(format: "Prev: %.1f NM", distanceNM))
+                                                                    .font(.system(size: 9))
+                                                                    .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
+                                                            }
                                                         }
                                                         .padding(8)
                                                         .background(Color.black.opacity(0.3))

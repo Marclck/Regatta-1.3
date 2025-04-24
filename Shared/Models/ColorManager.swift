@@ -21,7 +21,9 @@ enum ColorTheme: String, CaseIterable, Codable {
     case racingRed = "C9293E"
     case kiwiBlue = "01EAF8"
     case speedPapaya = "D5791C"
+    case lagunaBlue = "0075d7"
     case signalOrange = "F37021"
+    case hydraBleu = "2378c8"
     case marineYellow = "F6A726"
     
     var name: String {
@@ -33,7 +35,9 @@ enum ColorTheme: String, CaseIterable, Codable {
         case .racingRed: return "Racing Red"
         case .kiwiBlue: return "Kiwi Blue"
         case .speedPapaya: return "Speed Papaya"
+        case .lagunaBlue: return "Laguna Blue"
         case .signalOrange: return "Signal Orange"
+        case .hydraBleu: return "Hydra Bleu"
         case .marineYellow: return "Marine Yellow"
         }
     }

@@ -182,7 +182,8 @@ struct PlanDetailView: View {
     @ObservedObject private var planStore = RoutePlanStore.shared
     @State private var showEditNameAlert = false
     @State private var localPlanName: String
-    
+    @State private var totalDistance: Double = 0.0
+
     init(plan: RoutePlan, mapStyle: Binding<MapStyleConfiguration>) {
         self.plan = plan
         self._mapStyle = mapStyle
@@ -225,7 +226,7 @@ struct PlanDetailView: View {
                         .padding(.horizontal)
                         .padding(.top, 8)
                         
-                        // Date and waypoint count
+                        // Date, waypoint count, and total distance
                         HStack {
                             Text(plan.formattedDateTime())
                                 .font(.subheadline)
@@ -238,9 +239,22 @@ struct PlanDetailView: View {
                                 .font(.subheadline)
                                 .foregroundColor(.white.opacity(0.7))
                             
+                            if totalDistance > 0 {
+                                Text("•")
+                                    .foregroundColor(.white.opacity(0.7))
+                                
+                                Text(String(format: "%.1f NM total", totalDistance))
+                                    .font(.subheadline)
+                                    .foregroundColor(.white.opacity(0.7))
+                            }
+                            
                             Spacer()
                         }
                         .padding(.horizontal)
+                        .onAppear {
+                            // Calculate total distance on appear
+                            totalDistance = calculateTotalDistanceInNauticalMiles(points: plan.points)
+                        }
                         
                         // Map style picker
                         Picker("Map Style", selection: $mapStyle) {
@@ -264,25 +278,57 @@ struct PlanDetailView: View {
                         .frame(height: 350)
                         .cornerRadius(12)
                         .padding(.horizontal)
-                        
+            
+                       Button(action: {
+                           planStore.loadPlanWithWatch(plan)
+                           dismiss()
+                       }) {
+                           Text("Load This Plan")
+                               .font(.headline)
+                               .foregroundColor(.white)
+                               .padding()
+                               .frame(maxWidth: .infinity)
+                               .background(Color(hex: ColorTheme.ultraBlue.rawValue))
+                               .cornerRadius(12)
+                               .padding(.horizontal)
+                       }
+            
                         // Waypoints list
                         VStack(alignment: .leading, spacing: 8) {
                             Text("Waypoints")
                                 .font(.headline)
                                 .foregroundColor(.white)
                                 .padding(.horizontal)
+                                .padding(.top, 10)
                             
-                            ForEach(plan.points.sorted(by: { $0.order < $1.order })) { point in
-                                HStack {
-                                    Text("\(point.order + 1)")
-                                        .font(.system(.headline))
-                                        .foregroundColor(.white)
-                                        .frame(width: 24, height: 24)
-                                        .background(Circle().fill(Color(hex: ColorTheme.ultraBlue.rawValue)))
+                            let sortedPoints = plan.points.sorted(by: { $0.order < $1.order })
+                            
+                            ForEach(0..<sortedPoints.count, id: \.self) { index in
+                                let point = sortedPoints[index]
+                                
+                                VStack(alignment: .leading, spacing: 4) {
+                                    HStack {
+                                        Text("\(point.order + 1)")
+                                            .font(.system(.headline))
+                                            .foregroundColor(.white)
+                                            .frame(width: 24, height: 24)
+                                            .background(Circle().fill(Color(hex: ColorTheme.ultraBlue.rawValue)))
+                                        
+                                        Text(String(format: "Lat: %.6f, Lng: %.6f", point.latitude, point.longitude))
+                                            .font(.system(.subheadline, design: .monospaced))
+                                            .foregroundColor(.white)
+                                    }
                                     
-                                    Text(String(format: "Lat: %.6f, Lng: %.6f", point.latitude, point.longitude))
-                                        .font(.system(.subheadline, design: .monospaced))
-                                        .foregroundColor(.white)
+                                    // Display segment distance if not the first point
+                                    if index > 0 {
+                                        let prevPoint = sortedPoints[index - 1]
+                                        let distance = calculateDistanceInNauticalMiles(from: prevPoint, to: point)
+                                        
+                                        Text(String(format: "Distance from previous: %.1f NM", distance))
+                                            .font(.system(.caption, design: .monospaced))
+                                            .foregroundColor(Color(hex: ColorTheme.ultraBlue.rawValue))
+                                            .padding(.leading, 32)
+                                    }
                                 }
                                 .padding(.vertical, 4)
                                 .padding(.horizontal, 12)
@@ -297,20 +343,6 @@ struct PlanDetailView: View {
                         .materialBackground()
                         .environment(\.colorScheme, .dark) // Ensure material background is in dark mode
                         .padding(.horizontal)
-                        
-                        Button(action: {
-                            planStore.loadPlanWithWatch(plan)
-                            dismiss()
-                        }) {
-                            Text("Load This Plan")
-                                .font(.headline)
-                                .foregroundColor(.white)
-                                .padding()
-                                .frame(maxWidth: .infinity)
-                                .background(Color(hex: ColorTheme.ultraBlue.rawValue))
-                                .cornerRadius(12)
-                                .padding(.horizontal)
-                        }
                         .padding(.bottom, 16)
                     }
                     .padding(.top, 1)
@@ -361,6 +393,35 @@ struct PlanDetailView: View {
         }
         .environment(\.colorScheme, .dark)
         .preferredColorScheme(.dark) // Add this line to ensure system-wide dark mode
+    }
+    
+    // Function to calculate distance between two points in nautical miles
+    private func calculateDistanceInNauticalMiles(from startPoint: PlanPoint, to endPoint: PlanPoint) -> Double {
+        let start = CLLocation(latitude: startPoint.latitude, longitude: startPoint.longitude)
+        let end = CLLocation(latitude: endPoint.latitude, longitude: endPoint.longitude)
+        let distanceMeters = start.distance(from: end)
+        
+        // Convert meters to nautical miles (1 nautical mile = 1852 meters)
+        return distanceMeters / 1852.0
+    }
+    
+    // Function to calculate total route distance in nautical miles
+    private func calculateTotalDistanceInNauticalMiles(points: [PlanPoint]) -> Double {
+        guard points.count >= 2 else { return 0.0 }
+        
+        // Sort points by order
+        let sortedPoints = points.sorted(by: { $0.order < $1.order })
+        
+        var totalDistanceMeters: CLLocationDistance = 0.0
+        
+        for i in 0..<(sortedPoints.count - 1) {
+            let start = CLLocation(latitude: sortedPoints[i].latitude, longitude: sortedPoints[i].longitude)
+            let end = CLLocation(latitude: sortedPoints[i + 1].latitude, longitude: sortedPoints[i + 1].longitude)
+            totalDistanceMeters += start.distance(from: end)
+        }
+        
+        // Convert meters to nautical miles (1 nautical mile = a.1852 meters)
+        return totalDistanceMeters / 1852.0
     }
 }
 

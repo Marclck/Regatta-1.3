@@ -467,24 +467,32 @@ struct SettingsView: View {
                 .font(.system(size: 17))
                 .foregroundColor(.white.opacity(1))
 
+
                 Section("Developer") {
-                    Toggle("Debug Mode", isOn: $settings.debugMode)
-                        .font(.system(size: 17))
-                        .toggleStyle(SwitchToggleStyle(tint: Color.white.opacity(0.5)))
-                        .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
-                    
-                    if !iapManager.canAccessFeatures(minimumTier: .ultra) {
-                        Text("Requires Ultra subscription")
-                            .font(.caption2)
-                            .foregroundColor(.gray)
-                    } else {
-                        Text("Enables additional logging and debug features")
-                            .font(.caption2)
-                            .foregroundColor(.white)
-                    }
-                }
-                .font(.system(size: 17, weight: .bold))
-                .foregroundColor(Color.white.opacity(0.5))
+                                    NavigationLink {
+                                        List {
+                                            Toggle("Debug Mode", isOn: $settings.debugMode)
+                                                .font(.system(size: 17))
+                                                .toggleStyle(SwitchToggleStyle(tint: Color.white.opacity(0.5)))
+                                                .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
+                                            
+                                            if !iapManager.canAccessFeatures(minimumTier: .ultra) {
+                                                Text("Requires Ultra subscription")
+                                                    .font(.caption2)
+                                                    .foregroundColor(.gray)
+                                            } else {
+                                                Text("For development purpose only. Do not turn on.")
+                                                    .font(.caption2)
+                                                    .foregroundColor(.red)
+                                            }
+                                        }
+                                        .navigationTitle("Debug Options")
+                                    } label: {
+                                        Text("Debug Settings")
+                                    }
+                                }
+                                .font(.system(size: 17, weight: .bold))
+                                .foregroundColor(Color.white.opacity(0.5))
                 
             }
             .dynamicTypeSize(.xSmall)

@@ -11,20 +11,32 @@ import SwiftUI
 struct VersionHistoryContent: View {
     var body: some View {
         VStack(spacing: 24) {
-            // Version 1.3
+            // Version 1.4
             VStack(alignment: .leading, spacing: 16) {
                 // Version header
                 HStack {
-                    Text("Version 1.3")
+                    Text("Version 1.4")
                         .font(.system(size: 16, weight: .bold))
                 }
                 
                 VStack(alignment: .leading, spacing: 8) {
-                    Text("Introducing ULTRA features")
+                    Text("Route Planning and Waypoints")
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
                     
                     VStack(alignment: .leading, spacing: 16) {
+                        VStack(alignment: .leading, spacing: 4) {
+                            Text("CruiseR")
+                                .font(.system(size: 22, weight: .bold))
+                                .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.9))
+                            
+                            FeatureRow(icon: "mappin", text: "Route planning and waypoint tracking - access through compass button")
+                            FeatureRow(icon: "gauge.with.needle", text: "Speed Tracking: SOG display with GPS toggle for precise speed monitoring")
+                            FeatureRow(icon: "wind", text: "Wind Analysis: Real-time wind speed and directional indicators with compass bearing")
+                            FeatureRow(icon: "location.north.line", text: "Course Monitor: Deviation tracking with North reference and 10° indicators")
+                            FeatureRow(icon: "thermometer.medium", text: "Weather Station: Integrated weather data and barometric pressure readings")
+                            FeatureRow(icon: "point.topleft.down.curvedto.point.bottomright.up", text: "Journey Stats: Distance traveled with continuous tracking")
+                        }
                         // ProControl section
                         VStack(alignment: .leading, spacing: 4) {
                             Text("ProControl")
@@ -47,20 +59,24 @@ struct VersionHistoryContent: View {
                             FeatureRow(icon: "dots.and.line.vertical.and.cursorarrow.rectangle", text: "Shift Tracking within 30 degrees")
                             FeatureRow(icon: "gauge.open.with.lines.needle.33percent", text: "Speedometer in knots")
                         }
-                        
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text("CruiseR")
-                                .font(.system(size: 22, weight: .bold))
-                                .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.9))
-                            
-                            FeatureRow(icon: "gauge.with.needle", text: "Speed Tracking: SOG display with GPS toggle for precise speed monitoring")
-                            FeatureRow(icon: "wind", text: "Wind Analysis: Real-time wind speed and directional indicators with compass bearing")
-                            FeatureRow(icon: "location.north.line", text: "Course Monitor: Deviation tracking with North reference and 10° indicators")
-                            FeatureRow(icon: "thermometer.medium", text: "Weather Station: Integrated weather data and barometric pressure readings")
-                            FeatureRow(icon: "point.topleft.down.curvedto.point.bottomright.up", text: "Journey Stats: Distance traveled with continuous tracking")
-                        }
                     }
                 }
+            }
+            .padding(20)
+            .background(Color.black.opacity(0.05))
+            .cornerRadius(12)
+
+            // Version 1.3
+            VStack(alignment: .leading, spacing: 16) {
+                HStack {
+
+                    Text("Version 1.3")
+                        .font(.system(size: 16, weight: .bold))
+                }
+                
+                Text("Introducing Ultra Features: CruiseR, Dashboard and CruiseR")
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(.secondary)
             }
             .padding(20)
             .background(Color.black.opacity(0.05))

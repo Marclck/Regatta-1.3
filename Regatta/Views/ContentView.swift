@@ -15,7 +15,7 @@ struct ContentView: View {
     // Add a state to trigger view refresh
     @State private var themeRefreshTrigger = UUID()
     
-    private let currentVersion = "1.3"
+    private let currentVersion = "1.4"
 
     var body: some View {
         TabView {
@@ -84,7 +84,7 @@ struct VersionUpdatePopup: View {
     var body: some View {
         VStack(alignment: .leading, spacing: 16) {
             VStack(alignment: .leading, spacing: 8) {
-                Text("Version 1.3")
+                Text("Version 1.4")
                     .font(.system(size: 16, weight: .bold))
                 
                 
@@ -102,6 +102,19 @@ struct VersionUpdatePopup: View {
                     .padding(.vertical, 8)
                 
                 VStack(alignment: .leading, spacing: 16) {
+                    VStack(alignment: .leading, spacing: 4) {
+                        Text("CruiseR")
+                            .font(.system(size: 22, weight: .bold))
+                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.9))
+                        
+                        FeatureRow(icon: "mappin", text: "Route planning and waypoint tracking - access through compass button")
+                        FeatureRow(icon: "gauge.with.needle", text: "Speed Tracking: SOG display with GPS toggle for precise speed monitoring")
+                        FeatureRow(icon: "wind", text: "Wind Analysis: Real-time wind speed and directional indicators with compass bearing")
+                        FeatureRow(icon: "location.north.line", text: "Course Monitor: Deviation tracking with North reference and 10° indicators")
+                        FeatureRow(icon: "thermometer.medium", text: "Weather Station: Integrated weather data and barometric pressure readings")
+                        FeatureRow(icon: "point.topleft.down.curvedto.point.bottomright.up", text: "Journey Stats: Distance traveled with continuous tracking")
+                    }
+
                     VStack(alignment: .leading, spacing: 4) {
                         Text("ProControl")
                             .font(.system(size: 22, weight: .bold))
@@ -121,18 +134,6 @@ struct VersionUpdatePopup: View {
                         FeatureRow(icon: "square.fill.and.line.vertical.and.square.fill", text: "Distance to Startline using dual band GPS")
                         FeatureRow(icon: "dots.and.line.vertical.and.cursorarrow.rectangle", text: "Shift Tracking within 30 degrees")
                         FeatureRow(icon: "gauge.open.with.lines.needle.33percent", text: "Speedometer in knots")
-                    }
-                    
-                    VStack(alignment: .leading, spacing: 4) {
-                        Text("CruiseR")
-                            .font(.system(size: 22, weight: .bold))
-                            .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.9))
-                        
-                        FeatureRow(icon: "gauge.with.needle", text: "Speed Tracking: SOG display with GPS toggle for precise speed monitoring")
-                        FeatureRow(icon: "wind", text: "Wind Analysis: Real-time wind speed and directional indicators with compass bearing")
-                        FeatureRow(icon: "location.north.line", text: "Course Monitor: Deviation tracking with North reference and 10° indicators")
-                        FeatureRow(icon: "thermometer.medium", text: "Weather Station: Integrated weather data and barometric pressure readings")
-                        FeatureRow(icon: "point.topleft.down.curvedto.point.bottomright.up", text: "Journey Stats: Distance traveled with continuous tracking")
                     }
                 }
             }

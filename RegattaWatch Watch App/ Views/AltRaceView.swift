@@ -267,7 +267,7 @@ struct AltRaceView: View {
                                                     .offset(x:hourSecondDigit(from: currentTime) == "1" ? -10 : 0)
                                                     .offset(y: settings.debugMode ? -55 : -45)
                                                     .zIndex(settings.debugMode
-                                                            ? (["1"].contains(hourSecondDigit(from: currentTime)) ? 1 : ["1"].contains(minuteSecondDigit(from: currentTime)) ? 1 : 2)
+                                                            ? (["1"].contains(hourSecondDigit(from: currentTime)) ? 2 : ["1"].contains(minuteSecondDigit(from: currentTime)) ? 1 : 2)
                                                             : (["1", "4", "7", "9"].contains(hourSecondDigit(from: currentTime)) ? 1 : 2))
 
                                                 // Minute second digit - left half (on bottom vertically)
@@ -290,7 +290,7 @@ struct AltRaceView: View {
                                                     .offset(x:minuteSecondDigit(from: currentTime) == "1" ? -10 : 0)
                                                     .offset(y: settings.debugMode ? 55 : 45)
                                                     .zIndex(settings.debugMode
-                                                            ? (["1"].contains(hourSecondDigit(from: currentTime)) ? 2 :  ["1"].contains(minuteSecondDigit(from: currentTime)) ? 2 : 1)
+                                                            ? (["1"].contains(hourSecondDigit(from: currentTime)) ? 1 :  ["1"].contains(minuteSecondDigit(from: currentTime)) ? 2 : 1)
                                                             : (["1", "4", "7", "9"].contains(hourSecondDigit(from: currentTime)) ? 2 : 1))
                                             }
                                             .offset(x: settings.debugMode ? 20 : 15)

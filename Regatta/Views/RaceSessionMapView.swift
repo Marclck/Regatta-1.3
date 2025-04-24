@@ -778,7 +778,7 @@ struct RaceSessionMapView: View {
                     }
                 }
             }
-            .frame(height: 300) // Set an appropriate height
+            .frame(height: 360) // Set an appropriate height
 
 
             // Button to navigate to session details view
