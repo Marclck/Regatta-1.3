@@ -44,7 +44,7 @@ struct WatchProgressBarView: View {
                         if timerState.selectedMinutes > 0 {
                             RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
                                 .trim(from: 0, to: 0.002)
-                                .stroke(Color.black,
+                                .stroke(settings.lightMode ? Color.white : Color.black,
                                     style: StrokeStyle(lineWidth: 25, lineCap: .butt)
                                 )
                                 .frame(width: barHeight, height: barWidth)
@@ -53,7 +53,7 @@ struct WatchProgressBarView: View {
                             
                             RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
                                 .trim(from: 0.998, to: 1)
-                                .stroke(Color.black,
+                                .stroke(settings.lightMode ? Color.white : Color.black,
                                     style: StrokeStyle(lineWidth: 25, lineCap: .butt)
                                 )
                                 .frame(width: barHeight, height: barWidth)
@@ -68,7 +68,7 @@ struct WatchProgressBarView: View {
                             RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
                                 .trim(from: max(0, separatorPosition - 0.002),
                                       to: min(1, separatorPosition + 0.002))
-                                .stroke(Color.black,
+                                .stroke(settings.lightMode ? Color.white : Color.black,
                                     style: StrokeStyle(lineWidth: 25, lineCap: .butt)
                                 )
                                 .frame(width: barHeight, height: barWidth)
@@ -96,7 +96,7 @@ struct WatchProgressBarView: View {
                                 RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
                                     .trim(from: max(0, subSegmentPosition - 0.002),
                                           to: min(1, subSegmentPosition + 0.002))
-                                    .stroke(Color.black,
+                                    .stroke(settings.lightMode ? Color.white : Color.black,
                                         style: StrokeStyle(lineWidth: 25, lineCap: .butt)
                                     )
                                     .frame(width: barHeight, height: barWidth)

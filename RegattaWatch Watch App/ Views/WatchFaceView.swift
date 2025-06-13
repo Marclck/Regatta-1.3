@@ -23,6 +23,7 @@ struct WatchFaceView: View {
     @State private var currentTime = Date()
     let timeTimer = Timer.publish(every: 0.1, on: .main, in: .common).autoconnect()
     @ObservedObject var cruisePlanState: WatchCruisePlanState
+    @State private var hasInitializedShowCruiseInfo = false
 
     @State private var showCruiseInfo = true
         
@@ -216,6 +217,11 @@ struct WatchFaceView: View {
                     // Pass in the timerState but let the manager decide if a new session is needed
 //                    ExtendedSessionManager.shared.startSession(timerState: timerState)
 //                    print("⌚️ View: Ensured extended runtime session is active")
+                    if !hasInitializedShowCruiseInfo {
+                        showCruiseInfo = settings.launchScreen != .time
+                        hasInitializedShowCruiseInfo = true
+                    }
+
                 }
                 .onDisappear {
                     // Original cleanup

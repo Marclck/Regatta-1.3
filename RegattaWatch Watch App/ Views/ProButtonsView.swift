@@ -107,7 +107,7 @@ struct ProButtonsView: View {
         } else if leftButtonIcon == "xmark" {
             return .orange
         } else {
-            return .white
+            return settings.lightMode ? .black : .white
         }
     }
     

@@ -224,7 +224,9 @@ struct ContentView: View {
     @ObservedObject private var wcSession = WCSessionManager.shared
     @State private var connectivityTimer: Timer?
     @EnvironmentObject var cruisePlanState: WatchCruisePlanState
+    @State private var hasInitializedLaunchScreen = false
 
+    
     var body: some View {
         ZStack {
             if showingWatchFace {
@@ -311,6 +313,16 @@ struct ContentView: View {
             
             // Ensure watch connectivity
             ensureWatchConnectivity()
+            
+            if !hasInitializedLaunchScreen {
+                switch settings.launchScreen {
+                case .timer:
+                    showingWatchFace = false
+                case .cruiser, .time:
+                    showingWatchFace = true
+                }
+                hasInitializedLaunchScreen = true
+            }
             
             // Check for trial promotion eligibility
             if iapManager.isProUltraTrialAvailable {
@@ -414,6 +426,12 @@ struct TimerView: View {
                 GeometryReader { geometry in
                     let centerY = geometry.size.height/2
                     ZStack {
+                        if settings.lightMode {
+                             Color.white.edgesIgnoringSafeArea(.all)
+                         } else {
+                             Color.black.edgesIgnoringSafeArea(.all)
+                         }
+                        
                         WatchProgressBarView(timerState: timerState)
                         
                         VStack(spacing: 0) {

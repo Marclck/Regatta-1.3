@@ -22,7 +22,7 @@ enum ColorTheme: String, CaseIterable, Codable {
     case kiwiBlue = "01EAF8"
     case speedPapaya = "D5791C"
     case lagunaBlue = "0075d7"
-    case signalOrange = "F37021"
+    case signalOrange = "FE5400"
     case hydraBleu = "2378c8"
     case marineYellow = "F6A726"
     

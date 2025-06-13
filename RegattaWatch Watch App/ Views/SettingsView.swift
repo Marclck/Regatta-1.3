@@ -9,6 +9,16 @@ import Foundation
 import SwiftUI
 import CoreLocation
 
+enum LaunchScreen: String, CaseIterable {
+    case timer = "TimeR"
+    case cruiser = "CruiseR"
+    case time = "Time"
+    
+    var displayName: String {
+        return self.rawValue
+    }
+}
+
 class AppSettings: ObservableObject {
     // Timer interval in seconds (1.0 when smooth is off, 0.01 when on)
     var timerInterval: Double {
@@ -18,6 +28,13 @@ class AppSettings: ObservableObject {
     // Team name color hex value (ultraBlue when on, speedPapaya when off)
     var teamNameColorHex: String {
         return altTeamNameColor ? "#000000" : ColorTheme.speedPapaya.rawValue
+    }
+    
+    @Published var launchScreen: LaunchScreen {
+        didSet {
+            UserDefaults.standard.set(launchScreen.rawValue, forKey: "launchScreen")
+            print("LaunchScreen changed to: \(launchScreen.rawValue)")
+        }
     }
     
     @Published var teamName: String {
@@ -127,6 +144,7 @@ class AppSettings: ObservableObject {
             UserDefaults.standard.integer(forKey: "quickStartMinutes") : 5
         self.privacyOverlay = UserDefaults.standard.bool(forKey: "privacyOverlay") // Default to false
         self.debugMode = UserDefaults.standard.bool(forKey: "debugMode") // Default to false
+        self.launchScreen = LaunchScreen(rawValue: UserDefaults.standard.string(forKey: "launchScreen") ?? "TimeR") ?? .timer
         UserDefaults.standard.synchronize()
     }
 }
@@ -469,27 +487,42 @@ struct SettingsView: View {
 
 
                 Section("Developer") {
-                                    NavigationLink {
-                                        List {
-                                            Toggle("Debug Mode", isOn: $settings.debugMode)
-                                                .font(.system(size: 17))
-                                                .toggleStyle(SwitchToggleStyle(tint: Color.white.opacity(0.5)))
-                                                .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
-                                            
-                                            if !iapManager.canAccessFeatures(minimumTier: .ultra) {
-                                                Text("Requires Ultra subscription")
-                                                    .font(.caption2)
-                                                    .foregroundColor(.gray)
-                                            } else {
-                                                Text("For development purpose only. Do not turn on.")
-                                                    .font(.caption2)
-                                                    .foregroundColor(.red)
-                                            }
-                                        }
-                                        .navigationTitle("Debug Options")
-                                    } label: {
-                                        Text("Debug Settings")
+                    NavigationLink {
+                        List {
+                            Section("Launch Screen") {
+                                Picker("Default Launch Screen", selection: $settings.launchScreen) {
+                                    ForEach(LaunchScreen.allCases, id: \.self) { screen in
+                                        Text(screen.displayName).tag(screen)
                                     }
+                                }
+                                .pickerStyle(WheelPickerStyle())
+                                
+                                Text("Choose which screen appears when the app launches. TimeR: Timer view, CruiseR: Watch face with cruise info, Time: Watch face showing time only.")
+                                    .font(.caption2)
+                                    .foregroundColor(.white)
+                            }
+                            
+                            Section("Debug Options") {
+                                Toggle("Debug Mode", isOn: $settings.debugMode)
+                                    .font(.system(size: 17))
+                                    .toggleStyle(SwitchToggleStyle(tint: Color.white.opacity(0.5)))
+                                    .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
+                                
+                                if !iapManager.canAccessFeatures(minimumTier: .ultra) {
+                                    Text("Requires Ultra subscription")
+                                        .font(.caption2)
+                                        .foregroundColor(.gray)
+                                } else {
+                                    Text("For development purpose only. Do not turn on.")
+                                        .font(.caption2)
+                                        .foregroundColor(.red)
+                                }
+                            }
+                        }
+                        .navigationTitle("Debug Settings")
+                    } label: {
+                        Text("Debug Settings")
+                    }
                                 }
                                 .font(.system(size: 17, weight: .bold))
                                 .foregroundColor(Color.white.opacity(0.5))
@@ -541,6 +574,7 @@ extension AppSettings {
         quickStartMinutes = 5
         privacyOverlay = false
         debugMode = false
+        launchScreen = .timer
 
         // Reset ultra features if tier is not ultra
         if tier != .ultra {

@@ -59,7 +59,7 @@ struct TimeDisplayView: View {
                         .dynamicTypeSize(.xSmall)
                         .padding(.vertical)
                         .scaleEffect(x:1, y:1)
-                        .foregroundColor(.white)
+                        .foregroundColor(settings.lightMode ? .black : .white)
                 }
             }
             .offset(y:6)
@@ -68,12 +68,24 @@ struct TimeDisplayView: View {
             .frame(width: 150, height: 80)
             .scaleEffect(x:1, y:1)
             .padding(.horizontal, 5)
+            .colorScheme(settings.lightMode ? .light : .dark)
             .focused($FocusState)
             .overlay(alignment: .bottom) {
-                RoundedRectangle(cornerRadius: 12.5).stroke(lineWidth: 2.1)
-                    .offset(y:5)
-                    .frame(width: 149, height: 78) //149.5, 78
-                    .foregroundColor(FocusState ? Color(hex: colorManager.selectedTheme.rawValue) : .clear)
+                RoundedRectangle(cornerRadius: 12.5)
+                    .fill(
+                        LinearGradient(
+                            gradient: Gradient(stops: [
+                                .init(color: .white.opacity(1.4), location: 0),
+                                .init(color: .clear, location: 0.5),
+                                .init(color: .white.opacity(1.4), location: 1)
+                            ]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .offset(y: 5)
+                    .frame(width: 149, height: 78)
+                    .opacity(FocusState ? 1.0 : 0.0) // Show/hide based on focus state
             }
         } else {
             ZStack {
@@ -81,16 +93,16 @@ struct TimeDisplayView: View {
                 HStack(spacing: 0) {
                     Text(timeComponents.minutes)
                         .font(.zenithBeta(size: 38, weight: .medium))
-                        .foregroundColor(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : .white)
+                        .foregroundColor(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : settings.lightMode ? .black : .white)
 
                     Text(":")
                         .font(.zenithBeta(size: 38, weight: .medium))
-                        .foregroundColor(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : .white)
+                        .foregroundColor(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : settings.lightMode ? .black : .white)
                         .offset(x:-0.5, y:-4.3)
                     
                     Text(timeComponents.seconds)
                         .font(.zenithBeta(size: 38, weight: .medium))
-                        .foregroundColor(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : .white)
+                        .foregroundColor(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : settings.lightMode ? .black : .white)
                 }
                 .offset(y:10.5)
                 .padding(.top, 13)
@@ -111,7 +123,7 @@ struct TimeDisplayView: View {
                 if isMinuteAdjustmentActive {
                     ZStack {
                         Rectangle()
-                            .fill(Color.black)
+                            .fill(settings.lightMode ? Color.white : Color.black)
                             .frame(width: 80, height: 80)
                             .offset(x: -40, y: -3)
                         
@@ -120,12 +132,28 @@ struct TimeDisplayView: View {
                                 Text("\(String(format: "%02d", minute))")
                                     .font(.zenithBeta(size: 38, weight: .medium))
                                     .frame(maxWidth: .infinity, alignment: .trailing)
-                                    .foregroundColor(.white)
+                                    .foregroundColor(settings.lightMode ? .black : .white)
                             }
                         }
                         .pickerStyle(.wheel)
                         .frame(width: 80, height: 80)
                         .offset(x: -40, y: -2)
+                        .overlay(alignment: .bottom) {
+                            RoundedRectangle(cornerRadius: 12.5)
+                                .fill(
+                                    LinearGradient(
+                                        gradient: Gradient(stops: [
+                                            .init(color: .white.opacity(1.8), location: 0),
+                                            .init(color: .clear, location: 0.6),
+                                            .init(color: .white.opacity(1.4), location: 1)
+                                        ]),
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                )
+                                .offset(x:-40, y: 0)
+                                .frame(width: 80, height: 80)
+                        }
                     }
                 }
             }

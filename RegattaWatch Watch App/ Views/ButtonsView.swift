@@ -11,6 +11,7 @@ import SwiftUI
 struct ButtonsView: View {
     @ObservedObject var timerState: WatchTimerState
     @EnvironmentObject var colorManager: ColorManager
+    @EnvironmentObject var settings: AppSettings
 
     
     var body: some View {
@@ -43,7 +44,7 @@ struct ButtonsView: View {
                     .font(.system(size: 24))
                     .fontWeight(.heavy)
                     .symbolVariant(.fill)
-                    .foregroundColor(leftButtonIcon == "xmark" ? .orange : .white)
+                    .foregroundColor(leftButtonIcon == "xmark" ? .orange : settings.lightMode ? .black : .white)
                     .frame(width: 65, height: 50)
                     .background(
                         RoundedRectangle(cornerRadius: 40)
