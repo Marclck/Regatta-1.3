@@ -25,8 +25,12 @@ struct WatchFaceView: View {
     @ObservedObject var cruisePlanState: WatchCruisePlanState
     @State private var hasInitializedShowCruiseInfo = false
 
-    @State private var showCruiseInfo = true
-        
+    @Binding var showCruiseInfo: Bool
+
+    var isShowingCruiseInfo: Bool {
+        showCruiseInfo
+    }
+    
     private var isSmallWatch: Bool {
         #if os(watchOS)
         return WKInterfaceDevice.current().screenBounds.height < 224
@@ -56,22 +60,46 @@ struct WatchFaceView: View {
                         // Progress bar showing seconds
                         SecondProgressBarView()
                         
-                        Text(settings.teamName)
-                            .font(.system(size: 11, weight: .semibold))
-                            .rotationEffect(.degrees(270), anchor: .center)
-                            .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
-                            .position(x: 4, y: centerY/2+55)
-                            .onReceive(timeTimer) { input in
-                                currentTime = input
-                            }
+//                        if settings.useProButtons && !showCruiseInfo{
+//                            MonthlyCalendarView()
+//                        } else {
+                            Text(settings.teamName)
+                                .font(.system(size: 11, weight: .semibold))
+                                .rotationEffect(.degrees(270), anchor: .center)
+                                .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
+                                .position(x: 4, y: centerY/2+55)
+                                .onReceive(timeTimer) { input in
+                                    currentTime = input
+                                }
+//                        }
                     }
                     
                     // Content
                     VStack(spacing: 0) {
                         // Timer display instead of current time
-                        TimerDisplayAsCurrentTime(timerState: timerState)
-                            .padding(.top, -10)
-                            .offset(y: smallWatch ? -15 : -10)
+                        if settings.showCruiser && !showCruiseInfo {
+                            Circle()
+                                .fill(timerState.mode == .countdown && timerState.currentTime <= 60
+                                      ? Color.orange.opacity(1)
+                                      : Color(hex: colorManager.selectedTheme.rawValue).opacity(1))
+//                                .glassEffect(in: .circle)
+                                .colorScheme(.light)
+                                .frame(width: 10, height: 10)
+                                .offset(y:-35)
+                        } else if settings.useProButtons && !showCruiseInfo {
+                            Circle()
+                                .fill(timerState.mode == .countdown && timerState.currentTime <= 60
+                                      ? Color.orange.opacity(1)
+                                      : Color(hex: colorManager.selectedTheme.rawValue).opacity(1))
+//                                .glassEffect(in: .circle)
+                                .colorScheme(.light)
+                                .frame(width: 10, height: 10)
+                                .offset(y:-35)
+                        } else {
+                            TimerDisplayAsCurrentTime(timerState: timerState)
+                                .padding(.top, -10)
+                                .offset(y: smallWatch ? -15 : -10)
+                        }
                         
                         Spacer()
                             .frame(height: 10)
@@ -118,6 +146,79 @@ struct WatchFaceView: View {
                             }
                             .offset(y:settings.ultraModel ? 15 : (isSmallWatch ? 20 : 10))
 
+                        } else if settings.useProButtons && !showCruiseInfo {
+//                        } else if settings.showCruiser && !showCruiseInfo {
+                                // Show current time
+                            VStack(spacing: 0) {
+                            
+                                HStack(spacing: 0) {
+                                    Text(hourString(from: currentTime))
+                                        .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 50) : .zenithBeta(size: 46, weight: .regular)) //82?
+                                        .foregroundColor(settings.lightMode ? .black : .white)
+                                        .offset(y:-2)
+                                    
+                                    Text(":")
+                                        .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 52) : .zenithBeta(size: 52, weight: .regular)) //82?
+                                        .foregroundColor(settings.lightMode ? .black : .white)
+                                        .offset(x: settings.debugMode ? -3 : 0)
+                                        .offset(y:-6.5)
+                                    
+                                    Text(minuteString(from: currentTime))
+                                        .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 50) : .zenithBeta(size: 46, weight: .regular)) //82?
+                                        .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                        .offset(y:-2)
+                                }
+                                .offset(y:settings.debugMode ? 0 : 10)
+                                
+                                
+                                HStack(spacing: 5) {
+                                    WindSpeedView(
+                                        courseTracker: courseTracker,
+                                        lastReadingManager: lastReadingManager)
+                                    CompassView(
+                                        cruisePlanState: cruisePlanState,
+                                        showingWatchFace: $showingWatchFace
+                                    )
+                                    BarometerView()
+                                }
+                                .offset(y:settings.ultraModel ? 2 : (isSmallWatch ? 2 : 2))
+                                
+                                
+                                // Circular Progress Bar
+                                ZStack{
+
+                                    Circle()
+                                        .fill(settings.lightMode ? .white : .black)
+//                                        .glassEffect(in: .circle)
+                                        .colorScheme(settings.lightMode ? .light: .dark)
+                                        .frame(width: 115, height: 115)
+                                    
+                                    
+                                    CircularProgressBarView(timerState: timerState, realTime: $currentTime) // <--- MODIFIED
+                                        .environmentObject(colorManager)
+                                        .environmentObject(settings)
+
+                                    
+                                    CircularProButtonsView(timerState: timerState)
+                                        // Provide environment objects that CircularProButtonsView needs
+                                        .environmentObject(colorManager)
+                                        .environmentObject(settings)
+                                        .offset(y: settings.ultraModel ? 45 : (isSmallWatch ? 40 : 40))
+                                    
+                                }
+                                    .offset(y: settings.ultraModel ? -15 : (isSmallWatch ? -15 : -15))
+
+                                }
+                                .offset(y:settings.debugMode ? 0 : -15)
+                                .dynamicTypeSize(.xSmall)
+                                .foregroundColor(.white)
+                                .frame(width: 150, height: 60)
+                                .position(x: geometry.size.width/2, y: centerY/2+25)
+                                .offset(y: settings.debugMode ? 0 : 5)
+                                .onReceive(timeTimer) { input in
+                                    currentTime = input
+                                }
+                            
                         } else {
                             // Show current time
                             VStack(spacing: -10) {
@@ -196,7 +297,7 @@ struct WatchFaceView: View {
                         Color.clear
                             .frame(
                                 width: geometry.size.width - 30,
-                                height: (settings.showCruiser && showCruiseInfo) ? 70 : 160
+                                height: (settings.showCruiser && showCruiseInfo) ? 70 : 100
                             )
                             .contentShape(Rectangle())
                             .position(x: geometry.size.width/2, y: geometry.size.height/2+5)
@@ -268,17 +369,20 @@ struct WatchFaceView: View {
        return formatter.string(from: date)
     }
 }
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            ContentView()
-                .environment(\.isLuminanceReduced, true)
-                .environmentObject(ColorManager())
-                .environmentObject(AppSettings())
-            ContentView()
-                .environment(\.isLuminanceReduced, false)
-                .environmentObject(ColorManager())
-                .environmentObject(AppSettings())
-        }
-    }
-}
+
+/*
+ struct ContentView_Previews: PreviewProvider {
+ static var previews: some View {
+ Group {
+ ContentView()
+ .environment(\.isLuminanceReduced, true)
+ .environmentObject(ColorManager())
+ .environmentObject(AppSettings())
+ ContentView()
+ .environment(\.isLuminanceReduced, false)
+ .environmentObject(ColorManager())
+ .environmentObject(AppSettings())
+ }
+ }
+ }
+ */

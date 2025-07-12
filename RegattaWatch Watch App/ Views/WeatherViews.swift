@@ -549,7 +549,11 @@ struct WindSpeedView: View {
             }
             .clipShape(Circle())
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.plain)
+//        .buttonStyle(.glass)
+//        .glassEffect(in: .circle)
+        .frame(width: 50, height: 50)
+        .colorScheme(.light)
         .onAppear {
             compassManager.startUpdates()
             weatherManager.setLastReadingManager(lastReadingManager)
@@ -687,7 +691,11 @@ struct CompassView: View {
             }
             .clipShape(Circle())
         }
-        .buttonStyle(PlainButtonStyle())
+        .buttonStyle(.plain)
+//        .buttonStyle(.glass)
+//        .glassEffect(in: .circle)
+        .frame(width: 50, height: 50)
+        .colorScheme(.light)
         .onAppear {
             compassManager.startUpdates()
             print("💠 CompassView appeared: Waypoint direction active=\(waypointDirectionManager.isActive)")
@@ -796,6 +804,9 @@ struct BarometerView: View {
                 }
             }
         }
+//        .glassEffect(in: .circle)
+        .frame(width: 50, height: 50)
+        .colorScheme(.light)
         .onTapGesture {
             WKInterfaceDevice.current().play(.click)
             withAnimation(.easeInOut(duration: 0.2)) {

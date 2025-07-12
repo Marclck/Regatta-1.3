@@ -226,14 +226,15 @@ struct ContentView: View {
     @EnvironmentObject var cruisePlanState: WatchCruisePlanState
     @State private var hasInitializedLaunchScreen = false
 
-    
+    @State private var showCruiseInfo = true
+
     var body: some View {
         ZStack {
             if showingWatchFace {
                 if settings.showRaceInfo {
                     WatchFaceView(
                         showingWatchFace: $showingWatchFace, timerState: timerState,
-                        cruisePlanState: cruisePlanState
+                        cruisePlanState: cruisePlanState, showCruiseInfo: $showCruiseInfo
                     )
                 } else {
                     AltRaceView(
@@ -250,9 +251,9 @@ struct ContentView: View {
             if !showStartLine {
                 GeometryReader { geometry in
                     Color.clear
-                        .frame(width: 80, height: 40)
+                        .frame(width: 80, height: settings.useProButtons && settings.showRaceInfo && showingWatchFace && !showCruiseInfo ? 80 : 40)
                         .contentShape(Rectangle())
-                        .position(x: geometry.size.width/2, y: geometry.size.height/2 - 90)
+                        .position(x: geometry.size.width/2, y: settings.useProButtons && settings.showRaceInfo && showingWatchFace && !showCruiseInfo ? geometry.size.height/2 + 50 : geometry.size.height/2 - 90)
                         .onTapGesture {
                             print("!! watchface toggled")
                             WKInterfaceDevice.current().play(impactGenerator)
@@ -543,8 +544,10 @@ struct TimerView: View {
     }
 }
 
-#Preview {
-    ContentView()
-        .environmentObject(ColorManager())
-        .environmentObject(AppSettings())
-}
+/*
+ #Preview {
+ ContentView()
+ .environmentObject(ColorManager())
+ .environmentObject(AppSettings())
+ }
+ */

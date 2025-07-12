@@ -103,6 +103,7 @@
 		1D4384732D18725D000DE437 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384712D18725D000DE437 /* SubscriptionView.swift */; };
 		1D4384742D18725D000DE437 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384712D18725D000DE437 /* SubscriptionView.swift */; };
 		1D4384752D18725D000DE437 /* SubscriptionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D4384712D18725D000DE437 /* SubscriptionView.swift */; };
+		1D5A73492E16661100D6790E /* MonthlyCalendarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5A73482E16660600D6790E /* MonthlyCalendarView.swift */; };
 		1D5C294B2D8252BB00610A22 /* PlannerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C294A2D8252BB00610A22 /* PlannerView.swift */; };
 		1D5C29512D82C34A00610A22 /* PlannerMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C29502D82C34A00610A22 /* PlannerMapView.swift */; };
 		1D5C29532D82C35800610A22 /* PlannerHistoryViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D5C29522D82C35800610A22 /* PlannerHistoryViews.swift */; };
@@ -153,6 +154,8 @@
 		1D768D732CFD1AA800DB4EE5 /* WatchFaceView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D722CFD1AA800DB4EE5 /* WatchFaceView.swift */; };
 		1D768D752CFD1AE800DB4EE5 /* SecondProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D742CFD1AE800DB4EE5 /* SecondProgressBarView.swift */; };
 		1D768D772CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D768D762CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift */; };
+		1D818A6C2E0620D600FE6572 /* CircularProgressBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D818A6A2E061CC800FE6572 /* CircularProgressBarView.swift */; };
+		1D818A702E0853AA00FE6572 /* CircularProButtonsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D818A6F2E08537500FE6572 /* CircularProButtonsView.swift */; };
 		1D824DBA2DB2F1B5006159B0 /* CoordinateUtilities.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D824DB92DB2F1AC006159B0 /* CoordinateUtilities.swift */; };
 		1D88DEAB2D6A9B0E009DC635 /* RulerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D88DEAA2D6A9B0E009DC635 /* RulerView.swift */; };
 		1D8C5FAF2D87E45400D43F8B /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */; };
@@ -318,6 +321,7 @@
 		1D4384672D186D10000DE437 /* IAPManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IAPManager.swift; sourceTree = "<group>"; };
 		1D43846C2D186D43000DE437 /* PremiumAlertView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PremiumAlertView.swift; sourceTree = "<group>"; };
 		1D4384712D18725D000DE437 /* SubscriptionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SubscriptionView.swift; sourceTree = "<group>"; };
+		1D5A73482E16660600D6790E /* MonthlyCalendarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonthlyCalendarView.swift; sourceTree = "<group>"; };
 		1D5C294A2D8252BB00610A22 /* PlannerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerView.swift; sourceTree = "<group>"; };
 		1D5C29502D82C34A00610A22 /* PlannerMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerMapView.swift; sourceTree = "<group>"; };
 		1D5C29522D82C35800610A22 /* PlannerHistoryViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlannerHistoryViews.swift; sourceTree = "<group>"; };
@@ -373,6 +377,8 @@
 		1D768D722CFD1AA800DB4EE5 /* WatchFaceView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchFaceView.swift; sourceTree = "<group>"; };
 		1D768D742CFD1AE800DB4EE5 /* SecondProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecondProgressBarView.swift; sourceTree = "<group>"; };
 		1D768D762CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerDisplayAsCurrentTimeView.swift; sourceTree = "<group>"; };
+		1D818A6A2E061CC800FE6572 /* CircularProgressBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProgressBarView.swift; sourceTree = "<group>"; };
+		1D818A6F2E08537500FE6572 /* CircularProButtonsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CircularProButtonsView.swift; sourceTree = "<group>"; };
 		1D824DB92DB2F1AC006159B0 /* CoordinateUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateUtilities.swift; sourceTree = "<group>"; };
 		1D88DEAA2D6A9B0E009DC635 /* RulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerView.swift; sourceTree = "<group>"; };
 		1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
@@ -723,6 +729,9 @@
 		1D69FEF52CE9686B001C178A /*  Views */ = {
 			isa = PBXGroup;
 			children = (
+				1D5A73482E16660600D6790E /* MonthlyCalendarView.swift */,
+				1D818A6F2E08537500FE6572 /* CircularProButtonsView.swift */,
+				1D818A6A2E061CC800FE6572 /* CircularProgressBarView.swift */,
 				1D163F9F2DABA15000B7829B /* PrivacyOverlay.swift */,
 				1D163FA32DAF142B00B7829B /* Hermes-Numbers.ttf */,
 				1D69FEC52CE967F7001C178A /* RegattaWatchApp.swift */,
@@ -1178,6 +1187,7 @@
 			files = (
 				1D43846A2D186D10000DE437 /* IAPManager.swift in Sources */,
 				1DD9DBD82CF6844E00D1E608 /* LineChartManager.swift in Sources */,
+				1D5A73492E16661100D6790E /* MonthlyCalendarView.swift in Sources */,
 				1D2E54062D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
 				1D90CF8D2D4AA6A500357553 /* SpeedInfoView.swift in Sources */,
 				1D4349732D4EF10900D0B8E8 /* ProButtonsView.swift in Sources */,
@@ -1187,12 +1197,14 @@
 				1D2E54012D1715AD00C669D4 /* TabBarView.swift in Sources */,
 				1D64AA0B2D464D3800F1BC04 /* StartLineManager.swift in Sources */,
 				1DBD85E22CF142A50028E391 /* PersistentTimerManager.swift in Sources */,
+				1D818A6C2E0620D600FE6572 /* CircularProgressBarView.swift in Sources */,
 				1D64AA092D464D1500F1BC04 /* DistanceDisplayView.swift in Sources */,
 				1DB562372D8B8F61007FF0E2 /* ActiveWaypointManager.swift in Sources */,
 				1D18C9AB2D8A277F005519E5 /* WaypointProgressBarView.swift in Sources */,
 				1D768D772CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift in Sources */,
 				1D2D25DB2D4CED2C00DF0CE2 /* CourseTracker.swift in Sources */,
 				1D69FF0B2CE96A44001C178A /* ButtonsView.swift in Sources */,
+				1D818A702E0853AA00FE6572 /* CircularProButtonsView.swift in Sources */,
 				1D768D732CFD1AA800DB4EE5 /* WatchFaceView.swift in Sources */,
 				1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */,
 				1D5EA42E2D57ACEF001CDF6D /* WeatherViews.swift in Sources */,
@@ -1510,7 +1522,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1553,7 +1565,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.6;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

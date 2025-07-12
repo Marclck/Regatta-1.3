@@ -559,6 +559,18 @@ struct CruiseInfoView: View {
             .padding(.horizontal, 4)
             .padding(.vertical, 4)
             .frame(minWidth: 55)
+            /*
+            .glassEffect(.regular.tint(
+                isConfirmingReset ? Color.orange.opacity(0.2) :
+                    (showGPSOffMessage || showGPSOnMessage) ?
+                (showGPSOffMessage ?
+                 Color.orange.opacity(0.8) :
+                    Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4)) :
+                    (locationManager.isMonitoring ?
+                     Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
+                        (settings.lightMode ? Color.white.opacity(0.83) : Color.black.opacity(0.95)))
+            ), in: RoundedRectangle(cornerRadius: 8.0))
+            */
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(
@@ -574,6 +586,10 @@ struct CruiseInfoView: View {
             )
         }
         .buttonStyle(.plain)
+//        .glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
+        .frame(height: 16)
+        .frame(minWidth: 55)
+//        .colorScheme(.light)
         .animation(.easeInOut(duration: 0.2), value: showGPSOffMessage)
         .animation(.easeInOut(duration: 0.2), value: showGPSOnMessage)
     }
@@ -704,6 +720,10 @@ struct CruiseInfoView: View {
             }
         }
         .buttonStyle(.plain)
+//        .glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
+        .frame(height: 16)
+        .frame(minWidth: 55)
+//        .colorScheme(.light)
         .animation(.easeInOut(duration: 0.2), value: showGPSOffMessage)
         .animation(.easeInOut(duration: 0.2), value: showGPSOnMessage)
         .matchedGeometryEffect(id: "speed", in: animation)
@@ -726,9 +746,9 @@ struct CruiseInfoView: View {
                 if showGPSOffMessage || showGPSOnMessage {
                     Spacer().frame(height: 5)
                 }
-                
+                 
                 courseDisplay
-                    .offset(y: WKInterfaceDevice.current().screenBounds.height < 224 ? 39 : 43)
+                    .offset(y: WKInterfaceDevice.current().screenBounds.height < 224 ? 39 : 53)
             }
         }
         .padding(.horizontal)

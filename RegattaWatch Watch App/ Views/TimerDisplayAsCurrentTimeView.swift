@@ -26,6 +26,7 @@ struct TimerDisplayAsCurrentTime: View {
                 RoundedRectangle(cornerRadius: 8)
                     .fill(backgroundColor)
             )
+//            .glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
     }
     
     private var displayText: String {

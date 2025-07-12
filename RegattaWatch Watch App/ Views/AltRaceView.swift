@@ -77,6 +77,8 @@ struct AltRaceView: View {
                                 .fill(timerState.mode == .countdown && timerState.currentTime <= 60
                                       ? Color.orange.opacity(1)
                                       : Color(hex: colorManager.selectedTheme.rawValue).opacity(1))
+//                                .glassEffect(in: .circle)
+//                                .colorScheme(.light)
                                 .frame(width: 10, height: 10)
                                 .offset(y:-35)
                         } else {

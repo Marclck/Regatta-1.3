@@ -25,6 +25,7 @@ enum ColorTheme: String, CaseIterable, Codable {
     case signalOrange = "FE5400"
     case hydraBleu = "2378c8"
     case marineYellow = "F6A726"
+    case daytona = "999999"
     
     var name: String {
         switch self {
@@ -39,6 +40,7 @@ enum ColorTheme: String, CaseIterable, Codable {
         case .signalOrange: return "Signal Orange"
         case .hydraBleu: return "Hydra Bleu"
         case .marineYellow: return "Marine Yellow"
+        case .daytona: return "Daytona"
         }
     }
 }

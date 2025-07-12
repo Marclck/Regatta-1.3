@@ -418,7 +418,12 @@ struct CruiseControlButtons: View {
                         .clipShape(RoundedRectangle(cornerRadius: 15))
                 }
             }
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(.plain)
+            //            .buttonStyle(.glass)
+//            .glassEffect(in: RoundedRectangle(cornerRadius: 40.0))
+            .frame(width: 65, height: 50)
+            .clipShape(RoundedRectangle(cornerRadius: 40.0))
+//            .colorScheme(.light)
             
             // Start/Pause Button
             Button(action: {
@@ -437,7 +442,12 @@ struct CruiseControlButtons: View {
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 15))
             }
-            .buttonStyle(PlainButtonStyle())
+            .buttonStyle(.plain)
+//            .buttonStyle(.glass)
+//            .glassEffect(in: RoundedRectangle(cornerRadius: 40.0))
+            .frame(width: 65, height: 50)
+            .clipShape(RoundedRectangle(cornerRadius: 40.0))
+//            .colorScheme(.light)
         }
     }
 }
