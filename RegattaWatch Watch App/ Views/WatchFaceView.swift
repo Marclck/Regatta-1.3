@@ -76,6 +76,7 @@ struct WatchFaceView: View {
                     
                     // Content
                     VStack(spacing: 0) {
+                        /* //for 1.5 release
                         // Timer display instead of current time
                         if settings.showCruiser && !showCruiseInfo {
                             Circle()
@@ -95,11 +96,13 @@ struct WatchFaceView: View {
                                 .colorScheme(.light)
                                 .frame(width: 10, height: 10)
                                 .offset(y:-35)
+ 
                         } else {
+                            */
                             TimerDisplayAsCurrentTime(timerState: timerState)
                                 .padding(.top, -10)
                                 .offset(y: smallWatch ? -15 : -10)
-                        }
+                        //}
                         
                         Spacer()
                             .frame(height: 10)
@@ -146,8 +149,8 @@ struct WatchFaceView: View {
                             }
                             .offset(y:settings.ultraModel ? 15 : (isSmallWatch ? 20 : 10))
 
+                            /* //for 1.5 release
                         } else if settings.useProButtons && !showCruiseInfo {
-//                        } else if settings.showCruiser && !showCruiseInfo {
                                 // Show current time
                             VStack(spacing: 0) {
                             
@@ -218,6 +221,7 @@ struct WatchFaceView: View {
                                 .onReceive(timeTimer) { input in
                                     currentTime = input
                                 }
+                             */
                             
                         } else {
                             // Show current time
@@ -369,20 +373,3 @@ struct WatchFaceView: View {
        return formatter.string(from: date)
     }
 }
-
-/*
- struct ContentView_Previews: PreviewProvider {
- static var previews: some View {
- Group {
- ContentView()
- .environment(\.isLuminanceReduced, true)
- .environmentObject(ColorManager())
- .environmentObject(AppSettings())
- ContentView()
- .environment(\.isLuminanceReduced, false)
- .environmentObject(ColorManager())
- .environmentObject(AppSettings())
- }
- }
- }
- */

@@ -24,8 +24,40 @@ struct ProButtonsView: View {
                         // Round to nearest minute when paused
                         let seconds = timerState.currentTime.truncatingRemainder(dividingBy: 60)
                         let currentMinutes = Int(timerState.currentTime / 60)
-                        let targetMinutes = seconds >= 30 ? currentMinutes + 1 : currentMinutes
-                        timerState.startFromMinutes(targetMinutes > 0 ? targetMinutes : 1)
+//                        let targetMinutes = seconds >= 30 ? currentMinutes + 1 : currentMinutes
+                        
+                        // --- START MODIFIED LOGIC ---
+                        var calculatedTargetMinutes: Int
+
+                        switch settings.gunSyncOption {
+                        case .closestMin:
+                            // Use existing calculation: round to nearest minute (>=30 seconds rounds up)
+                            calculatedTargetMinutes = seconds >= 30 ? currentMinutes + 1 : currentMinutes
+                        case .roundUp:
+                            // Always round up to the next minute
+                            // If there are any seconds, add 1 to currentMinutes.
+                            // If seconds is 0, it means it's already on a full minute, so just use currentMinutes.
+                            calculatedTargetMinutes = (seconds > 0 || currentMinutes == 0) ? currentMinutes + 1 : currentMinutes
+                            // Special handling: if currentMinutes is 0 and seconds is 0, it should still go to 1.
+                            if currentMinutes == 0 && seconds == 0 {
+                                calculatedTargetMinutes = 1
+                            }
+
+                        case .roundDown:
+                            // Always round down to the current full minute
+                            calculatedTargetMinutes = currentMinutes
+                        // You might want a default case or ensure all enum cases are handled
+                        // default:
+                        //     calculatedTargetMinutes = currentMinutes // Fallback or error handling
+                        }
+
+//                        timerState.startFromMinutes(targetMinutes > 0 ? targetMinutes : 1)
+                        // Ensure targetMinutes is at least 1, as per original logic
+                        let finalTargetMinutes = calculatedTargetMinutes > 0 ? calculatedTargetMinutes : 1
+                        // --- END MODIFIED LOGIC ---
+
+                        timerState.startFromMinutes(finalTargetMinutes)
+                        
                     } else if !timerState.isRunning {
                         // Reset functionality when paused
                         HapticManager.shared.playFailureFeedback()

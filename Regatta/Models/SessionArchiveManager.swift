@@ -6,6 +6,7 @@
 //
 
 import Foundation
+import MessageUI
 
 class SessionArchiveManager {
     static let shared = SessionArchiveManager()
@@ -125,6 +126,162 @@ class SessionArchiveManager {
             print("🗄️ Archive Manager: Migration completed")
         } else {
             print("🗄️ Archive Manager: No sessions found to migrate")
+        }
+    }
+    
+    // MARK: - Email Export
+    
+    /// Send all archived sessions via email
+    /// - Parameters:
+    ///   - viewController: The presenting view controller
+    ///   - toEmail: Optional recipient email address
+    ///   - completion: Completion handler with success/failure result
+    func sendArchiveViaEmail(from viewController: UIViewController,
+                           toEmail: String? = "normalappco@gmail.com",
+                           completion: @escaping (Result<Void, Error>) -> Void) {
+        
+        // Check if mail is available
+        guard MFMailComposeViewController.canSendMail() else {
+            print("🗄️ Archive Manager: Mail services not available")
+            completion(.failure(ArchiveError.mailNotAvailable))
+            return
+        }
+        
+        // Load archived sessions
+        let sessions = loadArchivedSessions()
+        
+        guard !sessions.isEmpty else {
+            print("🗄️ Archive Manager: No sessions to export")
+            completion(.failure(ArchiveError.noDataToExport))
+            return
+        }
+        
+        // Create email data
+        do {
+            let emailData = try createEmailAttachmentData(sessions: sessions)
+            
+            // Create mail composer
+            let mailComposer = MFMailComposeViewController()
+            mailComposer.mailComposeDelegate = EmailDelegate(completion: completion)
+            
+            // Set email properties
+            if let toEmail = toEmail {
+                mailComposer.setToRecipients([toEmail])
+            }
+            
+            mailComposer.setSubject("Regatta Race Sessions Archive")
+            mailComposer.setMessageBody(createEmailBody(sessionCount: sessions.count), isHTML: false)
+            
+            // Attach the data
+            mailComposer.addAttachmentData(emailData.data,
+                                         mimeType: "application/json",
+                                         fileName: emailData.filename)
+            
+            // Present mail composer
+            viewController.present(mailComposer, animated: true)
+            print("🗄️ Archive Manager: Email composer presented with \(sessions.count) sessions")
+            
+        } catch {
+            print("🗄️ Archive Manager: Failed to create email data - \(error.localizedDescription)")
+            completion(.failure(error))
+        }
+    }
+    
+    /// Create email attachment data from sessions
+    private func createEmailAttachmentData(sessions: [RaceSession]) throws -> (data: Data, filename: String) {
+        let encoder = JSONEncoder()
+        encoder.outputFormatting = .prettyPrinted
+        encoder.dateEncodingStrategy = .iso8601
+        
+        let jsonData = try encoder.encode(sessions)
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "yyyy-MM-dd_HH-mm-ss"
+        let timestamp = dateFormatter.string(from: Date())
+        
+        let filename = "regatta_sessions_\(timestamp).json"
+        
+        return (jsonData, filename)
+    }
+    
+    /// Create email body text
+    private func createEmailBody(sessionCount: Int) -> String {
+        return """
+        Regatta Race Sessions Archive
+        
+        This email contains an archive of your race sessions from the Regatta app.
+        
+        Archive Details:
+        • Total Sessions: \(sessionCount)
+        • Export Date: \(DateFormatter.localizedString(from: Date(), dateStyle: .full, timeStyle: .short))
+        • Format: JSON
+        
+        The attached file contains all your race session data and can be used for analysis.
+
+        """
+    }
+}
+
+// MARK: - Email Delegate
+
+private class EmailDelegate: NSObject, MFMailComposeViewControllerDelegate {
+    private let completion: (Result<Void, Error>) -> Void
+    
+    init(completion: @escaping (Result<Void, Error>) -> Void) {
+        self.completion = completion
+    }
+    
+    func mailComposeController(_ controller: MFMailComposeViewController,
+                              didFinishWith result: MFMailComposeResult,
+                              error: Error?) {
+        controller.dismiss(animated: true) {
+            if let error = error {
+                print("🗄️ Archive Manager: Email failed with error - \(error.localizedDescription)")
+                self.completion(.failure(error))
+            } else {
+                switch result {
+                case .sent:
+                    print("🗄️ Archive Manager: Email sent successfully")
+                    self.completion(.success(()))
+                case .cancelled:
+                    print("🗄️ Archive Manager: Email cancelled by user")
+                    self.completion(.failure(ArchiveError.emailCancelled))
+                case .failed:
+                    print("🗄️ Archive Manager: Email failed to send")
+                    self.completion(.failure(ArchiveError.emailFailed))
+                case .saved:
+                    print("🗄️ Archive Manager: Email saved as draft")
+                    self.completion(.success(()))
+                @unknown default:
+                    print("🗄️ Archive Manager: Unknown email result")
+                    self.completion(.failure(ArchiveError.unknownError))
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Error Types
+
+enum ArchiveError: Error, LocalizedError {
+    case mailNotAvailable
+    case noDataToExport
+    case emailCancelled
+    case emailFailed
+    case unknownError
+    
+    var errorDescription: String? {
+        switch self {
+        case .mailNotAvailable:
+            return "Mail services are not available on this device"
+        case .noDataToExport:
+            return "No race sessions found to export"
+        case .emailCancelled:
+            return "Email was cancelled by user"
+        case .emailFailed:
+            return "Failed to send email"
+        case .unknownError:
+            return "An unknown error occurred"
         }
     }
 }

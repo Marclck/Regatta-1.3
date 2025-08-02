@@ -95,25 +95,36 @@ struct AltRaceView: View {
                             Spacer()
                                 .frame(height: 30)
                             
-                            HStack(spacing: 0) {
+                            HStack(spacing: 2) {
                                 Text(hourString(from: currentTime))
                                     .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 42) : .zenithBeta(size: 38, weight: .medium)) //82?
                                     .dynamicTypeSize(.xSmall)
                                     .foregroundColor(settings.lightMode ? .black : .white)
                                     .offset(y:-48.5)
                                 
+                                VStack(spacing: 10) {
+                                    Circle()
+                                        .fill(settings.lightMode ? Color.black : Color.white)
+                                        .frame(width: 6, height: 6)
+                                    Circle()
+                                        .fill(settings.lightMode ? Color.black : Color.white)
+                                        .frame(width: 6, height: 6)
+                                }
+                                .offset(x:-0.5, y:-49)
+                                
+                                /*
                                 Text(":")
                                     .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 42) : .zenithBeta(size: 38, weight: .medium)) //82?
                                     .dynamicTypeSize(.xSmall)
                                     .foregroundColor(settings.lightMode ? .black : .white)
                                     .offset(x: settings.debugMode ? -2 : 0, y: settings.debugMode ? -50 : -53)
-                                
+                                */
                                 
                                 Text(minuteString(from: currentTime))
                                     .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 42) : .zenithBeta(size: 38, weight: .medium)) //82?
                                     .dynamicTypeSize(.xSmall)
                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                    .offset(y:-48.5)
+                                    .offset(x:2, y:-48.5)
                             }
                             .font(.zenithBeta(size: 84, weight: .bold))
                             .frame(width: 150, height: 60)

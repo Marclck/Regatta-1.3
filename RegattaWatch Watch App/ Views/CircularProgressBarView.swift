@@ -183,17 +183,30 @@ struct CircularProgressBarView: View {
                 .frame(width: circleSize, height: circleSize)
                 .rotationEffect(.degrees(-90))  // Start from top
             
+            
             /*
             // NEW: Compass-oriented gradient overlay
             Circle()
                 .stroke(
                     AngularGradient(
                         gradient: Gradient(stops: [
-                            .init(color: Color.white.opacity(whiteOpacity), location: 0.0),      // 12 o'clock - white
-                            .init(color: Color.black.opacity(blackOpacity), location: 0.25),     // 3 o'clock - black
-                            .init(color: Color.white.opacity(whiteOpacity), location: 0.5),      // 6 o'clock - white
-                            .init(color: Color.black.opacity(blackOpacity), location: 0.75),     // 9 o'clock - black
-                            .init(color: Color.white.opacity(whiteOpacity), location: 1.0)       // Back to 12 o'clock - white
+                            .init(color: Color.clear, location: 0.0),      // 12 o'clock - white
+                            .init(color: Color.clear, location: 0.18),      // 12 o'clock - white
+                            .init(color: Color.yellow.opacity(0.5), location: 0.185),
+                            .init(color: Color.blue.opacity(0.5), location: 0.19),
+                            .init(color: Color.red.opacity(0.5), location: 0.195),
+                            .init(color: Color.white.opacity(2), location: 0.2),     // 3 o'clock - black
+                            .init(color: Color.red.opacity(0.5), location: 0.21),
+                            .init(color: Color.blue.opacity(0.5), location: 0.22),
+                            .init(color: Color.yellow.opacity(0.5), location: 0.23),
+                            .init(color: Color.clear, location: 0.24),      // 12 o'clock - white
+                            .init(color: Color.clear, location: 0.5),      // 6 o'clock - white
+                            .init(color: Color.clear, location: 0.68),      // 12 o'clock - white
+                            .init(color: Color.red.opacity(0.5), location: 0.69),
+                            .init(color: Color.white.opacity(2), location: 0.7),     // 9 o'clock - black
+                            .init(color: Color.red.opacity(0.5), location: 0.71),
+                            .init(color: Color.clear, location: 0.72),      // 12 o'clock - white
+                            .init(color: Color.clear, location: 1.0)       // Back to 12 o'clock - white
                         ]),
                         center: .center,
                         startAngle: .degrees(-90), // Start from top (12 o'clock)

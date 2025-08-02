@@ -67,6 +67,62 @@ struct ModernRaceSessionMapView: View {
         
         return (topSpeed, avgSpeed, totalDistance)
     }
+    // Function to get GPS race start and end points with unique reference names
+    private func getGPSRacePointsWithNames() -> (raceStart: (name: String, coordinate: CLLocationCoordinate2D)?, raceEnd: (name: String, coordinate: CLLocationCoordinate2D)?) {
+        guard !validLocationPoints.isEmpty else {
+            return (nil, nil)
+        }
+        
+        let raceStartCoordinate = validLocationPoints.first?.location
+        let raceEndCoordinate = validLocationPoints.last?.location
+        
+        // Generate unique names based on session data and coordinates
+        let sessionId = session.date.timeIntervalSince1970
+        let raceStartName: String?
+        let raceEndName: String?
+        
+        if let raceStartCoord = raceStartCoordinate {
+            raceStartName = "GPS_RACE_START_\(Int(sessionId))_\(String(format: "%.6f", raceStartCoord.latitude))_\(String(format: "%.6f", raceStartCoord.longitude))"
+        } else {
+            raceStartName = nil
+        }
+        
+        if let raceEndCoord = raceEndCoordinate {
+            raceEndName = "GPS_RACE_END_\(Int(sessionId))_\(String(format: "%.6f", raceEndCoord.latitude))_\(String(format: "%.6f", raceEndCoord.longitude))"
+        } else {
+            raceEndName = nil
+        }
+        
+        let raceStart = raceStartCoordinate != nil && raceStartName != nil ? (name: raceStartName!, coordinate: raceStartCoordinate!) : nil
+        let raceEnd = raceEndCoordinate != nil && raceEndName != nil ? (name: raceEndName!, coordinate: raceEndCoordinate!) : nil
+        
+        return (raceStart, raceEnd)
+    }
+
+    // Convenience computed properties for easy access
+    private var namedGPSRaceStart: (name: String, coordinate: CLLocationCoordinate2D)? {
+        return getGPSRacePointsWithNames().raceStart
+    }
+
+    private var namedGPSRaceEnd: (name: String, coordinate: CLLocationCoordinate2D)? {
+        return getGPSRacePointsWithNames().raceEnd
+    }
+
+    // Function to get all GPS reference points as a dictionary
+    private func getGPSReferencePoints() -> [String: CLLocationCoordinate2D] {
+        let points = getGPSRacePointsWithNames()
+        var referencePoints: [String: CLLocationCoordinate2D] = [:]
+        
+        if let raceStart = points.raceStart {
+            referencePoints[raceStart.name] = raceStart.coordinate
+        }
+        
+        if let raceEnd = points.raceEnd {
+            referencePoints[raceEnd.name] = raceEnd.coordinate
+        }
+        
+        return referencePoints
+    }
     
     // Helper function to format distance with appropriate unit
     private func formatDistance(_ distance: CLLocationDistance?) -> String {
@@ -519,26 +575,44 @@ struct ModernRaceSessionMapView: View {
                                 dash: [6, 3]
                             ))
                     }
-                    
-                    Annotation("Start", coordinate: startCoord) {
-                        if session.countdownDuration > 900 {
+                    if session.countdownDuration > 900 {
+                        Annotation("Start", coordinate: startCoord) {
                             Image(systemName: "circle.fill")
                                 .foregroundColor(.green)
+                        }
                         } else {
+                            if let raceStartPoint = namedGPSRaceStart {
+                                Annotation("Start", coordinate: raceStartPoint.coordinate) {
+                                    Image(systemName: "circle.fill")
+                                        .foregroundColor(.green)
+                                }
+                            }
+                            
+                            Annotation("Buoy", coordinate: startCoord) {
                             Image(systemName: "triangle.fill")
                                 .foregroundColor(.green)
                         }
                     }
                     
-                    Annotation("End", coordinate: endCoord) {
-                        if session.countdownDuration > 900 {
+                    if session.countdownDuration > 900 {
+                        Annotation("End", coordinate: endCoord) {
                             Image(systemName: "circle.fill")
                                 .foregroundColor(.red)
-                        } else {
-                            Image(systemName: "square.fill")
-                                .foregroundColor(.green)
                         }
-                    }
+                        } else {
+                            if let raceEndPoint = namedGPSRaceEnd {
+                                Annotation("End", coordinate: raceEndPoint.coordinate) {
+                                    Image(systemName: "circle.fill")
+                                        .foregroundColor(.red)
+                                }
+                            }
+                            
+                            Annotation("Boat", coordinate: endCoord) {
+                                Image(systemName: "square.fill")
+                                    .foregroundColor(.green)
+                            }
+                        }
+                    
                 }
                 
                 // Waypoint annotations

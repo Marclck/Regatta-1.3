@@ -77,6 +77,7 @@ struct CruiseDeviationView: View {
 }
 
 struct CruiseInfoView: View {
+    @State private var showGPSAddedMessage = false
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var colorManager: ColorManager
     @ObservedObject var locationManager: LocationManager
@@ -750,6 +751,23 @@ struct CruiseInfoView: View {
                 courseDisplay
                     .offset(y: WKInterfaceDevice.current().screenBounds.height < 224 ? 39 : 53)
             }
+            
+            if settings.gpsDebug {
+                if showGPSAddedMessage {
+                    Text("GPS point added")
+                        .font(.zenithBeta(size: 14, weight: .medium))
+                        .foregroundColor(.red)
+                        .padding(.horizontal, 8)
+                        .padding(.vertical, 4)
+                        .background(
+                            RoundedRectangle(cornerRadius: 8)
+                                .fill(Color.white.opacity(0.3))
+                        )
+                        .transition(.opacity)
+                        .zIndex(1)
+                }
+            }
+            
         }
         .padding(.horizontal)
         .onChange(of: locationManager.speed) { _, speed in
@@ -761,6 +779,17 @@ struct CruiseInfoView: View {
                     flashingTopSpeed = true
                     DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
                         flashingTopSpeed = false
+                    }
+                }
+            }
+            
+            if settings.gpsDebug {
+                withAnimation {
+                    showGPSAddedMessage = true
+                }
+                DispatchQueue.main.asyncAfter(deadline: .now() + 1.0) {
+                    withAnimation {
+                        showGPSAddedMessage = false
                     }
                 }
             }

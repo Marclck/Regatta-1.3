@@ -19,6 +19,16 @@ enum LaunchScreen: String, CaseIterable {
     }
 }
 
+enum GunSyncOption: String, CaseIterable {
+    case closestMin = "Closest Min"
+    case roundUp = "Round Up"
+    case roundDown = "Round Down"
+    
+    var displayName: String {
+        return self.rawValue
+    }
+}
+
 class AppSettings: ObservableObject {
     // Timer interval in seconds (1.0 when smooth is off, 0.01 when on)
     var timerInterval: Double {
@@ -28,6 +38,13 @@ class AppSettings: ObservableObject {
     // Team name color hex value (ultraBlue when on, speedPapaya when off)
     var teamNameColorHex: String {
         return altTeamNameColor ? "#000000" : ColorTheme.speedPapaya.rawValue
+    }
+    
+    @Published var gpsDebug: Bool {
+        didSet {
+            UserDefaults.standard.set(gpsDebug, forKey: "gpsDebug")
+            print("GPSDebug changed to: \(gpsDebug)")
+        }
     }
     
     @Published var launchScreen: LaunchScreen {
@@ -107,6 +124,13 @@ class AppSettings: ObservableObject {
         }
     }
     
+    @Published var gunSyncOption: GunSyncOption {
+        didSet {
+            UserDefaults.standard.set(gunSyncOption.rawValue, forKey: "gunSyncOption")
+            print("GunSyncOption changed to: \(gunSyncOption.rawValue)")
+        }
+    }
+    
     @Published var quickStartMinutes: Int {
         didSet {
             UserDefaults.standard.set(quickStartMinutes, forKey: "quickStartMinutes")
@@ -121,6 +145,13 @@ class AppSettings: ObservableObject {
         }
     }
     
+    @Published var stopwatchBuzz: Bool {
+        didSet {
+            UserDefaults.standard.set(stopwatchBuzz, forKey: "stopwatchBuzz")
+            print("StopwatchBuzz changed to: \(stopwatchBuzz)")
+        }
+    }
+    
     @Published var debugMode: Bool {
         didSet {
             UserDefaults.standard.set(debugMode, forKey: "debugMode")
@@ -129,6 +160,8 @@ class AppSettings: ObservableObject {
     }
     
     init() {
+        self.gpsDebug = UserDefaults.standard.bool(forKey: "gpsDebug") // Default to false
+        
         self.teamName = UserDefaults.standard.string(forKey: "teamName") ?? "Ultra"
         self.showRaceInfo = UserDefaults.standard.object(forKey: "showRaceInfo") as? Bool ?? true
         self.smoothSecond = UserDefaults.standard.bool(forKey: "smoothSecond")
@@ -140,9 +173,11 @@ class AppSettings: ObservableObject {
         self.showCruiser = UserDefaults.standard.object(forKey: "showCruiser") as? Bool ?? false
         self.maxBoatSpeed = UserDefaults.standard.double(forKey: "maxBoatSpeed") != 0 ?
             UserDefaults.standard.double(forKey: "maxBoatSpeed") : 50.0
+        self.gunSyncOption = GunSyncOption(rawValue: UserDefaults.standard.string(forKey: "gunSyncOption") ?? "Closest Min") ?? .closestMin
         self.quickStartMinutes = UserDefaults.standard.integer(forKey: "quickStartMinutes") != 0 ?
             UserDefaults.standard.integer(forKey: "quickStartMinutes") : 5
         self.privacyOverlay = UserDefaults.standard.bool(forKey: "privacyOverlay") // Default to false
+        self.stopwatchBuzz = UserDefaults.standard.object(forKey: "stopwatchBuzz") as? Bool ?? true // Default to true
         self.debugMode = UserDefaults.standard.bool(forKey: "debugMode") // Default to false
         self.launchScreen = LaunchScreen(rawValue: UserDefaults.standard.string(forKey: "launchScreen") ?? "TimeR") ?? .timer
         UserDefaults.standard.synchronize()
@@ -267,6 +302,7 @@ struct SettingsView: View {
     @State private var showThemePicker = false
     @State private var showTeamNameEdit = false
     @State private var showMaxSpeedEdit = false
+    @State private var showGunSyncPicker = false
     @State private var refreshToggle = false
     @State private var maxSpeedInput: String = ""
     @State private var showQuickStartEdit = false
@@ -327,6 +363,44 @@ struct SettingsView: View {
                 .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(1))
                 
                 Section ("") {
+                    Button(action: {
+                        showGunSyncPicker = true
+                    }) {
+                        HStack {
+                            Text("GunSync")
+                            Spacer()
+                            Text(settings.gunSyncOption.displayName)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .sheet(isPresented: $showGunSyncPicker) {
+                        List {
+                            Section("GunSync Options") {
+                                ForEach(GunSyncOption.allCases, id: \.self) { option in
+                                    Button(action: {
+                                        settings.gunSyncOption = option
+                                        showGunSyncPicker = false
+                                    }) {
+                                        HStack {
+                                            Text(option.displayName)
+                                            Spacer()
+                                            if settings.gunSyncOption == option {
+                                                Image(systemName: "checkmark")
+                                                    .foregroundColor(.blue)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            Section {
+                                Text("Closest Min: Rounds to nearest minute\nRound Up: Always rounds up to next minute\nRound Down: Always rounds down to current minute")
+                                    .font(.caption2)
+                                    .foregroundColor(.white)
+                            }
+                        }
+                    }
+                    
                     Button(action: {
                         // Initialize the text field with current value
                         quickStartInput = String(settings.quickStartMinutes)
@@ -471,6 +545,8 @@ struct SettingsView: View {
                     
                     Toggle("Smooth Second Movement", isOn: $settings.smoothSecond)
                     
+                    Toggle("Stopwatch Buzz", isOn: $settings.stopwatchBuzz)
+                    
                     Toggle("Alt Team Name Color", isOn: $settings.altTeamNameColor)
                     
                     Toggle("Light Mode", isOn: $settings.lightMode)
@@ -503,7 +579,15 @@ struct SettingsView: View {
                             }
                             
                             Section("Debug Options") {
-                                Toggle("Debug Mode", isOn: $settings.debugMode)
+                                
+                                if settings.teamName.contains("-") || settings.teamName.contains("P") {
+                                    Toggle("Debug Mode", isOn: $settings.debugMode)
+                                        .font(.system(size: 17))
+                                        .toggleStyle(SwitchToggleStyle(tint: Color.white.opacity(0.5)))
+                                        .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
+                                }
+                                
+                                Toggle("GPS Debug", isOn: $settings.gpsDebug)
                                     .font(.system(size: 17))
                                     .toggleStyle(SwitchToggleStyle(tint: Color.white.opacity(0.5)))
                                     .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
@@ -571,10 +655,14 @@ extension AppSettings {
         lightMode = false
         ultraModel = true
         maxBoatSpeed = 50.0
+        gunSyncOption = .closestMin
         quickStartMinutes = 5
         privacyOverlay = false
+        stopwatchBuzz = true
         debugMode = false
         launchScreen = .timer
+        
+        gpsDebug = false
 
         // Reset ultra features if tier is not ultra
         if tier != .ultra {
@@ -587,6 +675,8 @@ extension AppSettings {
         colorManager.selectedTheme = .cambridgeBlue
         
         // Save defaults to UserDefaults
+        UserDefaults.standard.set(false, forKey: "gpsDebug")
+
         UserDefaults.standard.set("RACE!", forKey: "teamName")
         UserDefaults.standard.set(true, forKey: "showRaceInfo")
         UserDefaults.standard.set(false, forKey: "showSpeedInfo")
@@ -597,8 +687,10 @@ extension AppSettings {
         UserDefaults.standard.set(true, forKey: "ultraModel")
         UserDefaults.standard.set(false, forKey: "useProButtons")
         UserDefaults.standard.set(50.0, forKey: "maxBoatSpeed")
+        UserDefaults.standard.set("Closest Min", forKey: "gunSyncOption")
         UserDefaults.standard.set(5, forKey: "quickStartMinutes")
         UserDefaults.standard.set(false, forKey: "privacyOverlay")
+        UserDefaults.standard.set(true, forKey: "stopwatchBuzz")
         UserDefaults.standard.set(false, forKey: "debugMode")
         UserDefaults.standard.synchronize()
     }

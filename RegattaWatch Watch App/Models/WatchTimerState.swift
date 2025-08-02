@@ -7,7 +7,7 @@
 
 import Foundation
 import SwiftUI
-import WatchKit 
+import WatchKit
 import WidgetKit
 
 class WatchTimerState: ObservableObject {
@@ -17,7 +17,7 @@ class WatchTimerState: ObservableObject {
     @Published var isRunning: Bool = false
     @Published var isConfirmed: Bool = false
     @Published var previousMinutes: Int = 2
-    
+
     // Add persistent timer manager
     private let persistentTimer = PersistentTimerManager()
     private let journalManager = JournalManager.shared
@@ -41,6 +41,7 @@ class WatchTimerState: ObservableObject {
         if persistentTimer.isTimerRunning {
             mode = persistentTimer.isInStopwatchMode ? .stopwatch : .countdown
             isRunning = true
+            print("timerstate is running") // Debug print
             currentTime = persistentTimer.getCurrentTime()
         }
     }
@@ -49,7 +50,8 @@ class WatchTimerState: ObservableObject {
     func resetAndRestartStopwatch() {
         if mode == .stopwatch && isRunning {
             // Record the previous session
-            journalManager.recordSessionEndWithEnrichment(totalTime: currentTime, lastReadingManager: LastReadingManager())
+//            journalManager.recordSessionEndWithEnrichment(totalTime: currentTime, lastReadingManager: LastReadingManager())
+            SessionManager.shared.endSession(totalTime: currentTime, lastReadingManager: LastReadingManager())
             let finishTime = persistentTimer.getCurrentTime()
             SharedDefaults.setLastFinishTime(finishTime)
             
@@ -107,6 +109,27 @@ class WatchTimerState: ObservableObject {
         }
     }
     
+    func recordGPSDataPoint(heartRate: Int?, speed: Double, location: CLLocation?) {
+        // Only record data when timer is running
+        guard isRunning else { return }
+        
+/*        // Add to JournalManager
+        JournalManager.shared.addDataPoint(
+            heartRate: heartRate,
+            speed: speed,
+            location: location
+        )
+*/
+        // Add to SessionManager
+        SessionManager.shared.addDataPointToSession(
+            heartRate: heartRate,
+            speed: speed,
+            location: location
+        )
+        print("🟢 adding data to current session")
+
+    }
+    
     private func startFromShortcut(minutes: Int) {
         // Validate minutes
         guard minutes >= 1 && minutes <= 30 else { return } //max 30
@@ -117,7 +140,8 @@ class WatchTimerState: ObservableObject {
         currentTime = Double(minutes * 60)
         isConfirmed = true
         isRunning = true
-        
+        print("timerstate is running") // Debug print
+
         // Start persistent timer
         persistentTimer.startCountdown(minutes: minutes)
     }
@@ -139,6 +163,7 @@ class WatchTimerState: ObservableObject {
             persistentTimer.startCountdown(minutes: selectedMinutes)
             WKInterfaceDevice.current().play(.start) //haptic
             ExtendedSessionManager.shared.startSession(timerState: self)
+            SessionManager.shared.startSession(countdownMinutes: selectedMinutes)
         }
         isRunning = true
     }
@@ -149,11 +174,14 @@ class WatchTimerState: ObservableObject {
         currentTime = Double(minutes * 60)
         isConfirmed = true
         isRunning = true
+        print("timerstate is running") // Debug print
+
         UserDefaults.standard.set(minutes, forKey: "lastUsedTime")
         SharedDefaults.setLastUsedTime(minutes)
         persistentTimer.startCountdown(minutes: minutes)
         WKInterfaceDevice.current().play(.start)
         ExtendedSessionManager.shared.startSession(timerState: self)
+        SessionManager.shared.startSession(countdownMinutes: minutes)
     }
 
     func adjustMinutes(_ minutes: Int) {
@@ -189,7 +217,6 @@ class WatchTimerState: ObservableObject {
         }
     }
     
-    
     func updateTimer() {
             guard isRunning else { return }
             
@@ -203,7 +230,8 @@ class WatchTimerState: ObservableObject {
                 
                 // Ensure stopwatch starts from 0
                 lastStopwatchMinute = Int(currentTime) / 60
-                journalManager.recordRaceStart() //record race start when mode change
+//                journalManager.recordRaceStart() //record race start when mode change
+                SessionManager.shared.recordRaceStart() //record race start when mode change
 
                 // Play haptic feedback for stopwatch start
                 playDoubleHaptic()
@@ -298,7 +326,9 @@ class WatchTimerState: ObservableObject {
                 // 5. Haptic at each minute of stopwatch
                 let currentMinute = Int(currentTime) / 60
                 if currentMinute != lastStopwatchMinute {
-                    WKInterfaceDevice.current().play(.notification)
+                    if UserDefaults.standard.bool(forKey: "stopwatchBuzz") {
+                        WKInterfaceDevice.current().play(.notification)
+                    }
                     lastStopwatchMinute = currentMinute
                     print("⌚️ Playing stopwatch minute haptic at \(currentTime) seconds")
                 }
@@ -318,6 +348,8 @@ class WatchTimerState: ObservableObject {
     
     func resumeTimer() {
          isRunning = true
+        print("timerstate is running") // Debug print
+
          persistentTimer.resumeTimer()
         WKInterfaceDevice.current().play(.start) //haptic
         ExtendedSessionManager.shared.startSession(timerState: self)
@@ -365,12 +397,14 @@ class WatchTimerState: ObservableObject {
     func resetTimer() {
         // Record finish time if in stopwatch mode and running
         if mode == .stopwatch {
-            journalManager.recordSessionEndWithEnrichment(totalTime: currentTime, lastReadingManager: LastReadingManager())
+//            journalManager.recordSessionEndWithEnrichment(totalTime: currentTime, lastReadingManager: LastReadingManager())
+            SessionManager.shared.endSession(totalTime: currentTime, lastReadingManager: LastReadingManager())
             let finishTime = persistentTimer.getCurrentTime()
             SharedDefaults.setLastFinishTime(finishTime)
             print("⌚️ WatchTimerState: Recorded finish time: \(finishTime)")
         } else {
-            journalManager.cancelSession()
+//            journalManager.cancelSession()
+            SessionManager.shared.cancelSession()
             SharedDefaults.setLastFinishTime(0)
             print("⌚️ WatchTimerState: Reset finish time to 0")
         }
@@ -382,4 +416,3 @@ class WatchTimerState: ObservableObject {
         persistentTimer.resetTimer()
     }
 }
-

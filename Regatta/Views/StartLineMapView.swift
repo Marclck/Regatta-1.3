@@ -239,7 +239,7 @@ struct MapViewWithButtons: UIViewRepresentable {
         for point in points {
             let annotation = MKPointAnnotation()
             annotation.coordinate = point.coordinate
-            annotation.title = point.isLeft ? "Port End" : "Starboard End"
+            annotation.title = point.isLeft ? "Bouy" : "RC Boat"
             mapView.addAnnotation(annotation)
         }
     }
@@ -359,7 +359,7 @@ struct MapViewWithButtons: UIViewRepresentable {
                 markerView.markerTintColor = .green
                 
                 // Set different marker shapes
-                if annotation.title == "Port End" {
+                if annotation.title == "Bouy" {
                     markerView.glyphImage = UIImage(systemName: "triangle.fill")
                 } else {
                     markerView.glyphImage = UIImage(systemName: "square.fill")

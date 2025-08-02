@@ -13,6 +13,7 @@ struct StartLineView: View {
     @ObservedObject var locationManager: LocationManager
     @ObservedObject var startLineManager: StartLineManager
     @StateObject private var timerState = WatchTimerState()
+    @EnvironmentObject var settings: AppSettings
 
     func getButtonImage(state: StartLineManager.ButtonState, isLeft: Bool) -> Image {
         if state == .red {
@@ -27,7 +28,7 @@ struct StartLineView: View {
                 ZStack {
                     if timerState.isRunning {
                         Rectangle()
-                            .fill(Color.black)
+                            .fill(settings.lightMode ? Color.white : Color.black)
                             .frame(height: 26)
                             .frame(maxWidth: 170)
                     }
@@ -39,18 +40,18 @@ struct StartLineView: View {
                     
                     Text("START")
                         .font(.system(size: 12, design: .monospaced))
-                        .foregroundColor(.white)
+                        .foregroundColor(settings.lightMode ? .black : .white)
                     
                     HStack {
                         
                         Circle()
-                            .fill(Color.black)
+                            .fill(settings.lightMode ? Color.white : Color.black)
                             .frame(width: 26, height:26)
                         
                         Spacer().frame(width: 55)
 
                         Circle()
-                            .fill(Color.black)
+                            .fill(settings.lightMode ? Color.white : Color.black)
                             .frame(width: 26, height:26)
                         
                     }
@@ -59,29 +60,29 @@ struct StartLineView: View {
                 ZStack {
                     if timerState.isRunning {
                         Rectangle()
-                            .fill(Color.black)
+                            .fill(settings.lightMode ? Color.white : Color.black)
                             .frame(height: 26)
                             .frame(maxWidth: 170)
                     }
                     
                     Rectangle()
-                        .fill(Color.white.opacity(0.1))
+                        .fill(settings.lightMode ? Color.white : Color.white.opacity(0.1))
                         .frame(height: 26)
                         .frame(maxWidth: 84)
                     
                     Text("± \(Int(locationManager.lastLocation?.horizontalAccuracy ?? 0))m")
                         .font(.system(size: 12, design: .monospaced))
-                        .foregroundColor(.white)
+                        .foregroundColor(settings.lightMode ? .black : .white)
                     
                     HStack {
                         Circle()
-                            .fill(Color.black)
+                            .fill(settings.lightMode ? Color.white : Color.black)
                             .frame(width: 26, height:26)
                         
                         Spacer().frame(width: 55)
 
                         Circle()
-                            .fill(Color.black)
+                            .fill(settings.lightMode ? Color.white : Color.black)
                             .frame(width: 26, height:26)
                     }
                 }
@@ -138,13 +139,21 @@ struct StartLineView: View {
     private func getButtonColor(state: StartLineManager.ButtonState) -> Color {
         switch state {
         case .white:
-            return .white
+            if settings.lightMode {
+                return .black
+            } else {
+                return .white
+            }
         case .green:
             return .green
         case .red:
             return .red
         case .disabled:
-            return .white.opacity(0.3)
+            if settings.lightMode {
+                return .black
+            } else {
+                return .white.opacity(0.3)
+            }
         }
     }
     

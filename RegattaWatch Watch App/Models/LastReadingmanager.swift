@@ -28,7 +28,8 @@ class LastReadingManager: ObservableObject {
     @Published var highTemp: Double = 0
     @Published var lowTemp: Double = 0
     
-    private let defaults = UserDefaults.standard
+//    private let defaults = UserDefaults.standard
+    private let defaults = UserDefaults(suiteName: "group.com.heart.astrolabe")!
     private let speedKey = "lastSpeed"
     private let distanceKey = "lastDistance"
     private let courseKey = "lastCourse"

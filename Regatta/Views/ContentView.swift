@@ -163,6 +163,9 @@ struct MainInfoView: View {
     @State private var showingWatchSettings = false
     @State private var showingSpeedTools = false
     @State private var showingCruiser = false
+    @State private var showingAlert = false
+    @State private var alertMessage = ""
+    @State private var alertTitle = ""
 
     private let privacyPolicyURL = URL(string: "https://astrolabe-countdown.apphq.online/privacy")!
     private let termsOfUseURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
@@ -348,6 +351,13 @@ struct MainInfoView: View {
                         .environment(\.colorScheme, .dark)
                         .listSectionSeparator(.hidden)
                         
+                        Section(header: Text("Data Export").foregroundColor(.white)) {
+                            dataExportSection
+                        }
+                        .listRowBackground(Color.clear.background(.ultraThinMaterial))
+                        .environment(\.colorScheme, .dark)
+                        .listSectionSeparator(.hidden)
+                        
                         Section(header: Text("").foregroundColor(.white)) {
                             versionHistorySection
                             
@@ -373,6 +383,11 @@ struct MainInfoView: View {
             .toolbarBackground(.hidden, for: .navigationBar)
         }
         .environment(\.colorScheme, .dark)
+        .alert(alertTitle, isPresented: $showingAlert) {
+            Button("OK") { }
+        } message: {
+            Text(alertMessage)
+        }
         .onAppear {
             NotificationCenter.default.addObserver(
                 forName: NSNotification.Name("StartCountdownFromShortcut"),
@@ -497,6 +512,34 @@ struct MainInfoView: View {
         }
     }
     
+    private var dataExportSection: some View {
+        Group {
+            Button(action: sendArchiveEmail) {
+                HStack {
+                    Image(systemName: "envelope.fill")
+                        .foregroundColor(.white)
+                    Text("Email Archive to Developer")
+                        .font(.system(.body, weight: .bold))
+                        .foregroundColor(.white)
+                }
+            }
+            .listRowBackground(Color.clear.background(.ultraThinMaterial))
+            .environment(\.colorScheme, .dark)
+            
+            Button(action: exportArchiveFile) {
+                HStack {
+                    Image(systemName: "square.and.arrow.up.fill")
+                        .foregroundColor(.white)
+                    Text("Export Archive File")
+                        .font(.system(.body, weight: .bold))
+                        .foregroundColor(.white)
+                }
+            }
+            .listRowBackground(Color.clear.background(.ultraThinMaterial))
+            .environment(\.colorScheme, .dark)
+        }
+    }
+    
     private var footerSection: some View {
         VStack(alignment: .center, spacing: 12) {
             Text("made for sailing enthusiasts")
@@ -531,5 +574,95 @@ struct MainInfoView: View {
         case 9: return "Set Return to Clock to 1 hour in your Watch Settings app"
         default: return ""
         }
+    }
+    
+    // MARK: - Archive Functions
+    
+    private func sendArchiveEmail() {
+        guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+              let window = windowScene.windows.first,
+              let rootViewController = window.rootViewController else {
+            showAlert(title: "Error", message: "Could not access view controller")
+            return
+        }
+        
+        // Find the presented view controller if there is one
+        var presentingViewController = rootViewController
+        while let presented = presentingViewController.presentedViewController {
+            presentingViewController = presented
+        }
+        
+        SessionArchiveManager.shared.sendArchiveViaEmail(from: presentingViewController) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success:
+                    showAlert(title: "Success", message: "Archive email sent successfully!")
+                case .failure(let error):
+                    showAlert(title: "Error", message: error.localizedDescription)
+                }
+            }
+        }
+    }
+    
+    private func exportArchiveFile() {
+        let sessions = SessionArchiveManager.shared.loadArchivedSessions()
+        
+        guard !sessions.isEmpty else {
+            showAlert(title: "No Data", message: "No race sessions found to export")
+            return
+        }
+        
+        do {
+            let encoder = JSONEncoder()
+            encoder.outputFormatting = .prettyPrinted
+            encoder.dateEncodingStrategy = .iso8601
+            
+            let jsonData = try encoder.encode(sessions)
+            
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "yyyy-MM-dd_HH-mm-ss"
+            let timestamp = dateFormatter.string(from: Date())
+            let filename = "regatta_sessions_\(timestamp).json"
+            
+            // Create temporary file
+            let tempURL = FileManager.default.temporaryDirectory.appendingPathComponent(filename)
+            try jsonData.write(to: tempURL)
+            
+            // Present activity view controller
+            let activityVC = UIActivityViewController(activityItems: [tempURL], applicationActivities: nil)
+            
+            guard let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene,
+                  let window = windowScene.windows.first,
+                  let rootViewController = window.rootViewController else {
+                showAlert(title: "Error", message: "Could not access view controller")
+                return
+            }
+            
+            // Find the presented view controller if there is one
+            var presentingViewController = rootViewController
+            while let presented = presentingViewController.presentedViewController {
+                presentingViewController = presented
+            }
+            
+            // Configure for iPad
+            if let popover = activityVC.popoverPresentationController {
+                popover.sourceView = presentingViewController.view
+                popover.sourceRect = CGRect(x: presentingViewController.view.bounds.midX,
+                                         y: presentingViewController.view.bounds.midY,
+                                         width: 0, height: 0)
+                popover.permittedArrowDirections = []
+            }
+            
+            presentingViewController.present(activityVC, animated: true)
+            
+        } catch {
+            showAlert(title: "Error", message: "Failed to export archive: \(error.localizedDescription)")
+        }
+    }
+    
+    private func showAlert(title: String, message: String) {
+        alertTitle = title
+        alertMessage = message
+        showingAlert = true
     }
 }

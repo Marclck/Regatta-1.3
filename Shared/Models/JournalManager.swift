@@ -33,7 +33,7 @@ struct WaypointRecord: Codable {
     let isActiveWaypoint: Bool?         // Flag to indicate the active waypoint
 }
 
-struct RaceSession: Codable {
+class RaceSession: Codable {
     var id: String { date.timeIntervalSince1970.description }
     
     let date: Date
@@ -305,8 +305,9 @@ class JournalManager: ObservableObject {
     }
     
     func addDataPoint(heartRate: Int?, speed: Double?, location: CLLocation?) {
-        guard let session = currentSession, session.raceStartTime != nil else { return }
-        
+//        guard let session = currentSession, session.raceStartTime != nil else { return }
+        guard let session = currentSession else { return }
+
         let locationData = location.map { loc in
             LocationData(
                 latitude: loc.coordinate.latitude,
@@ -323,6 +324,7 @@ class JournalManager: ObservableObject {
         )
         
         sessionDataPoints.append(dataPoint)
+        print("journalmanager.addDataPoint: GPS data added.")
     }
     
     // MARK: - Data Persistence

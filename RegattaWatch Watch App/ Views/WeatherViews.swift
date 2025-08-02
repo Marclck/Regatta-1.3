@@ -181,13 +181,15 @@ class WeatherManager: NSObject, ObservableObject, CLLocationManagerDelegate {
                         let currentTackCount = lastReadingManager.tackCount
                         let currentTopSpeed = lastReadingManager.topSpeed
                         let currentTackAngle = lastReadingManager.tackAngle
+                        let currentDirection = lastReadingManager.course
+                        let currentCardinalDirection = lastReadingManager.cardinalDirection
                         
                         // Save with updated weather data (wind direction becomes course)
                         lastReadingManager.saveReading(
                             speed: currentSpeed,
                             distance: currentDistance,
-                            course: self.windDirection,
-                            direction: self.cardinalDirection,
+                            course: currentDirection,
+                            direction: currentCardinalDirection,
                             deviation: 0, // No deviation data from weather
                             tackCount: currentTackCount,
                             topSpeed: currentTopSpeed,

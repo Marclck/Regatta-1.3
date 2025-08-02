@@ -243,7 +243,11 @@ struct ContentView: View {
                     )
                 }
             } else {
-                TimerView(timerState: timerState, showStartLine: $showStartLine)
+                TimerView(
+                    timerState: timerState,
+                    showStartLine: $showStartLine,
+                    showingWatchFace: $showingWatchFace
+                )
             }
             
             
@@ -411,6 +415,7 @@ struct ContentView: View {
 }
 
 struct TimerView: View {
+    @StateObject var persistentTimer = PersistentTimerManager()
     @ObservedObject var timerState: WatchTimerState
     @StateObject private var locationManager = LocationManager()
     @StateObject private var startLineManager = StartLineManager()
@@ -418,6 +423,12 @@ struct TimerView: View {
     @Binding var showStartLine: Bool
     @EnvironmentObject var settings: AppSettings
     @ObservedObject private var iapManager = IAPManager.shared
+    
+    // Add these new parameters
+    @EnvironmentObject var cruisePlanState: WatchCruisePlanState
+    @Binding var showingWatchFace: Bool
+    @State private var viewUpdateTrigger = UUID()
+
     
     var body: some View {
         GeometryReader { geometry in
@@ -433,7 +444,14 @@ struct TimerView: View {
                              Color.black.edgesIgnoringSafeArea(.all)
                          }
                         
-                        WatchProgressBarView(timerState: timerState)
+                        if cruisePlanState.isActive && timerState.mode == .stopwatch {
+                            WaypointProgressBarView(
+                                plannerManager: WatchPlannerDataManager.shared,
+                                locationManager: locationManager
+                            )
+                        } else {
+                            WatchProgressBarView(timerState: timerState)
+                        }
                         
                         VStack(spacing: 0) {
                             ZStack {
@@ -444,10 +462,18 @@ struct TimerView: View {
                             
                             Spacer()
                                 .frame(height: 0)
+
+                            if settings.debugMode {
+                                TimeDisplayViewV3(timerState: timerState)
+                                    .frame(height: 150)
+                                    .position(x: geometry.size.width/2, y: centerY/2+10)
+                                    .offset(y:-2)
+                            } else {
+                                TimeDisplayView(timerState: timerState)
+                                    .frame(height: 150)
+                                    .position(x: geometry.size.width/2, y: centerY/2+10)
+                            }
                             
-                            TimeDisplayView(timerState: timerState)
-                                .frame(height: 150)
-                                .position(x: geometry.size.width/2, y: centerY/2+10)
                             
                             Spacer()
                                 .frame(height: 0)
@@ -499,21 +525,24 @@ struct TimerView: View {
                         // Show speed info if user has any subscription (Pro or Ultra)
                         if settings.showSpeedInfo && iapManager.canAccessFeatures(minimumTier: .pro) {
                             AltSpeedInfoView(
+                                cruisePlanState: cruisePlanState,
+                                showingWatchFace: $showingWatchFace,
                                 locationManager: locationManager,
-                                timerState: timerState,
+                                watchTimerState: timerState,
+                                persistentTimer: persistentTimer,
                                 startLineManager: startLineManager,
                                 isCheckmark: $showStartLine
                             )
-                            .offset(y: timerState.isRunning ? -35 : -66)
+                            .offset(y: persistentTimer.isTimerRunning ? -35 : -66)
                             .offset(y: smallWatch ? 10 : 0)
                         }
                         
                         ZStack {
                             if showStartLine {
                                 Rectangle()
-                                    .fill(Color.black)
+                                    .fill(settings.lightMode ? Color.white : Color.black)
                                     .frame(height: 40)
-                                    .frame(maxWidth: 110)
+                                    .frame(maxWidth: 108)
                                     .offset(x: timerState.isRunning ? 0 : 22.5, y: -90)
                                 
                                 StartLineView(
@@ -528,6 +557,13 @@ struct TimerView: View {
                     }
                     .onReceive(timer) { _ in
                         timerState.updateTimer()
+                    }
+                    .onChange(of: cruisePlanState.isActive) { oldValue, newValue in
+                        print("🚢 Cruise plan state changed from \(oldValue) to \(newValue)")
+                        // Force view update by changing the ID
+                        withAnimation(.easeInOut(duration: 0.3)) {
+                            viewUpdateTrigger = UUID()
+                        }
                     }
                     .onAppear {
                         // Pass in the timerState but let the manager decide if a new session is needed
@@ -544,10 +580,12 @@ struct TimerView: View {
     }
 }
 
-/*
- #Preview {
- ContentView()
- .environmentObject(ColorManager())
- .environmentObject(AppSettings())
- }
- */
+
+#Preview {
+    ContentView()
+        .environmentObject(ColorManager())
+        .environmentObject(AppSettings())
+        .environmentObject(WatchTimerState())
+        .environmentObject(WatchCruisePlanState.shared) // Use the shared instance
+}
+

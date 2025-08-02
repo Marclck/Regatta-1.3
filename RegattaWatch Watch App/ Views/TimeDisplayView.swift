@@ -71,23 +71,32 @@ struct TimeDisplayView: View {
             .colorScheme(settings.lightMode ? .light : .dark)
             .focused($FocusState)
             .overlay(alignment: .bottom) {
-                if settings.lightMode {
-                    RoundedRectangle(cornerRadius: 12.5)
-                        .fill(
-                            LinearGradient(
-                                gradient: Gradient(stops: [
-                                    .init(color: .white.opacity(1.4), location: 0),
-                                    .init(color: .clear, location: 0.5),
-                                    .init(color: .white.opacity(1.4), location: 1)
-                                ]),
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
+                    RoundedRectangle(cornerRadius: 16)
+                    .fill(
+                        settings.lightMode ?
+                        LinearGradient(
+                            gradient: Gradient(stops: [
+                                .init(color: .white.opacity(1.4), location: 0),
+                                .init(color: .clear, location: 0.5),
+                                .init(color: .white.opacity(1.4), location: 1)
+                            ]),
+                            startPoint: .top,
+                            endPoint: .bottom
+                        ) :
+                        LinearGradient(
+                            gradient: Gradient(stops: [
+                                .init(color: .clear, location: 0),
+                                .init(color: .clear, location: 1)
+                            ]),
+                            startPoint: .top,
+                            endPoint: .bottom
                         )
+                    )
+                        .stroke(ColorManager.getCurrentThemeColor(), lineWidth: 4) // Add this line
+                        .allowsHitTesting(false) // Add this line
                         .offset(y: 5)
                         .frame(width: 149, height: 78)
                         .opacity(FocusState ? 1.0 : 0.0) // Show/hide based on focus state
-                }
             }
         } else {
             ZStack {
@@ -141,22 +150,32 @@ struct TimeDisplayView: View {
                         .frame(width: 80, height: 80)
                         .offset(x: -40, y: -2)
                         .overlay(alignment: .bottom) {
-                            if settings.lightMode {
-                                RoundedRectangle(cornerRadius: 12.5)
-                                    .fill(
-                                        LinearGradient(
-                                            gradient: Gradient(stops: [
-                                                .init(color: .white.opacity(1.8), location: 0),
-                                                .init(color: .clear, location: 0.6),
-                                                .init(color: .white.opacity(1.4), location: 1)
-                                            ]),
-                                            startPoint: .top,
-                                            endPoint: .bottom
-                                        )
+                                RoundedRectangle(cornerRadius: 16)
+                                .fill(
+                                    settings.lightMode ?
+                                    LinearGradient(
+                                        gradient: Gradient(stops: [
+                                            .init(color: .white.opacity(1.4), location: 0),
+                                            .init(color: .clear, location: 0.5),
+                                            .init(color: .white.opacity(1.4), location: 1)
+                                        ]),
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    ) :
+                                    LinearGradient(
+                                        gradient: Gradient(stops: [
+                                            .init(color: .clear, location: 0),
+                                            .init(color: .clear, location: 1)
+                                        ]),
+                                        startPoint: .top,
+                                        endPoint: .bottom
                                     )
+                                )
+                                    .stroke(ColorManager.getCurrentThemeColor(), lineWidth: 4) // Add this line
+                                    .allowsHitTesting(false) // Add this line
                                     .offset(x:-40, y: 0)
-                                    .frame(width: 80, height: 80)
-                            }
+                                    .frame(width: 80, height: 65)
+                            
                         }
                     }
                 }

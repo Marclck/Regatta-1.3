@@ -25,11 +25,12 @@ struct Provider: TimelineProvider {
         let theme = SharedDefaults.getTheme()
         let entry = SimpleEntry(date: Date(), lastUsedTime: lastUsedTime, themeColor: theme)
         
-        let timeline = Timeline(entries: [entry], policy: .never)
+        // Create timeline with updates every 10 minutes
+        let nextUpdate = Calendar.current.date(byAdding: .minute, value: 10, to: Date()) ?? Date()
+        let timeline = Timeline(entries: [entry], policy: .after(nextUpdate))
         completion(timeline)
     }
 }
-
 
 struct SimpleEntry: TimelineEntry {
     let date: Date
@@ -73,6 +74,13 @@ struct RegattaWidgetExtensionEntryView : View {
 }
 
 @main
+struct RegattaWidgetBundle: WidgetBundle {
+    var body: some Widget {
+        RegattaWidgetExtension()
+        AstroWeatherWidget()
+    }
+}
+
 struct RegattaWidgetExtension: Widget {
     let kind: String = "RegattaWidgetExtension"
 
