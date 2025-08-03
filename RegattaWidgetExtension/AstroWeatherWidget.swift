@@ -10,13 +10,14 @@ import SwiftUI
 
 struct WeatherProvider: TimelineProvider {
     func placeholder(in context: Context) -> WeatherEntry {
-        WeatherEntry(
+        return WeatherEntry(
             date: Date(),
             currentTemp: 22,
             highTemp: 28,
             lowTemp: 18,
             weatherCondition: "sun.max.fill",
-            themeColor: SharedDefaults.getTheme()
+            themeColor: SharedDefaults.getTheme(),
+            hasUltraAccess: getCachedUltraAccess()
         )
     }
 
@@ -36,7 +37,6 @@ struct WeatherProvider: TimelineProvider {
     
     private func getWeatherEntry() -> WeatherEntry {
         // Get weather data from LastReadingManager through UserDefaults
-//        let defaults = UserDefaults.standard
         let defaults = UserDefaults(suiteName: "group.com.heart.astrolabe")!
         let temperature = defaults.double(forKey: "lastTemperature")
         let highTemp = defaults.double(forKey: "lastHighTemp")
@@ -59,8 +59,40 @@ struct WeatherProvider: TimelineProvider {
             highTemp: finalHighTemp,
             lowTemp: finalLowTemp,
             weatherCondition: weatherCondition,
-            themeColor: theme
+            themeColor: theme,
+            hasUltraAccess: getCachedUltraAccess()
         )
+    }
+    
+    // Check Ultra access - only cache positive results for 5 days
+    private func getCachedUltraAccess() -> Bool {
+        let defaults = UserDefaults(suiteName: "group.com.heart.astrolabe")!
+        
+        // Check if we have a cached POSITIVE result and if it's still valid
+        if let lastCheckDate = defaults.object(forKey: "ultraAccessLastCheck") as? Date,
+           defaults.bool(forKey: "cachedUltraAccess") == true {
+            let daysSinceLastCheck = Calendar.current.dateComponents([.day], from: lastCheckDate, to: Date()).day ?? 0
+            
+            if daysSinceLastCheck < 5 {
+                // Use cached positive result - user has Ultra, don't check for 5 days
+                return true
+            }
+        }
+        
+        // Always perform fresh check (no positive cache or cache expired)
+        let hasUltraAccess = IAPManager.shared.canAccessFeatures(minimumTier: .ultra)
+        
+        // Only cache positive results with timestamp
+        if hasUltraAccess {
+            defaults.set(true, forKey: "cachedUltraAccess")
+            defaults.set(Date(), forKey: "ultraAccessLastCheck")
+        } else {
+            // Clear cache for negative results - always recheck
+            defaults.removeObject(forKey: "cachedUltraAccess")
+            defaults.removeObject(forKey: "ultraAccessLastCheck")
+        }
+        
+        return hasUltraAccess
     }
 }
 
@@ -71,6 +103,7 @@ struct WeatherEntry: TimelineEntry {
     let lowTemp: Double
     let weatherCondition: String
     let themeColor: ColorTheme
+    let hasUltraAccess: Bool
 }
 
 struct AstroWeatherWidgetEntryView: View {
@@ -90,12 +123,11 @@ struct AstroWeatherWidgetEntryView: View {
 }
 
 struct CircularWeatherView: View {
-    @ObservedObject private var iapManager = IAPManager.shared
     let entry: WeatherEntry
     
     var body: some View {
         ZStack {
-            if iapManager.canAccessFeatures(minimumTier: .ultra) {
+            if entry.hasUltraAccess {
                 // Show weather content for Ultra users
                 // Background gauge showing temperature range
                 Gauge(value: entry.currentTemp, in: entry.lowTemp...entry.highTemp) {
@@ -148,12 +180,11 @@ struct CircularWeatherView: View {
 }
 
 struct CornerWeatherView: View {
-    @ObservedObject private var iapManager = IAPManager.shared
     let entry: WeatherEntry
     
     var body: some View {
         ZStack {
-            if iapManager.canAccessFeatures(minimumTier: .ultra) {
+            if entry.hasUltraAccess {
                 // Show weather content for Ultra users
                 // Main display with weather icon and temperature
                 HStack(spacing: 0) {
@@ -258,15 +289,15 @@ struct AstroWeatherWidget: Widget {
 #Preview(as: .accessoryCircular) {
     AstroWeatherWidget()
 } timeline: {
-    WeatherEntry(date: .now, currentTemp: 22, highTemp: 28, lowTemp: 18, weatherCondition: "sun.max.fill", themeColor: .ultraBlue)
-    WeatherEntry(date: .now, currentTemp: 15, highTemp: 20, lowTemp: 12, weatherCondition: "cloud.rain.fill", themeColor: .ultraBlue)
-    WeatherEntry(date: .now, currentTemp: 5, highTemp: 10, lowTemp: 0, weatherCondition: "snow", themeColor: .ultraBlue)
+    WeatherEntry(date: .now, currentTemp: 22, highTemp: 28, lowTemp: 18, weatherCondition: "sun.max.fill", themeColor: .ultraBlue, hasUltraAccess: true)
+    WeatherEntry(date: .now, currentTemp: 15, highTemp: 20, lowTemp: 12, weatherCondition: "cloud.rain.fill", themeColor: .ultraBlue, hasUltraAccess: true)
+    WeatherEntry(date: .now, currentTemp: 5, highTemp: 10, lowTemp: 0, weatherCondition: "snow", themeColor: .ultraBlue, hasUltraAccess: false)
 }
 
 #Preview(as: .accessoryCorner) {
     AstroWeatherWidget()
 } timeline: {
-    WeatherEntry(date: .now, currentTemp: 22, highTemp: 28, lowTemp: 18, weatherCondition: "sun.max.fill", themeColor: .ultraBlue)
-    WeatherEntry(date: .now, currentTemp: 15, highTemp: 20, lowTemp: 12, weatherCondition: "cloud.rain.fill", themeColor: .ultraBlue)
-    WeatherEntry(date: .now, currentTemp: 5, highTemp: 10, lowTemp: 0, weatherCondition: "snow", themeColor: .ultraBlue)
+    WeatherEntry(date: .now, currentTemp: 22, highTemp: 28, lowTemp: 18, weatherCondition: "sun.max.fill", themeColor: .ultraBlue, hasUltraAccess: true)
+    WeatherEntry(date: .now, currentTemp: 15, highTemp: 20, lowTemp: 12, weatherCondition: "cloud.rain.fill", themeColor: .ultraBlue, hasUltraAccess: true)
+    WeatherEntry(date: .now, currentTemp: 5, highTemp: 10, lowTemp: 0, weatherCondition: "snow", themeColor: .ultraBlue, hasUltraAccess: false)
 }
