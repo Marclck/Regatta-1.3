@@ -464,7 +464,7 @@ struct TimerView: View {
                                 .frame(height: 0)
 
                             if settings.debugMode {
-                                TimeDisplayViewV3(timerState: timerState)
+                                TimeDisplayViewV4(timerState: timerState)
                                     .frame(height: 150)
                                     .position(x: geometry.size.width/2, y: centerY/2+10)
                                     .offset(y:-2)
