@@ -18,31 +18,47 @@ struct CurrentTimeView: View {
     @State private var timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     
     var body: some View {
-        Text(timeString(from: currentTime))
-            .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 14) : .system(size: 14, design: .monospaced))
-            .dynamicTypeSize(.xSmall)
-            .foregroundColor(.black)
-            .padding(.horizontal, settings.debugMode ? 10 : 10)
-            .padding(.vertical, settings.debugMode ? 7 : 4)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(backgroundColor)
-            )
-//            .glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
-            .onChange(of: timerState.currentTime) { _ in
-                let now = Date().timeIntervalSince1970
-                if now - lastUpdateTime >= 1.0 {
-                    currentTime = Date()
-                    lastUpdateTime = now
-                }
-            }
-            .onReceive(timer) { _ in
+        HStack(spacing: -2) {
+            // Hours component
+            Text(String(timeString(from: currentTime).prefix(2))) // "HH"
+                .font(settings.debugMode ? Font.custom("Hermes-Numbers", size: 14) : .system(size: 14, design: .monospaced))
+                .dynamicTypeSize(.xSmall)
+                .foregroundColor(.black)
+            
+            // Colon separator
+            Text(":")
+                .font(.system(size: 14, design: .monospaced))
+                .dynamicTypeSize(.xSmall)
+                .foregroundColor(.black)
+                .offset(y:-1)
+            
+            // Minutes component
+            Text(String(timeString(from: currentTime).suffix(2))) // "mm"
+                .font(settings.debugMode ? Font.custom("Hermes-Numbers", size: 14) : .system(size: 14, design: .monospaced))
+                .dynamicTypeSize(.xSmall)
+                .foregroundColor(.black)
+        }
+        .padding(.horizontal, settings.debugMode ? 6 : 10)
+        .padding(.vertical, settings.debugMode ? 4 : 4)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(backgroundColor)
+        )
+        //            .glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
+        .onChange(of: timerState.currentTime) { _ in
+            let now = Date().timeIntervalSince1970
+            if now - lastUpdateTime >= 1.0 {
                 currentTime = Date()
+                lastUpdateTime = now
             }
-            .onAppear {
-                currentTime = Date()
-                lastUpdateTime = Date().timeIntervalSince1970
-            }
+        }
+        .onReceive(timer) { _ in
+            currentTime = Date()
+        }
+        .onAppear {
+            currentTime = Date()
+            lastUpdateTime = Date().timeIntervalSince1970
+        }
     }
     
     private var backgroundColor: Color {

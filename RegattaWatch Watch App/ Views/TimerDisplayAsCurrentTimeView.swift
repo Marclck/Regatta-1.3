@@ -16,17 +16,33 @@ struct TimerDisplayAsCurrentTime: View {
 
     
     var body: some View {
-        Text(displayText)
-            .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 14) : .system(size: 14, design: .monospaced))
-            .dynamicTypeSize(.xSmall)
-            .foregroundColor(.black)
-            .padding(.horizontal, settings.debugMode ? 10 : 10)
-            .padding(.vertical, settings.debugMode ? 7 : 4)
-            .background(
-                RoundedRectangle(cornerRadius: 8)
-                    .fill(backgroundColor)
-            )
-//            .glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
+        HStack(spacing: -2) {
+            // Hours/Minutes component
+            Text(String(displayText.prefix(2))) // "HH" or "mm"
+                .font(settings.debugMode ? Font.custom("Hermes-Numbers", size: 14) : .system(size: 14, design: .monospaced))
+                .dynamicTypeSize(.xSmall)
+                .foregroundColor(.black)
+            
+            // Colon separator
+            Text(":")
+                .font(.system(size: 14, design: .monospaced))
+                .dynamicTypeSize(.xSmall)
+                .foregroundColor(.black)
+                .offset(y:-1)
+            
+            // Minutes/Seconds component
+            Text(String(displayText.suffix(2))) // "mm" or "ss"
+                .font(settings.debugMode ? Font.custom("Hermes-Numbers", size: 14) : .system(size: 14, design: .monospaced))
+                .dynamicTypeSize(.xSmall)
+                .foregroundColor(.black)
+        }
+        .padding(.horizontal, settings.debugMode ? 6 : 10)
+        .padding(.vertical, settings.debugMode ? 4 : 4)
+        .background(
+            RoundedRectangle(cornerRadius: 8)
+                .fill(backgroundColor)
+        )
+    //            .glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
     }
     
     private var displayText: String {
