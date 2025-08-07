@@ -29,6 +29,11 @@ struct RegattaApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .onAppear {
+                    // Initialize CustomFontManager to ensure fonts are loaded on app start
+                    _ = CustomFontManager.shared
+                    print("🚀 App launched - CustomFontManager initialized")
+                }
         }
         .environmentObject(colorManager)
         .modelContainer(sharedModelContainer)

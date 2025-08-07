@@ -31,6 +31,9 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             switch messageType {
             case "current_plan_update":
                 processPlanUpdate(message)
+            // ADD THESE NEW CASES:
+            case "font_list_metadata", "font_data_chunk", "font_sync_complete":
+                processFontMessage(message)
             default:
                 print("⌚️ Unknown direct message type: \(messageType)")
             }
@@ -138,6 +141,21 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                         // Add this case to handle planner updates via UserInfo
                         processPlanUpdate(userInfo)
                         
+            case "transfer_status":
+                // Show status update in UI
+                if let statusMessage = userInfo["message"] as? String {
+                    DispatchQueue.main.async {
+                        NotificationCenter.default.post(
+                            name: Notification.Name("WatchTransferAttempt"),
+                            object: nil,
+                            userInfo: ["message": statusMessage]
+                        )
+                    }
+                }
+            // ADD THESE NEW CASES:
+            case "font_list_metadata", "font_data_chunk", "font_sync_complete":
+                processFontMessage(userInfo)
+                
                     default:
                         print("⌚️ Unknown UserInfo message type: \(messageType)")
                     }
@@ -159,6 +177,13 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
                 // Process the plan update
                 processPlanUpdate(message)
                 replyHandler(["status": "success", "message": "Plan update received", "waypointCount": (message["waypoints"] as? [[String: Any]])?.count ?? 0])
+            // ADD THESE NEW CASES:
+            case "font_list_metadata", "font_data_chunk":
+                processFontMessage(message)
+                replyHandler(["status": "success", "message": "Font data received"])
+            case "font_sync_complete":
+                processFontMessage(message)
+                replyHandler(["status": "success", "message": "Font sync completed"])
             default:
                 print("⌚️ Unknown message type: \(messageType)")
                 replyHandler(["status": "error", "message": "Unknown message type"])
@@ -1211,8 +1236,24 @@ class WatchSessionManager: NSObject, WCSessionDelegate {
             // Already handled in session(_ session:, didReceiveMessage:, replyHandler:)
             break
             
+        // ADD THESE NEW CASES:
+        case "font_sync_ack":
+            processFontSyncAcknowledgment(message)
+            
         default:
             print("📱 Unknown message type: \(messageType)")
+        }
+    }
+    
+    private func processFontSyncAcknowledgment(_ message: [String: Any]) {
+        if let fontName = message["fontName"] as? String,
+           let status = message["status"] as? String {
+            print("📱 Watch acknowledged font: \(fontName) - \(status)")
+            
+            // You can add more sophisticated tracking here if needed
+            if status != "success" {
+                print("📱 Warning: Font \(fontName) may not have been saved properly on watch")
+            }
         }
     }
 

@@ -341,13 +341,6 @@ struct SettingsView: View {
                         .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
                         .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
                     
-                    /*
-                    Toggle("CruiseR", isOn: $settings.showCruiser)
-                        .font(.system(size: 17))
-                        .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
-                        .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
-                    */
-                    
                     if !iapManager.canAccessFeatures(minimumTier: .ultra) {
                         Text("Requires Ultra subscription")
                             .font(.caption2)
@@ -561,6 +554,16 @@ struct SettingsView: View {
                 .font(.system(size: 17))
                 .foregroundColor(.white.opacity(1))
 
+                // NEW FONTS SECTION
+                Section("Fonts") {
+                    NavigationLink {
+                        FontsListView()
+                    } label: {
+                        Text("Custom Fonts")
+                    }
+                }
+                .font(.system(size: 17, weight: .bold))
+                .foregroundColor(Color.white.opacity(0.8))
 
                 Section("Developer") {
                     NavigationLink {
@@ -607,9 +610,9 @@ struct SettingsView: View {
                     } label: {
                         Text("Debug Settings")
                     }
-                                }
-                                .font(.system(size: 17, weight: .bold))
-                                .foregroundColor(Color.white.opacity(0.5))
+                }
+                .font(.system(size: 17, weight: .bold))
+                .foregroundColor(Color.white.opacity(0.5))
                 
             }
             .dynamicTypeSize(.xSmall)

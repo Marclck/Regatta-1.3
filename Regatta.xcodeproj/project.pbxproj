@@ -167,6 +167,8 @@
 		1D8C5FB12D87E55400D43F8B /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */; };
 		1D8EA3B52E43FEE10040E9D0 /* Hermes-Numbers.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8EA3B42E43FEE10040E9D0 /* Hermes-Numbers.ttf */; };
 		1D8EA3B92E4401910040E9D0 /* MemphisLTCYR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8EA3B82E4401910040E9D0 /* MemphisLTCYR-Bold.ttf */; };
+		1D8EA3BB2E451D940040E9D0 /* CustomFontsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8EA3BA2E451D900040E9D0 /* CustomFontsView.swift */; };
+		1D8EA3BD2E45260D0040E9D0 /* FontsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8EA3BC2E4526080040E9D0 /* FontsListView.swift */; };
 		1D90CF892D46C3B500357553 /* StartLineMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D90CF882D46C3B500357553 /* StartLineMapView.swift */; };
 		1D90CF8B2D46C57C00357553 /* LocationHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D90CF8A2D46C57C00357553 /* LocationHelper.swift */; };
 		1D90CF8D2D4AA6A500357553 /* SpeedInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D90CF8C2D4AA6A500357553 /* SpeedInfoView.swift */; };
@@ -194,6 +196,11 @@
 		1DC4B3292CF5454F00A8CC30 /* FontManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B3272CF5454F00A8CC30 /* FontManager.swift */; };
 		1DC4B32B2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */; };
 		1DC4B32C2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */; };
+		1DD2FA232E456AC7000D1A53 /* WatchSessionManager+FontSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2FA222E456AB7000D1A53 /* WatchSessionManager+FontSync.swift */; };
+		1DD2FA242E456AC7000D1A53 /* WatchSessionManager+FontSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2FA222E456AB7000D1A53 /* WatchSessionManager+FontSync.swift */; };
+		1DD2FA252E456AC7000D1A53 /* WatchSessionManager+FontSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2FA222E456AB7000D1A53 /* WatchSessionManager+FontSync.swift */; };
+		1DD2FA262E456AC7000D1A53 /* WatchSessionManager+FontSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2FA222E456AB7000D1A53 /* WatchSessionManager+FontSync.swift */; };
+		1DD2FA2A2E456B05000D1A53 /* CustomFontManager+watchOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2FA292E456B04000D1A53 /* CustomFontManager+watchOS.swift */; };
 		1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */; };
 		1DD528452CEBEBE7005FFEA2 /* SeparatorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */; };
 		1DD528492CEBED22005FFEA2 /* TimerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528482CEBED22005FFEA2 /* TimerMode.swift */; };
@@ -394,6 +401,8 @@
 		1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
 		1D8EA3B42E43FEE10040E9D0 /* Hermes-Numbers.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hermes-Numbers.ttf"; sourceTree = "<group>"; };
 		1D8EA3B82E4401910040E9D0 /* MemphisLTCYR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MemphisLTCYR-Bold.ttf"; sourceTree = "<group>"; };
+		1D8EA3BA2E451D900040E9D0 /* CustomFontsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFontsView.swift; sourceTree = "<group>"; };
+		1D8EA3BC2E4526080040E9D0 /* FontsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontsListView.swift; sourceTree = "<group>"; };
 		1D90CF882D46C3B500357553 /* StartLineMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartLineMapView.swift; sourceTree = "<group>"; };
 		1D90CF8A2D46C57C00357553 /* LocationHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationHelper.swift; sourceTree = "<group>"; };
 		1D90CF8C2D4AA6A500357553 /* SpeedInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeedInfoView.swift; sourceTree = "<group>"; };
@@ -416,6 +425,8 @@
 		1DC4B3272CF5454F00A8CC30 /* FontManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontManager.swift; sourceTree = "<group>"; };
 		1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedDefaults.swift; sourceTree = "<group>"; };
 		1DC4B32D2CF6762000A8CC30 /* RegattaWidgetExtensionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RegattaWidgetExtensionExtension.entitlements; sourceTree = "<group>"; };
+		1DD2FA222E456AB7000D1A53 /* WatchSessionManager+FontSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WatchSessionManager+FontSync.swift"; sourceTree = "<group>"; };
+		1DD2FA292E456B04000D1A53 /* CustomFontManager+watchOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomFontManager+watchOS.swift"; sourceTree = "<group>"; };
 		1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTimerState.swift; sourceTree = "<group>"; };
 		1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorOverlay.swift; sourceTree = "<group>"; };
 		1DD528482CEBED22005FFEA2 /* TimerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerMode.swift; sourceTree = "<group>"; };
@@ -537,6 +548,7 @@
 		1D5E48212CFC5DC4004813A4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1DD2FA292E456B04000D1A53 /* CustomFontManager+watchOS.swift */,
 				1D5E48222CFC5DD7004813A4 /* iOSSessionStore.swift */,
 				1D90CF8A2D46C57C00357553 /* LocationHelper.swift */,
 				1DC321C62D7D934000EE70E1 /* SessionArchiveManager.swift */,
@@ -678,10 +690,11 @@
 		1D69FEF22CE96830001C178A /* Models */ = {
 			isa = PBXGroup;
 			children = (
+				1DD2FA222E456AB7000D1A53 /* WatchSessionManager+FontSync.swift */,
+				1DC4B3272CF5454F00A8CC30 /* FontManager.swift */,
 				1DD528482CEBED22005FFEA2 /* TimerMode.swift */,
 				1D69FEF62CE968B5001C178A /* TimerState.swift */,
 				1DE3D0682CF3052A00B4056F /* StartCountdownIntent.swift */,
-				1DC4B3272CF5454F00A8CC30 /* FontManager.swift */,
 				1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */,
 				1D5E481A2CFBC79C004813A4 /* JournalManager.swift */,
 				1DDD4E132D8F7DE100916608 /* JournalManager+WeatherWaypoint.swift */,
@@ -715,6 +728,7 @@
 		1D69FEF42CE96848001C178A /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				1D8EA3BA2E451D900040E9D0 /* CustomFontsView.swift */,
 				1D69FE952CE967AA001C178A /* ContentView.swift */,
 				1D69FEFC2CE969CE001C178A /* ProgressBarView.swift */,
 				1D69FEFE2CE969D9001C178A /* CurrentTimeView.swift */,
@@ -742,6 +756,7 @@
 		1D69FEF52CE9686B001C178A /*  Views */ = {
 			isa = PBXGroup;
 			children = (
+				1D8EA3BC2E4526080040E9D0 /* FontsListView.swift */,
 				1D8EA3B42E43FEE10040E9D0 /* Hermes-Numbers.ttf */,
 				1D8EA3B82E4401910040E9D0 /* MemphisLTCYR-Bold.ttf */,
 				1D5A875B2E3EAE2700CEC460 /* TimeDisplayViewV4.swift */,
@@ -1079,6 +1094,7 @@
 				1D2E53FD2D17159600C669D4 /* TabBarContentView.swift in Sources */,
 				1D9778692CF67949007D861B /* FontManager.swift in Sources */,
 				1D412E182D025A2C0062C639 /* ColorThemeView.swift in Sources */,
+				1DD2FA232E456AC7000D1A53 /* WatchSessionManager+FontSync.swift in Sources */,
 				1D18C9A02D89546C005519E5 /* ColorManager.swift in Sources */,
 				1DD9DBD92CF6844F00D1E608 /* LineChartManager.swift in Sources */,
 				1D18C9A52D8956D9005519E5 /* WatchSessionManager.swift in Sources */,
@@ -1114,6 +1130,7 @@
 				1D824DBA2DB2F1B5006159B0 /* CoordinateUtilities.swift in Sources */,
 				1D64AA0F2D46BCF700F1BC04 /* StartLineManager.swift in Sources */,
 				1DC4B32B2CF5B32C00A8CC30 /* SharedDefaults.swift in Sources */,
+				1D8EA3BB2E451D940040E9D0 /* CustomFontsView.swift in Sources */,
 				1DC321CB2D7D938300EE70E1 /* DataMigrationUtility.swift in Sources */,
 				1D69FF032CE969EF001C178A /* ButtonsView.swift in Sources */,
 				1D349B332D880E7E00FEB841 /* PlannerModels.swift in Sources */,
@@ -1129,6 +1146,7 @@
 				1DD9DBD62CF6844B00D1E608 /* LineChartManager.swift in Sources */,
 				1DC321C72D7D934000EE70E1 /* SessionArchiveManager.swift in Sources */,
 				1D5C294B2D8252BB00610A22 /* PlannerView.swift in Sources */,
+				1DD2FA242E456AC7000D1A53 /* WatchSessionManager+FontSync.swift in Sources */,
 				1D69FE982CE967AA001C178A /* Item.swift in Sources */,
 				1D43846D2D186D43000DE437 /* PremiumAlertView.swift in Sources */,
 				1D5C29532D82C35800610A22 /* PlannerHistoryViews.swift in Sources */,
@@ -1157,6 +1175,7 @@
 				1D5C295A2D82C97D00610A22 /* WaypointItem.swift in Sources */,
 				1D4384722D18725D000DE437 /* SubscriptionView.swift in Sources */,
 				1D2E54042D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
+				1DD2FA2A2E456B05000D1A53 /* CustomFontManager+watchOS.swift in Sources */,
 				1D5E48232CFC5DD7004813A4 /* iOSSessionStore.swift in Sources */,
 				1D5C29572D82C88900610A22 /* PlannerWaypointSection.swift in Sources */,
 				1D69FEFD2CE969CE001C178A /* ProgressBarView.swift in Sources */,
@@ -1178,6 +1197,7 @@
 				1D2E54002D1715AD00C669D4 /* TabBarView.swift in Sources */,
 				1D412E072D02442A0062C639 /* ColorManager.swift in Sources */,
 				1D2E54142D17161200C669D4 /* TabScrollContentView.swift in Sources */,
+				1DD2FA252E456AC7000D1A53 /* WatchSessionManager+FontSync.swift in Sources */,
 				1D4384692D186D10000DE437 /* IAPManager.swift in Sources */,
 				1D412E162D025A2C0062C639 /* ColorThemeView.swift in Sources */,
 				1D2E54192D17162700C669D4 /* Tabs.swift in Sources */,
@@ -1220,6 +1240,7 @@
 				1D818A6C2E0620D600FE6572 /* CircularProgressBarView.swift in Sources */,
 				1D64AA092D464D1500F1BC04 /* DistanceDisplayView.swift in Sources */,
 				1DB562372D8B8F61007FF0E2 /* ActiveWaypointManager.swift in Sources */,
+				1D8EA3BD2E45260D0040E9D0 /* FontsListView.swift in Sources */,
 				1D18C9AB2D8A277F005519E5 /* WaypointProgressBarView.swift in Sources */,
 				1D7ECF1B2E3612D200F36ACF /* Untitled.swift in Sources */,
 				1D768D772CFD1B7800DB4EE5 /* TimerDisplayAsCurrentTimeView.swift in Sources */,
@@ -1241,6 +1262,7 @@
 				1DBD85D62CEF6F1B0028E391 /* LastMinuteSeparatorView.swift in Sources */,
 				1DDD4E172D8F7E8F00916608 /* JournalManager+WeatherWaypoint.swift in Sources */,
 				1D88DEAB2D6A9B0E009DC635 /* RulerView.swift in Sources */,
+				1DD2FA262E456AC7000D1A53 /* WatchSessionManager+FontSync.swift in Sources */,
 				1D69FEC82CE967F7001C178A /* ContentView.swift in Sources */,
 				1D69FF072CE96A32001C178A /* CurrentTimeView.swift in Sources */,
 				1DC321CE2D7D94A600EE70E1 /* WatchSessionManager+Extensions.swift in Sources */,

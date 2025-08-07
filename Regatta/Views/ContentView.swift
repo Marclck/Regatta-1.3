@@ -166,6 +166,8 @@ struct MainInfoView: View {
     @State private var showingAlert = false
     @State private var alertMessage = ""
     @State private var alertTitle = ""
+    @State private var showingCustomFonts = false  // Add this line
+
 
     private let privacyPolicyURL = URL(string: "https://astrolabe-countdown.apphq.online/privacy")!
     private let termsOfUseURL = URL(string: "https://www.apple.com/legal/internet-services/itunes/dev/stdeula/")!
@@ -351,6 +353,14 @@ struct MainInfoView: View {
                         .environment(\.colorScheme, .dark)
                         .listSectionSeparator(.hidden)
                         
+                        // Add Custom Fonts section here - BEFORE the archive section
+                         Section(header: Text("Customization").foregroundColor(.white)) {
+                             customFontsSection  // Add this line
+                         }
+                         .listRowBackground(Color.clear.background(.ultraThinMaterial))
+                         .environment(\.colorScheme, .dark)
+                         .listSectionSeparator(.hidden)
+                        
                         Section(header: Text("Data Export").foregroundColor(.white)) {
                             dataExportSection
                         }
@@ -388,6 +398,10 @@ struct MainInfoView: View {
         } message: {
             Text(alertMessage)
         }
+        .sheet(isPresented: $showingCustomFonts) {  // Add this sheet modifier
+            CustomFontsView()
+                .environmentObject(colorManager)
+        }
         .onAppear {
             NotificationCenter.default.addObserver(
                 forName: NSNotification.Name("StartCountdownFromShortcut"),
@@ -397,6 +411,19 @@ struct MainInfoView: View {
                         timerState.startFromShortcut(minutes: minutes)
                     }
                 }
+        }
+    }
+    
+    // Add this new computed property for the custom fonts section
+    private var customFontsSection: some View {
+        Button(action: { showingCustomFonts = true }) {
+            HStack {
+                Image(systemName: "textformat")
+                    .foregroundColor(.white)
+                Text("Custom Fonts")
+                    .font(.system(.body, weight: .bold))
+                    .foregroundColor(.white)
+            }
         }
     }
     
