@@ -59,10 +59,11 @@ struct AltRaceView: View {
                         
                         if !cruisePlanState.isActive {
                             Text(settings.teamName)
-                                .font(.system(size: 11, weight: .semibold))
+                                .font(settings.debugMode ? Font.custom("MemphisLTCYR-Bold", size: 11) : .system(size: 11, weight: .semibold))
                                 .rotationEffect(.degrees(270), anchor: .center)
                                 .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
                                 .position(x: 4, y: centerY/2+55)
+                                .offset(x:settings.debugMode ? 1 : 0)
                                 .onReceive(timeTimer) { input in
                                     currentTime = input
                                 }
