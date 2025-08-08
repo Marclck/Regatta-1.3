@@ -299,17 +299,12 @@ struct FontRowView: View {
         .padding(.vertical, 4)
     }
     
+    // Replace the formatFileSize() method with this:
+
     private func formatFileSize() -> String {
-        do {
-            let resourceValues = try font.fileURL.resourceValues(forKeys: [.fileSizeKey])
-            if let fileSize = resourceValues.fileSize {
-                let kb = Double(fileSize) / 1024.0
-                return String(format: "%.1f KB", kb)
-            }
-        } catch {
-            // Handle error silently
-        }
-        return "Unknown"
+        let fileSize = font.fontData.count
+        let kb = Double(fileSize) / 1024.0
+        return String(format: "%.1f KB", kb)
     }
     
     private func formatDate(_ date: Date) -> String {

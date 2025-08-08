@@ -3,7 +3,7 @@
 //  Regatta
 //
 //  Created by Chikai Lai on 25/11/2024.
-//
+// Updated to store font data in UserDefaults for better watchOS persistence
 
 import Foundation
 import SwiftUI
@@ -14,16 +14,29 @@ struct CustomFont: Identifiable, Codable {
     let fontNumber: Int
     let fileName: String
     let displayName: String
-    let fileURL: URL
+    let fontData: Data  // Store the actual font data
     let dateAdded: Date
     
-    init(fontNumber: Int, fileName: String, fileURL: URL) {
+    init(fontNumber: Int, fileName: String, fontData: Data) {
         self.id = UUID()
         self.fontNumber = fontNumber
         self.fileName = fileName
         self.displayName = "Font \(fontNumber)"
-        self.fileURL = fileURL
+        self.fontData = fontData
         self.dateAdded = Date()
+    }
+    
+    // Computed property to create temporary URL when needed
+    var temporaryURL: URL {
+        let tempDir = FileManager.default.temporaryDirectory
+        let tempURL = tempDir.appendingPathComponent(fileName)
+        
+        // Write data to temp file if it doesn't exist
+        if !FileManager.default.fileExists(atPath: tempURL.path) {
+            try? fontData.write(to: tempURL)
+        }
+        
+        return tempURL
     }
 }
 
@@ -33,27 +46,51 @@ class CustomFontManager: ObservableObject {
     
     @Published var customFonts: [CustomFont] = []
     
-    internal let fontsDirectory: URL  // Changed from private to internal
     private let maxFileSize: Int = 200 * 1024 // 200 KB
     private let supportedFormats = ["ttf"]
     
     private init() {
-        // Create fonts directory in app's private storage
-        let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
-        fontsDirectory = documentsPath.appendingPathComponent("CustomFonts", isDirectory: true)
-        
-        createFontsDirectoryIfNeeded()
         loadCustomFonts()
         
-        // Debug: Print directory contents
-        debugPrintFontsDirectory()
+        #if os(watchOS)
+        // Additional setup for watchOS persistence
+        setupWatchOSPersistence()
+        #endif
     }
     
-    private func createFontsDirectoryIfNeeded() {
-        if !FileManager.default.fileExists(atPath: fontsDirectory.path) {
-            try? FileManager.default.createDirectory(at: fontsDirectory, withIntermediateDirectories: true)
+    #if os(watchOS)
+    private func setupWatchOSPersistence() {
+        print("⌚️ Setting up watchOS persistence...")
+        
+        // Register for app lifecycle notifications
+        NotificationCenter.default.addObserver(
+            forName: .NSExtensionHostWillEnterForeground,
+            object: nil,
+            queue: .main
+        ) { _ in
+            print("⌚️ App entering foreground - checking font persistence")
+            self.verifyFontPersistence()
         }
     }
+    
+    private func verifyFontPersistence() {
+        print("⌚️ Verifying font persistence...")
+        print("⌚️ Expected fonts count: \(customFonts.count)")
+        
+        // Since we store data in UserDefaults, just verify the fonts are still in memory
+        // and try to re-register them if needed
+        for font in customFonts {
+            let tempURL = font.temporaryURL
+            if !FileManager.default.fileExists(atPath: tempURL.path) {
+                print("⌚️ Recreating temp file for: \(font.fileName)")
+                // The temporaryURL property will recreate the file automatically
+                _ = font.temporaryURL
+            }
+        }
+        
+        print("⌚️ Font persistence verification complete")
+    }
+    #endif
     
     // MARK: - Font Import
     func importFont(from url: URL) -> Result<CustomFont, FontImportError> {
@@ -120,34 +157,18 @@ class CustomFontManager: ObservableObject {
             // Generate unique font number
             let fontNumber = getNextFontNumber()
             let fileName = "font_\(fontNumber).\(fileExtension)"
-            let destinationURL = fontsDirectory.appendingPathComponent(fileName)
             
-            print("💾 Saving to: \(destinationURL.path)")
+            // Create CustomFont object with data stored directly
+            let customFont = CustomFont(fontNumber: fontNumber, fileName: fileName, fontData: fontData)
             
-            // Copy font file to private storage
-            if FileManager.default.fileExists(atPath: destinationURL.path) {
-                try FileManager.default.removeItem(at: destinationURL)
-            }
-            try fontData.write(to: destinationURL)
+            // Register font using temporary URL
+            let tempURL = customFont.temporaryURL
+            print("🔧 Registering font with Core Text from temp URL: \(tempURL.path)")
             
-            // Verify file was written correctly
-            guard FileManager.default.fileExists(atPath: destinationURL.path) else {
-                print("❌ File was not written to destination")
-                return .failure(.fileAccessError)
-            }
-            
-            // Verify written file size
-            let writtenSize = (try? destinationURL.resourceValues(forKeys: [.fileSizeKey]))?.fileSize ?? 0
-            print("✅ Written file size: \(writtenSize) bytes")
-            
-            // Register font with Core Text
-            print("🔧 Registering font with Core Text...")
             var errorRef: Unmanaged<CFError>?
-            let success = CTFontManagerRegisterFontsForURL(destinationURL as CFURL, .process, &errorRef)
+            let success = CTFontManagerRegisterFontsForURL(tempURL as CFURL, .process, &errorRef)
             
             if !success {
-                // Clean up file if registration fails
-                try? FileManager.default.removeItem(at: destinationURL)
                 if let error = errorRef?.takeUnretainedValue() {
                     print("❌ Font registration error: \(error)")
                 }
@@ -156,13 +177,11 @@ class CustomFontManager: ObservableObject {
             
             print("✅ Font registered successfully with Core Text")
             
-            let customFont = CustomFont(fontNumber: fontNumber, fileName: fileName, fileURL: destinationURL)
             customFonts.append(customFont)
             customFonts.sort { $0.fontNumber < $1.fontNumber }
             saveCustomFonts()
             
             print("✅ Successfully imported and registered font: \(fileName)")
-            debugPrintFontsDirectory()
             
             return .success(customFont)
         } catch {
@@ -174,11 +193,14 @@ class CustomFontManager: ObservableObject {
     
     // MARK: - Font Deletion
     func deleteFont(_ font: CustomFont) {
-        // Unregister font
-        CTFontManagerUnregisterFontsForURL(font.fileURL as CFURL, .process, nil)
+        // Try to unregister using temporary URL
+        let tempURL = font.temporaryURL
+        CTFontManagerUnregisterFontsForURL(tempURL as CFURL, .process, nil)
         
-        // Delete file
-        try? FileManager.default.removeItem(at: font.fileURL)
+        // Clean up temp file if it exists
+        if FileManager.default.fileExists(atPath: tempURL.path) {
+            try? FileManager.default.removeItem(at: tempURL)
+        }
         
         // Remove from array
         customFonts.removeAll { $0.id == font.id }
@@ -199,41 +221,26 @@ class CustomFontManager: ObservableObject {
         
         print("📂 Found \(storedFonts.count) stored fonts in UserDefaults")
         
-        // Validate that font files still exist and register them
-        var validFonts: [CustomFont] = []
-        
+        // Register fonts using temporary URLs
         for font in storedFonts {
-            print("📂 Checking font: \(font.fileName) at \(font.fileURL.path)")
+            print("📂 Registering font: \(font.fileName)")
             
-            if FileManager.default.fileExists(atPath: font.fileURL.path) {
-                print("✅ Font file exists: \(font.fileName)")
-                
-                // Register font with Core Text
-                var errorRef: Unmanaged<CFError>?
-                let success = CTFontManagerRegisterFontsForURL(font.fileURL as CFURL, .process, &errorRef)
-                
-                if success {
-                    print("✅ Successfully registered font: \(font.fileName)")
-                    validFonts.append(font)
-                } else {
-                    print("❌ Failed to register font: \(font.fileName)")
-                    if let error = errorRef?.takeUnretainedValue() {
-                        print("❌ Registration error: \(error)")
-                    }
-                }
+            let tempURL = font.temporaryURL
+            var errorRef: Unmanaged<CFError>?
+            let success = CTFontManagerRegisterFontsForURL(tempURL as CFURL, .process, &errorRef)
+            
+            if success {
+                print("✅ Successfully registered font: \(font.fileName)")
             } else {
-                print("❌ Font file missing: \(font.fileName) at \(font.fileURL.path)")
+                print("❌ Failed to register font: \(font.fileName)")
+                if let error = errorRef?.takeUnretainedValue() {
+                    print("❌ Registration error: \(error)")
+                }
             }
         }
         
-        customFonts = validFonts.sorted { $0.fontNumber < $1.fontNumber }
-        
-        // Save the validated fonts back to UserDefaults
-        if validFonts.count != storedFonts.count {
-            saveCustomFonts()
-        }
-        
-        print("📂 Loaded \(validFonts.count) valid fonts")
+        customFonts = storedFonts.sorted { $0.fontNumber < $1.fontNumber }
+        print("📂 Loaded \(customFonts.count) fonts")
     }
     
     private func saveCustomFonts() {
@@ -244,25 +251,6 @@ class CustomFontManager: ObservableObject {
             print("💾 Saved \(customFonts.count) fonts to UserDefaults")
         } catch {
             print("❌ Failed to save fonts to UserDefaults: \(error)")
-        }
-    }
-    
-    // MARK: - Debug Helper
-    private func debugPrintFontsDirectory() {
-        print("📁 Fonts directory: \(fontsDirectory.path)")
-        
-        do {
-            let contents = try FileManager.default.contentsOfDirectory(atPath: fontsDirectory.path)
-            print("📁 Directory contents: \(contents)")
-            
-            for file in contents {
-                let fileURL = fontsDirectory.appendingPathComponent(file)
-                let attributes = try FileManager.default.attributesOfItem(atPath: fileURL.path)
-                let fileSize = attributes[.size] as? Int64 ?? 0
-                print("📁   - \(file) (\(fileSize) bytes)")
-            }
-        } catch {
-            print("❌ Error reading fonts directory: \(error)")
         }
     }
     
@@ -277,8 +265,7 @@ class CustomFontManager: ObservableObject {
     
     // MARK: - Font Creation
     func createFont(from customFont: CustomFont, size: CGFloat, weight: Font.Weight = .regular) -> Font? {
-        guard let fontData = try? Data(contentsOf: customFont.fileURL),
-              let dataProvider = CGDataProvider(data: fontData as CFData),
+        guard let dataProvider = CGDataProvider(data: customFont.fontData as CFData),
               let cgFont = CGFont(dataProvider),
               let fontName = cgFont.postScriptName else {
             return nil
@@ -314,91 +301,45 @@ class CustomFontManager: ObservableObject {
         
         print("✅ Font data validated for: \(fileName)")
         
-        // Create destination URL
-        let destinationURL = fontsDirectory.appendingPathComponent(fileName)
+        // Create CustomFont object with data stored directly
+        let customFont = CustomFont(fontNumber: fontNumber, fileName: fileName, fontData: data)
         
-        do {
-            // Remove existing file if present
-            if FileManager.default.fileExists(atPath: destinationURL.path) {
-                print("⌚️ Removing existing font file: \(fileName)")
-                try FileManager.default.removeItem(at: destinationURL)
+        // Try to register the font using temporary URL
+        let tempURL = customFont.temporaryURL
+        
+        print("⌚️ Registering font with Core Text from temp URL...")
+        var errorRef: Unmanaged<CFError>?
+        let success = CTFontManagerRegisterFontsForURL(tempURL as CFURL, .process, &errorRef)
+        
+        print("⌚️ Registration call completed. Success: \(success)")
+        
+        if !success {
+            if let error = errorRef?.takeUnretainedValue() {
+                let nsError = error as Error as NSError
+                print("⚠️ Registration failed (code \(nsError.code)), but continuing with data storage")
+                // Don't fail - we have the data stored
             }
-            
-            // Write font data
-            try data.write(to: destinationURL)
-            print("✅ Font file written to: \(destinationURL.path)")
-            
-            // Verify file was written
-            guard FileManager.default.fileExists(atPath: destinationURL.path) else {
-                print("❌ Font file verification failed: \(fileName)")
-                return .failure(.fileAccessError)
-            }
-            
-            // Check if font is already registered by trying to unregister it first
-            print("⌚️ Checking if font is already registered...")
-            CTFontManagerUnregisterFontsForURL(destinationURL as CFURL, .process, nil)
-            
-            // Now register the font
-            print("⌚️ Registering font with Core Text...")
-            var errorRef: Unmanaged<CFError>?
-            let success = CTFontManagerRegisterFontsForURL(destinationURL as CFURL, .process, &errorRef)
-            
-            if !success {
-                // Get detailed error information
-                if let error = errorRef?.takeUnretainedValue() {
-                    let nsError = error as Error as NSError
-                    print("❌ Font registration failed:")
-                    print("   Domain: \(nsError.domain)")
-                    print("   Code: \(nsError.code)")
-                    print("   Description: \(nsError.localizedDescription)")
-                    print("   UserInfo: \(nsError.userInfo)")
-                }
-                
-                // Don't fail if error code 105 (font already registered) or 305
-                if let error = errorRef?.takeUnretainedValue() {
-                    let nsError = error as Error as NSError
-                    if nsError.code == 105 || nsError.code == 305 {
-                        print("⚠️ Font registration issue (code \(nsError.code)), but continuing anyway")
-                        // Continue with font creation even if registration "failed"
-                    } else {
-                        // Clean up file for other errors
-                        try? FileManager.default.removeItem(at: destinationURL)
-                        return .failure(.fontRegistrationFailed)
-                    }
-                } else {
-                    // Clean up file if registration fails with unknown error
-                    try? FileManager.default.removeItem(at: destinationURL)
-                    return .failure(.fontRegistrationFailed)
-                }
-            } else {
-                print("✅ Font registered successfully with Core Text")
-            }
-            
-            // Create CustomFont object
-            let customFont = CustomFont(fontNumber: fontNumber, fileName: fileName, fileURL: destinationURL)
-            
-            // Update or add to customFonts array
-            if let existingIndex = customFonts.firstIndex(where: { $0.fontNumber == fontNumber }) {
-                print("⌚️ Updating existing font at index \(existingIndex)")
-                customFonts[existingIndex] = customFont
-            } else {
-                print("⌚️ Adding new font to collection")
-                customFonts.append(customFont)
-            }
-            
-            // Sort and save
-            customFonts.sort { $0.fontNumber < $1.fontNumber }
-            saveCustomFonts()
-            
-            print("✅ Successfully saved and processed font: \(fileName)")
-            print("⌚️ Total fonts now: \(customFonts.count)")
-            
-            return .success(customFont)
-            
-        } catch {
-            print("❌ Error saving font data: \(error)")
-            return .failure(.fileAccessError)
+        } else {
+            print("✅ Font registered successfully with Core Text")
         }
+        
+        // Update or add to customFonts array
+        if let existingIndex = customFonts.firstIndex(where: { $0.fontNumber == fontNumber }) {
+            print("⌚️ Updating existing font at index \(existingIndex)")
+            customFonts[existingIndex] = customFont
+        } else {
+            print("⌚️ Adding new font to collection")
+            customFonts.append(customFont)
+        }
+        
+        // Sort and save to UserDefaults
+        customFonts.sort { $0.fontNumber < $1.fontNumber }
+        saveCustomFonts()
+        
+        print("✅ Successfully saved font data to UserDefaults: \(fileName)")
+        print("⌚️ Total fonts now: \(customFonts.count)")
+        
+        return .success(customFont)
     }
     #endif
     
@@ -468,7 +409,7 @@ enum FontImportError: LocalizedError {
     }
 }
 
-// MARK: - Original Font Extension (Updated)
+// MARK: - Font Extension
 extension Font {
     static func zenithBeta(size: CGFloat, weight: Font.Weight = .regular) -> Font {
         // Base font descriptor with system font

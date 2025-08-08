@@ -130,10 +130,12 @@ extension WatchSessionManager {
         }
     }
     
+    // Replace the transferSingleFont method in WatchSessionManager+FontSync.swift
+
     private func transferSingleFont(_ font: CustomFont, index: Int, total: Int, session wcSession: WCSession) -> Result<Void, Error> {
         do {
-            // Read font data
-            let fontData = try Data(contentsOf: font.fileURL)
+            // Use font data directly instead of reading from file
+            let fontData = font.fontData
             
             // Transfer in chunks (same strategy as session data)
             let chunkSize = 8192 // 8KB chunks for font data

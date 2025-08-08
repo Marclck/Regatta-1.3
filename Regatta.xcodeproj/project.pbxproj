@@ -200,7 +200,6 @@
 		1DD2FA242E456AC7000D1A53 /* WatchSessionManager+FontSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2FA222E456AB7000D1A53 /* WatchSessionManager+FontSync.swift */; };
 		1DD2FA252E456AC7000D1A53 /* WatchSessionManager+FontSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2FA222E456AB7000D1A53 /* WatchSessionManager+FontSync.swift */; };
 		1DD2FA262E456AC7000D1A53 /* WatchSessionManager+FontSync.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2FA222E456AB7000D1A53 /* WatchSessionManager+FontSync.swift */; };
-		1DD2FA2A2E456B05000D1A53 /* CustomFontManager+watchOS.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD2FA292E456B04000D1A53 /* CustomFontManager+watchOS.swift */; };
 		1DD528432CEBEBA5005FFEA2 /* WatchTimerState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */; };
 		1DD528452CEBEBE7005FFEA2 /* SeparatorOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */; };
 		1DD528492CEBED22005FFEA2 /* TimerMode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DD528482CEBED22005FFEA2 /* TimerMode.swift */; };
@@ -426,7 +425,6 @@
 		1DC4B32A2CF5B32C00A8CC30 /* SharedDefaults.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedDefaults.swift; sourceTree = "<group>"; };
 		1DC4B32D2CF6762000A8CC30 /* RegattaWidgetExtensionExtension.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = RegattaWidgetExtensionExtension.entitlements; sourceTree = "<group>"; };
 		1DD2FA222E456AB7000D1A53 /* WatchSessionManager+FontSync.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "WatchSessionManager+FontSync.swift"; sourceTree = "<group>"; };
-		1DD2FA292E456B04000D1A53 /* CustomFontManager+watchOS.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "CustomFontManager+watchOS.swift"; sourceTree = "<group>"; };
 		1DD528422CEBEBA5005FFEA2 /* WatchTimerState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchTimerState.swift; sourceTree = "<group>"; };
 		1DD528442CEBEBE7005FFEA2 /* SeparatorOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeparatorOverlay.swift; sourceTree = "<group>"; };
 		1DD528482CEBED22005FFEA2 /* TimerMode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimerMode.swift; sourceTree = "<group>"; };
@@ -548,7 +546,6 @@
 		1D5E48212CFC5DC4004813A4 /* Models */ = {
 			isa = PBXGroup;
 			children = (
-				1DD2FA292E456B04000D1A53 /* CustomFontManager+watchOS.swift */,
 				1D5E48222CFC5DD7004813A4 /* iOSSessionStore.swift */,
 				1D90CF8A2D46C57C00357553 /* LocationHelper.swift */,
 				1DC321C62D7D934000EE70E1 /* SessionArchiveManager.swift */,
@@ -1175,7 +1172,6 @@
 				1D5C295A2D82C97D00610A22 /* WaypointItem.swift in Sources */,
 				1D4384722D18725D000DE437 /* SubscriptionView.swift in Sources */,
 				1D2E54042D1715CC00C669D4 /* TabButtonLabelsView.swift in Sources */,
-				1DD2FA2A2E456B05000D1A53 /* CustomFontManager+watchOS.swift in Sources */,
 				1D5E48232CFC5DD7004813A4 /* iOSSessionStore.swift in Sources */,
 				1D5C29572D82C88900610A22 /* PlannerWaypointSection.swift in Sources */,
 				1D69FEFD2CE969CE001C178A /* ProgressBarView.swift in Sources */,
