@@ -10,6 +10,7 @@ import SwiftUI
 import WatchKit
 
 struct WatchFaceView: View {
+    @StateObject private var fontManager = CustomFontManager.shared
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var colorManager: ColorManager
@@ -64,10 +65,11 @@ struct WatchFaceView: View {
 //                            MonthlyCalendarView()
 //                        } else {
                             Text(settings.teamName)
-                                .font(.system(size: 11, weight: .semibold))
-                                .rotationEffect(.degrees(270), anchor: .center)
+                            .font(settings.teamNameFont == "Default" ?
+                                  .system(size: 9, weight: .semibold) :
+                                  Font.customFont(fontManager.customFonts.first(where: { $0.id.uuidString == settings.teamNameFont }) ?? fontManager.customFonts.first!, size: 9) ?? .system(size: 9, weight: .semibold))                          .rotationEffect(.degrees(270), anchor: .center)
                                 .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
-                                .position(x: 4, y: centerY/2+55)
+                                .position(x: settings.teamNameFont == "Default" ? 4 : 5, y: centerY/2+55)
                                 .onReceive(timeTimer) { input in
                                     currentTime = input
                                 }
@@ -114,25 +116,41 @@ struct WatchFaceView: View {
                             
                             HStack(spacing: 0) {
                                 Text(hourString(from: currentTime))
-                                    .font(.zenithBeta(size: 38, weight: .regular))
+                                    .font(settings.timeFont == "Default" ?
+                                          .zenithBeta(size: 38, weight: .medium) :
+                                            (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 38, weight: .medium) } ?? .zenithBeta(size: 38, weight: .medium)))
                                     .foregroundColor(settings.lightMode ? .black : .white)
                                     .offset(y:-48.5)
                                 
+                                VStack(spacing: 10) {
+                                    Circle()
+                                        .fill(settings.lightMode ? Color.black : Color.white)
+                                        .frame(width: 6, height: 6)
+                                    Circle()
+                                        .fill(settings.lightMode ? Color.black : Color.white)
+                                        .frame(width: 6, height: 6)
+                                }
+                                .offset(x:-0.5, y:-49)
+                                
+                                /*
                                 Text(":")
                                     .font(.zenithBeta(size: 38, weight: .regular))
                                     .foregroundColor(settings.lightMode ? .black : .white)
                                     .offset(y:-53)
+                                */
                                 
                                 Text(minuteString(from: currentTime))
-                                    .font(.zenithBeta(size: 38, weight: .regular))
+                                    .font(settings.timeFont == "Default" ?
+                                          .zenithBeta(size: 38, weight: .medium) :
+                                          (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 38, weight: .medium) } ?? .zenithBeta(size: 38, weight: .medium)))
                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                    .offset(y:-48.5)
+                                    .offset(x: 3, y:-48.5)
                             }
                             .font(.zenithBeta(size: 84, weight: .semibold))
                             .frame(width: 150, height: 60)
                             .position(x: geometry.size.width/2, y: centerY/2+25)
                             .offset(y: smallWatch ? -5 : 0)
-                            .scaleEffect(x:1.4, y:1.1)
+                            .scaleEffect(x:!(settings.timeFont == "Default") ? 1.3 : 1.4, y: !(settings.timeFont == "Default") ? 1 : 1.1)
                             .onReceive(timeTimer) { input in
                                 currentTime = input
                             }
@@ -230,14 +248,21 @@ struct WatchFaceView: View {
                                     .scaleEffect(x:1, y:1)
                                     .foregroundColor(settings.lightMode ? .black : .white)
                                     .offset(y:isLuminanceReduced ? 17 : 8)
+                                    .offset(y: !(settings.timeFont == "Default") ? 0 : 5)
                                 
                                 Text(minuteString(from: currentTime))
                                     .scaleEffect(x:1, y:1)
                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
                                     .offset(y:isLuminanceReduced ? -26 : -14)
+                                    .offset(y: !(settings.timeFont == "Default") ? 0 : 5)
                             }
-                            .font(.zenithBeta(size: 80, weight: .medium))
-                            .scaleEffect(x:1, y:1.1)
+//                            .font(.zenithBeta(size: 80, weight: .medium))
+                            .font(settings.timeFont == "Default" ?
+                                  .zenithBeta(size: 80, weight: .medium) :
+                                  (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 60, weight: .medium) } ?? .zenithBeta(size: 80, weight: .medium)))
+                            .scaleEffect(!(settings.timeFont == "Default") ?
+                                        CGSize(width: 1, height: 1.1) :
+                                        CGSize(width: 1.05, height: 1.43))
                             .foregroundColor(.white)
                             .frame(width: 150, height: 60)
                             .position(x: geometry.size.width/2, y: centerY/2+10)

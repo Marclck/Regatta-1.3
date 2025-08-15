@@ -10,6 +10,7 @@ import SwiftUI
 import WatchKit
 
 struct AltRaceView: View {
+    @StateObject private var fontManager = CustomFontManager.shared
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
     @EnvironmentObject var settings: AppSettings
     @EnvironmentObject var colorManager: ColorManager
@@ -59,11 +60,11 @@ struct AltRaceView: View {
                         
                         if !cruisePlanState.isActive {
                             Text(settings.teamName)
-                                .font(settings.debugMode ? Font.custom("MemphisLTCYR-Bold", size: 11) : .system(size: 11, weight: .semibold))
+//                                .font(settings.debugMode ? Font.custom("MemphisLTCYR-Bold", size: 11) : .system(size: 11, weight: .semibold))
+                                .font(settings.teamNameFont == "Default" ? .system(size: 9, weight: .semibold) :                                      Font.customFont(fontManager.customFonts.first(where: { $0.id.uuidString == settings.teamNameFont }) ?? fontManager.customFonts.first!, size: 9) ?? .system(size: 9, weight: .semibold))
                                 .rotationEffect(.degrees(270), anchor: .center)
                                 .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
-                                .position(x: 4, y: centerY/2+55)
-                                .offset(x:settings.debugMode ? 1 : 0)
+                                .position(x: settings.teamNameFont == "Default" ? 4 : 5, y: centerY/2+55)
                                 .onReceive(timeTimer) { input in
                                     currentTime = input
                                 }
@@ -98,7 +99,10 @@ struct AltRaceView: View {
                             
                             HStack(spacing: 2) {
                                 Text(hourString(from: currentTime))
-                                    .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 42) : .zenithBeta(size: 38, weight: .medium)) //82?
+//                                    .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 42) : .zenithBeta(size: 38, weight: .medium))
+                                    .font(settings.timeFont == "Default" ?
+                                          .zenithBeta(size: 38, weight: .medium) :
+                                          (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 36) } ?? .zenithBeta(size: 38, weight: .medium)))
                                     .dynamicTypeSize(.xSmall)
                                     .foregroundColor(settings.lightMode ? .black : .white)
                                     .offset(y:-48.5)
@@ -122,7 +126,10 @@ struct AltRaceView: View {
                                 */
                                 
                                 Text(minuteString(from: currentTime))
-                                    .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 42) : .zenithBeta(size: 38, weight: .medium)) //82?
+//                                    .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 42) : .zenithBeta(size: 38, weight: .medium)) //82?
+                                    .font(settings.timeFont == "Default" ?
+                                          .zenithBeta(size: 38, weight: .medium) :
+                                          (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 36) } ?? .zenithBeta(size: 38, weight: .medium)))
                                     .dynamicTypeSize(.xSmall)
                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
                                     .offset(x:2, y:-48.5)
@@ -157,7 +164,7 @@ struct AltRaceView: View {
                                                 Text(hourFirstDigit(from: currentTime))
                                                     .scaleEffect(x:1, y:0.9)
                                                     .foregroundColor(settings.lightMode ? .black : .white)
-                                                    .offset(y: settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default")
                                                             ? (isLuminanceReduced ? 18 : 1)
                                                             : (isLuminanceReduced ? 15 : 1))                                                    .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .frame(height: 150, alignment: .center) // Wider frame, center alignment
@@ -171,9 +178,9 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(x:hourFirstDigit(from: currentTime) == "1" ? 10 : 0)
-                                                    .offset(y: settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default")
                                                             ? -55 : -45)
-                                                    .zIndex(settings.debugMode
+                                                    .zIndex(!(settings.timeFont == "Default")
                                                             ? (["1", "4", "7"].contains(hourFirstDigit(from: currentTime)) ? 1 : 2)
                                                             : (2)) // Ensure hour is on top
 
@@ -182,7 +189,7 @@ struct AltRaceView: View {
                                                 Text(minuteFirstDigit(from: currentTime))
                                                     .scaleEffect(x:1, y:0.9)
                                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                                    .offset(y: settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default")
                                                             ? (isLuminanceReduced ? -37 : -26)
                                                             : (isLuminanceReduced ? -36 : -26))
                                                     .frame(width: 60, alignment: .center) // Wider frame, center alignment
@@ -197,8 +204,8 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(x:minuteFirstDigit(from: currentTime) == "1" ? 10 : 0)
-                                                    .offset(y: settings.debugMode ? 55 : 45)
-                                                    .zIndex(settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default") ? 55 : 45)
+                                                    .zIndex(!(settings.timeFont == "Default")
                                                             ? (["1", "4", "7"].contains(hourFirstDigit(from: currentTime)) ? 2 : 1)
                                                             : (1))
                                             }
@@ -211,7 +218,7 @@ struct AltRaceView: View {
                                                 Text(hourFirstDigit(from: currentTime))
                                                     .scaleEffect(x:1, y:0.9)
                                                     .foregroundColor(settings.lightMode ? .black : .white)
-                                                    .offset(y: settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default")
                                                             ? (isLuminanceReduced ? 18 : 1)
                                                             : (isLuminanceReduced ? 15 : 1))                                                       .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .frame(height: 150, alignment: .center) // Wider frame, center alignment
@@ -225,8 +232,8 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(x:hourFirstDigit(from: currentTime) == "1" ? 10 : 0)
-                                                    .offset(y: settings.debugMode ? -55 : -45)
-                                                    .zIndex(settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
+                                                    .zIndex(!(settings.timeFont == "Default")
                                                             ? (["1"].contains(minuteFirstDigit(from: currentTime)) ? 2 : 1)
                                                             : (["1", "4", "6"].contains(minuteFirstDigit(from: currentTime)) ? 2 : 1))
 
@@ -234,7 +241,7 @@ struct AltRaceView: View {
                                                 Text(minuteFirstDigit(from: currentTime))
                                                     .scaleEffect(x:1, y:0.9)
                                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                                    .offset(y: settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default")
                                                             ? (isLuminanceReduced ? -37 : -26)
                                                             : (isLuminanceReduced ? -36 : -26))                                                      .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .frame(height: 150, alignment: .center) // Wider frame, center alignment
@@ -248,8 +255,8 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(x:minuteFirstDigit(from: currentTime) == "1" ? 10 : 0)
-                                                    .offset(y: settings.debugMode ? 55 : 45)
-                                                    .zIndex(settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default") ? 55 : 45)
+                                                    .zIndex(!(settings.timeFont == "Default")
                                                             ? (["1"].contains(minuteFirstDigit(from: currentTime)) ? 1 : 2)
                                                             : (["1", "4", "6"].contains(minuteFirstDigit(from: currentTime)) ? 1 : 2))
                                             }
@@ -265,7 +272,7 @@ struct AltRaceView: View {
                                                 Text(hourSecondDigit(from: currentTime))
                                                     .scaleEffect(x:1, y:0.9)
                                                     .foregroundColor(settings.lightMode ? .black : .white)
-                                                    .offset(y: settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default")
                                                             ? (isLuminanceReduced ? 18 : 1)
                                                             : (isLuminanceReduced ? 15 : 1))
                                                     .frame(width: 60, alignment: .center) // Wider frame, center alignment
@@ -280,8 +287,8 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(x:hourSecondDigit(from: currentTime) == "1" ? -10 : 0)
-                                                    .offset(y: settings.debugMode ? -55 : -45)
-                                                    .zIndex(settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
+                                                    .zIndex(!(settings.timeFont == "Default")
                                                             ? (["1"].contains(hourSecondDigit(from: currentTime)) ? 2 : ["1"].contains(minuteSecondDigit(from: currentTime)) ? 1 : 2)
                                                             : (["1", "4", "7", "9"].contains(hourSecondDigit(from: currentTime)) ? 1 : 2))
 
@@ -289,7 +296,7 @@ struct AltRaceView: View {
                                                 Text(minuteSecondDigit(from: currentTime))
                                                     .scaleEffect(x:1, y:0.9)
                                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                                    .offset(y: settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default")
                                                             ? (isLuminanceReduced ? -37 : -26)
                                                             : (isLuminanceReduced ? -36 : -26))                                                     .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .frame(height: 150, alignment: .center) // Wider frame, center alignment
@@ -303,12 +310,12 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(x:minuteSecondDigit(from: currentTime) == "1" ? -10 : 0)
-                                                    .offset(y: settings.debugMode ? 55 : 45)
-                                                    .zIndex(settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default") ? 55 : 45)
+                                                    .zIndex(!(settings.timeFont == "Default")
                                                             ? (["1"].contains(hourSecondDigit(from: currentTime)) ? 1 :  ["1"].contains(minuteSecondDigit(from: currentTime)) ? 2 : 1)
                                                             : (["1", "4", "7", "9"].contains(hourSecondDigit(from: currentTime)) ? 2 : 1))
                                             }
-                                            .offset(x: settings.debugMode ? 20 : 15)
+                                            .offset(x: !(settings.timeFont == "Default") ? 20 : 15)
                                             .frame(width: 30, height: 150)
                                             
                                             // Right half - Hour on top of Minute (vertically) - Center aligned, left masked
@@ -317,7 +324,7 @@ struct AltRaceView: View {
                                                 Text(hourSecondDigit(from: currentTime))
                                                     .scaleEffect(x:1, y:0.9)
                                                     .foregroundColor(settings.lightMode ? .black : .white)
-                                                    .offset(y: settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default")
                                                             ? (isLuminanceReduced ? 18 : 1)
                                                             : (isLuminanceReduced ? 15 : 1))
                                                     .frame(width: 60, alignment: .center) // Wider frame, center alignment
@@ -332,8 +339,8 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(x:hourSecondDigit(from: currentTime) == "1" ? -10 : 0)
-                                                    .offset(y: settings.debugMode ? -55 : -45)
-                                                    .zIndex(settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
+                                                    .zIndex(!(settings.timeFont == "Default")
                                                             ? (["1"].contains(minuteSecondDigit(from: currentTime)) ? 2 : ["1", "4", "7"].contains(hourSecondDigit(from: currentTime)) ? 2 : 1)
                                                             : (["1", "4", "6"].contains(minuteSecondDigit(from: currentTime)) ? 2 : 1))
 
@@ -341,7 +348,7 @@ struct AltRaceView: View {
                                                 Text(minuteSecondDigit(from: currentTime))
                                                     .scaleEffect(x:1, y:0.9)
                                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                                    .offset(y: settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default")
                                                             ? (isLuminanceReduced ? -37 : -26)
                                                             : (isLuminanceReduced ? -36 : -26))
                                                     .frame(width: 60, alignment: .center) // Wider frame, center alignment
@@ -356,25 +363,28 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(x:minuteSecondDigit(from: currentTime) == "1" ? -10 : 0)
-                                                    .offset(y: settings.debugMode ? 55 : 45)
-                                                    .zIndex(settings.debugMode
+                                                    .offset(y: !(settings.timeFont == "Default") ? 55 : 45)
+                                                    .zIndex(!(settings.timeFont == "Default")
                                                             ? (["1"].contains(minuteSecondDigit(from: currentTime)) ? 1 : ["1", "4", "7"].contains(hourSecondDigit(from: currentTime)) ? 1 : 2)
                                                             : (["1", "4", "6"].contains(minuteSecondDigit(from: currentTime)) ? 1 : 2))
                                             }
-                                            .offset(x: settings.debugMode ? -10 : -15) //15 for zb
+                                            .offset(x: !(settings.timeFont == "Default") ? -10 : -15) //15 for zb
                                             .frame(width: 30, height: 60)
                                         }
                                     }
                                 }
-                                .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 100) : .zenithBeta(size: 84, weight: .medium)) //82?
+//                                .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 100) : .zenithBeta(size: 84, weight: .medium)) //82?
+                                .font(settings.timeFont == "Default" ?
+                                      .zenithBeta(size: 84, weight: .medium) :
+                                      (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 84, weight: .medium) } ?? .zenithBeta(size: 84, weight: .medium)))
                                 .dynamicTypeSize(.xSmall)
-                                .scaleEffect(settings.debugMode ?
+                                .scaleEffect(!(settings.timeFont == "Default") ?
                                             CGSize(width: 1, height: 1.1) :
                                             CGSize(width: 1.05, height: 1.43))
                                 .foregroundColor(.white)
                                 .frame(width: 150, height: 60)
                                 .position(x: geometry.size.width/2, y: centerY/2+25)
-                                .offset(y: settings.debugMode ? 0 : 5)
+                                .offset(y: !(settings.timeFont == "Default") ? 0 : 5)
                                 .onReceive(timeTimer) { input in
                                     currentTime = input
                                 }
