@@ -29,6 +29,14 @@ enum GunSyncOption: String, CaseIterable {
     }
 }
 
+enum FontSelection: String, CaseIterable {
+    case defaultFont = "Default"
+    
+    var displayName: String {
+        return self.rawValue
+    }
+}
+
 class AppSettings: ObservableObject {
     // Timer interval in seconds (1.0 when smooth is off, 0.01 when on)
     var timerInterval: Double {
@@ -159,6 +167,20 @@ class AppSettings: ObservableObject {
         }
     }
     
+    @Published var timeFont: String {
+        didSet {
+            UserDefaults.standard.set(timeFont, forKey: "timeFont")
+            print("TimeFont changed to: \(timeFont)")
+        }
+    }
+    
+    @Published var teamNameFont: String {
+        didSet {
+            UserDefaults.standard.set(teamNameFont, forKey: "teamNameFont")
+            print("TeamNameFont changed to: \(teamNameFont)")
+        }
+    }
+    
     init() {
         self.gpsDebug = UserDefaults.standard.bool(forKey: "gpsDebug") // Default to false
         
@@ -180,6 +202,8 @@ class AppSettings: ObservableObject {
         self.stopwatchBuzz = UserDefaults.standard.object(forKey: "stopwatchBuzz") as? Bool ?? true // Default to true
         self.debugMode = UserDefaults.standard.bool(forKey: "debugMode") // Default to false
         self.launchScreen = LaunchScreen(rawValue: UserDefaults.standard.string(forKey: "launchScreen") ?? "TimeR") ?? .timer
+        self.timeFont = UserDefaults.standard.string(forKey: "timeFont") ?? "Default"
+        self.teamNameFont = UserDefaults.standard.string(forKey: "teamNameFont") ?? "Default"
         UserDefaults.standard.synchronize()
     }
 }
@@ -298,6 +322,7 @@ struct SettingsView: View {
     @EnvironmentObject var colorManager: ColorManager
     @EnvironmentObject var settings: AppSettings
     @ObservedObject private var iapManager = IAPManager.shared
+    @StateObject private var fontManager = CustomFontManager.shared
     @Binding var showSettings: Bool
     @State private var showThemePicker = false
     @State private var showTeamNameEdit = false
@@ -307,6 +332,8 @@ struct SettingsView: View {
     @State private var maxSpeedInput: String = ""
     @State private var showQuickStartEdit = false
     @State private var quickStartInput: String = ""
+    @State private var showTimeFontPicker = false
+    @State private var showTeamNameFontPicker = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -554,8 +581,152 @@ struct SettingsView: View {
                 .font(.system(size: 17))
                 .foregroundColor(.white.opacity(1))
 
-                // NEW FONTS SECTION
+                // UPDATED FONTS SECTION
                 Section("Fonts") {
+                    Button(action: {
+                        showTimeFontPicker = true
+                    }) {
+                        HStack {
+                            Text("Time Font")
+                            Spacer()
+                            Text(settings.timeFont == "Default" ? "Default" :
+                                 fontManager.customFonts.first(where: { $0.id.uuidString == settings.timeFont })?.displayName ?? "Default")
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .sheet(isPresented: $showTimeFontPicker) {
+                        VStack(spacing: 0) {
+                            // Header Preview Section
+                            VStack {
+                                HStack(spacing: 2) {
+                                    Text("09")
+                                        .font(getTimeFontForPreview(size: 42))
+                                        .dynamicTypeSize(.xSmall)
+                                        .foregroundColor(.white)
+                                    
+                                    VStack(spacing: 10) {
+                                        Circle()
+                                            .fill(Color.white)
+                                            .frame(width: 6, height: 6)
+                                        Circle()
+                                            .fill(Color.white)
+                                            .frame(width: 6, height: 6)
+                                    }
+                                    .offset(x:-0.5, y:-0.5)
+
+                                    Text("41")
+                                        .font(getTimeFontForPreview(size: 42))
+                                        .dynamicTypeSize(.xSmall)
+                                        .foregroundColor(.white)
+                                        .offset(x:2)
+                                }
+                                .frame(width: 150, height: 60)
+                            }
+                            .padding()
+                            .background(Color.black.opacity(0.1))
+                            
+                            // Font Options List
+                            List {
+                                Section("Time Font Options") {
+                                    // Default option
+                                    Button(action: {
+                                        settings.timeFont = "Default"
+                                    }) {
+                                        HStack {
+                                            Text("Default")
+                                                .font(.zenithBeta(size: 17))
+                                            Spacer()
+                                            if settings.timeFont == "Default" {
+                                                Image(systemName: "checkmark")
+                                                    .foregroundColor(.blue)
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Custom fonts
+                                    ForEach(fontManager.customFonts) { font in
+                                        Button(action: {
+                                            settings.timeFont = font.id.uuidString
+                                        }) {
+                                            HStack {
+                                                Text(font.displayName)
+                                                    .font(Font.customFont(font, size: 17) ?? .system(size: 17))
+                                                Spacer()
+                                                if settings.timeFont == font.id.uuidString {
+                                                    Image(systemName: "checkmark")
+                                                        .foregroundColor(.blue)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
+                    Button(action: {
+                        showTeamNameFontPicker = true
+                    }) {
+                        HStack {
+                            Text("Team Name Font")
+                            Spacer()
+                            Text(settings.teamNameFont == "Default" ? "Default" :
+                                 fontManager.customFonts.first(where: { $0.id.uuidString == settings.teamNameFont })?.displayName ?? "Default")
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .sheet(isPresented: $showTeamNameFontPicker) {
+                        VStack(spacing: 0) {
+                            // Header Preview Section
+                            VStack {
+                                Text(settings.teamName)
+                                    .font(getTeamNameFontForPreview(size: 12))
+                                    .dynamicTypeSize(.xSmall)
+                                    .foregroundColor(.white)
+                                    .frame(width: 150, height: 60)
+                            }
+                            .padding()
+                            .background(Color.black.opacity(0.1))
+                            
+                            // Font Options List
+                            List {
+                                Section("Team Name Font Options") {
+                                    // Default option
+                                    Button(action: {
+                                        settings.teamNameFont = "Default"
+                                    }) {
+                                        HStack {
+                                            Text("Default")
+                                                .font(.system(size: 17, weight: .semibold))
+                                            Spacer()
+                                            if settings.teamNameFont == "Default" {
+                                                Image(systemName: "checkmark")
+                                                    .foregroundColor(.blue)
+                                            }
+                                        }
+                                    }
+                                    
+                                    // Custom fonts
+                                    ForEach(fontManager.customFonts) { font in
+                                        Button(action: {
+                                            settings.teamNameFont = font.id.uuidString
+                                        }) {
+                                            HStack {
+                                                Text(font.displayName)
+                                                    .font(Font.customFont(font, size: 17) ?? .system(size: 17))
+                                                Spacer()
+                                                if settings.teamNameFont == font.id.uuidString {
+                                                    Image(systemName: "checkmark")
+                                                        .foregroundColor(.blue)
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    
                     NavigationLink {
                         FontsListView()
                     } label: {
@@ -619,6 +790,27 @@ struct SettingsView: View {
          }
      }
      
+     // Helper methods for font selection
+     private func getTimeFontForPreview(size: CGFloat) -> Font {
+         if settings.timeFont == "Default" {
+             return .zenithBeta(size: size)
+         } else if let customFont = fontManager.customFonts.first(where: { $0.id.uuidString == settings.timeFont }) {
+             return Font.customFont(customFont, size: size) ?? .zenithBeta(size: size)
+         } else {
+             return .zenithBeta(size: size)
+         }
+     }
+     
+     private func getTeamNameFontForPreview(size: CGFloat) -> Font {
+         if settings.teamNameFont == "Default" {
+             return .system(size: size, weight: .semibold)
+         } else if let customFont = fontManager.customFonts.first(where: { $0.id.uuidString == settings.teamNameFont }) {
+             return Font.customFont(customFont, size: size) ?? .system(size: size, weight: .semibold)
+         } else {
+             return .system(size: size, weight: .semibold)
+         }
+     }
+     
      private func validateAndUpdateMaxSpeed() {
          // Clean the input string
          let cleanedInput = maxSpeedInput.replacingOccurrences(of: ",", with: ".")
@@ -664,6 +856,8 @@ extension AppSettings {
         stopwatchBuzz = true
         debugMode = false
         launchScreen = .timer
+        timeFont = "Default"
+        teamNameFont = "Default"
         
         gpsDebug = false
 
