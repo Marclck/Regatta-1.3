@@ -57,18 +57,20 @@ struct AltRaceView: View {
                     } else {
                         // Progress bar showing seconds
                         SecondProgressBarView()
-                        
+/*
                         if !cruisePlanState.isActive {
                             Text(settings.teamName)
 //                                .font(settings.debugMode ? Font.custom("MemphisLTCYR-Bold", size: 11) : .system(size: 11, weight: .semibold))
                                 .font(settings.teamNameFont == "Default" ? .system(size: 9, weight: .semibold) :                                      Font.customFont(fontManager.customFonts.first(where: { $0.id.uuidString == settings.teamNameFont }) ?? fontManager.customFonts.first!, size: 9) ?? .system(size: 9, weight: .semibold))
                                 .rotationEffect(.degrees(270), anchor: .center)
-                                .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
+                                .foregroundColor(Color(hex: colorManager.selectedTheme.rawValue).opacity(1))
+//                                .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
                                 .position(x: settings.teamNameFont == "Default" ? 4 : 5, y: centerY/2+55)
                                 .onReceive(timeTimer) { input in
                                     currentTime = input
                                 }
                         }
+*/
                     }
                     
                     // Content

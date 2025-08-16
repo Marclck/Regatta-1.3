@@ -5,7 +5,7 @@
 //  Created by Chikai Lai on 02/08/2025.
 //
 
-// Incorporated custom font
+// Incorporated custom font, not in use
 
 import Foundation
 import SwiftUI

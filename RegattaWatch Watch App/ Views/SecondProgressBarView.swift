@@ -9,6 +9,8 @@ import Foundation
 import SwiftUI
 
 struct SecondProgressBarView: View {
+    @Environment(\.isLuminanceReduced) var isLuminanceReduced
+    @StateObject private var fontManager = CustomFontManager.shared
     @EnvironmentObject var colorManager: ColorManager
     @EnvironmentObject var settings: AppSettings
 
@@ -33,22 +35,50 @@ struct SecondProgressBarView: View {
             let frame = geometry.frame(in: .global)
             let barWidth = frame.width
             let barHeight = frame.height
+            let centerY = frame.height
             
             ZStack {
                     RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
                         .stroke(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.3), lineWidth: 25)
                         .frame(width: barWidth, height: barHeight)
                         .position(x: frame.midX, y: frame.midY)
+                
+                Text(settings.teamName)
+                    .font(settings.teamNameFont == "Default" ?
+                        .system(size: 9, weight: .semibold) :
+                        Font.customFont(fontManager.customFonts.first(where: { $0.id.uuidString == settings.teamNameFont }) ?? fontManager.customFonts.first!, size: 9) ?? .system(size: 9, weight: .semibold))
+                    .rotationEffect(.degrees(270), anchor: .center)
+                    .foregroundColor(settings.altTeamNameColor ? Color(hex: colorManager.selectedTheme.rawValue).opacity(1) : Color(hex: settings.teamNameColorHex).opacity(1))
+//                    .foregroundColor(Color(hex: colorManager.selectedTheme.rawValue).opacity(1))
+                    .position(x: settings.teamNameFont == "Default" ? 6 : 7, y: centerY/2+24)
+                
                 // Progress fill for seconds
                     RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
-                        .trim(from: 0, to: currentSecond/60)
-                        .stroke(
+                    .trim(from: 0, to: isLuminanceReduced ? 0 : currentSecond/60)
+                    .stroke(
                             Color(hex: colorManager.selectedTheme.rawValue),
                             style: StrokeStyle(lineWidth: 25, lineCap: .butt)
                         )
                         .frame(width: barHeight, height: barWidth)
                         .position(x: frame.midX, y: frame.midY)
                         .rotationEffect(.degrees(-90))  // Align trim start to top
+                        .overlay(
+                            Text(settings.teamName)
+                                .font(settings.teamNameFont == "Default" ?
+                                    .system(size: 9, weight: .semibold) :
+                                    Font.customFont(fontManager.customFonts.first(where: { $0.id.uuidString == settings.teamNameFont }) ?? fontManager.customFonts.first!, size: 9) ?? .system(size: 9, weight: .semibold))
+                                .rotationEffect(.degrees(270), anchor: .center)
+                                .foregroundColor(Color.black.opacity(1))
+//                                .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
+                                .position(x: settings.teamNameFont == "Default" ? 6 : 7, y: centerY/2+24)
+                                .mask(
+                                    RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                                        .trim(from: 0, to: isLuminanceReduced ? 0 : currentSecond/60)
+                                        .stroke(Color.white, style: StrokeStyle(lineWidth: 25, lineCap: .butt))  // ADD THIS
+                                        .frame(width: barHeight, height: barWidth)
+                                        .rotationEffect(.degrees(-90))
+                                )
+                        )
             }
         }
         .ignoresSafeArea()

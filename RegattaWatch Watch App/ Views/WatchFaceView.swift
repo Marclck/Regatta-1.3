@@ -64,6 +64,7 @@ struct WatchFaceView: View {
 //                        if settings.useProButtons && !showCruiseInfo{
 //                            MonthlyCalendarView()
 //                        } else {
+                        /*
                             Text(settings.teamName)
                             .font(settings.teamNameFont == "Default" ?
                                   .system(size: 9, weight: .semibold) :
@@ -73,6 +74,7 @@ struct WatchFaceView: View {
                                 .onReceive(timeTimer) { input in
                                     currentTime = input
                                 }
+                        */
 //                        }
                     }
                     
