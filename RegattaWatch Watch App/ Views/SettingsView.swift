@@ -334,6 +334,7 @@ struct SettingsView: View {
     @State private var quickStartInput: String = ""
     @State private var showTimeFontPicker = false
     @State private var showTeamNameFontPicker = false
+    @State private var showLaunchScreenPicker = false
     
     var body: some View {
         VStack(spacing: 0) {
@@ -367,6 +368,46 @@ struct SettingsView: View {
                         .font(.system(size: 17))
                         .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
                         .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
+                    
+                    Button(action: {
+                        showLaunchScreenPicker = true
+                    }) {
+                        HStack {
+                            Text("Launch Screen")
+                                .font(.system(size: 17))
+                            Spacer()
+                            Text(settings.launchScreen.displayName)
+                                .foregroundColor(.gray)
+                        }
+                    }
+                    .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
+                    .sheet(isPresented: $showLaunchScreenPicker) {
+                        List {
+                            Section("Launch Screen Options") {
+                                ForEach(LaunchScreen.allCases, id: \.self) { screen in
+                                    Button(action: {
+                                        settings.launchScreen = screen
+                                        showLaunchScreenPicker = false
+                                    }) {
+                                        HStack {
+                                            Text(screen.displayName)
+                                            Spacer()
+                                            if settings.launchScreen == screen {
+                                                Image(systemName: "checkmark")
+                                                    .foregroundColor(.white)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            
+                            Section {
+                                Text("Choose which screen appears when the app launches. TimeR: Timer view, CruiseR: Watch face with cruise info, Time: Watch face showing time only.")
+                                    .font(.caption2)
+                                    .foregroundColor(.white)
+                            }
+                        }
+                    }
                     
                     if !iapManager.canAccessFeatures(minimumTier: .ultra) {
                         Text("Requires Ultra subscription")
@@ -603,7 +644,19 @@ struct SettingsView: View {
                                         .font(getTimeFontForPreview(size: 42))
                                         .dynamicTypeSize(.xSmall)
                                         .foregroundColor(.white)
-                                    
+                                        .multilineTextAlignment(.center)
+                                        .overlay(alignment: .center) {
+                                            Rectangle()
+                                                .stroke(Color.white, lineWidth: 1)
+                                                .frame(width: 62, height: 45)
+                                                .offset(x:-2)
+                                        }
+
+                                    Text("Numbers stay inside frame")
+                                        .font(.caption2)
+                                        .foregroundColor(.white)
+                                        .frame(width: 80)
+                                    /*
                                     VStack(spacing: 10) {
                                         Circle()
                                             .fill(Color.white)
@@ -619,8 +672,9 @@ struct SettingsView: View {
                                         .dynamicTypeSize(.xSmall)
                                         .foregroundColor(.white)
                                         .offset(x:2)
+                                    */
                                 }
-                                .frame(width: 150, height: 60)
+                                .frame(width: 150, height: 70)
                             }
                             .padding()
                             .background(Color.black.opacity(0.1))
@@ -739,19 +793,6 @@ struct SettingsView: View {
                 Section("Developer") {
                     NavigationLink {
                         List {
-                            Section("Launch Screen") {
-                                Picker("Default Launch Screen", selection: $settings.launchScreen) {
-                                    ForEach(LaunchScreen.allCases, id: \.self) { screen in
-                                        Text(screen.displayName).tag(screen)
-                                    }
-                                }
-                                .pickerStyle(WheelPickerStyle())
-                                
-                                Text("Choose which screen appears when the app launches. TimeR: Timer view, CruiseR: Watch face with cruise info, Time: Watch face showing time only.")
-                                    .font(.caption2)
-                                    .foregroundColor(.white)
-                            }
-                            
                             Section("Debug Options") {
                                 
                                 if settings.teamName.contains("-") || settings.teamName.contains("P") {

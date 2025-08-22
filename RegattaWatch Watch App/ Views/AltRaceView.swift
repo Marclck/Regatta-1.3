@@ -10,6 +10,7 @@ import SwiftUI
 import WatchKit
 
 struct AltRaceView: View {
+    @State private var colorLuminanceReduced: Bool = false
     @StateObject private var fontManager = CustomFontManager.shared
     @Environment(\.isLuminanceReduced) var isLuminanceReduced
     @EnvironmentObject var settings: AppSettings
@@ -157,18 +158,16 @@ struct AltRaceView: View {
                         } else if settings.showCruiser && !showCruiseInfo {
                                 // Show current time
                                 VStack(spacing: -10) {
-                                    HStack(spacing: 0) {
+                                    HStack(spacing: !(settings.timeFont == "Default") ? -2 : 2) {
                                         // First digit position
                                         HStack(spacing: 0) {
                                             // Left half - Hour on top of Minute (vertically) - Center aligned, right masked
                                             ZStack {
                                                 // Hour first digit - left half (on top vertically)
                                                 Text(hourFirstDigit(from: currentTime))
-                                                    .scaleEffect(x:1, y:0.9)
+                                                    .scaleEffect(x:1, y:1)
                                                     .foregroundColor(settings.lightMode ? .black : .white)
-                                                    .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? 18 : 1)
-                                                            : (isLuminanceReduced ? 15 : 1))                                                    .frame(width: 60, alignment: .center) // Wider frame, center alignment
+                                                    .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .frame(height: 150, alignment: .center) // Wider frame, center alignment
                                                     .mask(
                                                         HStack(spacing: 0) {
@@ -179,6 +178,9 @@ struct AltRaceView: View {
                                                                 .opacity(0) // Transparent to create the mask
                                                         }
                                                     )
+                                                    .offset(y: !(settings.timeFont == "Default")
+                                                            ? (isLuminanceReduced ? 20 : 1)
+                                                            : (isLuminanceReduced ? 15 : 1))
                                                     .offset(x:hourFirstDigit(from: currentTime) == "1" ? 10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default")
                                                             ? -55 : -45)
@@ -189,11 +191,9 @@ struct AltRaceView: View {
 
                                                 // Minute first digit - left half (on bottom vertically)
                                                 Text(minuteFirstDigit(from: currentTime))
-                                                    .scaleEffect(x:1, y:0.9)
-                                                    .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                                    .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? -37 : -26)
-                                                            : (isLuminanceReduced ? -36 : -26))
+                                                    .scaleEffect(x:1, y:1)
+                                                    .foregroundColor(colorLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                                    .animation(.easeInOut(duration: 0.1), value: colorLuminanceReduced)
                                                     .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .frame(height: 150, alignment: .center) // Wider frame, center alignment
                                                     .mask(
@@ -205,24 +205,25 @@ struct AltRaceView: View {
                                                                 .opacity(0) // Transparent to create the mask
                                                         }
                                                     )
+                                                    .offset(y: !(settings.timeFont == "Default")
+                                                            ? (isLuminanceReduced ? -40 : -26)
+                                                            : (isLuminanceReduced ? -36 : -26))
                                                     .offset(x:minuteFirstDigit(from: currentTime) == "1" ? 10 : 0)
-                                                    .offset(y: !(settings.timeFont == "Default") ? 55 : 45)
+                                                    .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
                                                     .zIndex(!(settings.timeFont == "Default")
                                                             ? (["1", "4", "7"].contains(hourFirstDigit(from: currentTime)) ? 2 : 1)
                                                             : (1))
                                             }
-                                            .offset(x:15)
+                                            .offset(x:20)
                                             .frame(width: 30, height: 150)
                                             
                                             // Right half - Hour on top of Minute (vertically) - Center aligned, left masked
                                             ZStack {
                                                 // Hour first digit - right half (on top vertically)
                                                 Text(hourFirstDigit(from: currentTime))
-                                                    .scaleEffect(x:1, y:0.9)
+                                                    .scaleEffect(x:1, y:1)
                                                     .foregroundColor(settings.lightMode ? .black : .white)
-                                                    .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? 18 : 1)
-                                                            : (isLuminanceReduced ? 15 : 1))                                                       .frame(width: 60, alignment: .center) // Wider frame, center alignment
+                                                    .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .frame(height: 150, alignment: .center) // Wider frame, center alignment
                                                     .mask(
                                                         HStack(spacing: 0) {
@@ -233,19 +234,21 @@ struct AltRaceView: View {
                                                                 .frame(width: 30, height: 150)
                                                         }
                                                     )
+                                                    .offset(y: !(settings.timeFont == "Default")
+                                                            ? (isLuminanceReduced ? 20 : 1)
+                                                            : (isLuminanceReduced ? 15 : 1))
                                                     .offset(x:hourFirstDigit(from: currentTime) == "1" ? 10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1"].contains(minuteFirstDigit(from: currentTime)) ? 2 : 1)
+                                                            ? (["1"].contains(minuteFirstDigit(from: currentTime)) ? 1 : 1)
                                                             : (["1", "4", "6"].contains(minuteFirstDigit(from: currentTime)) ? 2 : 1))
 
                                                 // Minute first digit - right half (on bottom vertically)
                                                 Text(minuteFirstDigit(from: currentTime))
-                                                    .scaleEffect(x:1, y:0.9)
-                                                    .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                                    .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? -37 : -26)
-                                                            : (isLuminanceReduced ? -36 : -26))                                                      .frame(width: 60, alignment: .center) // Wider frame, center alignment
+                                                    .scaleEffect(x:1, y:1)
+                                                    .foregroundColor(colorLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                                    .animation(.easeInOut(duration: 0.1), value: colorLuminanceReduced)
+                                                    .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .frame(height: 150, alignment: .center) // Wider frame, center alignment
                                                     .mask(
                                                         HStack(spacing: 0) {
@@ -256,14 +259,17 @@ struct AltRaceView: View {
                                                                 .frame(width: 30, height: 150)
                                                         }
                                                     )
+                                                    .offset(y: !(settings.timeFont == "Default")
+                                                            ? (isLuminanceReduced ? -40 : -26)
+                                                            : (isLuminanceReduced ? -36 : -26))
                                                     .offset(x:minuteFirstDigit(from: currentTime) == "1" ? 10 : 0)
-                                                    .offset(y: !(settings.timeFont == "Default") ? 55 : 45)
+                                                    .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1"].contains(minuteFirstDigit(from: currentTime)) ? 1 : 2)
+                                                            ? (["1"].contains(minuteFirstDigit(from: currentTime)) ? 2 : 2)
                                                             : (["1", "4", "6"].contains(minuteFirstDigit(from: currentTime)) ? 1 : 2))
                                             }
                                             .frame(width: 30, height: 150)
-                                            .offset(x:-15)
+                                            .offset(x:-10)
                                         }
                                         
                                         // Second digit position
@@ -271,12 +277,10 @@ struct AltRaceView: View {
                                             // Left half - Hour on top of Minute (vertically) - Center aligned, right masked
                                             ZStack {
                                                 // Hour second digit - left half (on top vertically)
+                                                //Text("5")
                                                 Text(hourSecondDigit(from: currentTime))
-                                                    .scaleEffect(x:1, y:0.9)
+                                                    .scaleEffect(x:1, y:1)
                                                     .foregroundColor(settings.lightMode ? .black : .white)
-                                                    .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? 18 : 1)
-                                                            : (isLuminanceReduced ? 15 : 1))
                                                     .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .frame(height: 150, alignment: .center) // Wider frame, center alignment
                                                     .mask(
@@ -288,19 +292,21 @@ struct AltRaceView: View {
                                                                 .opacity(0) // Transparent to create the mask
                                                         }
                                                     )
+                                                    .offset(y: !(settings.timeFont == "Default")
+                                                            ? (isLuminanceReduced ? 20 : 1)
+                                                            : (isLuminanceReduced ? 15 : 1))
                                                     .offset(x:hourSecondDigit(from: currentTime) == "1" ? -10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1"].contains(hourSecondDigit(from: currentTime)) ? 2 : ["1"].contains(minuteSecondDigit(from: currentTime)) ? 1 : 2)
+                                                            ? (["1"].contains(hourSecondDigit(from: currentTime)) ? 2 : ["1", "7"].contains(minuteSecondDigit(from: currentTime)) ? 1 : 2)
                                                             : (["1", "4", "7", "9"].contains(hourSecondDigit(from: currentTime)) ? 1 : 2))
 
                                                 // Minute second digit - left half (on bottom vertically)
+                                                //Text("7")
                                                 Text(minuteSecondDigit(from: currentTime))
-                                                    .scaleEffect(x:1, y:0.9)
-                                                    .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                                    .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? -37 : -26)
-                                                            : (isLuminanceReduced ? -36 : -26))                                                     .frame(width: 60, alignment: .center) // Wider frame, center alignment
+                                                    .scaleEffect(x:1, y:1)
+                                                    .foregroundColor(colorLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                                    .animation(.easeInOut(duration: 0.1), value: colorLuminanceReduced)
                                                     .frame(height: 150, alignment: .center) // Wider frame, center alignment
                                                     .mask(
                                                         HStack(spacing: 0) {
@@ -311,10 +317,13 @@ struct AltRaceView: View {
                                                                 .opacity(0) // Transparent to create the mask
                                                         }
                                                     )
+                                                    .offset(y: !(settings.timeFont == "Default")
+                                                            ? (isLuminanceReduced ? -40 : -26)
+                                                            : (isLuminanceReduced ? -36 : -26))                                                     .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .offset(x:minuteSecondDigit(from: currentTime) == "1" ? -10 : 0)
-                                                    .offset(y: !(settings.timeFont == "Default") ? 55 : 45)
+                                                    .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1"].contains(hourSecondDigit(from: currentTime)) ? 1 :  ["1"].contains(minuteSecondDigit(from: currentTime)) ? 2 : 1)
+                                                            ? (["1"].contains(hourSecondDigit(from: currentTime)) ? 1 :  ["1", "7"].contains(minuteSecondDigit(from: currentTime)) ? 2 : 1)
                                                             : (["1", "4", "7", "9"].contains(hourSecondDigit(from: currentTime)) ? 2 : 1))
                                             }
                                             .offset(x: !(settings.timeFont == "Default") ? 20 : 15)
@@ -323,12 +332,11 @@ struct AltRaceView: View {
                                             // Right half - Hour on top of Minute (vertically) - Center aligned, left masked
                                             ZStack {
                                                 // Hour second digit - right half (on top vertically)
+                                                //Text("5")
                                                 Text(hourSecondDigit(from: currentTime))
-                                                    .scaleEffect(x:1, y:0.9)
+                                                    .scaleEffect(x:1, y:1)
                                                     .foregroundColor(settings.lightMode ? .black : .white)
-                                                    .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? 18 : 1)
-                                                            : (isLuminanceReduced ? 15 : 1))
+
                                                     .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .frame(height: 150, alignment: .center) // Wider frame, center alignment
                                                     .mask(
@@ -340,19 +348,20 @@ struct AltRaceView: View {
                                                                 .frame(width: 30, height: 150)
                                                         }
                                                     )
-                                                    .offset(x:hourSecondDigit(from: currentTime) == "1" ? -10 : 0)
+                                                    .offset(y: !(settings.timeFont == "Default")
+                                                            ? (isLuminanceReduced ? 20 : 1)
+                                                            : (isLuminanceReduced ? 15 : 1))                                                    .offset(x:hourSecondDigit(from: currentTime) == "1" ? -10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
                                                     .zIndex(!(settings.timeFont == "Default")
                                                             ? (["1"].contains(minuteSecondDigit(from: currentTime)) ? 2 : ["1", "4", "7"].contains(hourSecondDigit(from: currentTime)) ? 2 : 1)
                                                             : (["1", "4", "6"].contains(minuteSecondDigit(from: currentTime)) ? 2 : 1))
 
                                                 // Minute second digit - right half (on bottom vertically)
+                                                //Text("7")
                                                 Text(minuteSecondDigit(from: currentTime))
-                                                    .scaleEffect(x:1, y:0.9)
-                                                    .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                                    .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? -37 : -26)
-                                                            : (isLuminanceReduced ? -36 : -26))
+                                                    .scaleEffect(x:1, y:1)
+                                                    .foregroundColor(colorLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                                    .animation(.easeInOut(duration: 0.1), value: colorLuminanceReduced)
                                                     .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .frame(height: 150, alignment: .center) // Wider frame, center alignment
                                                     .mask(
@@ -364,32 +373,36 @@ struct AltRaceView: View {
                                                                 .frame(width: 30, height: 150)
                                                         }
                                                     )
+                                                    .offset(y: !(settings.timeFont == "Default")
+                                                            ? (isLuminanceReduced ? -40 : -26)
+                                                            : (isLuminanceReduced ? -36 : -26))
                                                     .offset(x:minuteSecondDigit(from: currentTime) == "1" ? -10 : 0)
-                                                    .offset(y: !(settings.timeFont == "Default") ? 55 : 45)
+                                                    .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
                                                     .zIndex(!(settings.timeFont == "Default")
                                                             ? (["1"].contains(minuteSecondDigit(from: currentTime)) ? 1 : ["1", "4", "7"].contains(hourSecondDigit(from: currentTime)) ? 1 : 2)
                                                             : (["1", "4", "6"].contains(minuteSecondDigit(from: currentTime)) ? 1 : 2))
                                             }
                                             .offset(x: !(settings.timeFont == "Default") ? -10 : -15) //15 for zb
-                                            .frame(width: 30, height: 60)
+                                            .frame(width: 30, height: 150)
                                         }
                                     }
                                 }
 //                                .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 100) : .zenithBeta(size: 84, weight: .medium)) //82?
                                 .font(settings.timeFont == "Default" ?
                                       .zenithBeta(size: 84, weight: .medium) :
-                                      (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 84, weight: .medium) } ?? .zenithBeta(size: 84, weight: .medium)))
+                                      (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 76, weight: .medium) } ?? .zenithBeta(size: 84, weight: .medium)))
                                 .dynamicTypeSize(.xSmall)
                                 .scaleEffect(!(settings.timeFont == "Default") ?
-                                            CGSize(width: 1, height: 1.1) :
-                                            CGSize(width: 1.05, height: 1.43))
+                                            CGSize(width: 1, height: 1) :
+                                            CGSize(width: 1.05, height: 1.3))
                                 .foregroundColor(.white)
                                 .frame(width: 150, height: 60)
                                 .position(x: geometry.size.width/2, y: centerY/2+25)
-                                .offset(y: !(settings.timeFont == "Default") ? 0 : 5)
+                                .offset(y: !(settings.timeFont == "Default") ? -3 : 5)
                                 .onReceive(timeTimer) { input in
                                     currentTime = input
                                 }
+                                .animation(.easeInOut(duration: 0.2), value: isLuminanceReduced)
                                 
                                 /*
                                  // Show current time
@@ -543,6 +556,19 @@ struct AltRaceView: View {
                 showingWatchFace.toggle()
                 showingWatchFace.toggle()
             }
+            if !hasInitializedShowCruiseInfo {
+                showCruiseInfo = settings.launchScreen != .time
+                hasInitializedShowCruiseInfo = true
+                showingWatchFace.toggle()
+                showingWatchFace.toggle()
+            }
+        }
+        .onChange(of: isLuminanceReduced) { newValue in
+            // Update color with animation
+            withAnimation(.easeInOut(duration: 0.1)) {
+                colorLuminanceReduced = newValue
+            }
+            // The isLuminanceReduced environment value is already updated by the system
         }
         .onDisappear {
             // Original cleanup

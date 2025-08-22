@@ -153,7 +153,7 @@ struct TimeDisplayViewV4: View {
                                     endPoint: .bottom
                                 )
                         )
-                        .stroke(ColorManager.getCurrentThemeColor(), lineWidth: 2.5)
+                        .stroke(settings.lightMode ? Color.black : ColorManager.getCurrentThemeColor(), lineWidth: 2.5)
                         .offset(y: 19)
                         .frame(width: 146, height: 75)
                         .opacity(FocusState ? 1.0 : 0.0)

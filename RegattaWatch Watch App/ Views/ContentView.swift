@@ -200,6 +200,11 @@ extension ContentView {
 }
 
 struct ContentView: View {
+    // Add these new state variables for luminance tracking
+    @Environment(\.isLuminanceReduced) private var isLuminanceReduced
+    @State private var originalLightModeState: Bool? = nil
+    @State private var hasUserManuallyChangedLightMode = false
+
     @State private var showSettings = false
     @State private var showPremiumAlert = false
     @State private var showStartLine = false
@@ -285,6 +290,10 @@ struct ContentView: View {
             #endif */
         }
         .id(viewID)
+        // Add this new onChange modifier for luminance monitoring
+        .onChange(of: isLuminanceReduced) { oldValue, newValue in
+            handleLuminanceChange(isReduced: newValue)
+        }
         .onChange(of: settings.teamName) { _, newValue in
             if lastTeamName != newValue {
                 viewID = UUID()
@@ -348,6 +357,10 @@ struct ContentView: View {
             if shouldShowPromo() {
                 showWeeklyPromo = true
             }
+            // Store the original light mode state when view first appears
+            if originalLightModeState == nil {
+                originalLightModeState = settings.lightMode
+            }
         }
         .onDisappear {
             // Clean up the connectivity timer when view disappears
@@ -404,6 +417,32 @@ struct ContentView: View {
         }
     }
     
+    // Add this helper function
+    private func handleLuminanceChange(isReduced: Bool) {
+        // Only proceed if the original state was light mode ON
+        guard let originalState = originalLightModeState, originalState else {
+            // User originally had light mode OFF - don't do any auto-toggling
+            return
+        }
+        
+        // Only auto-toggle if user hasn't manually changed light mode recently
+        guard !hasUserManuallyChangedLightMode else { return }
+        
+        if isReduced {
+            // Screen is dimmed - turn off light mode (only if it's currently on)
+            if settings.lightMode {
+                print("🔅 Luminance reduced - temporarily switching to dark mode")
+                settings.lightMode = false
+            }
+        } else {
+            // Screen is back to normal - restore to light mode (since user originally preferred it)
+            if !settings.lightMode {
+                print("🔆 Luminance restored - switching back to light mode")
+                settings.lightMode = true
+            }
+        }
+    }
+    
     // Add function to start extended session
     private func startExtendedSession() {
         #if os(watchOS)
@@ -411,6 +450,25 @@ struct ContentView: View {
         session.start()
         print("⌚️ Extended runtime session started")
         #endif
+    }
+}
+
+// Alternative: If you want a simpler implementation without tracking manual changes
+extension ContentView {
+    private func simpleLuminanceHandling(isReduced: Bool) {
+        // Only proceed if user originally preferred light mode
+        guard let originalState = originalLightModeState, originalState else {
+            return // Do nothing if user originally had dark mode
+        }
+        
+        if isReduced && settings.lightMode {
+            // Always turn off light mode when luminance is reduced
+            settings.lightMode = false
+        } else if !isReduced && !settings.lightMode {
+            // Always turn on light mode when luminance is restored
+            // (only if user originally preferred light mode)
+            settings.lightMode = true
+        }
     }
 }
 

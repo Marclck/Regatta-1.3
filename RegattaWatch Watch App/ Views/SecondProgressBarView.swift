@@ -39,7 +39,7 @@ struct SecondProgressBarView: View {
             
             ZStack {
                     RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
-                        .stroke(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.3), lineWidth: 25)
+                    .stroke(Color(hex: colorManager.selectedTheme.rawValue).opacity(isLuminanceReduced ? 0.2 : 0.2), lineWidth: 25)
                         .frame(width: barWidth, height: barHeight)
                         .position(x: frame.midX, y: frame.midY)
                 
@@ -48,15 +48,17 @@ struct SecondProgressBarView: View {
                         .system(size: 9, weight: .semibold) :
                         Font.customFont(fontManager.customFonts.first(where: { $0.id.uuidString == settings.teamNameFont }) ?? fontManager.customFonts.first!, size: 9) ?? .system(size: 9, weight: .semibold))
                     .rotationEffect(.degrees(270), anchor: .center)
-                    .foregroundColor(settings.altTeamNameColor ? Color(hex: colorManager.selectedTheme.rawValue).opacity(1) : Color(hex: settings.teamNameColorHex).opacity(1))
+                    .kerning(0.5)
+                    .foregroundColor(settings.altTeamNameColor ? (isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : Color(hex: settings.teamNameColorHex).opacity(1)) : Color(hex: settings.teamNameColorHex).opacity(1))
 //                    .foregroundColor(Color(hex: colorManager.selectedTheme.rawValue).opacity(1))
-                    .position(x: settings.teamNameFont == "Default" ? 6 : 7, y: centerY/2+24)
+                    .position(x: settings.teamNameFont == "Default" ? 6 : 7, y: centerY/2+25)
                 
                 // Progress fill for seconds
+                if !isLuminanceReduced {
                     RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
-                    .trim(from: 0, to: isLuminanceReduced ? 0 : currentSecond/60)
-                    .stroke(
-                            Color(hex: colorManager.selectedTheme.rawValue),
+                        .trim(from: 0, to: currentSecond/60)
+                        .stroke(
+                            Color(hex: colorManager.selectedTheme.rawValue).opacity(0.9),
                             style: StrokeStyle(lineWidth: 25, lineCap: .butt)
                         )
                         .frame(width: barHeight, height: barWidth)
@@ -66,19 +68,21 @@ struct SecondProgressBarView: View {
                             Text(settings.teamName)
                                 .font(settings.teamNameFont == "Default" ?
                                     .system(size: 9, weight: .semibold) :
-                                    Font.customFont(fontManager.customFonts.first(where: { $0.id.uuidString == settings.teamNameFont }) ?? fontManager.customFonts.first!, size: 9) ?? .system(size: 9, weight: .semibold))
+                                        Font.customFont(fontManager.customFonts.first(where: { $0.id.uuidString == settings.teamNameFont }) ?? fontManager.customFonts.first!, size: 9) ?? .system(size: 9, weight: .semibold))
                                 .rotationEffect(.degrees(270), anchor: .center)
-                                .foregroundColor(Color.black.opacity(1))
-//                                .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
-                                .position(x: settings.teamNameFont == "Default" ? 6 : 7, y: centerY/2+24)
+                                .kerning(0.5)
+                                .foregroundColor(Color.black.opacity(1)) //settings.altTeamNameColor ? Color(hex: ColorTheme.speedPapaya.rawValue) :
+                            //                                .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
+                                .position(x: settings.teamNameFont == "Default" ? 6 : 7, y: centerY/2+25)
                                 .mask(
                                     RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
-                                        .trim(from: 0, to: isLuminanceReduced ? 0 : currentSecond/60)
+                                        .trim(from: 0, to: currentSecond/60)
                                         .stroke(Color.white, style: StrokeStyle(lineWidth: 25, lineCap: .butt))  // ADD THIS
                                         .frame(width: barHeight, height: barWidth)
                                         .rotationEffect(.degrees(-90))
                                 )
                         )
+                }
             }
         }
         .ignoresSafeArea()
