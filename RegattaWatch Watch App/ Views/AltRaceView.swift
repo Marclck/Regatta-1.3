@@ -77,7 +77,7 @@ struct AltRaceView: View {
                     // Content
                     VStack(spacing: 0) {
                         // Timer display instead of current time
-                        if settings.showCruiser && !showCruiseInfo {
+                        if /* settings.showCruiser && */ !showCruiseInfo {
                             Circle()
                                 .fill(timerState.mode == .countdown && timerState.currentTime <= 60
                                       ? Color.orange.opacity(1)
@@ -155,7 +155,7 @@ struct AltRaceView: View {
                             }
                             .offset(y:settings.ultraModel ? 15 : (isSmallWatch ? 20 : 10))
 
-                        } else if settings.showCruiser && !showCruiseInfo {
+                        } else { //if settings.showCruiser && !showCruiseInfo {
                                 // Show current time
                                 VStack(spacing: -10) {
                                     HStack(spacing: !(settings.timeFont == "Default") ? -2 : 2) {
@@ -298,7 +298,7 @@ struct AltRaceView: View {
                                                     .offset(x:hourSecondDigit(from: currentTime) == "1" ? -10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1"].contains(hourSecondDigit(from: currentTime)) ? 2 : ["1", "7"].contains(minuteSecondDigit(from: currentTime)) ? 1 : 2)
+                                                            ? (["1", "7"].contains(hourSecondDigit(from: currentTime)) ? 2 : ["1", "7"].contains(minuteSecondDigit(from: currentTime)) ? 1 : 2)
                                                             : (["1", "4", "7", "9"].contains(hourSecondDigit(from: currentTime)) ? 1 : 2))
 
                                                 // Minute second digit - left half (on bottom vertically)
@@ -323,7 +323,7 @@ struct AltRaceView: View {
                                                     .offset(x:minuteSecondDigit(from: currentTime) == "1" ? -10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1"].contains(hourSecondDigit(from: currentTime)) ? 1 :  ["1", "7"].contains(minuteSecondDigit(from: currentTime)) ? 2 : 1)
+                                                            ? (["1", "7"].contains(hourSecondDigit(from: currentTime)) ? 1 :  ["1", "7"].contains(minuteSecondDigit(from: currentTime)) ? 2 : 1)
                                                             : (["1", "4", "7", "9"].contains(hourSecondDigit(from: currentTime)) ? 2 : 1))
                                             }
                                             .offset(x: !(settings.timeFont == "Default") ? 20 : 15)
@@ -448,8 +448,6 @@ struct AltRaceView: View {
                                  .onReceive(timeTimer) { input in
                                  currentTime = input
                                  }
-                                 */
-                            
                             } else {
                             // Show current time
                             VStack(spacing: -10) {
@@ -494,6 +492,7 @@ struct AltRaceView: View {
                             .onReceive(timeTimer) { input in
                                 currentTime = input
                             }
+                                 */
                         }
                     }
                     .scaleEffect(isSmallWatch ?

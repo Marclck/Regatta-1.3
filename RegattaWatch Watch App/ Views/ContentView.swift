@@ -289,6 +289,8 @@ struct ContentView: View {
             .padding(.bottom, 2)
             #endif */
         }
+//        .colorMultiply(.red)
+//        .colorMultiply(Color(hex: colorManager.selectedTheme.rawValue))
         .id(viewID)
         // Add this new onChange modifier for luminance monitoring
         .onChange(of: isLuminanceReduced) { oldValue, newValue in
@@ -389,11 +391,11 @@ struct ContentView: View {
         }) {
             NavigationView {
                 VStack {
-                    if !iapManager.canAccessFeatures(minimumTier: .pro) {
-                        SubscriptionOverlay()
-                    } else {
+//                    if !iapManager.canAccessFeatures(minimumTier: .pro) {
+//                        SubscriptionOverlay()
+//                    } else {
                         SettingsView(showSettings: $showSettings)
-                    }
+//                    }
                 }
                 .navigationTitle("Settings")
                     
@@ -430,14 +432,14 @@ struct ContentView: View {
         
         if isReduced {
             // Screen is dimmed - turn off light mode (only if it's currently on)
-            if settings.lightMode {
-                print("🔅 Luminance reduced - temporarily switching to dark mode")
-                settings.lightMode = false
+            if self.isLuminanceReduced && self.settings.lightMode && self.settings.autoDarkMode {
+                print("🔅 Luminance reduced for 0.5s - auto-switching to dark mode")
+                self.settings.lightMode = false
             }
         } else {
             // Screen is back to normal - restore to light mode (since user originally preferred it)
-            if !settings.lightMode {
-                print("🔆 Luminance restored - switching back to light mode")
+            if !settings.lightMode && settings.autoDarkMode {
+                print("🔆 Luminance restored - auto-switching back to light mode")
                 settings.lightMode = true
             }
         }

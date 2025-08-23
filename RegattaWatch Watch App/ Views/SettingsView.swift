@@ -9,6 +9,16 @@ import Foundation
 import SwiftUI
 import CoreLocation
 
+enum LightModeOption: String, CaseIterable {
+    case lightMode = "Light Mode"
+    case autoLightMode = "Auto Light Mode"
+    case darkMode = "Dark Mode"
+    
+    var displayName: String {
+        return self.rawValue
+    }
+}
+
 enum LaunchScreen: String, CaseIterable {
     case timer = "TimeR"
     case cruiser = "CruiseR"
@@ -46,6 +56,13 @@ class AppSettings: ObservableObject {
     // Team name color hex value (ultraBlue when on, speedPapaya when off)
     var teamNameColorHex: String {
         return altTeamNameColor ? "#000000" : ColorTheme.speedPapaya.rawValue
+    }
+    
+    @Published var autoDarkMode: Bool {
+        didSet {
+            UserDefaults.standard.set(autoDarkMode, forKey: "autoDarkMode")
+            print("AutoDarkMode changed to: \(autoDarkMode)")
+        }
     }
     
     @Published var gpsDebug: Bool {
@@ -184,11 +201,12 @@ class AppSettings: ObservableObject {
     init() {
         self.gpsDebug = UserDefaults.standard.bool(forKey: "gpsDebug") // Default to false
         
-        self.teamName = UserDefaults.standard.string(forKey: "teamName") ?? "Ultra"
+        self.teamName = UserDefaults.standard.string(forKey: "teamName") ?? "ASTRO"
         self.showRaceInfo = UserDefaults.standard.object(forKey: "showRaceInfo") as? Bool ?? true
         self.smoothSecond = UserDefaults.standard.bool(forKey: "smoothSecond")
         self.altTeamNameColor = UserDefaults.standard.bool(forKey: "altTeamNameColor")
         self.lightMode = UserDefaults.standard.bool(forKey: "lightMode")
+        self.autoDarkMode = UserDefaults.standard.bool(forKey: "autoDarkMode") // Add this line
         self.ultraModel = UserDefaults.standard.object(forKey: "ultraModel") as? Bool ?? true
         self.showSpeedInfo = UserDefaults.standard.object(forKey: "showSpeedInfo") as? Bool ?? false
         self.useProButtons = UserDefaults.standard.bool(forKey: "useProButtons") // Default to false
@@ -205,6 +223,31 @@ class AppSettings: ObservableObject {
         self.timeFont = UserDefaults.standard.string(forKey: "timeFont") ?? "Default"
         self.teamNameFont = UserDefaults.standard.string(forKey: "teamNameFont") ?? "Default"
         UserDefaults.standard.synchronize()
+    }
+    // 4. Add helper computed property to get current light mode option
+    var currentLightModeOption: LightModeOption {
+        if lightMode && autoDarkMode {
+            return .autoLightMode
+        } else if lightMode && !autoDarkMode {
+            return .lightMode
+        } else {
+            return .darkMode
+        }
+    }
+    
+    // 5. Add helper method to set light mode option
+    func setLightModeOption(_ option: LightModeOption) {
+        switch option {
+        case .lightMode:
+            lightMode = true
+            autoDarkMode = false
+        case .autoLightMode:
+            lightMode = true
+            autoDarkMode = true
+        case .darkMode:
+            lightMode = false
+            autoDarkMode = false
+        }
     }
 }
 
@@ -319,6 +362,7 @@ struct CruiserToggle: View {
 }
 
 struct SettingsView: View {
+    @State private var showLightModePicker = false
     @EnvironmentObject var colorManager: ColorManager
     @EnvironmentObject var settings: AppSettings
     @ObservedObject private var iapManager = IAPManager.shared
@@ -353,6 +397,46 @@ struct SettingsView: View {
             
             List {
 
+                Button(action: {
+                    showThemePicker.toggle()
+                }) {
+                    HStack {
+                        Text("Theme Color")
+                            .font(.system(size: 17))
+                        Spacer()
+                        Circle()
+                            .fill(Color(hex: colorManager.selectedTheme.rawValue))
+                            .frame(width: 16, height: 16)
+                    }
+                }
+                .sheet(isPresented: $showThemePicker) {
+                    List {
+                        ForEach(ColorTheme.allCases, id: \.self) { theme in
+                            Button(action: {
+                                colorManager.selectedTheme = theme
+                                showThemePicker = false
+                            }) {
+                                HStack {
+                                    Circle()
+                                        .fill(Color(hex: theme.rawValue))
+                                        .frame(width: 20, height: 20)
+                                    Text(theme.name)
+                                    Spacer()
+                                    if colorManager.selectedTheme == theme {
+                                        Image(systemName: "checkmark")
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+
+                Toggle("Ultra Model", isOn: $settings.ultraModel)
+                    .font(.system(size: 17))
+                
+                Toggle("Race Info", isOn: $settings.showRaceInfo)
+                    .font(.system(size: 17))
+                
                 Section ("ULTRA features") {
                     Toggle("ProControl", isOn: $settings.useProButtons)
                         .font(.system(size: 17))
@@ -409,6 +493,129 @@ struct SettingsView: View {
                         }
                     }
                     
+                    NavigationLink {
+                        List {
+                            Section ("") {
+                                Button(action: {
+                                    showGunSyncPicker = true
+                                }) {
+                                    HStack {
+                                        Text("GunSync")
+                                        Spacer()
+                                        Text(settings.gunSyncOption.displayName)
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                                .sheet(isPresented: $showGunSyncPicker) {
+                                    List {
+                                        Section("GunSync Options") {
+                                            ForEach(GunSyncOption.allCases, id: \.self) { option in
+                                                Button(action: {
+                                                    settings.gunSyncOption = option
+                                                    showGunSyncPicker = false
+                                                }) {
+                                                    HStack {
+                                                        Text(option.displayName)
+                                                        Spacer()
+                                                        if settings.gunSyncOption == option {
+                                                            Image(systemName: "checkmark")
+                                                                .foregroundColor(.blue)
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                        
+                                        Section {
+                                            Text("Closest Min: Rounds to nearest minute\nRound Up: Always rounds up to next minute\nRound Down: Always rounds down to current minute")
+                                                .font(.caption2)
+                                                .foregroundColor(.white)
+                                        }
+                                    }
+                                }
+                                
+                                Button(action: {
+                                    // Initialize the text field with current value
+                                    quickStartInput = String(settings.quickStartMinutes)
+                                    showQuickStartEdit = true
+                                }) {
+                                    HStack {
+                                        Text("QuickStart (min)")
+                                        Spacer()
+                                        Text("\(settings.quickStartMinutes)")
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                                .sheet(isPresented: $showQuickStartEdit) {
+                                    List {
+                                        Section {
+                                            TextField("Minutes", text: $quickStartInput)
+                                                .onSubmit {
+                                                    validateAndUpdateQuickStart()
+                                                }
+                                            Text("Enter quick start time (1-30 minutes)")
+                                                .font(.caption2)
+                                        }
+                                        
+                                        Button("Apply") {
+                                            validateAndUpdateQuickStart()
+                                            showQuickStartEdit = false
+                                        }
+                                        
+                                        Button("Reset to Default") {
+                                            settings.quickStartMinutes = 5
+                                            showQuickStartEdit = false
+                                        }
+                                        .foregroundColor(.red)
+                                    }
+                                }
+                                
+                                Button(action: {
+                                    // Initialize the text field with current value
+                                    maxSpeedInput = String(format: "%.1f", settings.maxBoatSpeed)
+                                    showMaxSpeedEdit = true
+                                }) {
+                                    HStack {
+                                        Text("Max speed")
+                                        Spacer()
+                                        Text(String(format: "%.1f", settings.maxBoatSpeed))
+                                            .foregroundColor(.gray)
+                                    }
+                                }
+                                .sheet(isPresented: $showMaxSpeedEdit) {
+                                    List {
+                                        Section {
+                                            TextField("Max Speed", text: $maxSpeedInput)
+                                                .onSubmit {
+                                                    validateAndUpdateMaxSpeed()
+                                                }
+                                            Text("Enter max boat speed (knots)")
+                                                .font(.caption2)
+                                        }
+                                        
+                                        Button("Apply") {
+                                            validateAndUpdateMaxSpeed()
+                                            showMaxSpeedEdit = false
+                                        }
+                                        
+                                        Button("Reset to Default") {
+                                            settings.maxBoatSpeed = 50.0
+                                            showMaxSpeedEdit = false
+                                        }
+                                        .foregroundColor(.red)
+                                    }
+                                }
+                            }
+                            .font(.system(size: 17))
+                            .foregroundColor(.white.opacity(1))
+                        }
+                        .navigationTitle("Ultra Settings")
+                    } label: {
+                        Text("Ultra Settings")
+                            .font(.system(size: 17))
+                            .toggleStyle(SwitchToggleStyle(tint: Color(hex: ColorTheme.signalOrange.rawValue)))
+                    }
+                    
                     if !iapManager.canAccessFeatures(minimumTier: .ultra) {
                         Text("Requires Ultra subscription")
                             .font(.caption2)
@@ -418,34 +625,36 @@ struct SettingsView: View {
                             .font(.caption2)
                             .foregroundColor(.white)
                     }
-                    
                 }
                 .font(.system(size: 17, weight: .bold))
                 .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue).opacity(1))
+                .disabled(!iapManager.canAccessFeatures(minimumTier: .ultra))
+
                 
-                Section ("") {
+                Section ("PRO features") {
+                    
                     Button(action: {
-                        showGunSyncPicker = true
+                        showLightModePicker = true
                     }) {
                         HStack {
-                            Text("GunSync")
+                            Text("Display Mode")
                             Spacer()
-                            Text(settings.gunSyncOption.displayName)
+                            Text(settings.currentLightModeOption.displayName)
                                 .foregroundColor(.gray)
                         }
                     }
-                    .sheet(isPresented: $showGunSyncPicker) {
+                    .sheet(isPresented: $showLightModePicker) {
                         List {
-                            Section("GunSync Options") {
-                                ForEach(GunSyncOption.allCases, id: \.self) { option in
+                            Section("Display Mode Options") {
+                                ForEach(LightModeOption.allCases, id: \.self) { option in
                                     Button(action: {
-                                        settings.gunSyncOption = option
-                                        showGunSyncPicker = false
+                                        settings.setLightModeOption(option)
+                                        showLightModePicker = false
                                     }) {
                                         HStack {
                                             Text(option.displayName)
                                             Spacer()
-                                            if settings.gunSyncOption == option {
+                                            if settings.currentLightModeOption == option {
                                                 Image(systemName: "checkmark")
                                                     .foregroundColor(.blue)
                                             }
@@ -455,127 +664,20 @@ struct SettingsView: View {
                             }
                             
                             Section {
-                                Text("Closest Min: Rounds to nearest minute\nRound Up: Always rounds up to next minute\nRound Down: Always rounds down to current minute")
+                                Text("Light Mode: Always light background\nAuto Light Mode: Light background that auto-switches to dark when screen dims\nDark Mode: Always dark background")
                                     .font(.caption2)
                                     .foregroundColor(.white)
                             }
                         }
                     }
                     
-                    Button(action: {
-                        // Initialize the text field with current value
-                        quickStartInput = String(settings.quickStartMinutes)
-                        showQuickStartEdit = true
-                    }) {
-                        HStack {
-                            Text("QuickStart (min)")
-                            Spacer()
-                            Text("\(settings.quickStartMinutes)")
-                                .foregroundColor(.gray)
-                        }
-                    }
-                    .sheet(isPresented: $showQuickStartEdit) {
-                        List {
-                            Section {
-                                TextField("Minutes", text: $quickStartInput)
-                                    .onSubmit {
-                                        validateAndUpdateQuickStart()
-                                    }
-                                Text("Enter quick start time (1-30 minutes)")
-                                    .font(.caption2)
-                            }
-                            
-                            Button("Apply") {
-                                validateAndUpdateQuickStart()
-                                showQuickStartEdit = false
-                            }
-                            
-                            Button("Reset to Default") {
-                                settings.quickStartMinutes = 5
-                                showQuickStartEdit = false
-                            }
-                            .foregroundColor(.red)
-                        }
-                    }
-                    
-                    Button(action: {
-                        // Initialize the text field with current value
-                        maxSpeedInput = String(format: "%.1f", settings.maxBoatSpeed)
-                        showMaxSpeedEdit = true
-                    }) {
-                        HStack {
-                            Text("Max speed")
-                            Spacer()
-                            Text(String(format: "%.1f", settings.maxBoatSpeed))
-                                .foregroundColor(.gray)
-                        }
-                    }
-                    .sheet(isPresented: $showMaxSpeedEdit) {
-                        List {
-                            Section {
-                                TextField("Max Speed", text: $maxSpeedInput)
-                                    .onSubmit {
-                                        validateAndUpdateMaxSpeed()
-                                    }
-                                Text("Enter max boat speed (knots)")
-                                    .font(.caption2)
-                            }
-                            
-                            Button("Apply") {
-                                validateAndUpdateMaxSpeed()
-                                showMaxSpeedEdit = false
-                            }
-                            
-                            Button("Reset to Default") {
-                                settings.maxBoatSpeed = 50.0
-                                showMaxSpeedEdit = false
-                            }
-                            .foregroundColor(.red)
-                        }
-                    }
-                }
-                .font(.system(size: 17))
-                .foregroundColor(.white.opacity(1))
-                
-                Section ("PRO features") {
-                    Button(action: {
-                        showThemePicker.toggle()
-                    }) {
-                        HStack {
-                            Text("Theme Color")
-                            Spacer()
-                            Circle()
-                                .fill(Color(hex: colorManager.selectedTheme.rawValue))
-                                .frame(width: 16, height: 16)
-                        }
-                    }
-                    .sheet(isPresented: $showThemePicker) {
-                        List {
-                            ForEach(ColorTheme.allCases, id: \.self) { theme in
-                                Button(action: {
-                                    colorManager.selectedTheme = theme
-                                    showThemePicker = false
-                                }) {
-                                    HStack {
-                                        Circle()
-                                            .fill(Color(hex: theme.rawValue))
-                                            .frame(width: 20, height: 20)
-                                        Text(theme.name)
-                                        Spacer()
-                                        if colorManager.selectedTheme == theme {
-                                            Image(systemName: "checkmark")
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
                     
                     Button(action: {
                         showTeamNameEdit.toggle()
                     }) {
                         HStack {
                             Text("Team Name")
+                                .font(.system(size: 17))
                             Spacer()
                             Text(settings.teamName)
                                 .foregroundColor(.gray)
@@ -600,28 +702,199 @@ struct SettingsView: View {
                         }
                     }
                     
-                    Toggle("Ultra Model", isOn: $settings.ultraModel)
                     
-                    Toggle("Race Info", isOn: $settings.showRaceInfo)
+                    Toggle("Alt Team Name Color", isOn: $settings.altTeamNameColor)
+
+                    
+//                    Section("Font Options") {
+                        NavigationLink {
+                            List {
+                                Section("Fonts") {
+                                    Button(action: {
+                                        showTimeFontPicker = true
+                                    }) {
+                                        HStack {
+                                            Text("Time Font")
+                                            Spacer()
+                                            Text(settings.timeFont == "Default" ? "Default" :
+                                                 fontManager.customFonts.first(where: { $0.id.uuidString == settings.timeFont })?.displayName ?? "Default")
+                                                .foregroundColor(.gray)
+                                        }
+                                    }
+                                    .sheet(isPresented: $showTimeFontPicker) {
+                                        VStack(spacing: 0) {
+                                            // Header Preview Section
+                                            VStack {
+                                                HStack(spacing: 2) {
+                                                    Text("09")
+                                                        .font(getTimeFontForPreview(size: 42))
+                                                        .dynamicTypeSize(.xSmall)
+                                                        .foregroundColor(.white)
+                                                        .multilineTextAlignment(.center)
+                                                        .overlay(alignment: .center) {
+                                                            Rectangle()
+                                                                .stroke(Color.white, lineWidth: 1)
+                                                                .frame(width: 62, height: 45)
+                                                                .offset(x:-2)
+                                                        }
+
+                                                    Text("Numbers stay inside frame")
+                                                        .font(.caption2)
+                                                        .foregroundColor(.white)
+                                                        .frame(width: 80)
+                                                    /*
+                                                    VStack(spacing: 10) {
+                                                        Circle()
+                                                            .fill(Color.white)
+                                                            .frame(width: 6, height: 6)
+                                                        Circle()
+                                                            .fill(Color.white)
+                                                            .frame(width: 6, height: 6)
+                                                    }
+                                                    .offset(x:-0.5, y:-0.5)
+
+                                                    Text("41")
+                                                        .font(getTimeFontForPreview(size: 42))
+                                                        .dynamicTypeSize(.xSmall)
+                                                        .foregroundColor(.white)
+                                                        .offset(x:2)
+                                                    */
+                                                }
+                                                .frame(width: 150, height: 70)
+                                            }
+                                            .padding()
+                                            .background(Color.black.opacity(0.1))
+                                            
+                                            // Font Options List
+                                            List {
+                                                Section("Time Font Options") {
+                                                    // Default option
+                                                    Button(action: {
+                                                        settings.timeFont = "Default"
+                                                    }) {
+                                                        HStack {
+                                                            Text("Default")
+                                                                .font(.zenithBeta(size: 17))
+                                                            Spacer()
+                                                            if settings.timeFont == "Default" {
+                                                                Image(systemName: "checkmark")
+                                                                    .foregroundColor(.blue)
+                                                            }
+                                                        }
+                                                    }
+                                                    
+                                                    // Custom fonts
+                                                    ForEach(fontManager.customFonts) { font in
+                                                        Button(action: {
+                                                            settings.timeFont = font.id.uuidString
+                                                        }) {
+                                                            HStack {
+                                                                Text(font.displayName)
+                                                                    .font(Font.customFont(font, size: 17) ?? .system(size: 17))
+                                                                Spacer()
+                                                                if settings.timeFont == font.id.uuidString {
+                                                                    Image(systemName: "checkmark")
+                                                                        .foregroundColor(.blue)
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    Button(action: {
+                                        showTeamNameFontPicker = true
+                                    }) {
+                                        HStack {
+                                            Text("Team Name Font")
+                                            Spacer()
+                                            Text(settings.teamNameFont == "Default" ? "Default" :
+                                                 fontManager.customFonts.first(where: { $0.id.uuidString == settings.teamNameFont })?.displayName ?? "Default")
+                                                .foregroundColor(.gray)
+                                        }
+                                    }
+                                    .sheet(isPresented: $showTeamNameFontPicker) {
+                                        VStack(spacing: 0) {
+                                            // Header Preview Section
+                                            VStack {
+                                                Text(settings.teamName)
+                                                    .font(getTeamNameFontForPreview(size: 12))
+                                                    .dynamicTypeSize(.xSmall)
+                                                    .foregroundColor(.white)
+                                                    .frame(width: 150, height: 60)
+                                            }
+                                            .padding()
+                                            .background(Color.black.opacity(0.1))
+                                            
+                                            // Font Options List
+                                            List {
+                                                Section("Team Name Font Options") {
+                                                    // Default option
+                                                    Button(action: {
+                                                        settings.teamNameFont = "Default"
+                                                    }) {
+                                                        HStack {
+                                                            Text("Default")
+                                                                .font(.system(size: 17, weight: .semibold))
+                                                            Spacer()
+                                                            if settings.teamNameFont == "Default" {
+                                                                Image(systemName: "checkmark")
+                                                                    .foregroundColor(.blue)
+                                                            }
+                                                        }
+                                                    }
+                                                    
+                                                    // Custom fonts
+                                                    ForEach(fontManager.customFonts) { font in
+                                                        Button(action: {
+                                                            settings.teamNameFont = font.id.uuidString
+                                                        }) {
+                                                            HStack {
+                                                                Text(font.displayName)
+                                                                    .font(Font.customFont(font, size: 17) ?? .system(size: 17))
+                                                                Spacer()
+                                                                if settings.teamNameFont == font.id.uuidString {
+                                                                    Image(systemName: "checkmark")
+                                                                        .foregroundColor(.blue)
+                                                                }
+                                                            }
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    }
+                                    
+                                    NavigationLink {
+                                        FontsListView()
+                                    } label: {
+                                        Text("Custom Fonts")
+                                    }
+                                }
+                            }
+                            .navigationTitle("Font Options")
+                        } label: {
+                            Text("Font Options")
+                        }
+//                    }
+                    
                     
                     Toggle("Smooth Second Movement", isOn: $settings.smoothSecond)
                     
                     Toggle("Stopwatch Buzz", isOn: $settings.stopwatchBuzz)
                     
-                    Toggle("Alt Team Name Color", isOn: $settings.altTeamNameColor)
-                    
-                    Toggle("Light Mode", isOn: $settings.lightMode)
-                    
                     Toggle("Privacy Overlay", isOn: $settings.privacyOverlay)
                     
                     Text("Restart the app for the changes to take effect. Double press digital crown and swipe left to close the app.")
                         .font(.caption2)
-                
-                    
                 }
                 .font(.system(size: 17))
                 .foregroundColor(.white.opacity(1))
+                .disabled(!iapManager.canAccessFeatures(minimumTier: .pro))
 
+/*
                 // UPDATED FONTS SECTION
                 Section("Fonts") {
                     Button(action: {
@@ -789,7 +1062,8 @@ struct SettingsView: View {
                 }
                 .font(.system(size: 17, weight: .bold))
                 .foregroundColor(Color.white.opacity(0.8))
-
+*/
+                
                 Section("Developer") {
                     NavigationLink {
                         List {
@@ -884,12 +1158,13 @@ struct SettingsView: View {
 extension AppSettings {
     func resetToDefaults(_ colorManager: ColorManager, forTier tier: SubscriptionTier = .none) {
         // Reset all settings to their default values
-        teamName = "RACE!"
-        showRaceInfo = true
+        teamName = "ASTRO"
+//        showRaceInfo = true
         smoothSecond = false
         altTeamNameColor = false
         lightMode = false
-        ultraModel = true
+        autoDarkMode = false // Add this line
+//        ultraModel = true
         maxBoatSpeed = 50.0
         gunSyncOption = .closestMin
         quickStartMinutes = 5
@@ -910,19 +1185,20 @@ extension AppSettings {
         }
         
         // Reset theme color to Cambridge Blue
-        colorManager.selectedTheme = .cambridgeBlue
+//        colorManager.selectedTheme = .cambridgeBlue
         
         // Save defaults to UserDefaults
         UserDefaults.standard.set(false, forKey: "gpsDebug")
 
-        UserDefaults.standard.set("RACE!", forKey: "teamName")
-        UserDefaults.standard.set(true, forKey: "showRaceInfo")
+        UserDefaults.standard.set("ASTRO", forKey: "teamName")
+//        UserDefaults.standard.set(true, forKey: "showRaceInfo")
         UserDefaults.standard.set(false, forKey: "showSpeedInfo")
         UserDefaults.standard.set(false, forKey: "showCruiser")
         UserDefaults.standard.set(false, forKey: "smoothSecond")
         UserDefaults.standard.set(false, forKey: "altTeamNameColor")
         UserDefaults.standard.set(false, forKey: "lightMode")
-        UserDefaults.standard.set(true, forKey: "ultraModel")
+        UserDefaults.standard.set(false, forKey: "autoDarkMode") // Add this line
+//        UserDefaults.standard.set(true, forKey: "ultraModel")
         UserDefaults.standard.set(false, forKey: "useProButtons")
         UserDefaults.standard.set(50.0, forKey: "maxBoatSpeed")
         UserDefaults.standard.set("Closest Min", forKey: "gunSyncOption")

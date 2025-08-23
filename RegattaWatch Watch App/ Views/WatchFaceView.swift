@@ -250,25 +250,25 @@ struct WatchFaceView: View {
                                     .scaleEffect(x:1, y:1)
                                     .foregroundColor(settings.lightMode ? .black : .white)
                                     .offset(y:isLuminanceReduced ? 17 : 8)
-                                    .offset(y: !(settings.timeFont == "Default") ? 0 : 5)
+                                    .offset(y: !(settings.timeFont == "Default") ? -15 : 5)
                                 
                                 Text(minuteString(from: currentTime))
                                     .scaleEffect(x:1, y:1)
                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
                                     .offset(y:isLuminanceReduced ? -26 : -14)
-                                    .offset(y: !(settings.timeFont == "Default") ? 0 : 5)
+                                    .offset(y: !(settings.timeFont == "Default") ? 25 : 5)
                             }
 //                            .font(.zenithBeta(size: 80, weight: .medium))
                             .font(settings.timeFont == "Default" ?
                                   .zenithBeta(size: 80, weight: .medium) :
                                   (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 60, weight: .medium) } ?? .zenithBeta(size: 80, weight: .medium)))
                             .scaleEffect(!(settings.timeFont == "Default") ?
-                                        CGSize(width: 1, height: 1.1) :
-                                        CGSize(width: 1.05, height: 1.43))
+                                        CGSize(width: 1, height: 1) :
+                                        CGSize(width: 1, height: 1))
                             .foregroundColor(.white)
                             .frame(width: 150, height: 60)
                             .position(x: geometry.size.width/2, y: centerY/2+10)
-                            .offset(y:7)
+                            //.offset(y:7)
                             .offset(y: smallWatch ? -5 : 0)
                             .onReceive(timeTimer) { input in
                                 currentTime = input
@@ -280,20 +280,22 @@ struct WatchFaceView: View {
                             VStack(alignment: .center, spacing: 1) {
                                 if !isSmallWatch {
                                     Text(dateString(from: Date()))
-                                        .font(.system(size:14))
-                                        .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
+//                                        .font(.system(size:14))
+//                                        .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
                                 }
 
                                 if !isSmallWatch {
                                     Text("Race \(JournalManager.shared.allSessions.count)")
-                                        .font(.system(size: 14))
-                                        .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
+//                                        .font(.system(size: 14))
+//                                        .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
                                 } else {
                                     Text("Race \(JournalManager.shared.allSessions.count)")
-                                        .font(.system(size: 14))
-                                        .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
+//                                        .font(.system(size: 14))
+//                                        .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : .blue.opacity(0.7))
                                 }
                             }
+                            .font(.zenithBeta(size: 14, weight: .medium))
+                            .foregroundColor(isLuminanceReduced ? .white.opacity(0.4) : Color(hex: colorManager.selectedTheme.rawValue).opacity(0.7))
                             .frame(width: 180, height: 40)
                             .padding(.bottom, 0)
                             .offset(y: isSmallWatch ? 28 : 26)
