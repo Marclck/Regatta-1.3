@@ -46,9 +46,9 @@ class CustomFontManager: ObservableObject {
     
     @Published var customFonts: [CustomFont] = []
     
-    private let maxFileSize: Int = 200 * 1024 // 200 KB
-    private let supportedFormats = ["ttf"]
-    
+    private let maxFileSize: Int = 300 * 1024 // 300 KB
+    private let supportedFormats = ["ttf", "otf"]
+
     private init() {
         loadCustomFonts()
         
@@ -380,10 +380,10 @@ enum FontImportError: LocalizedError {
     
     var errorDescription: String? {
         switch self {
-        case .unsupportedFormat:
-            return "Only TTF font files are supported. Please select a .ttf file."
         case .fileTooLarge:
-            return "Font file must be smaller than 200 KB. Please choose a smaller font file."
+            return "Font file must be smaller than 300 KB. Please choose a smaller font file."
+        case .unsupportedFormat:
+            return "Only TTF and OTF font files are supported. Please select a .ttf or .otf file."
         case .invalidFontFile:
             return "The selected file is not a valid font file or is corrupted."
         case .fileAccessError:
@@ -396,7 +396,7 @@ enum FontImportError: LocalizedError {
     var recoverySuggestion: String? {
         switch self {
         case .unsupportedFormat:
-            return "Convert your font to TTF format using a font converter."
+            return "Convert your font to TTF or OTF format using a font converter."
         case .fileTooLarge:
             return "Try using a font compression tool or choose a different font."
         case .invalidFontFile:

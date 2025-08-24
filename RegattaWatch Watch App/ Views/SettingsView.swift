@@ -58,6 +58,13 @@ class AppSettings: ObservableObject {
         return altTeamNameColor ? "#000000" : ColorTheme.speedPapaya.rawValue
     }
     
+    @Published var fontSize: Int {
+        didSet {
+            UserDefaults.standard.set(fontSize, forKey: "fontSize")
+            print("FontSize changed to: \(fontSize)")
+        }
+    }
+    
     @Published var autoDarkMode: Bool {
         didSet {
             UserDefaults.standard.set(autoDarkMode, forKey: "autoDarkMode")
@@ -200,7 +207,7 @@ class AppSettings: ObservableObject {
     
     init() {
         self.gpsDebug = UserDefaults.standard.bool(forKey: "gpsDebug") // Default to false
-        
+        self.fontSize = UserDefaults.standard.integer(forKey: "fontSize") // Default to 0
         self.teamName = UserDefaults.standard.string(forKey: "teamName") ?? "ASTRO"
         self.showRaceInfo = UserDefaults.standard.object(forKey: "showRaceInfo") as? Bool ?? true
         self.smoothSecond = UserDefaults.standard.bool(forKey: "smoothSecond")
@@ -362,6 +369,7 @@ struct CruiserToggle: View {
 }
 
 struct SettingsView: View {
+    @State private var showFontSizePicker = false
     @State private var showLightModePicker = false
     @EnvironmentObject var colorManager: ColorManager
     @EnvironmentObject var settings: AppSettings
@@ -727,7 +735,7 @@ struct SettingsView: View {
                                             VStack {
                                                 HStack(spacing: 2) {
                                                     Text("09")
-                                                        .font(getTimeFontForPreview(size: 42))
+                                                        .font(getTimeFontForPreview(size: 42 + CGFloat(settings.fontSize)))
                                                         .dynamicTypeSize(.xSmall)
                                                         .foregroundColor(.white)
                                                         .multilineTextAlignment(.center)
@@ -801,6 +809,38 @@ struct SettingsView: View {
                                                     }
                                                 }
                                             }
+                                        }
+                                    }
+                                    
+                                    Button(action: {
+                                        showFontSizePicker = true
+                                    }) {
+                                        HStack {
+                                            Text("Font Size")
+                                            Spacer()
+                                            Text("\(settings.fontSize > 0 ? "+" : "")\(settings.fontSize)")
+                                                .foregroundColor(.gray)
+                                        }
+                                    }
+                                    .sheet(isPresented: $showFontSizePicker) {
+                                        NavigationView {
+                                            VStack {
+                                                Picker("", selection: $settings.fontSize) {
+                                                    ForEach(-10...20, id: \.self) { size in
+                                                        Text("\(size > 0 ? "+" : "")\(size)")
+                                                            .tag(size)
+                                                    }
+                                                }
+                                                .pickerStyle(.wheel)
+                                                .frame(height: 100)
+                                                
+                                                Spacer()
+                                                
+                                                Button("Done") {
+                                                    showFontSizePicker = false
+                                                }
+                                            }
+                                            .navigationTitle("Font Size")
                                         }
                                     }
                                     
@@ -1174,7 +1214,7 @@ extension AppSettings {
         launchScreen = .timer
         timeFont = "Default"
         teamNameFont = "Default"
-        
+        fontSize = 0
         gpsDebug = false
 
         // Reset ultra features if tier is not ultra
@@ -1186,10 +1226,9 @@ extension AppSettings {
         
         // Reset theme color to Cambridge Blue
 //        colorManager.selectedTheme = .cambridgeBlue
-        
+        UserDefaults.standard.set(0, forKey: "fontSize")
         // Save defaults to UserDefaults
         UserDefaults.standard.set(false, forKey: "gpsDebug")
-
         UserDefaults.standard.set("ASTRO", forKey: "teamName")
 //        UserDefaults.standard.set(true, forKey: "showRaceInfo")
         UserDefaults.standard.set(false, forKey: "showSpeedInfo")

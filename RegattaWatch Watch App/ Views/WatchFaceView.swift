@@ -120,7 +120,7 @@ struct WatchFaceView: View {
                                 Text(hourString(from: currentTime))
                                     .font(settings.timeFont == "Default" ?
                                           .zenithBeta(size: 38, weight: .medium) :
-                                            (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 38, weight: .medium) } ?? .zenithBeta(size: 38, weight: .medium)))
+                                            (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 38 + CGFloat(settings.fontSize), weight: .medium) } ?? .zenithBeta(size: 38, weight: .medium)))
                                     .foregroundColor(settings.lightMode ? .black : .white)
                                     .offset(y:-48.5)
                                 
@@ -144,7 +144,7 @@ struct WatchFaceView: View {
                                 Text(minuteString(from: currentTime))
                                     .font(settings.timeFont == "Default" ?
                                           .zenithBeta(size: 38, weight: .medium) :
-                                          (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 38, weight: .medium) } ?? .zenithBeta(size: 38, weight: .medium)))
+                                          (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 38 + CGFloat(settings.fontSize), weight: .medium) } ?? .zenithBeta(size: 38, weight: .medium)))
                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
                                     .offset(x: 3, y:-48.5)
                             }
@@ -249,19 +249,19 @@ struct WatchFaceView: View {
                                 Text(hourString(from: currentTime))
                                     .scaleEffect(x:1, y:1)
                                     .foregroundColor(settings.lightMode ? .black : .white)
-                                    .offset(y:isLuminanceReduced ? 17 : 8)
+                                    .offset(y:isLuminanceReduced ? 17 + CGFloat(settings.fontSize) / 2 : 8)
                                     .offset(y: !(settings.timeFont == "Default") ? -15 : 5)
                                 
                                 Text(minuteString(from: currentTime))
                                     .scaleEffect(x:1, y:1)
                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
-                                    .offset(y:isLuminanceReduced ? -26 : -14)
+                                    .offset(y:isLuminanceReduced ? -26 - CGFloat(settings.fontSize) / 2 : -14)
                                     .offset(y: !(settings.timeFont == "Default") ? 25 : 5)
                             }
 //                            .font(.zenithBeta(size: 80, weight: .medium))
                             .font(settings.timeFont == "Default" ?
                                   .zenithBeta(size: 80, weight: .medium) :
-                                  (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 60, weight: .medium) } ?? .zenithBeta(size: 80, weight: .medium)))
+                                  (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 60 + CGFloat(settings.fontSize), weight: .medium) } ?? .zenithBeta(size: 80, weight: .medium)))
                             .scaleEffect(!(settings.timeFont == "Default") ?
                                         CGSize(width: 1, height: 1) :
                                         CGSize(width: 1, height: 1))

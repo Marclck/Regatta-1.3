@@ -105,7 +105,7 @@ struct AltRaceView: View {
 //                                    .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 42) : .zenithBeta(size: 38, weight: .medium))
                                     .font(settings.timeFont == "Default" ?
                                           .zenithBeta(size: 38, weight: .medium) :
-                                          (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 36) } ?? .zenithBeta(size: 38, weight: .medium)))
+                                          (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 36 + CGFloat(settings.fontSize)) } ?? .zenithBeta(size: 38, weight: .medium)))
                                     .dynamicTypeSize(.xSmall)
                                     .foregroundColor(settings.lightMode ? .black : .white)
                                     .offset(y:-48.5)
@@ -132,7 +132,7 @@ struct AltRaceView: View {
 //                                    .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 42) : .zenithBeta(size: 38, weight: .medium)) //82?
                                     .font(settings.timeFont == "Default" ?
                                           .zenithBeta(size: 38, weight: .medium) :
-                                          (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 36) } ?? .zenithBeta(size: 38, weight: .medium)))
+                                          (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 36 + CGFloat(settings.fontSize)) } ?? .zenithBeta(size: 38, weight: .medium)))
                                     .dynamicTypeSize(.xSmall)
                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
                                     .offset(x:2, y:-48.5)
@@ -158,7 +158,7 @@ struct AltRaceView: View {
                         } else { //if settings.showCruiser && !showCruiseInfo {
                                 // Show current time
                                 VStack(spacing: -10) {
-                                    HStack(spacing: !(settings.timeFont == "Default") ? -2 : 2) {
+                                    HStack(spacing: !(settings.timeFont == "Default") ? -2 + CGFloat(settings.fontSize) : 2) {
                                         // First digit position
                                         HStack(spacing: 0) {
                                             // Left half - Hour on top of Minute (vertically) - Center aligned, right masked
@@ -179,7 +179,7 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? 20 : 1)
+                                                            ? (isLuminanceReduced ? 20 + CGFloat(settings.fontSize) / 2 : 1)
                                                             : (isLuminanceReduced ? 15 : 1))
                                                     .offset(x:hourFirstDigit(from: currentTime) == "1" ? 10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default")
@@ -206,7 +206,7 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? -40 : -26)
+                                                            ? (isLuminanceReduced ? -40 - CGFloat(settings.fontSize) / 2 : -26)
                                                             : (isLuminanceReduced ? -36 : -26))
                                                     .offset(x:minuteFirstDigit(from: currentTime) == "1" ? 10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
@@ -235,7 +235,7 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? 20 : 1)
+                                                            ? (isLuminanceReduced ? 20 + CGFloat(settings.fontSize) / 2 : 1)
                                                             : (isLuminanceReduced ? 15 : 1))
                                                     .offset(x:hourFirstDigit(from: currentTime) == "1" ? 10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
@@ -260,7 +260,7 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? -40 : -26)
+                                                            ? (isLuminanceReduced ? -40 - CGFloat(settings.fontSize) / 2 : -26)
                                                             : (isLuminanceReduced ? -36 : -26))
                                                     .offset(x:minuteFirstDigit(from: currentTime) == "1" ? 10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
@@ -293,7 +293,7 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? 20 : 1)
+                                                            ? (isLuminanceReduced ? 20 + CGFloat(settings.fontSize) / 2 : 1)
                                                             : (isLuminanceReduced ? 15 : 1))
                                                     .offset(x:hourSecondDigit(from: currentTime) == "1" ? -10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
@@ -318,7 +318,7 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? -40 : -26)
+                                                            ? (isLuminanceReduced ? -40 - CGFloat(settings.fontSize) / 2 : -26)
                                                             : (isLuminanceReduced ? -36 : -26))                                                     .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .offset(x:minuteSecondDigit(from: currentTime) == "1" ? -10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
@@ -349,7 +349,7 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? 20 : 1)
+                                                            ? (isLuminanceReduced ? 20 + CGFloat(settings.fontSize) / 2 : 1)
                                                             : (isLuminanceReduced ? 15 : 1))                                                    .offset(x:hourSecondDigit(from: currentTime) == "1" ? -10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
                                                     .zIndex(!(settings.timeFont == "Default")
@@ -374,7 +374,7 @@ struct AltRaceView: View {
                                                         }
                                                     )
                                                     .offset(y: !(settings.timeFont == "Default")
-                                                            ? (isLuminanceReduced ? -40 : -26)
+                                                            ? (isLuminanceReduced ? -40 - CGFloat(settings.fontSize) / 2 : -26)
                                                             : (isLuminanceReduced ? -36 : -26))
                                                     .offset(x:minuteSecondDigit(from: currentTime) == "1" ? -10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
@@ -390,7 +390,7 @@ struct AltRaceView: View {
 //                                .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 100) : .zenithBeta(size: 84, weight: .medium)) //82?
                                 .font(settings.timeFont == "Default" ?
                                       .zenithBeta(size: 84, weight: .medium) :
-                                      (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 76, weight: .medium) } ?? .zenithBeta(size: 84, weight: .medium)))
+                                      (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 76 + CGFloat(settings.fontSize), weight: .medium) } ?? .zenithBeta(size: 84, weight: .medium)))
                                 .dynamicTypeSize(.xSmall)
                                 .scaleEffect(!(settings.timeFont == "Default") ?
                                             CGSize(width: 1, height: 1) :

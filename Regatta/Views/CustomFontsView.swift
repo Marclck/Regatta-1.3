@@ -56,11 +56,11 @@ struct CustomFontsView: View {
                                     .font(.system(size: 24, weight: .bold))
                                     .foregroundColor(.white)
                                 
-                                Text("Tap + to import TTF font files")
+                                Text("Tap + to import TTF or OTF font files")
                                     .font(.system(size: 16))
                                     .foregroundColor(.white.opacity(0.7))
-                                
-                                Text("Maximum file size: 200 KB")
+
+                                Text("Maximum file size: 300 KB")
                                     .font(.system(size: 14))
                                     .foregroundColor(.white.opacity(0.5))
                             }
@@ -76,6 +76,22 @@ struct CustomFontsView: View {
                             .onDelete(perform: deleteFont)
                             .listRowBackground(Color.clear.background(.ultraThinMaterial))
                             .environment(\.colorScheme, .dark)
+                            
+                            // Warning section at the end of the list
+                            Section {
+                                HStack {
+                                    Image(systemName: "exclamationmark.triangle.fill")
+                                        .foregroundColor(.orange)
+                                        .font(.system(size: 16))
+                                    
+                                    Text("Not all fonts are supported on Watch by Apple")
+                                        .font(.system(size: 14))
+                                        .foregroundColor(.white.opacity(0.8))
+                                        .multilineTextAlignment(.leading)
+                                }
+                                .padding(.vertical, 8)
+                            }
+                            .listRowBackground(Color.clear.background(.ultraThinMaterial))
                         }
                         .scrollContentBackground(.hidden)
                         .listStyle(InsetGroupedListStyle())
@@ -299,8 +315,6 @@ struct FontRowView: View {
         .padding(.vertical, 4)
     }
     
-    // Replace the formatFileSize() method with this:
-
     private func formatFileSize() -> String {
         let fileSize = font.fontData.count
         let kb = Double(fileSize) / 1024.0
@@ -320,9 +334,10 @@ struct DocumentPicker: UIViewControllerRepresentable {
     let onDocumentPicked: (Result<URL, Error>) -> Void
     
     func makeUIViewController(context: Context) -> UIDocumentPickerViewController {
-        // Use specific TTF type instead of generic font type
+        // Support both TTF and OTF types
         let ttfType = UTType(filenameExtension: "ttf") ?? UTType.data
-        let picker = UIDocumentPickerViewController(forOpeningContentTypes: [ttfType], asCopy: true)
+        let otfType = UTType(filenameExtension: "otf") ?? UTType.data
+        let picker = UIDocumentPickerViewController(forOpeningContentTypes: [ttfType, otfType], asCopy: true)
         picker.delegate = context.coordinator
         picker.allowsMultipleSelection = false
         return picker

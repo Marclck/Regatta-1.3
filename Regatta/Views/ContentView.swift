@@ -421,7 +421,7 @@ struct MainInfoView: View {
                 Image(systemName: "textformat")
                     .foregroundColor(.white)
                 Text("Custom Fonts")
-                    .font(.system(.body, weight: .bold))
+                    .font(.system(.body, design: .monospaced))
                     .foregroundColor(.white)
             }
         }
