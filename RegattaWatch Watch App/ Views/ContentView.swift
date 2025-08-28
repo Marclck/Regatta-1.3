@@ -361,8 +361,14 @@ struct ContentView: View {
             }
             // Store the original light mode state when view first appears
             if originalLightModeState == nil {
+                // If user has auto dark mode enabled, ensure lightMode is true (their base preference)
+                if settings.autoDarkMode && !settings.lightMode {
+                    settings.lightMode = true
+                    print("App launch: Restored lightMode to true for auto dark mode user")
+                }
                 originalLightModeState = settings.lightMode
             }
+            
             // Add observer for switching to timer view
             NotificationCenter.default.addObserver(
                 forName: Notification.Name("SwitchToTimerView"),
