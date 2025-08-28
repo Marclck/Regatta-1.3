@@ -77,7 +77,11 @@ struct AltRaceView: View {
                     // Content
                     VStack(spacing: 0) {
                         // Timer display instead of current time
-                        if /* settings.showCruiser && */ !showCruiseInfo {
+                        if settings.showCruiser && showCruiseInfo {
+                            TimerDisplayAsCurrentTime(timerState: timerState)
+                                .padding(.top, -10)
+                                .offset(y: smallWatch ? -15 : -10)
+                        } else {
                             Circle()
                                 .fill(timerState.mode == .countdown && timerState.currentTime <= 60
                                       ? Color.orange.opacity(1)
@@ -86,10 +90,6 @@ struct AltRaceView: View {
 //                                .colorScheme(.light)
                                 .frame(width: 10, height: 10)
                                 .offset(y:-35)
-                        } else {
-                            TimerDisplayAsCurrentTime(timerState: timerState)
-                                .padding(.top, -10)
-                                .offset(y: smallWatch ? -15 : -10)
                         }
                         
                         Spacer()
@@ -102,13 +102,13 @@ struct AltRaceView: View {
                             
                             HStack(spacing: 2) {
                                 Text(hourString(from: currentTime))
-//                                    .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 42) : .zenithBeta(size: 38, weight: .medium))
                                     .font(settings.timeFont == "Default" ?
                                           .zenithBeta(size: 38, weight: .medium) :
                                           (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 36 + CGFloat(settings.fontSize)) } ?? .zenithBeta(size: 38, weight: .medium)))
                                     .dynamicTypeSize(.xSmall)
                                     .foregroundColor(settings.lightMode ? .black : .white)
                                     .offset(y:-48.5)
+                                    .offset(y:CGFloat(settings.fontSize)/4) //offset for font size
                                 
                                 VStack(spacing: 10) {
                                     Circle()
@@ -120,22 +120,14 @@ struct AltRaceView: View {
                                 }
                                 .offset(x:-0.5, y:-49)
                                 
-                                /*
-                                Text(":")
-                                    .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 42) : .zenithBeta(size: 38, weight: .medium)) //82?
-                                    .dynamicTypeSize(.xSmall)
-                                    .foregroundColor(settings.lightMode ? .black : .white)
-                                    .offset(x: settings.debugMode ? -2 : 0, y: settings.debugMode ? -50 : -53)
-                                */
-                                
                                 Text(minuteString(from: currentTime))
-//                                    .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 42) : .zenithBeta(size: 38, weight: .medium)) //82?
                                     .font(settings.timeFont == "Default" ?
                                           .zenithBeta(size: 38, weight: .medium) :
                                           (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 36 + CGFloat(settings.fontSize)) } ?? .zenithBeta(size: 38, weight: .medium)))
                                     .dynamicTypeSize(.xSmall)
                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
                                     .offset(x:2, y:-48.5)
+                                    .offset(y:CGFloat(settings.fontSize)/4) //offset for font size
                             }
                             .font(.zenithBeta(size: 84, weight: .bold))
                             .frame(width: 150, height: 60)
@@ -387,10 +379,9 @@ struct AltRaceView: View {
                                         }
                                     }
                                 }
-//                                .font(settings.debugMode ? Font.custom("Hermes-Numbers",size: 100) : .zenithBeta(size: 84, weight: .medium)) //82?
                                 .font(settings.timeFont == "Default" ?
-                                      .zenithBeta(size: 84, weight: .medium) :
-                                      (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 76 + CGFloat(settings.fontSize), weight: .medium) } ?? .zenithBeta(size: 84, weight: .medium)))
+                                      .zenithBeta(size: 76, weight: .medium) :
+                                        (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 76 + CGFloat(settings.fontSize) * 2.1, weight: .medium) } ?? .zenithBeta(size: 76, weight: .medium)))
                                 .dynamicTypeSize(.xSmall)
                                 .scaleEffect(!(settings.timeFont == "Default") ?
                                             CGSize(width: 1, height: 1) :
@@ -399,6 +390,7 @@ struct AltRaceView: View {
                                 .frame(width: 150, height: 60)
                                 .position(x: geometry.size.width/2, y: centerY/2+25)
                                 .offset(y: !(settings.timeFont == "Default") ? -3 : 5)
+                                .offset(y:CGFloat(settings.fontSize) / 2) //offset for font size
                                 .onReceive(timeTimer) { input in
                                     currentTime = input
                                 }

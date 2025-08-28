@@ -21,7 +21,6 @@ struct CurrentTimeView: View {
         HStack(spacing: -2) {
             // Hours component
             Text(String(timeString(from: currentTime).prefix(2))) // "HH"
-//                .font(settings.debugMode ? Font.custom("Hermes-Numbers", size: 14) : .system(size: 14, design: .monospaced))
                 .font(settings.timeFont == "Default" ?
                     .system(size: 14, design: .monospaced) :
                         (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 14, weight: .medium) } ?? .system(size: 14, design: .monospaced)))
@@ -37,7 +36,6 @@ struct CurrentTimeView: View {
             
             // Minutes component
             Text(String(timeString(from: currentTime).suffix(2))) // "mm"
-//                .font(settings.debugMode ? Font.custom("Hermes-Numbers", size: 14) : .system(size: 14, design: .monospaced))
                 .font(settings.timeFont == "Default" ?
                     .system(size: 14, design: .monospaced) :
                         (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 14, weight: .medium) } ?? .system(size: 14, design: .monospaced)))

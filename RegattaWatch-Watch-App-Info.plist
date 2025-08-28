@@ -22,10 +22,5 @@
 	</array>
 	<key>WeatherKitUsageDescription</key>
 	<string>Weather data is used to show wind information</string>
-	<key>UIAppFonts</key>
-	<array>
-		<string>Hermes-Numbers.ttf</string>
-		<string>MemphisLTCYR-Bold.ttf</string>
-	</array>
 </dict>
 </plist>

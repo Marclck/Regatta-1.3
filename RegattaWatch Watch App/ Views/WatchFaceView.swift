@@ -122,6 +122,7 @@ struct WatchFaceView: View {
                                           .zenithBeta(size: 38, weight: .medium) :
                                             (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 38 + CGFloat(settings.fontSize), weight: .medium) } ?? .zenithBeta(size: 38, weight: .medium)))
                                     .foregroundColor(settings.lightMode ? .black : .white)
+                                    .offset(y:CGFloat(settings.fontSize)/4) //offset for font size
                                     .offset(y:-48.5)
                                 
                                 VStack(spacing: 10) {
@@ -146,6 +147,7 @@ struct WatchFaceView: View {
                                           .zenithBeta(size: 38, weight: .medium) :
                                           (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 38 + CGFloat(settings.fontSize), weight: .medium) } ?? .zenithBeta(size: 38, weight: .medium)))
                                     .foregroundColor(isLuminanceReduced ? Color(hex: colorManager.selectedTheme.rawValue) : settings.lightMode ? .black : .white)
+                                    .offset(y:CGFloat(settings.fontSize)/4) //offset for font size
                                     .offset(x: 3, y:-48.5)
                             }
                             .font(.zenithBeta(size: 84, weight: .semibold))
@@ -245,7 +247,7 @@ struct WatchFaceView: View {
                             
                         } else {
                             // Show current time
-                            VStack(spacing: -10) {
+                            VStack(spacing: -10 - CGFloat(settings.fontSize)/2) {
                                 Text(hourString(from: currentTime))
                                     .scaleEffect(x:1, y:1)
                                     .foregroundColor(settings.lightMode ? .black : .white)
@@ -261,7 +263,7 @@ struct WatchFaceView: View {
 //                            .font(.zenithBeta(size: 80, weight: .medium))
                             .font(settings.timeFont == "Default" ?
                                   .zenithBeta(size: 80, weight: .medium) :
-                                  (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 60 + CGFloat(settings.fontSize), weight: .medium) } ?? .zenithBeta(size: 80, weight: .medium)))
+                                    (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 60 + CGFloat(settings.fontSize) * 1.58, weight: .medium) } ?? .zenithBeta(size: 80, weight: .medium)))
                             .scaleEffect(!(settings.timeFont == "Default") ?
                                         CGSize(width: 1, height: 1) :
                                         CGSize(width: 1, height: 1))
@@ -270,6 +272,7 @@ struct WatchFaceView: View {
                             .position(x: geometry.size.width/2, y: centerY/2+10)
                             //.offset(y:7)
                             .offset(y: smallWatch ? -5 : 0)
+                            .offset(y:CGFloat(settings.fontSize)/2) //offset for font size
                             .onReceive(timeTimer) { input in
                                 currentTime = input
                             }

@@ -220,6 +220,8 @@ class IAPManager: ObservableObject {
                     self.isInTrialPeriod = false
                     self.trialTimeRemaining = 0
                     self.showTrialEndNotification()
+                    // Schedule reminders even after trial ends for the post-trial notification
+                    self.scheduleTrialReminders(startDate: startDate)
                 }
             } else {
                 self.startTrial()
@@ -268,6 +270,7 @@ class IAPManager: ObservableObject {
                 (days: 1, message: "Last day of your trial - Your settings will be reset to default")
             ]
             
+            // Schedule existing trial reminders
             for reminder in reminders {
                 let content = UNMutableNotificationContent()
                 content.title = "Trial Ending Soon"
@@ -293,6 +296,54 @@ class IAPManager: ObservableObject {
                 )
                 
                 center.add(request)
+            }
+            
+            // Schedule post-trial notification (7 days after trial ends)
+            let postTrialContent = UNMutableNotificationContent()
+            postTrialContent.title = "Missing Astrolabe?"
+            postTrialContent.body = "Customization is now FREE. Come and take a look in the settings."
+            postTrialContent.sound = .default
+            
+            let postTrialDate = startDate.addingTimeInterval(14 * 24 * 60 * 60) // 7 days trial + 7 days after
+            let now = Date()
+            
+            // Check if we're already past the post-trial notification date
+            if now >= postTrialDate {
+                // Send notification immediately if we've passed the target date
+                let immediateComponents = Calendar.current.dateComponents(
+                    [.year, .month, .day, .hour, .minute, .second],
+                    from: now.addingTimeInterval(1) // 1 second from now
+                )
+                let immediateTrigger = UNCalendarNotificationTrigger(
+                    dateMatching: immediateComponents,
+                    repeats: false
+                )
+                
+                let immediateRequest = UNNotificationRequest(
+                    identifier: "post-trial-reminder",
+                    content: postTrialContent,
+                    trigger: immediateTrigger
+                )
+                
+                center.add(immediateRequest)
+            } else {
+                // Schedule for the future date
+                let postTrialComponents = Calendar.current.dateComponents(
+                    [.year, .month, .day, .hour, .minute, .second],
+                    from: postTrialDate
+                )
+                let postTrialTrigger = UNCalendarNotificationTrigger(
+                    dateMatching: postTrialComponents,
+                    repeats: false
+                )
+                
+                let postTrialRequest = UNNotificationRequest(
+                    identifier: "post-trial-reminder",
+                    content: postTrialContent,
+                    trigger: postTrialTrigger
+                )
+                
+                center.add(postTrialRequest)
             }
         }
     }

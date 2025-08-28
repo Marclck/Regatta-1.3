@@ -363,11 +363,22 @@ struct ContentView: View {
             if originalLightModeState == nil {
                 originalLightModeState = settings.lightMode
             }
+            // Add observer for switching to timer view
+            NotificationCenter.default.addObserver(
+                forName: Notification.Name("SwitchToTimerView"),
+                object: nil,
+                queue: .main
+            ) { [self] _ in
+                showingWatchFace = false
+            }
         }
         .onDisappear {
             // Clean up the connectivity timer when view disappears
             connectivityTimer?.invalidate()
             connectivityTimer = nil
+            
+            // Remove notification observers
+            NotificationCenter.default.removeObserver(self, name: Notification.Name("SwitchToTimerView"), object: nil)
         }
         
         .sheet(isPresented: $showSettings, onDismiss: {
@@ -523,8 +534,8 @@ struct TimerView: View {
                             Spacer()
                                 .frame(height: 0)
 
-                            if settings.debugMode {
-                                TimeDisplayViewV4(timerState: timerState)
+                            if !(settings.timeFont == "Default") {
+                                TimeDisplayViewV5(timerState: timerState)
                                     .frame(height: 150)
                                     .position(x: geometry.size.width/2, y: centerY/2+10)
                                     .offset(y:-2)

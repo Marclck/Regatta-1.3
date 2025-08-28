@@ -165,8 +165,6 @@
 		1D8C5FAF2D87E45400D43F8B /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */; };
 		1D8C5FB02D87E49600D43F8B /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */; };
 		1D8C5FB12D87E55400D43F8B /* WatchSessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */; };
-		1D8EA3B52E43FEE10040E9D0 /* Hermes-Numbers.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8EA3B42E43FEE10040E9D0 /* Hermes-Numbers.ttf */; };
-		1D8EA3B92E4401910040E9D0 /* MemphisLTCYR-Bold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1D8EA3B82E4401910040E9D0 /* MemphisLTCYR-Bold.ttf */; };
 		1D8EA3BB2E451D940040E9D0 /* CustomFontsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8EA3BA2E451D900040E9D0 /* CustomFontsView.swift */; };
 		1D8EA3BD2E45260D0040E9D0 /* FontsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D8EA3BC2E4526080040E9D0 /* FontsListView.swift */; };
 		1D90CF892D46C3B500357553 /* StartLineMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D90CF882D46C3B500357553 /* StartLineMapView.swift */; };
@@ -399,8 +397,6 @@
 		1D824DB92DB2F1AC006159B0 /* CoordinateUtilities.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoordinateUtilities.swift; sourceTree = "<group>"; };
 		1D88DEAA2D6A9B0E009DC635 /* RulerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RulerView.swift; sourceTree = "<group>"; };
 		1D8C5FAE2D87E45400D43F8B /* WatchSessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WatchSessionManager.swift; sourceTree = "<group>"; };
-		1D8EA3B42E43FEE10040E9D0 /* Hermes-Numbers.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "Hermes-Numbers.ttf"; sourceTree = "<group>"; };
-		1D8EA3B82E4401910040E9D0 /* MemphisLTCYR-Bold.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MemphisLTCYR-Bold.ttf"; sourceTree = "<group>"; };
 		1D8EA3BA2E451D900040E9D0 /* CustomFontsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomFontsView.swift; sourceTree = "<group>"; };
 		1D8EA3BC2E4526080040E9D0 /* FontsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FontsListView.swift; sourceTree = "<group>"; };
 		1D90CF882D46C3B500357553 /* StartLineMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartLineMapView.swift; sourceTree = "<group>"; };
@@ -756,8 +752,6 @@
 			isa = PBXGroup;
 			children = (
 				1D8EA3BC2E4526080040E9D0 /* FontsListView.swift */,
-				1D8EA3B42E43FEE10040E9D0 /* Hermes-Numbers.ttf */,
-				1D8EA3B82E4401910040E9D0 /* MemphisLTCYR-Bold.ttf */,
 				1D95EEB22E4FCEEE00D3632B /* TimeDisplayViewV5.swift */,
 				1D5A875B2E3EAE2700CEC460 /* TimeDisplayViewV4.swift */,
 				1D5A87592E3E04C000CEC460 /* TimeDisplayViewV3.swift */,
@@ -1055,9 +1049,7 @@
 			files = (
 				1D1D83122D386A72003C8CAA /* Astrolabe Countdown.storekit in Resources */,
 				1D69FECD2CE967F9001C178A /* Preview Assets.xcassets in Resources */,
-				1D8EA3B92E4401910040E9D0 /* MemphisLTCYR-Bold.ttf in Resources */,
 				1D69FECA2CE967F9001C178A /* Assets.xcassets in Resources */,
-				1D8EA3B52E43FEE10040E9D0 /* Hermes-Numbers.ttf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1573,7 +1565,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.3;
+				MARKETING_VERSION = 1.4.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.heart.astrolabe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1616,7 +1608,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.3;
+				MARKETING_VERSION = 1.4.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.heart.astrolabe;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -1734,7 +1726,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.3;
+				MARKETING_VERSION = 1.4.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.heart.astrolabe.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
@@ -1774,7 +1766,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.4.3;
+				MARKETING_VERSION = 1.4.5;
 				PRODUCT_BUNDLE_IDENTIFIER = com.heart.astrolabe.watchkitapp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";

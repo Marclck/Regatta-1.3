@@ -88,7 +88,7 @@ struct VersionUpdatePopup: View {
                     .font(.system(size: 16, weight: .bold))
                 
                 
-                Text("One-time Full ULTRA Access Option N ow Available \nUsers can now access watch app for free")
+                Text("One-time Full ULTRA Access Option Now Available \nUsers can now access watch app for free")
                     .font(.system(size: 24, weight: .bold))
                 
                 Text("Introducing ULTRA features")

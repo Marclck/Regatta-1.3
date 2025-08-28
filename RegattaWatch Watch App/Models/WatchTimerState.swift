@@ -144,6 +144,12 @@ class WatchTimerState: ObservableObject {
 
         // Start persistent timer
         persistentTimer.startCountdown(minutes: minutes)
+        
+        // Send notification to switch to timer view
+        NotificationCenter.default.post(
+            name: Notification.Name("SwitchToTimerView"),
+            object: nil
+        )
     }
     
     

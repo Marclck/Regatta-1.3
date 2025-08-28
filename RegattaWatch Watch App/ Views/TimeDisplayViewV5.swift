@@ -95,13 +95,14 @@ struct TimeDisplayViewV5: View {
                     ForEach(0...30, id: \.self) { minute in
                         HStack(spacing: 2) {
                             Text(String(format: "%02d", minute))
-//                                .font(settings.debugMode ? Font.custom("Hermes-Numbers", size: 28) : .zenithBeta(size: 28, weight: .medium))
                                 .font(settings.timeFont == "Default" ?
-                                      .zenithBeta(size: 28, weight: .medium) :
-                                        (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 24, weight: .medium) } ?? .zenithBeta(size: 28, weight: .medium)))
+                                      .zenithBeta(size: 38, weight: .medium) :
+                                        (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 24 + CGFloat(settings.fontSize) / 1.5) } ?? .zenithBeta(size: 38, weight: .medium)))
+
                                 .foregroundColor(colorForPickerItem(at: minute))
                                 .offset(x:1.5, y: 0)
-                            
+                                .offset(y:CGFloat(settings.fontSize)/4) //offset for font size
+
                             VStack(spacing: 6.5) {
                                 Circle()
                                     .fill(colorForPickerItem(at: minute))
@@ -113,12 +114,13 @@ struct TimeDisplayViewV5: View {
                             .offset(x:-0.5, y:-0.5)
                             
                             Text("00")
-//                                .font(settings.debugMode ? Font.custom("Hermes-Numbers", size: 28) : .zenithBeta(size: 28, weight: .medium))
                                 .font(settings.timeFont == "Default" ?
-                                      .zenithBeta(size: 28, weight: .medium) :
-                                        (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 24, weight: .medium) } ?? .zenithBeta(size: 28, weight: .medium)))
+                                      .zenithBeta(size: 38, weight: .medium) :
+                                        (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 24 + CGFloat(settings.fontSize) / 1.5) } ?? .zenithBeta(size: 38, weight: .medium)))
                                 .foregroundColor(colorForPickerItem(at: minute))
                                 .offset(x:0.5)
+                                .offset(y:CGFloat(settings.fontSize)/4) //offset for font size
+
                         }
                         .drawingGroup()
                         .offset(y:1)
@@ -131,7 +133,7 @@ struct TimeDisplayViewV5: View {
                 .labelsHidden()
                 .pickerStyle(.wheel)
                 .frame(width: 100, height: 52)
-                .scaleEffect(x:1.58, y:1.59)
+                .scaleEffect(x:1.51, y:1.51)
                 .offset(y:-2)
                 .padding(.horizontal, 5)
                 .colorScheme(settings.lightMode ? .light : .dark)
@@ -160,9 +162,9 @@ struct TimeDisplayViewV5: View {
                                     endPoint: .bottom
                                 )
                         )
-                        .stroke(ColorManager.getCurrentThemeColor(), lineWidth: 2.5)
-                        .offset(y: 19)
-                        .frame(width: 146, height: 75)
+                        .stroke(settings.lightMode ? Color.black : ColorManager.getCurrentThemeColor(), lineWidth: 2 )
+                        .offset(y: 18)
+                        .frame(width: 150, height: 76.5)
                         .opacity(FocusState ? 1.0 : 0.0)
                         .allowsHitTesting(false)
                 }
@@ -170,14 +172,14 @@ struct TimeDisplayViewV5: View {
                 // This HStack will now fade in/out when the picker stops/starts scrolling.
                 HStack(spacing: 2) {
                     Text(String(format: "%02d", timerState.selectedMinutes))
-//                        .font(settings.debugMode ? Font.custom("Hermes-Numbers", size: 42) : .zenithBeta(size: 28, weight: .medium))
                         .font(settings.timeFont == "Default" ?
-                              .zenithBeta(size: 28, weight: .medium) :
-                              (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 38, weight: .medium) } ?? .zenithBeta(size: 28, weight: .medium)))
+                              .zenithBeta(size: 38, weight: .medium) :
+                              (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 36 + CGFloat(settings.fontSize)) } ?? .zenithBeta(size: 38, weight: .medium)))
 
                         .foregroundColor(isPickerScrolling ? .clear : settings.lightMode ? .black : .white)
                         .offset(x:1, y:0)
-                    
+                        .offset(y:CGFloat(settings.fontSize)/4) //offset for font size
+
                     VStack(spacing: 10) {
                         Circle()
                             .fill(isPickerScrolling ? .clear : settings.lightMode ? .black : .white)
@@ -189,15 +191,16 @@ struct TimeDisplayViewV5: View {
                     .offset(x:-0.5)
                     
                     Text("00")
-//                        .font(settings.debugMode ? Font.custom("Hermes-Numbers", size: 42) : .zenithBeta(size: 28, weight: .medium))
                         .font(settings.timeFont == "Default" ?
-                              .zenithBeta(size: 28, weight: .medium) :
-                              (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 38, weight: .medium) } ?? .zenithBeta(size: 28, weight: .medium)))
+                              .zenithBeta(size: 38, weight: .medium) :
+                              (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 36 + CGFloat(settings.fontSize)) } ?? .zenithBeta(size: 38, weight: .medium)))
                         .foregroundColor(isPickerScrolling ? .clear : settings.lightMode ? .black : .white)
                         .offset(x:2)
+                        .offset(y:CGFloat(settings.fontSize)/4) //offset for font size
+
                     
                 }
-                .offset(y:12)
+                .offset(y:10.5)
                 .padding(.top, 13)
                 .padding(.bottom, 21)
                 //.opacity(isPickerScrolling ? 0 : 1)
@@ -209,12 +212,13 @@ struct TimeDisplayViewV5: View {
                 // Main time display
                 HStack(spacing: 2) {
                     Text(timeComponents.minutes)
-//                        .font(settings.debugMode ? Font.custom("Hermes-Numbers", size: 42) : .zenithBeta(size: 28, weight: .medium))
                         .font(settings.timeFont == "Default" ?
-                              .zenithBeta(size: 28, weight: .medium) :
-                              (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 38, weight: .medium) } ?? .zenithBeta(size: 28, weight: .medium)))
+                              .zenithBeta(size: 38, weight: .medium) :
+                              (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 36 + CGFloat(settings.fontSize)) } ?? .zenithBeta(size: 38, weight: .medium)))
                         .foregroundColor(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : settings.lightMode ? .black : .white)
                         .offset(x:1, y:0)
+                        .offset(y:CGFloat(settings.fontSize)/4) //offset for font size
+
 
                     VStack(spacing: 10) {
                         Circle()
@@ -227,12 +231,13 @@ struct TimeDisplayViewV5: View {
                     .offset(x:-0.5)
                     
                     Text(timeComponents.seconds)
-//                        .font(settings.debugMode ? Font.custom("Hermes-Numbers", size: 42) : .zenithBeta(size: 28, weight: .medium))
                         .font(settings.timeFont == "Default" ?
-                              .zenithBeta(size: 28, weight: .medium) :
-                              (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 38, weight: .medium) } ?? .zenithBeta(size: 28, weight: .medium)))
+                              .zenithBeta(size: 38, weight: .medium) :
+                              (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 36 + CGFloat(settings.fontSize)) } ?? .zenithBeta(size: 38, weight: .medium)))
                         .foregroundColor(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : settings.lightMode ? .black : .white)
                         .offset(x:2)
+                        .offset(y:CGFloat(settings.fontSize)/4) //offset for font size
+
 
                 }
                 .offset(y:12)
@@ -262,9 +267,8 @@ struct TimeDisplayViewV5: View {
                             ForEach(0...30, id: \.self) { minute in
                                 Text("\(String(format: "%02d", minute))")
                                     .font(settings.timeFont == "Default" ?
-                                          .zenithBeta(size: 28, weight: .medium) :
-                                            (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 24, weight: .medium) } ?? .zenithBeta(size: 28, weight: .medium)))
-//                                    .font(settings.debugMode ? Font.custom("Hermes-Numbers", size: 28) : .zenithBeta(size: 28, weight: .medium))
+                                          .zenithBeta(size: 38, weight: .medium) :
+                                          (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 24) } ?? .zenithBeta(size: 38, weight: .medium)))
                                     .frame(maxWidth: .infinity, alignment: .trailing)
                                     .foregroundColor(settings.lightMode ? .black : .white)
                             }
@@ -274,6 +278,7 @@ struct TimeDisplayViewV5: View {
                         .frame(width: 55, height: 60)
                         .scaleEffect(x:1.5, y:1.5)
                         .offset(x: -37, y: -4)
+                        .offset(y:CGFloat(settings.fontSize)/4) //offset for font size
                         .overlay(alignment: .bottom) {
                                 RoundedRectangle(cornerRadius: 18)
                                 .fill(
