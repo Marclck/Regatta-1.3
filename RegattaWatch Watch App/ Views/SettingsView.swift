@@ -58,6 +58,13 @@ class AppSettings: ObservableObject {
         return altTeamNameColor ? "#000000" : ColorTheme.speedPapaya.rawValue
     }
     
+    @Published var glassEffect: Bool {
+        didSet {
+            UserDefaults.standard.set(glassEffect, forKey: "glassEffect")
+            print("GlassEffect changed to: \(glassEffect)")
+        }
+    }
+    
     @Published var fontSize: Int {
         didSet {
             UserDefaults.standard.set(fontSize, forKey: "fontSize")
@@ -235,10 +242,12 @@ class AppSettings: ObservableObject {
         self.stopwatchBuzz = UserDefaults.standard.object(forKey: "stopwatchBuzz") as? Bool ?? true // Default to true
         self.debugMode = UserDefaults.standard.bool(forKey: "debugMode") // Default to false
         self.launchScreen = LaunchScreen(rawValue: UserDefaults.standard.string(forKey: "launchScreen") ?? "TimeR") ?? .timer
+        self.glassEffect = UserDefaults.standard.bool(forKey: "glassEffect") // Default to false
         self.timeFont = UserDefaults.standard.string(forKey: "timeFont") ?? "Default"
         self.teamNameFont = UserDefaults.standard.string(forKey: "teamNameFont") ?? "Default"
         UserDefaults.standard.synchronize()
     }
+    
     // 4. Add helper computed property to get current light mode option
     var currentLightModeOption: LightModeOption {
         if lightMode && autoDarkMode {
@@ -934,6 +943,8 @@ struct SettingsView: View {
                     
                     Toggle("Smooth Second Movement", isOn: $settings.smoothSecond)
                     
+                    Toggle("Glass Effect", isOn: $settings.glassEffect)
+                    
                     Toggle("Stopwatch Buzz", isOn: $settings.stopwatchBuzz)
                     
                     Toggle("Privacy Overlay", isOn: $settings.privacyOverlay)
@@ -1228,7 +1239,8 @@ extension AppSettings {
         teamNameFont = "Default"
         fontSize = 0
         gpsDebug = false
-
+        glassEffect = false
+        
         // Reset ultra features if tier is not ultra
         if tier != .ultra {
             showSpeedInfo = false
@@ -1259,6 +1271,7 @@ extension AppSettings {
         UserDefaults.standard.set(true, forKey: "stopwatchBuzz")
         UserDefaults.standard.set(false, forKey: "debugMode")
         UserDefaults.standard.synchronize()
+        UserDefaults.standard.set(false, forKey: "glassEffect")
     }
 }
 

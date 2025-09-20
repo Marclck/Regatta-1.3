@@ -18,24 +18,32 @@ struct CurrentTimeView: View {
     @State private var timer = Timer.publish(every: 1.0, on: .main, in: .common).autoconnect()
     
     var body: some View {
+        let fullTimeString = timeString(from: currentTime)
+        let timeOnly = fullTimeString.hasSuffix("AM") || fullTimeString.hasSuffix("PM") ?
+            String(fullTimeString.dropLast(3)) : fullTimeString // Remove " AM" or " PM" if present
+
+        let components = timeOnly.split(separator: ":")
+        let hoursString = String(components[0])
+        let minutesString = String(components[1])
+        
         HStack(spacing: -2) {
             // Hours component
-            Text(String(timeString(from: currentTime).prefix(2))) // "HH"
+            Text(hoursString)
                 .font(settings.timeFont == "Default" ?
                     .system(size: 14, design: .monospaced) :
                         (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 14, weight: .medium) } ?? .system(size: 14, design: .monospaced)))
                 .dynamicTypeSize(.xSmall)
                 .foregroundColor(.black)
-            
+
             // Colon separator
             Text(":")
                 .font(.system(size: 14, design: .monospaced))
                 .dynamicTypeSize(.xSmall)
                 .foregroundColor(.black)
                 .offset(y:-1)
-            
+
             // Minutes component
-            Text(String(timeString(from: currentTime).suffix(2))) // "mm"
+            Text(minutesString)
                 .font(settings.timeFont == "Default" ?
                     .system(size: 14, design: .monospaced) :
                         (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 14, weight: .medium) } ?? .system(size: 14, design: .monospaced)))

@@ -237,10 +237,14 @@ struct ContentView: View {
         ZStack {
             if showingWatchFace {
                 if settings.showRaceInfo {
-                    WatchFaceView(
-                        showingWatchFace: $showingWatchFace, timerState: timerState,
-                        cruisePlanState: cruisePlanState, showCruiseInfo: $showCruiseInfo
-                    )
+                    if settings.debugMode {
+                        AnalogWatchViewV2()
+                    } else {
+                        WatchFaceView(
+                            showingWatchFace: $showingWatchFace, timerState: timerState,
+                            cruisePlanState: cruisePlanState, showCruiseInfo: $showCruiseInfo
+                        )
+                    }
                 } else {
                     AltRaceView(
                         timerState: timerState,
@@ -289,7 +293,7 @@ struct ContentView: View {
             .padding(.bottom, 2)
             #endif */
         }
-//        .colorMultiply(.red)
+        .colorMultiply(settings.nightMode ? .red : .white)
 //        .colorMultiply(Color(hex: colorManager.selectedTheme.rawValue))
         .id(viewID)
         // Add this new onChange modifier for luminance monitoring
