@@ -22,13 +22,13 @@ struct WatchProgressBarView: View {
             
             ZStack {
                 // Background track - wrapping around screen edges
-                RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                RoundedRectangle(cornerRadius: settings.ultraModel ? screenBounds.height > 255 ? 60 : 55 : 42)
                     .stroke(Color(hex: colorManager.selectedTheme.rawValue).opacity(0.3), lineWidth: 25)
                     .frame(width: barWidth, height: barHeight)
                     .position(x: frame.midX, y: frame.midY)
 
                 // Progress fill
-                RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                RoundedRectangle(cornerRadius: settings.ultraModel ? screenBounds.height > 255 ? 60 : 55 : 42)
                     .trim(from: 0, to: timerState.progress)
                     .stroke(
                         Color(timerState.currentTime <= 60 && timerState.mode == .countdown ? .orange : Color(hex: colorManager.selectedTheme.rawValue)),
@@ -42,7 +42,7 @@ struct WatchProgressBarView: View {
                     if timerState.mode != .stopwatch {
                         // 12 o'clock trim compensator (only needed if there are separators)
                         if timerState.selectedMinutes > 0 {
-                            RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                            RoundedRectangle(cornerRadius: settings.ultraModel ? screenBounds.height > 255 ? 60 : 55 : 42)
                                 .trim(from: 0, to: 0.002)
                                 .stroke(settings.lightMode ? Color.white : Color.black,
                                     style: StrokeStyle(lineWidth: 25, lineCap: .butt)
@@ -51,7 +51,7 @@ struct WatchProgressBarView: View {
                                 .position(x: frame.midX, y: frame.midY)
                                 .rotationEffect(.degrees(-90))
                             
-                            RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                            RoundedRectangle(cornerRadius: settings.ultraModel ? screenBounds.height > 255 ? 60 : 55 : 42)
                                 .trim(from: 0.998, to: 1)
                                 .stroke(settings.lightMode ? Color.white : Color.black,
                                     style: StrokeStyle(lineWidth: 25, lineCap: .butt)
@@ -65,7 +65,7 @@ struct WatchProgressBarView: View {
                         ForEach(0..<timerState.selectedMinutes, id: \.self) { index in
                             let separatorPosition = Double(index) / Double(timerState.selectedMinutes)
                             
-                            RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                            RoundedRectangle(cornerRadius: settings.ultraModel ? screenBounds.height > 255 ? 60 : 55 : 42)
                                 .trim(from: max(0, separatorPosition - 0.002),
                                       to: min(1, separatorPosition + 0.002))
                                 .stroke(settings.lightMode ? Color.white : Color.black,
@@ -93,7 +93,7 @@ struct WatchProgressBarView: View {
                                 let lastSegmentStart = minuteSegmentWidth
                                 let subSegmentPosition = lastSegmentStart - (minuteSegmentWidth / 6.0 * Double(index + 1))
                                 
-                                RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                                RoundedRectangle(cornerRadius: settings.ultraModel ? screenBounds.height > 255 ? 60 : 55 : 42)
                                     .trim(from: max(0, subSegmentPosition - 0.002),
                                           to: min(1, subSegmentPosition + 0.002))
                                     .stroke(settings.lightMode ? Color.white : Color.black,

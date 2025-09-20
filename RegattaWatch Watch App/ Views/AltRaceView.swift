@@ -83,7 +83,8 @@ struct AltRaceView: View {
                                 .offset(y: smallWatch ? -15 : -10)
                         } else {
                             Circle()
-                                .fill(timerState.mode == .countdown && timerState.currentTime <= 60
+                                .fill(!timerState.isRunning && isLuminanceReduced ? .clear :
+                                        timerState.mode == .countdown && timerState.currentTime <= 60
                                       ? Color.orange.opacity(1)
                                       : Color(hex: colorManager.selectedTheme.rawValue).opacity(1))
 //                                .glassEffect(in: .circle)
@@ -150,7 +151,7 @@ struct AltRaceView: View {
                         } else { //if settings.showCruiser && !showCruiseInfo {
                                 // Show current time
                                 VStack(spacing: -10) {
-                                    HStack(spacing: !(settings.timeFont == "Default") ? -2 + CGFloat(settings.fontSize) : 2) {
+                                    HStack(spacing: !(settings.timeFont == "Default") ? screenBounds.height > 255 ? 0 + CGFloat(settings.fontSize) : -2 + CGFloat(settings.fontSize) : 2) {
                                         // First digit position
                                         HStack(spacing: 0) {
                                             // Left half - Hour on top of Minute (vertically) - Center aligned, right masked
@@ -232,7 +233,7 @@ struct AltRaceView: View {
                                                     .offset(x:hourFirstDigit(from: currentTime) == "1" ? 10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1"].contains(minuteFirstDigit(from: currentTime)) ? 1 : 1)
+                                                            ? (["1"].contains(minuteFirstDigit(from: currentTime)) ? 2 : 1)
                                                             : (["1", "4", "6"].contains(minuteFirstDigit(from: currentTime)) ? 2 : 1))
 
                                                 // Minute first digit - right half (on bottom vertically)
@@ -257,7 +258,7 @@ struct AltRaceView: View {
                                                     .offset(x:minuteFirstDigit(from: currentTime) == "1" ? 10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1"].contains(minuteFirstDigit(from: currentTime)) ? 2 : 2)
+                                                            ? (["1"].contains(minuteFirstDigit(from: currentTime)) ? 1 : 2)
                                                             : (["1", "4", "6"].contains(minuteFirstDigit(from: currentTime)) ? 1 : 2))
                                             }
                                             .frame(width: 30, height: 150)
@@ -381,7 +382,7 @@ struct AltRaceView: View {
                                 }
                                 .font(settings.timeFont == "Default" ?
                                       .zenithBeta(size: 76, weight: .medium) :
-                                        (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: 76 + CGFloat(settings.fontSize) * 2.1, weight: .medium) } ?? .zenithBeta(size: 76, weight: .medium)))
+                                        (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: screenBounds.height > 255 ? 80 + CGFloat(settings.fontSize) * 2.1 : 76 + CGFloat(settings.fontSize) * 2.1, weight: .medium) } ?? .zenithBeta(size: 76, weight: .medium)))
                                 .dynamicTypeSize(.xSmall)
                                 .scaleEffect(!(settings.timeFont == "Default") ?
                                             CGSize(width: 1, height: 1) :

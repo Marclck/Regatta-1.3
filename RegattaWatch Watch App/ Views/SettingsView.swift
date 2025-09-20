@@ -128,6 +128,13 @@ class AppSettings: ObservableObject {
         }
     }
     
+    @Published var nightMode: Bool {
+        didSet {
+            UserDefaults.standard.set(nightMode, forKey: "nightMode")
+            print("NightMode changed to: \(nightMode)")
+        }
+    }
+    
     @Published var ultraModel: Bool {
         didSet {
             UserDefaults.standard.set(ultraModel, forKey: "ultraModel")
@@ -214,6 +221,7 @@ class AppSettings: ObservableObject {
         self.altTeamNameColor = UserDefaults.standard.bool(forKey: "altTeamNameColor")
         self.lightMode = UserDefaults.standard.bool(forKey: "lightMode")
         self.autoDarkMode = UserDefaults.standard.bool(forKey: "autoDarkMode") // Add this line
+        self.nightMode = UserDefaults.standard.bool(forKey: "nightMode") // Add this line
         self.ultraModel = UserDefaults.standard.object(forKey: "ultraModel") as? Bool ?? true
         self.showSpeedInfo = UserDefaults.standard.object(forKey: "showSpeedInfo") as? Bool ?? false
         self.useProButtons = UserDefaults.standard.bool(forKey: "useProButtons") // Default to false
@@ -438,11 +446,13 @@ struct SettingsView: View {
                         }
                     }
                 }
-
-                Toggle("Ultra Model", isOn: $settings.ultraModel)
+                Toggle("Race Info", isOn: $settings.showRaceInfo)
                     .font(.system(size: 17))
                 
-                Toggle("Race Info", isOn: $settings.showRaceInfo)
+                Toggle("Night Mode", isOn: $settings.nightMode)
+                    .font(.system(size: 17))
+
+                Toggle("Ultra Model", isOn: $settings.ultraModel)
                     .font(.system(size: 17))
                 
                 Section ("ULTRA features") {
@@ -486,7 +496,7 @@ struct SettingsView: View {
                                             Spacer()
                                             if settings.launchScreen == screen {
                                                 Image(systemName: "checkmark")
-                                                    .foregroundColor(.white)
+                                                    .foregroundColor(.orange)
                                             }
                                         }
                                     }
@@ -500,6 +510,7 @@ struct SettingsView: View {
                             }
                         }
                     }
+                    
                     
                     NavigationLink {
                         List {
@@ -1204,6 +1215,7 @@ extension AppSettings {
         altTeamNameColor = false
         lightMode = false
         autoDarkMode = false // Add this line
+        nightMode = false // Add this line
 //        ultraModel = true
         maxBoatSpeed = 50.0
         gunSyncOption = .closestMin
@@ -1237,6 +1249,7 @@ extension AppSettings {
         UserDefaults.standard.set(false, forKey: "altTeamNameColor")
         UserDefaults.standard.set(false, forKey: "lightMode")
         UserDefaults.standard.set(false, forKey: "autoDarkMode") // Add this line
+        UserDefaults.standard.set(false, forKey: "nightMode") // Add this line
 //        UserDefaults.standard.set(true, forKey: "ultraModel")
         UserDefaults.standard.set(false, forKey: "useProButtons")
         UserDefaults.standard.set(50.0, forKey: "maxBoatSpeed")

@@ -176,6 +176,8 @@
 		1D9EE6122D405B8E008B4B29 /* HeartRateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9EE6112D405B8E008B4B29 /* HeartRateManager.swift */; };
 		1D9EE6132D405B8F008B4B29 /* HeartRateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9EE6112D405B8E008B4B29 /* HeartRateManager.swift */; };
 		1D9EE6142D405B8F008B4B29 /* HeartRateManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D9EE6112D405B8E008B4B29 /* HeartRateManager.swift */; };
+		1DA1DE1B2E6D80B500770D71 /* AnalogWatchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA1DE1A2E6D80A700770D71 /* AnalogWatchView.swift */; };
+		1DA1DE1E2E72310000770D71 /* AnalogWatchViewV2.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA1DE1D2E7230FE00770D71 /* AnalogWatchViewV2.swift */; };
 		1DA82CEB2D600DB9009897FA /* CruiseRInfoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DA82CEA2D600DB9009897FA /* CruiseRInfoView.swift */; };
 		1DB44CB82D0744C70035B2F2 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB44CB72D0744C70035B2F2 /* SettingsView.swift */; };
 		1DB562332D8B89F6007FF0E2 /* MapUIButtonExtention.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DB562322D8B89F6007FF0E2 /* MapUIButtonExtention.swift */; };
@@ -405,6 +407,8 @@
 		1D95EEB22E4FCEEE00D3632B /* TimeDisplayViewV5.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeDisplayViewV5.swift; sourceTree = "<group>"; };
 		1D99BD542D52D21500342520 /* VersionHistoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VersionHistoryView.swift; sourceTree = "<group>"; };
 		1D9EE6112D405B8E008B4B29 /* HeartRateManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HeartRateManager.swift; sourceTree = "<group>"; };
+		1DA1DE1A2E6D80A700770D71 /* AnalogWatchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogWatchView.swift; sourceTree = "<group>"; };
+		1DA1DE1D2E7230FE00770D71 /* AnalogWatchViewV2.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalogWatchViewV2.swift; sourceTree = "<group>"; };
 		1DA82CEA2D600DB9009897FA /* CruiseRInfoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CruiseRInfoView.swift; sourceTree = "<group>"; };
 		1DB44CB72D0744C70035B2F2 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
 		1DB562322D8B89F6007FF0E2 /* MapUIButtonExtention.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapUIButtonExtention.swift; sourceTree = "<group>"; };
@@ -751,6 +755,8 @@
 		1D69FEF52CE9686B001C178A /*  Views */ = {
 			isa = PBXGroup;
 			children = (
+				1DA1DE1D2E7230FE00770D71 /* AnalogWatchViewV2.swift */,
+				1DA1DE1A2E6D80A700770D71 /* AnalogWatchView.swift */,
 				1D8EA3BC2E4526080040E9D0 /* FontsListView.swift */,
 				1D95EEB22E4FCEEE00D3632B /* TimeDisplayViewV5.swift */,
 				1D5A875B2E3EAE2700CEC460 /* TimeDisplayViewV4.swift */,
@@ -1224,6 +1230,7 @@
 				1D4349732D4EF10900D0B8E8 /* ProButtonsView.swift in Sources */,
 				1D3326712D8E1AFE001719AA /* UnifiedSeparatorView.swift in Sources */,
 				1DE3D0692CF3052A00B4056F /* StartCountdownIntent.swift in Sources */,
+				1DA1DE1E2E72310000770D71 /* AnalogWatchViewV2.swift in Sources */,
 				1D38CD7F2D7A412C0034980A /* ExtendedSessionManager.swift in Sources */,
 				1D2E54012D1715AD00C669D4 /* TabBarView.swift in Sources */,
 				1D64AA0B2D464D3800F1BC04 /* StartLineManager.swift in Sources */,
@@ -1274,6 +1281,7 @@
 				1D2E54102D1715FE00C669D4 /* TabItemModel.swift in Sources */,
 				1D412E082D02442A0062C639 /* ColorManager.swift in Sources */,
 				1D95EEB32E4FCEF500D3632B /* TimeDisplayViewV5.swift in Sources */,
+				1DA1DE1B2E6D80B500770D71 /* AnalogWatchView.swift in Sources */,
 				1DBD85D82CEFE8290028E391 /* HapticManager.swift in Sources */,
 				1D2E540B2D1715E800C669D4 /* TabButtonStyle.swift in Sources */,
 				1D43846F2D186D43000DE437 /* PremiumAlertView.swift in Sources */,
@@ -1376,6 +1384,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENABLE_EXPLICIT_MODULES = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 11.0;
@@ -1408,6 +1417,7 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENABLE_EXPLICIT_MODULES = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
 				WATCHOS_DEPLOYMENT_TARGET = 11.0;
@@ -1560,7 +1570,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1573,6 +1583,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1603,7 +1614,7 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -1616,6 +1627,7 @@
 				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SUPPORTS_XR_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENABLE_EXPLICIT_MODULES = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -1733,9 +1745,10 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENABLE_EXPLICIT_MODULES = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Debug;
 		};
@@ -1773,9 +1786,10 @@
 				SDKROOT = watchos;
 				SKIP_INSTALL = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_ENABLE_EXPLICIT_MODULES = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 4;
-				WATCHOS_DEPLOYMENT_TARGET = 11.0;
+				WATCHOS_DEPLOYMENT_TARGET = 26.0;
 			};
 			name = Release;
 		};

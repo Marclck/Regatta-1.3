@@ -139,6 +139,15 @@ struct TimeDisplayViewV5: View {
                 .colorScheme(settings.lightMode ? .light : .dark)
                 .focused($FocusState)
                 .overlay(alignment: .bottom) {
+                    RoundedRectangle(cornerRadius: 16)
+                        .fill(.clear)
+                        .stroke(settings.lightMode ? Color.white : Color.black, lineWidth: 3)
+                        .offset(y: 18)
+                        .frame(width: 148, height: 76.5)
+                        .opacity(FocusState ? 1.0 : 0.0)
+                        .allowsHitTesting(false)
+                }
+                .overlay(alignment: .bottom) {
                     RoundedRectangle(cornerRadius: 18)
                         .fill(
                             settings.lightMode ?
@@ -162,9 +171,9 @@ struct TimeDisplayViewV5: View {
                                     endPoint: .bottom
                                 )
                         )
-                        .stroke(settings.lightMode ? Color.black : ColorManager.getCurrentThemeColor(), lineWidth: 2 )
+                        .stroke(settings.lightMode ? Color.black : ColorManager.getCurrentThemeColor(), lineWidth: 1.5)
                         .offset(y: 18)
-                        .frame(width: 150, height: 76.5)
+                        .frame(width: 148, height: 76.5)
                         .opacity(FocusState ? 1.0 : 0.0)
                         .allowsHitTesting(false)
                 }
@@ -303,7 +312,7 @@ struct TimeDisplayViewV5: View {
                                         endPoint: .bottom
                                     )
                                 )
-                                    .stroke(ColorManager.getCurrentThemeColor(), lineWidth: 3)
+                                .stroke(ColorManager.getCurrentThemeColor(), lineWidth: 1.5)
                                     .offset(x:-37, y: 8)
                                     .frame(width: 77, height: 61)
                                     .allowsHitTesting(false)

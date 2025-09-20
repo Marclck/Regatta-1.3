@@ -38,7 +38,7 @@ struct SecondProgressBarView: View {
             let centerY = frame.height
             
             ZStack {
-                    RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                RoundedRectangle(cornerRadius: settings.ultraModel ? screenBounds.height > 255 ? 60 : 55 : 42)
                     .stroke(Color(hex: colorManager.selectedTheme.rawValue).opacity(isLuminanceReduced ? 0.2 : 0.2), lineWidth: 25)
                         .frame(width: barWidth, height: barHeight)
                         .position(x: frame.midX, y: frame.midY)
@@ -55,7 +55,7 @@ struct SecondProgressBarView: View {
                 
                 // Progress fill for seconds
                 if !isLuminanceReduced {
-                    RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                    RoundedRectangle(cornerRadius: settings.ultraModel ? screenBounds.height > 255 ? 60 : 55 : 42)
                         .trim(from: 0, to: currentSecond/60)
                         .stroke(
                             Color(hex: colorManager.selectedTheme.rawValue).opacity(0.9),
@@ -75,7 +75,7 @@ struct SecondProgressBarView: View {
                             //                                .foregroundColor(Color(hex: settings.teamNameColorHex).opacity(1))
                                 .position(x: settings.teamNameFont == "Default" ? 6 : 7, y: centerY/2+25)
                                 .mask(
-                                    RoundedRectangle(cornerRadius: settings.ultraModel ? 55 : 42)
+                                    RoundedRectangle(cornerRadius: settings.ultraModel ? screenBounds.height > 255 ? 60 : 55 : 42)
                                         .trim(from: 0, to: currentSecond/60)
                                         .stroke(Color.white, style: StrokeStyle(lineWidth: 25, lineCap: .butt))  // ADD THIS
                                         .frame(width: barHeight, height: barWidth)

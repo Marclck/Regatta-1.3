@@ -71,7 +71,16 @@ struct TimeDisplayView: View {
             .colorScheme(settings.lightMode ? .light : .dark)
             .focused($FocusState)
             .overlay(alignment: .bottom) {
-                    RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: 12)
+                    .fill(.clear)
+                    .stroke(settings.lightMode ? Color.white : Color.black, lineWidth: 3)
+                    .offset(y: 5)
+                    .frame(width: 149, height: 78)
+                    .opacity(FocusState ? 1.0 : 0.0)
+                    .allowsHitTesting(false)
+            }
+            .overlay(alignment: .bottom) {
+                    RoundedRectangle(cornerRadius: 12)
                     .fill(
                         settings.lightMode ?
                         LinearGradient(
@@ -92,7 +101,7 @@ struct TimeDisplayView: View {
                             endPoint: .bottom
                         )
                     )
-                        .stroke(ColorManager.getCurrentThemeColor(), lineWidth: 4) // Add this line
+                    .stroke(settings.lightMode ? Color.black : ColorManager.getCurrentThemeColor(), lineWidth: 1.5)
                         .allowsHitTesting(false) // Add this line
                         .offset(y: 5)
                         .frame(width: 149, height: 78)
