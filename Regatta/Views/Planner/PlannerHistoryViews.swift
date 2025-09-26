@@ -296,6 +296,9 @@ struct PlanDetailView: View {
                                .cornerRadius(12)
                                .padding(.horizontal)
                        }
+                       .buttonStyle(.glass)
+                       .glassEffect(.regular.tint(Color(hex: ColorTheme.ultraBlue.rawValue)).interactive())
+
             
                         // Waypoints list
                         VStack(alignment: .leading, spacing: 8) {

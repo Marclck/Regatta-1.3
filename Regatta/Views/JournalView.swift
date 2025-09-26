@@ -344,9 +344,9 @@ struct JournalView: View {
                                                     .foregroundColor(.white)
                                                     .padding(.horizontal, 16)
                                                     .padding(.vertical, 12)
-                                                    .background(
+                                                    /*.background(
                                                         Color(hex: colorManager.selectedTheme.rawValue)
-                                                    )
+                                                    )*/
                                                 /*
                                                     .cornerRadius(20)
                                                     .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)

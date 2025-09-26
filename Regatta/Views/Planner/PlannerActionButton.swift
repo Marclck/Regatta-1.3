@@ -25,9 +25,11 @@ struct PlannerActionButtons: View {
                     .padding()
                     .frame(maxWidth: .infinity)
                     .foregroundColor(Color(hex: ColorTheme.signalOrange.rawValue))
-                    .background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.3))
+                    //.background(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.3))
                     .cornerRadius(12)
             }
+            .buttonStyle(.glass)
+            .glassEffect(.regular.tint(Color(hex: ColorTheme.signalOrange.rawValue).opacity(0.3)).interactive())
             
             // Save button
             Button(action: {
@@ -45,13 +47,20 @@ struct PlannerActionButtons: View {
                     .foregroundColor(.white)
                     .padding()
                     .frame(maxWidth: .infinity)
+                    /*
                     .background(
                         showSaveConfirmation
                             ? Color.green.opacity(0.3)
                         : (planStore.isPlanSaved ? Color.white.opacity(0.3) : Color.white.opacity(0.3))
                     )
+                     */
                     .cornerRadius(12)
             }
+            .buttonStyle(.glass)
+            .glassEffect(.regular.tint(showSaveConfirmation
+                                       ? Color.green.opacity(0.3)
+                                   : (planStore.isPlanSaved ? Color.white.opacity(0.3) : Color.white.opacity(0.3))).interactive())
+
 //            .disabled(planStore.isPlanSaved && !showSaveConfirmation)
         }
         .padding(.horizontal)
