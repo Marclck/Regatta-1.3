@@ -53,7 +53,10 @@ struct ButtonsView: View {
                 // Remove any additional backgrounds/shadows by clipping
                 .clipShape(RoundedRectangle(cornerRadius: 15))
         }
-        .buttonStyle(PlainButtonStyle()) // Remove default button styling
+        .applyLeftButtonStyleRegular(glassEffect: settings.glassEffect, leftButtonColor: leftButtonIcon == "xmark" ? Color.orange.opacity(0.4) : Color.gray.opacity(0.4))
+        .frame(width: 65, height: 50)
+        .colorScheme(.light)
+
             
             // Right Button
             Button(action: {
@@ -78,7 +81,10 @@ struct ButtonsView: View {
                 // Remove any additional backgrounds/shadows by clipping
                 .clipShape(RoundedRectangle(cornerRadius: 15))
         }
-        .buttonStyle(PlainButtonStyle()) // Remove default button styling
+        .applyRightButtonStyleRegular(glassEffect: settings.glassEffect, rightButtonColor: buttonColor)
+        .frame(width: 65, height: 50)
+        .colorScheme(.light)
+
         }
     }
     
@@ -113,6 +119,35 @@ struct ButtonsView: View {
             return "play"
         } else {
             return timerState.isRunning ? "pause" : "play"
+        }
+    }
+}
+
+// MARK: - View Extensions for Conditional Button Styles (Regular Buttons)
+extension View {
+    @ViewBuilder
+    func applyLeftButtonStyleRegular(glassEffect: Bool, leftButtonColor: Color) -> some View {
+        if glassEffect {
+            self
+                .buttonStyle(.glass)
+                .glassEffect(in: RoundedRectangle(cornerRadius: 40.0))
+                .glassEffect(.regular.tint(leftButtonColor).interactive())
+        } else {
+            self
+                .buttonStyle(PlainButtonStyle()) // Remove default button styling
+        }
+    }
+    
+    @ViewBuilder
+    func applyRightButtonStyleRegular(glassEffect: Bool, rightButtonColor: Color) -> some View {
+        if glassEffect {
+            self
+                .buttonStyle(.glass)
+                .glassEffect(in: RoundedRectangle(cornerRadius: 40.0))
+                .glassEffect(.regular.tint(rightButtonColor).interactive())
+        } else {
+            self
+                .buttonStyle(PlainButtonStyle()) // Remove default button styling
         }
     }
 }

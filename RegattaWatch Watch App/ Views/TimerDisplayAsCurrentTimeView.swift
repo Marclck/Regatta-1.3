@@ -46,7 +46,7 @@ struct TimerDisplayAsCurrentTime: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(backgroundColor)
         )
-    //            .glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
+        .applyTimerDisplayGlassEffect(glassEffect: settings.glassEffect)
     }
     
     private var displayText: String {
@@ -62,5 +62,18 @@ struct TimerDisplayAsCurrentTime: View {
         timerState.mode == .countdown && timerState.currentTime <= 60
             ? Color.orange.opacity(1)
             : Color(hex: colorManager.selectedTheme.rawValue).opacity(1)
+    }
+}
+
+// MARK: - View Extension for Timer Display Glass Effect
+extension View {
+    @ViewBuilder
+    func applyTimerDisplayGlassEffect(glassEffect: Bool) -> some View {
+        if glassEffect {
+            self
+                .glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
+        } else {
+            self
+        }
     }
 }

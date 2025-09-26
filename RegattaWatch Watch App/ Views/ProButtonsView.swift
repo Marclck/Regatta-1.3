@@ -105,11 +105,8 @@ struct ProButtonsView: View {
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 15))
             }
-            .buttonStyle(.plain)
-//            .buttonStyle(.glass)
-//            .glassEffect(in: RoundedRectangle(cornerRadius: 40.0))
+            .applyLeftButtonStyle(glassEffect: settings.glassEffect, leftButtonColor: leftButtonColor)
             .frame(width: 65, height: 50)
-//            .glassEffect(.regular.tint(leftButtonColor).interactive())
             .colorScheme(.light)
 
             // Right Button
@@ -134,11 +131,8 @@ struct ProButtonsView: View {
                     )
                     .clipShape(RoundedRectangle(cornerRadius: 15))
             }
-            .buttonStyle(.plain)
-//            .buttonStyle(.glass)
-//            .glassEffect(in: RoundedRectangle(cornerRadius: 40.0))
+            .applyRightButtonStyle(glassEffect: settings.glassEffect, rightButtonColor: buttonColor)
             .frame(width: 65, height: 50)
-//            .glassEffect(.regular.tint(buttonColor).interactive())
             .colorScheme(.light)
         }
     }
@@ -200,6 +194,35 @@ struct ProButtonsView: View {
             return "play"
         } else {
             return timerState.isRunning ? "pause" : "play"
+        }
+    }
+}
+
+// MARK: - View Extensions for Conditional Button Styles
+extension View {
+    @ViewBuilder
+    func applyLeftButtonStyle(glassEffect: Bool, leftButtonColor: Color) -> some View {
+        if glassEffect {
+            self
+                .buttonStyle(.glass)
+                .glassEffect(in: RoundedRectangle(cornerRadius: 40.0))
+                .glassEffect(.regular.tint(leftButtonColor).interactive())
+        } else {
+            self
+                .buttonStyle(.plain)
+        }
+    }
+    
+    @ViewBuilder
+    func applyRightButtonStyle(glassEffect: Bool, rightButtonColor: Color) -> some View {
+        if glassEffect {
+            self
+                .buttonStyle(.glass)
+                .glassEffect(in: RoundedRectangle(cornerRadius: 40.0))
+                .glassEffect(.regular.tint(rightButtonColor).interactive())
+        } else {
+            self
+                .buttonStyle(.plain)
         }
     }
 }

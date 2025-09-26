@@ -87,8 +87,7 @@ struct AltRaceView: View {
                                         timerState.mode == .countdown && timerState.currentTime <= 60
                                       ? Color.orange.opacity(1)
                                       : Color(hex: colorManager.selectedTheme.rawValue).opacity(1))
-//                                .glassEffect(in: .circle)
-//                                .colorScheme(.light)
+                                .applyCircleGlassEffect(glassEffect: settings.glassEffect)
                                 .frame(width: 10, height: 10)
                                 .offset(y:-38)
                         }
@@ -630,6 +629,20 @@ struct AltRaceView: View {
         formatter.dateFormat = "mm" // Always use 2-digit format
         let minuteString = formatter.string(from: date)
         return String(minuteString.suffix(1))
+    }
+}
+
+// MARK: - View Extension for Circle Glass Effect
+extension View {
+    @ViewBuilder
+    func applyCircleGlassEffect(glassEffect: Bool) -> some View {
+        if glassEffect {
+            self
+                .glassEffect(in: .circle)
+                .colorScheme(.light)
+        } else {
+            self
+        }
     }
 }
 

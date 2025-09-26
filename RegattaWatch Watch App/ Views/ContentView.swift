@@ -614,7 +614,7 @@ struct TimerView: View {
                                 startLineManager: startLineManager,
                                 isCheckmark: $showStartLine
                             )
-                            .offset(y: persistentTimer.isTimerRunning ? -35 : -66)
+                            .offset(y: persistentTimer.isTimerRunning ? -35 : screenBounds.height > 255 ? -68  : -66)
                             .offset(y: smallWatch ? 10 : 0)
                         }
                         

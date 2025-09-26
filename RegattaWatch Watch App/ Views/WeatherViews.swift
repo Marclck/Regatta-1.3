@@ -552,8 +552,7 @@ struct WindSpeedView: View {
             .clipShape(Circle())
         }
         .buttonStyle(.plain)
-//        .buttonStyle(.glass)
-//        .glassEffect(in: .circle)
+        .applyWindSpeedGlassEffect(glassEffect: settings.glassEffect)
         .frame(width: 50, height: 50)
         .colorScheme(.light)
         .onAppear {
@@ -694,8 +693,7 @@ struct CompassView: View {
             .clipShape(Circle())
         }
         .buttonStyle(.plain)
-//        .buttonStyle(.glass)
-//        .glassEffect(in: .circle)
+        .applyWindSpeedGlassEffect(glassEffect: settings.glassEffect)
         .frame(width: 50, height: 50)
         .colorScheme(.light)
         .onAppear {
@@ -806,7 +804,7 @@ struct BarometerView: View {
                 }
             }
         }
-//        .glassEffect(in: .circle)
+        .applyBarometerGlassEffect(glassEffect: settings.glassEffect)
         .frame(width: 50, height: 50)
         .colorScheme(.light)
         .onTapGesture {
@@ -822,6 +820,31 @@ struct BarometerView: View {
         case .rising: return "▲"
         case .falling: return "▼"
         case .stable: return "~"
+        }
+    }
+}
+
+// MARK: - View Extensions for Weather Glass Effects
+extension View {
+    @ViewBuilder
+    func applyWindSpeedGlassEffect(glassEffect: Bool) -> some View {
+        if glassEffect {
+            self
+                .buttonStyle(.glass)
+                .glassEffect(in: .circle)
+        } else {
+            self
+                .buttonStyle(.plain)
+        }
+    }
+    
+    @ViewBuilder
+    func applyBarometerGlassEffect(glassEffect: Bool) -> some View {
+        if glassEffect {
+            self
+                .glassEffect(in: .circle)
+        } else {
+            self
         }
     }
 }

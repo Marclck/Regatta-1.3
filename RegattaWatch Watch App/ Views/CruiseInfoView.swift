@@ -560,26 +560,23 @@ struct CruiseInfoView: View {
             .padding(.horizontal, 4)
             .padding(.vertical, 4)
             .frame(minWidth: 55)
-            /*
-            .glassEffect(.regular.tint(
-                isConfirmingReset ? Color.orange.opacity(0.2) :
-                    (showGPSOffMessage || showGPSOnMessage) ?
-                (showGPSOffMessage ?
-                 Color.orange.opacity(0.8) :
-                    Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4)) :
-                    (locationManager.isMonitoring ?
-                     Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
-                        (settings.lightMode ? Color.white.opacity(0.83) : Color.black.opacity(0.95)))
-            ), in: RoundedRectangle(cornerRadius: 8.0))
-            */
+            .applyComplexTintGlassEffect(
+                glassEffect: settings.glassEffect,
+                isConfirmingReset: isConfirmingReset,
+                showGPSOffMessage: showGPSOffMessage,
+                showGPSOnMessage: showGPSOnMessage,
+                locationManager: locationManager,
+                colorManager: colorManager,
+                settings: settings
+            )
             .background(
                 RoundedRectangle(cornerRadius: 8)
                     .fill(
-                        isConfirmingReset ? Color.orange.opacity(0.2) :
+                        isConfirmingReset ? Color.orange.opacity(0.05) :
                             (showGPSOffMessage || showGPSOnMessage) ?
                                 (showGPSOffMessage ?
-                                    Color.orange.opacity(0.4) :
-                                    Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4)) :
+                                 Color.orange.opacity(0.05) :
+                                    Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05)) :
                                 (locationManager.isMonitoring ?
                                     Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
                                     (settings.lightMode ? Color.black.opacity(0.05) : Color.white.opacity(0.1)))
@@ -587,10 +584,9 @@ struct CruiseInfoView: View {
             )
         }
         .buttonStyle(.plain)
-//        .glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
+        .applyDistanceButtonGlassEffect(glassEffect: settings.glassEffect)
         .frame(height: 16)
         .frame(minWidth: 55)
-//        .colorScheme(.light)
         .animation(.easeInOut(duration: 0.2), value: showGPSOffMessage)
         .animation(.easeInOut(duration: 0.2), value: showGPSOnMessage)
     }
@@ -712,6 +708,15 @@ struct CruiseInfoView: View {
                 .padding(.horizontal, 4)
                 .padding(.vertical, 4)
                 .frame(minWidth: 55)
+                .applyComplexTintGlassEffect(
+                    glassEffect: settings.glassEffect,
+                    isConfirmingReset: isConfirmingReset,
+                    showGPSOffMessage: showGPSOffMessage,
+                    showGPSOnMessage: showGPSOnMessage,
+                    locationManager: locationManager,
+                    colorManager: colorManager,
+                    settings: settings
+                )
                 .background(
                     RoundedRectangle(cornerRadius: 8)
                         .fill(locationManager.isMonitoring ?
@@ -721,10 +726,9 @@ struct CruiseInfoView: View {
             }
         }
         .buttonStyle(.plain)
-//        .glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
+        .applyDistanceButtonGlassEffect(glassEffect: settings.glassEffect)
         .frame(height: 16)
         .frame(minWidth: 55)
-//        .colorScheme(.light)
         .animation(.easeInOut(duration: 0.2), value: showGPSOffMessage)
         .animation(.easeInOut(duration: 0.2), value: showGPSOnMessage)
         .matchedGeometryEffect(id: "speed", in: animation)
@@ -858,6 +862,52 @@ struct CruiseInfoView: View {
                 
                 locationManager.stopUpdatingLocation()
             }
+        }
+    }
+}
+
+// MARK: - View Extensions for Cruise Info Glass Effects
+extension View {
+    @ViewBuilder
+    func applyDistanceButtonGlassEffect(glassEffect: Bool) -> some View {
+        if glassEffect {
+            self
+                .glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
+                .colorScheme(.light)
+        } else {
+            self
+        }
+    }
+    
+    
+}
+
+// MARK: - View Extension for Complex Tint Glass Effect
+extension View {
+    @ViewBuilder
+    func applyComplexTintGlassEffect(
+        glassEffect: Bool,
+        isConfirmingReset: Bool,
+        showGPSOffMessage: Bool,
+        showGPSOnMessage: Bool,
+        locationManager: LocationManager,
+        colorManager: ColorManager,
+        settings: AppSettings
+    ) -> some View {
+        if glassEffect {
+            self
+                .glassEffect(.regular.tint(
+                    isConfirmingReset ? Color.orange.opacity(0.2) :
+                        (showGPSOffMessage || showGPSOnMessage) ?
+                    (showGPSOffMessage ?
+                     Color.orange.opacity(0.8) :
+                        Color(hex: colorManager.selectedTheme.rawValue).opacity(0.4)) :
+                        (locationManager.isMonitoring ?
+                         Color(hex: colorManager.selectedTheme.rawValue).opacity(0.05) :
+                            (settings.lightMode ? Color.white.opacity(0.83) : Color.black.opacity(0.95)))
+                ), in: RoundedRectangle(cornerRadius: 8.0))
+        } else {
+            self
         }
     }
 }

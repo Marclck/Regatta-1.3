@@ -370,6 +370,7 @@ struct WaypointMapViewRepresentable: WKInterfaceObjectRepresentable {
 struct CruiseControlButtons: View {
     @ObservedObject var cruisePlanState: WatchCruisePlanState
     @EnvironmentObject var colorManager: ColorManager
+    @EnvironmentObject var settings: AppSettings
     
     var body: some View {
         HStack(spacing: 12) {
@@ -419,11 +420,10 @@ struct CruiseControlButtons: View {
                 }
             }
             .buttonStyle(.plain)
-            //            .buttonStyle(.glass)
-//            .glassEffect(in: RoundedRectangle(cornerRadius: 40.0))
+            .applyCruiseLeftButtonGlassEffect(glassEffect: settings.glassEffect)
             .frame(width: 65, height: 50)
             .clipShape(RoundedRectangle(cornerRadius: 40.0))
-//            .colorScheme(.light)
+
             
             // Start/Pause Button
             Button(action: {
@@ -443,11 +443,26 @@ struct CruiseControlButtons: View {
                     .clipShape(RoundedRectangle(cornerRadius: 15))
             }
             .buttonStyle(.plain)
-//            .buttonStyle(.glass)
-//            .glassEffect(in: RoundedRectangle(cornerRadius: 40.0))
+            .applyCruiseLeftButtonGlassEffect(glassEffect: settings.glassEffect)
             .frame(width: 65, height: 50)
             .clipShape(RoundedRectangle(cornerRadius: 40.0))
-//            .colorScheme(.light)
+
+        }
+    }
+}
+
+// MARK: - View Extensions for Cruise Control Glass Effects
+extension View {
+    @ViewBuilder
+    func applyCruiseLeftButtonGlassEffect(glassEffect: Bool) -> some View {
+        if glassEffect {
+            self
+                .buttonStyle(.glass)
+                .glassEffect(in: RoundedRectangle(cornerRadius: 40.0))
+                .colorScheme(.light)
+        } else {
+            self
+                .buttonStyle(.plain)
         }
     }
 }
