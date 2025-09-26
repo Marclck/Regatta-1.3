@@ -387,7 +387,9 @@ struct MainInfoView: View {
                         .foregroundColor(.white)
                         .font(.largeTitle)
                         .fontWeight(.semibold)
+                        .fixedSize()
                 }
+                .sharedBackgroundVisibility(.hidden)
             }
             .navigationBarTitleDisplayMode(.inline)
             .toolbarBackground(.hidden, for: .navigationBar)

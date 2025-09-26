@@ -78,7 +78,9 @@ struct PlannerView: View {
                         .foregroundColor(.white)
                         .font(.largeTitle)
                         .fontWeight(.semibold)
+                        .fixedSize()
                 }
+                .sharedBackgroundVisibility(.hidden)
                 
                 ToolbarItem(placement: .topBarTrailing) {
                     Button(action: {
@@ -91,14 +93,16 @@ struct PlannerView: View {
                                 .font(.system(.subheadline))
                         }
                         .foregroundColor(.white)
-                        .padding(.horizontal, 8)
-                        .padding(.vertical, 8)
-                        .background(Color.white.opacity(0.3))
-                        .cornerRadius(18)
+                        .padding(.horizontal, 0)
+                        .padding(.vertical, 0)
+                        //.background(Color.white.opacity(0.3))
+                        //.cornerRadius(18)
+                        /*
                         .overlay(
                             RoundedRectangle(cornerRadius: 18)
                                 .stroke(Color.white.opacity(0.5), lineWidth: 1)
                         )
+                         */
                     }
                 }
             }

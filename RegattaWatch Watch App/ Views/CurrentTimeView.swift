@@ -56,7 +56,7 @@ struct CurrentTimeView: View {
             RoundedRectangle(cornerRadius: 8)
                 .fill(backgroundColor)
         )
-        //            .glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
+        //.glassEffect(in: RoundedRectangle(cornerRadius: 8.0))
         .onChange(of: timerState.currentTime) { _ in
             let now = Date().timeIntervalSince1970
             if now - lastUpdateTime >= 1.0 {

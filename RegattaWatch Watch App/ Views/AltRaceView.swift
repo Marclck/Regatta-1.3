@@ -90,7 +90,7 @@ struct AltRaceView: View {
 //                                .glassEffect(in: .circle)
 //                                .colorScheme(.light)
                                 .frame(width: 10, height: 10)
-                                .offset(y:-35)
+                                .offset(y:-38)
                         }
                         
                         Spacer()
@@ -151,7 +151,7 @@ struct AltRaceView: View {
                         } else { //if settings.showCruiser && !showCruiseInfo {
                                 // Show current time
                                 VStack(spacing: -10) {
-                                    HStack(spacing: !(settings.timeFont == "Default") ? screenBounds.height > 255 ? 0 + CGFloat(settings.fontSize) : -2 + CGFloat(settings.fontSize) : 2) {
+                                    HStack(spacing: !(settings.timeFont == "Default") ? screenBounds.height > 255 ? 4 + CGFloat(settings.fontSize) : -2 + CGFloat(settings.fontSize) : 4) {
                                         // First digit position
                                         HStack(spacing: 0) {
                                             // Left half - Hour on top of Minute (vertically) - Center aligned, right masked
@@ -176,9 +176,10 @@ struct AltRaceView: View {
                                                             : (isLuminanceReduced ? 15 : 1))
                                                     .offset(x:hourFirstDigit(from: currentTime) == "1" ? 10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default")
-                                                            ? -55 : -45)
+                                                            ? -55 : -48)
+                                                    .offset(y:screenBounds.height > 255 ? -2 : 0)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1", "4", "7"].contains(hourFirstDigit(from: currentTime)) ? 1 : 2)
+                                                            ? (["1", "4", "7"].contains(hourFirstDigit(from: currentTime))) && (["1"].contains(minuteFirstDigit(from: currentTime))) ? 1 : (["1", "4", "7"].contains(hourFirstDigit(from: currentTime)) ? 1 : 2)
                                                             : (2)) // Ensure hour is on top
 
 
@@ -203,8 +204,9 @@ struct AltRaceView: View {
                                                             : (isLuminanceReduced ? -36 : -26))
                                                     .offset(x:minuteFirstDigit(from: currentTime) == "1" ? 10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
+                                                    .offset(y:screenBounds.height > 255 ? 2 : 0)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1", "4", "7"].contains(hourFirstDigit(from: currentTime)) ? 2 : 1)
+                                                            ? (["1", "4", "7"].contains(hourFirstDigit(from: currentTime))) && (["1"].contains(minuteFirstDigit(from: currentTime))) ? 2 : (["1", "4", "7"].contains(hourFirstDigit(from: currentTime)) ? 2 : 1)
                                                             : (1))
                                             }
                                             .offset(x:20)
@@ -231,9 +233,10 @@ struct AltRaceView: View {
                                                             ? (isLuminanceReduced ? 20 + CGFloat(settings.fontSize) / 2 : 1)
                                                             : (isLuminanceReduced ? 15 : 1))
                                                     .offset(x:hourFirstDigit(from: currentTime) == "1" ? 10 : 0)
-                                                    .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
+                                                    .offset(y: !(settings.timeFont == "Default") ? -55 : -48)
+                                                    .offset(y:screenBounds.height > 255 ? -2 : 0)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1"].contains(minuteFirstDigit(from: currentTime)) ? 2 : 1)
+                                                            ? (["1", "4", "7"].contains(hourFirstDigit(from: currentTime))) && (["1"].contains(minuteFirstDigit(from: currentTime))) ? 1 :  (["1"].contains(minuteFirstDigit(from: currentTime)) ? 2 : 1)
                                                             : (["1", "4", "6"].contains(minuteFirstDigit(from: currentTime)) ? 2 : 1))
 
                                                 // Minute first digit - right half (on bottom vertically)
@@ -257,8 +260,9 @@ struct AltRaceView: View {
                                                             : (isLuminanceReduced ? -36 : -26))
                                                     .offset(x:minuteFirstDigit(from: currentTime) == "1" ? 10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
+                                                    .offset(y:screenBounds.height > 255 ? 2 : 0)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1"].contains(minuteFirstDigit(from: currentTime)) ? 1 : 2)
+                                                            ? (["1", "4", "7"].contains(hourFirstDigit(from: currentTime))) && (["1"].contains(minuteFirstDigit(from: currentTime))) ? 2 : (["1"].contains(minuteFirstDigit(from: currentTime)) && !(["1"].contains(hourFirstDigit(from: currentTime))) ? 1 : 2)
                                                             : (["1", "4", "6"].contains(minuteFirstDigit(from: currentTime)) ? 1 : 2))
                                             }
                                             .frame(width: 30, height: 150)
@@ -289,9 +293,10 @@ struct AltRaceView: View {
                                                             ? (isLuminanceReduced ? 20 + CGFloat(settings.fontSize) / 2 : 1)
                                                             : (isLuminanceReduced ? 15 : 1))
                                                     .offset(x:hourSecondDigit(from: currentTime) == "1" ? -10 : 0)
-                                                    .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
+                                                    .offset(y: !(settings.timeFont == "Default") ? -55 : -48)
+                                                    .offset(y:screenBounds.height > 255 ? -2 : 0)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1", "7"].contains(hourSecondDigit(from: currentTime)) ? 2 : ["1", "7"].contains(minuteSecondDigit(from: currentTime)) ? 1 : 2)
+                                                            ? (["1"].contains(hourSecondDigit(from: currentTime))) && (["1", "7"].contains(minuteSecondDigit(from: currentTime))) ? 2 : (["1", "7"].contains(hourSecondDigit(from: currentTime)) ? 2 : ["1", "7"].contains(minuteSecondDigit(from: currentTime)) ? 1 : 2)
                                                             : (["1", "4", "7", "9"].contains(hourSecondDigit(from: currentTime)) ? 1 : 2))
 
                                                 // Minute second digit - left half (on bottom vertically)
@@ -315,8 +320,9 @@ struct AltRaceView: View {
                                                             : (isLuminanceReduced ? -36 : -26))                                                     .frame(width: 60, alignment: .center) // Wider frame, center alignment
                                                     .offset(x:minuteSecondDigit(from: currentTime) == "1" ? -10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
+                                                    .offset(y:screenBounds.height > 255 ? 2 : 0)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1", "7"].contains(hourSecondDigit(from: currentTime)) ? 1 :  ["1", "7"].contains(minuteSecondDigit(from: currentTime)) ? 2 : 1)
+                                                            ? (["1"].contains(hourSecondDigit(from: currentTime))) && (["1", "7"].contains(minuteSecondDigit(from: currentTime))) ? 1 : (["1", "7"].contains(hourSecondDigit(from: currentTime)) ? 1 : ["1", "7"].contains(minuteSecondDigit(from: currentTime)) ? 2 : 1)
                                                             : (["1", "4", "7", "9"].contains(hourSecondDigit(from: currentTime)) ? 2 : 1))
                                             }
                                             .offset(x: !(settings.timeFont == "Default") ? 20 : 15)
@@ -344,9 +350,10 @@ struct AltRaceView: View {
                                                     .offset(y: !(settings.timeFont == "Default")
                                                             ? (isLuminanceReduced ? 20 + CGFloat(settings.fontSize) / 2 : 1)
                                                             : (isLuminanceReduced ? 15 : 1))                                                    .offset(x:hourSecondDigit(from: currentTime) == "1" ? -10 : 0)
-                                                    .offset(y: !(settings.timeFont == "Default") ? -55 : -45)
+                                                    .offset(y: !(settings.timeFont == "Default") ? -55 : -48)
+                                                    .offset(y:screenBounds.height > 255 ? -2 : 0)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1"].contains(minuteSecondDigit(from: currentTime)) ? 2 : ["1", "4", "7"].contains(hourSecondDigit(from: currentTime)) ? 2 : 1)
+                                                            ? (["1"].contains(hourSecondDigit(from: currentTime))) && (["1", "7"].contains(minuteSecondDigit(from: currentTime))) ? 2 : (["1"].contains(minuteSecondDigit(from: currentTime)) ? 2 : ["1", "4", "7"].contains(hourSecondDigit(from: currentTime)) ? 2 : (hourSecondDigit(from: currentTime) == "4" && minuteSecondDigit(from: currentTime) == "7") ? 2 : 1)
                                                             : (["1", "4", "6"].contains(minuteSecondDigit(from: currentTime)) ? 2 : 1))
 
                                                 // Minute second digit - right half (on bottom vertically)
@@ -371,8 +378,9 @@ struct AltRaceView: View {
                                                             : (isLuminanceReduced ? -36 : -26))
                                                     .offset(x:minuteSecondDigit(from: currentTime) == "1" ? -10 : 0)
                                                     .offset(y: !(settings.timeFont == "Default") ? 60 : 45)
+                                                    .offset(y:screenBounds.height > 255 ? 2 : 0)
                                                     .zIndex(!(settings.timeFont == "Default")
-                                                            ? (["1"].contains(minuteSecondDigit(from: currentTime)) ? 1 : ["1", "4", "7"].contains(hourSecondDigit(from: currentTime)) ? 1 : 2)
+                                                            ? (["1"].contains(hourSecondDigit(from: currentTime))) && (["1", "7"].contains(minuteSecondDigit(from: currentTime))) ? 1 : (["1"].contains(minuteSecondDigit(from: currentTime)) ? 1 : ["1", "4", "7"].contains(hourSecondDigit(from: currentTime)) ? 1 : (hourSecondDigit(from: currentTime) == "4" && minuteSecondDigit(from: currentTime) == "7") ? 1 : 2)
                                                             : (["1", "4", "6"].contains(minuteSecondDigit(from: currentTime)) ? 1 : 2))
                                             }
                                             .offset(x: !(settings.timeFont == "Default") ? -10 : -15) //15 for zb
@@ -381,8 +389,8 @@ struct AltRaceView: View {
                                     }
                                 }
                                 .font(settings.timeFont == "Default" ?
-                                      .zenithBeta(size: 76, weight: .medium) :
-                                        (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: screenBounds.height > 255 ? 80 + CGFloat(settings.fontSize) * 2.1 : 76 + CGFloat(settings.fontSize) * 2.1, weight: .medium) } ?? .zenithBeta(size: 76, weight: .medium)))
+                                    .zenithBeta(size: screenBounds.height > 255 ? 88 : 82, weight: .medium) :
+                                        (CustomFontManager.shared.customFonts.first(where: { $0.id.uuidString == settings.timeFont }).flatMap { Font.customFont($0, size: screenBounds.height > 255 ? 84 + CGFloat(settings.fontSize) * 2.1 : 76 + CGFloat(settings.fontSize) * 2.1, weight: .medium) } ?? .zenithBeta(size: 76, weight: .medium)))
                                 .dynamicTypeSize(.xSmall)
                                 .scaleEffect(!(settings.timeFont == "Default") ?
                                             CGSize(width: 1, height: 1) :

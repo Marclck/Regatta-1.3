@@ -1553,7 +1553,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Regatta/Regatta.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Regatta/Preview Content\"";
 				DEVELOPMENT_TEAM = RV5P86366B;
 				ENABLE_PREVIEWS = YES;
@@ -1597,7 +1597,7 @@
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
 				CODE_SIGN_ENTITLEMENTS = Regatta/Regatta.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"Regatta/Preview Content\"";
 				DEVELOPMENT_TEAM = RV5P86366B;
 				ENABLE_PREVIEWS = YES;
@@ -1720,7 +1720,7 @@
 				CODE_SIGN_ENTITLEMENTS = "RegattaWatch Watch App/RegattaWatch Watch App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"RegattaWatch Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = RV5P86366B;
 				ENABLE_PREVIEWS = YES;
@@ -1761,7 +1761,7 @@
 				CODE_SIGN_ENTITLEMENTS = "RegattaWatch Watch App/RegattaWatch Watch App.entitlements";
 				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
+				CURRENT_PROJECT_VERSION = 2;
 				DEVELOPMENT_ASSET_PATHS = "\"RegattaWatch Watch App/Preview Content\"";
 				DEVELOPMENT_TEAM = RV5P86366B;
 				ENABLE_PREVIEWS = YES;

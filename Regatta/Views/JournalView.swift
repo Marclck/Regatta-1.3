@@ -347,9 +347,12 @@ struct JournalView: View {
                                                     .background(
                                                         Color(hex: colorManager.selectedTheme.rawValue)
                                                     )
+                                                /*
                                                     .cornerRadius(20)
                                                     .shadow(color: .black.opacity(0.3), radius: 4, x: 0, y: 2)
+                                                */
                                             }
+                                            .buttonStyle(.glass)
                                             .padding(.bottom, 20)
                                         }
                                         .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
@@ -366,7 +369,9 @@ struct JournalView: View {
                             .foregroundColor(.white)
                             .font(.largeTitle)
                             .fontWeight(.semibold)
+                            .fixedSize()
                     }
+                    .sharedBackgroundVisibility(.hidden)
                     
                     ToolbarItem(placement: .topBarTrailing) {
                         // Your existing refresh button
@@ -420,14 +425,17 @@ struct JournalView: View {
                                         .font(.system(.subheadline))
                                 }
                             }
-                            .padding(.horizontal, 8)
-                            .padding(.vertical, 8)
+                            .padding(.horizontal, 0)
+                            .padding(.vertical, 0)
                             .foregroundColor(.white)
-                            .background(Color.white.opacity(0.3))
-                            .cornerRadius(18)
+                            //.background(Color.white.opacity(0.3))
+                            //.cornerRadius(18)
+                            /*
                             .overlay(
                                 RoundedRectangle(cornerRadius: 18)
-                                    .stroke(Color.white.opacity(0.5), lineWidth: 1))
+                                    .stroke(Color.white.opacity(0.5), lineWidth: 1)
+                            )
+                            */
                         }
                     }
                 }
